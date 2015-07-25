@@ -7,9 +7,11 @@
 #include <clientprefs>
 
 /*
-남겨진 것들: 언어 설정, 커맨드 한글화
+남겨진 것들: 언어 설정, 커맨드 한글화, 코드 최적화 (BossName을 삭제하는 방향으로..)
 
 일단 전 이것에 대한 수정을 나중에 할 예정입니다. 여러분들이 건들여주세요!
+
+
 */
 
 new String:Incoming[MAXPLAYERS+1][64];
