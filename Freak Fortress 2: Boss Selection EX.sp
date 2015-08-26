@@ -7,10 +7,14 @@
 #include <clientprefs>
 
 /*
-남겨진 것들: 언어 설정, 커맨드 한글화, 코드 최적화 (BossName을 삭제하는 방향으로..)
 
-일단 전 이것에 대한 수정을 나중에 할 예정입니다. 여러분들이 건들여주세요!
+수정 필수:
 
+- 쿠키 하나를 더 생성 (BossName의 None을 삭제하기 위함.)
+- 코드 최적화
+- "보스 안함"의 메커니즘을 수정.
+ㄴ 안함으로 설정하면 대기포인트를 0으로 초기화시키기.
+ㄴ 단, 다른 걸 선택하면 대기포인트가 다시 원상복귀되도록.
 
 */
 
@@ -29,7 +33,7 @@ new Handle:g_hBossCookie;
 new Handle:g_NextHaleTimer = INVALID_HANDLE;
 
 public Plugin:myinfo = {
-	name = "Freak Fortress 2: Boss Selection + COOKIE!",
+	name = "Freak Fortress 2: Boss Selection EX",
 	description = "Allows players select their bosses by /ff2boss",
 	author = "Tean Potry: Nopied◎",
 };
