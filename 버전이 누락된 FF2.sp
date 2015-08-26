@@ -1,20 +1,4 @@
-/*
-===Freak Fortress 2===
-
-By Rainbolt Dash: programmer, modeller, mapper, painter.
-Author of Demoman The Pirate: http://www.randomfortress.ru/thepirate/
-And one of two creators of Floral Defence: http://www.polycount.com/forum/showthread.php?t=73688
-And author of VS Saxton Hale Mode
-
-Plugin thread on AlliedMods: http://forums.alliedmods.net/showthread.php?t=182108
-
-Updated by Otokiru, Powerlord, and RavensBro after Rainbolt Dash got sucked into DOTA2
-
-Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
-*/
-// 현재 문제점: 보스의 능력 설명 패널을 고쳐야됨. (싸지른 똥 정리)
-
-// + 굼바 스톰프 퍼센트 데미지의 계산을 고쳐야함. 
+// 이 버전은 누락됨. 
 
 #pragma semicolon 1
 
