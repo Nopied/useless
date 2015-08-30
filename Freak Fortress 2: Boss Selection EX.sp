@@ -149,7 +149,7 @@ public Action:Command_SetMyBoss(client, args)
 		
 	}
 	SetMenuExitButton(dMenu, true);
-	DisplayMenu(dMenu, client, 20);
+	DisplayMenu(dMenu, client, 90);
 	return Plugin_Handled;
 }
 
