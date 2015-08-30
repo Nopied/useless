@@ -247,6 +247,17 @@ public Command_SetMyBossH(Handle:menu, MenuAction:action, param1, param2)
 					SetClientCookie(param1, g_hBossCookie, CookieV);
 						
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_randomboss");
+                                        
+                                        GetClientCookie(param1, BossQueue, CookieV, 50);
+                                        new queuepoints;
+                                        queuepoints = StringToInt(CookieV);
+                                        if(queuepoints >= 0)
+                                        {
+                                         FF2_SetQueuePoints(param1, queuepoints);
+                                         CReplyToCommand(param1, "{olive}[FF2]{defalut} %t", "ff2_queue_restored");
+                                         IntToString(-1, CookieV, 50);
+                                         SetClientCookie(param1, BossQueue, CookieV);
+                                        }
 				}
 				case 1:
 				{
@@ -271,8 +282,20 @@ public Command_SetMyBossH(Handle:menu, MenuAction:action, param1, param2)
 					
 					
 					SetClientCookie(param1, g_hBossCookie, CookieV);
+
 					
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_bossselected", Incoming[param1]);
+
+
+GetClientCookie(param1, BossQueue, CookieV, 50);
+new queuepoints;
+                                        queuepoints = StringToInt(CookieV);
+                                        if(queuepoints >= 0)
+                                        {
+                                         FF2_SetQueuePoints(param1, queuepoints);
+                                         CReplyToCommand(param1, "{olive}[FF2]{defalut} %t", "ff2_queue_restored");
+                                         IntToString(-1, CookieV, 50);
+                                         SetClientCookie(param1, BossQueue, CookieV);
 				}
 			}
 		}
