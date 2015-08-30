@@ -18,8 +18,6 @@
 new String:Incoming[MAXPLAYERS+1][64];
 new String:BossName[MAXPLAYERS+1][64];
 
-new bool:IsBossSelected[MAXPLAYERS+1];
-
 new Handle:g_hBossCookie;
 new Handle:BossQueue;
 
@@ -85,13 +83,6 @@ public OnClientPutInServer(client)
 	// strcopy(Incoming[client], sizeof(Incoming[]), "");
 }
 
-
-	// IsBossSelected[client]=false;
-
-
-	// strcopy(Incoming[client], sizeof(Incoming[]), "");
-
-
 public Action:Command_SetMyBoss(client, args)
 {
 	if (client == 0)
@@ -120,7 +111,6 @@ public Action:Command_SetMyBoss(client, args)
 
 			if(StrContains(bossName, spclName, false)!=-1)
 			{
-				IsBossSelected[client]=true;
 				strcopy(Incoming[client], sizeof(Incoming[]), spclName);
 				
 				CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossselected", spclName);
@@ -130,7 +120,6 @@ public Action:Command_SetMyBoss(client, args)
 			KvGetString(BossKV, "filename", spclName, sizeof(spclName));
 			if(StrContains(bossName, spclName, false)!=-1)
 			{
-				IsBossSelected[client]=true;
 				KvGetString(BossKV, "name", spclName, sizeof(spclName));
 				strcopy(Incoming[client], sizeof(Incoming[]), spclName);
 				
@@ -181,7 +170,6 @@ public Command_SetMyBossH(Handle:menu, MenuAction:action, param1, param2)
 			{
 				case 0:
 				{
-					IsBossSelected[param1]=true;
 					Incoming[param1] = "";
 					BossName[param1] = "랜덤";
 					
@@ -218,7 +206,6 @@ public Command_SetMyBossH(Handle:menu, MenuAction:action, param1, param2)
 				}
 				default:
 				{
-					IsBossSelected[param1]=true;
 					GetMenuItem(menu, param2, Incoming[param1], sizeof(Incoming[]));
 					
 					strcopy(CookieV, sizeof(CookieV),Incoming[param1]);
@@ -252,7 +239,6 @@ public Action:FF2_OnSpecialSelected(boss, &SpecialNum, String:SpecialName[])
 	new client=GetClientOfUserId(FF2_GetBossUserId(boss));
 	if (!boss && !StrEqual(Incoming[client], ""))
 	{
-		IsBossSelected[client]=false;
 		strcopy(SpecialName, sizeof(Incoming[]), Incoming[client]);
 		// Incoming[client] = "";
 		return Plugin_Changed;
