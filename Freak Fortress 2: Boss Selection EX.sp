@@ -250,16 +250,15 @@ public Command_SetMyBossH(Handle:menu, MenuAction:action, param1, param2)
 				}
 				case 1:
 				{
-					CookieV = "None";
+				CookieV = "None";
 					
-					SetClientCookie(param1, g_hBossCookie, CookieV);
-
-                                       new queuepoints;
-                                       queuepoints = FF2_GetQueuepoints(param1);
-                                       IntToString(queuepoints, CookieV, 50);
-                                       SetClientCookie(param1, BossQueue, CookieV);
-					
-					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_none");
+				SetClientCookie(param1, g_hBossCookie, CookieV);
+				
+				new queuepoints;
+				queuepoints = FF2_GetQueuePoints(param1);
+				IntToString(queuepoints, CookieV, 50);
+				SetClientCookie(param1, BossQueue, CookieV);
+				CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_none");
 				
 				}
 				default:
