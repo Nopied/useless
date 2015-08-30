@@ -12,9 +12,6 @@
 
 - 쿠키 하나를 더 생성 (BossName의 None을 삭제하기 위함.)
 - 코드 최적화
-- "보스 안함"의 메커니즘을 수정.
-ㄴ 안함으로 설정하면 대기포인트를 0으로 초기화시키기.
-ㄴ 단, 다른 걸 선택하면 대기포인트가 다시 원상복귀되도록.
 
 */
 
@@ -23,12 +20,8 @@ new String:BossName[MAXPLAYERS+1][64];
 
 new bool:IsBossSelected[MAXPLAYERS+1];
 
-new g_NextHale = -1;
-
 new Handle:g_hBossCookie;
 new Handle:BossQueue;
-
-new Handle:g_NextHaleTimer = INVALID_HANDLE;
 
 public Plugin:myinfo = {
 	name = "Freak Fortress 2: Boss Selection EX",
@@ -44,7 +37,7 @@ public OnPluginStart()
 	RegConsoleCmd("boss", Command_SetMyBoss, "Set my boss");
 	
 	g_hBossCookie  = RegClientCookie("BossCookie", " ", CookieAccess_Protected);
-        BossQueue = RegClientCookie("QueuePoint", " ", CookieAccess_Protected);
+	BossQueue = RegClientCookie("QueuePoint", " ", CookieAccess_Protected);
 
 	LoadTranslations("common.phrases");
 	LoadTranslations("core.phrases");
@@ -53,18 +46,15 @@ public OnPluginStart()
 
 public Action:event_round(Handle:event, const String:name[], bool:dontBroadcast)
 {
-        new queuepoints;
+	new queuepoints;
 	for(new client=1; client<=MaxClients; client++)
 	{
 		new String:CookieV[50];
-	        GetClientCookie(client, BossQueue, CookieV, 50);
-                queuepoints = StringToInt(CookieV);
-                if(queuepoints >= 0) FF2_SetQueuePoints(client, -1);
-	
+		GetClientCookie(client, BossQueue, CookieV, 50);
+		queuepoints = StringToInt(CookieV);
+		if(queuepoints >= 0) FF2_SetQueuePoints(client, -1);
 	}
-	
 	return Plugin_Continue;
-
 }
 
 public OnClientPutInServer(client)
@@ -73,16 +63,14 @@ public OnClientPutInServer(client)
 	
 	if(!AreClientCookiesCached(client)) 
 	{
-		IsBossSelected[client]=false;
 		strcopy(Incoming[client], sizeof(Incoming[]), "");
 		strcopy(BossName[client], sizeof(BossName[]), "랜덤");
 		
 		CookieV = "";
 		
 		SetClientCookie(client, g_hBossCookie, CookieV);
-
-                IntToString(-1, CookieV, 50);
-                SetClientCookie(client, BossQueue, CookieV);
+		IntToString(-1, CookieV, 50);
+		SetClientCookie(client, BossQueue, CookieV);
 	}
 	
 	else 
@@ -97,57 +85,12 @@ public OnClientPutInServer(client)
 	// strcopy(Incoming[client], sizeof(Incoming[]), "");
 }
 
-public OnClientDisconnect(client)
-{
-	if (client == g_NextHale)
-	{
-		KillTimer(g_NextHaleTimer);
-		Timer_FF2Panel1(INVALID_HANDLE);
-	}
+
 	// IsBossSelected[client]=false;
 
 
 	// strcopy(Incoming[client], sizeof(Incoming[]), "");
-}
 
-public Action:Timer_FF2Panel1(Handle:hTimer)
-{
-	new maxclient=1;
-	new maxpoints=FF2_GetQueuePoints(1);
-	decl points;
-	
-	
-	for(new client=2; client <= MaxClients; client++)
-		if (FF2_GetBossIndex(client)==-1)
-		{
-			points = FF2_GetQueuePoints(client);
-			if (points>maxpoints)
-			{
-				maxclient=client;
-				maxpoints=points;
-			}
-		}
-		
-	if (CheckCommandAccess(maxclient, "ff2_boss", 0, true))
-	{
-		if(!IsBossSelected[maxclient])
-		{
-			g_NextHaleTimer = CreateTimer(20.0,Timer_FF2Panel2,maxclient, TIMER_FLAG_NO_MAPCHANGE);
-		}
-	}
-	return Plugin_Continue;
-}
-
-public Action:Timer_FF2Panel2(Handle:hTimer,any:client)
-{
-	if(IsVoteInProgress())
-	{
-		g_NextHaleTimer = CreateTimer(5.0,Timer_FF2Panel2,client, TIMER_FLAG_NO_MAPCHANGE);
-		return Plugin_Continue;
-	}
-	Command_SetMyBoss(client,0);
-	return Plugin_Continue;
-}
 
 public Action:Command_SetMyBoss(client, args)
 {
@@ -247,17 +190,18 @@ public Command_SetMyBossH(Handle:menu, MenuAction:action, param1, param2)
 					SetClientCookie(param1, g_hBossCookie, CookieV);
 						
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_randomboss");
-                                        
-                                        GetClientCookie(param1, BossQueue, CookieV, 50);
-                                        new queuepoints;
-                                        queuepoints = StringToInt(CookieV);
-                                        if(queuepoints >= 0)
-                                        {
-                                         FF2_SetQueuePoints(param1, queuepoints);
-                                         CReplyToCommand(param1, "{olive}[FF2]{defalut} %t", "ff2_queue_restored");
-                                         IntToString(-1, CookieV, 50);
-                                         SetClientCookie(param1, BossQueue, CookieV);
-                                        }
+                    
+					GetClientCookie(param1, BossQueue, CookieV, 50);
+					
+					new queuepoints;
+					queuepoints = StringToInt(CookieV);
+					if(queuepoints >= 0)
+					{
+						FF2_SetQueuePoints(param1, queuepoints);
+						CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2_queue_restored");
+						IntToString(-1, CookieV, 50);
+						SetClientCookie(param1, BossQueue, CookieV);
+					}
 				}
 				case 1:
 				{
@@ -285,17 +229,18 @@ public Command_SetMyBossH(Handle:menu, MenuAction:action, param1, param2)
 
 					
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_bossselected", Incoming[param1]);
-
-
-GetClientCookie(param1, BossQueue, CookieV, 50);
-new queuepoints;
-                                        queuepoints = StringToInt(CookieV);
-                                        if(queuepoints >= 0)
-                                        {
-                                         FF2_SetQueuePoints(param1, queuepoints);
-                                         CReplyToCommand(param1, "{olive}[FF2]{defalut} %t", "ff2_queue_restored");
-                                         IntToString(-1, CookieV, 50);
-                                         SetClientCookie(param1, BossQueue, CookieV);
+					
+					GetClientCookie(param1, BossQueue, CookieV, 50);
+					
+					new queuepoints;
+					queuepoints = StringToInt(CookieV);
+					if(queuepoints >= 0)
+					{
+						FF2_SetQueuePoints(param1, queuepoints);
+						CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2_queue_restored");
+						IntToString(-1, CookieV, 50);
+						SetClientCookie(param1, BossQueue, CookieV);
+					}
 				}
 			}
 		}
