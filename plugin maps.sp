@@ -1,7 +1,7 @@
 #include <sourcemod>
 #include <files>
 
-new Handle:CheckMaps;
+new String:Map[128];
 
 public Plugin:myinfo = {
 	name = "Plugin works custom maps!",
@@ -11,6 +11,6 @@ public Plugin:myinfo = {
 
 public OnPluginStart()
 {
-	BuildPath(Path_SM, );
-	CheckMaps = OpenDirectory(d)
+	GetCurrentMap(Map, sizeof(Map));
+	
 }
