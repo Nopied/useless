@@ -57,6 +57,7 @@ public Action:Listener_Say(client, const String:command[], argc)
 	
 	if(strChat[iStart] == '"') iStart++;
 	if(strChat[iStart] == '!') iStart++;
+	if(strChat[IStart] == '/') iStart++;
 	
 	if(StrContains(strChat[iStart], "ff2boss") != -1)
 	{
