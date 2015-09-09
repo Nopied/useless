@@ -6,7 +6,7 @@ pubilc Plugin:myinfo = {
 name= "Countdown",
 description="",
 author="Team Potry : Nopied◎",
-}
+};
 
 pubilc OnPluginStart()
 {
