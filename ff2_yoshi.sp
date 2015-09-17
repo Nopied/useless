@@ -18,6 +18,8 @@
 
 */
 
+
+
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
@@ -26,11 +28,15 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
+/*
+	필요한 것: env_lightglow
+*/
+
 new Eggs=0;
 
 new Handle:OnHaleRage = INVALID_HANDLE;
 
-pubilc Plugin:myinfo={
+public Plugin:myinfo={
 	name="Freak Fortress 2 : Yoshi",
 	author="Team Potry : Nopied",
 };
@@ -66,6 +72,41 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 	
 	if(!strcmp(ability_name, "charge_egg_ability"))
 	{
+		HookEvent("player_death", PlayerDeath, EventHookMode_Pre);
+		Charge_egg_ability(boss)
+	}
+}
+
+Charge_egg_ability(boss)
+{
+	
+}
+
+public Action:PlayerDeath(Handle:event, const String:eventName[], bool:dontBroadcast)
+{
+	new client=GetClientOfUserId(GetEventInt(event, "userid")), attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
+	new boss;
+	
+	new Float:position[3];
+	
+	for(new clientT=0; clientT<=MaxClient; clientT++)
+	{
+		if(FF2_GetBossIndex(clientT) != -1)
+		{
+			boss =clientT;
+			break;
+		}
+	}
+	
+	if (client == boss) return Plugin_Continue;
+	else
+	{
+		GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
+		CreateEntityByName(, );
 		
 	}
+	
+}
+	
+	
 }
