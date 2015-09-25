@@ -10,11 +10,6 @@
 
 참고사항: StringToInt(CookieV) == 1는 보스 안함을 뜻함.
 
-수정 필수:
-
-- 코드 최적화(BossName 삭제를 위함.)
-- 채팅트리거 도입.
-
 */
 
 new String:Incoming[MAXPLAYERS+1][64];
