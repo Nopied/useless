@@ -1,0 +1,3 @@
+cant_get_egg
+
+print_egg (정수 2개)

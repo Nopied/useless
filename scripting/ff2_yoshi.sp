@@ -28,11 +28,9 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
-/*
-	필요한 것: env_lightglow
-*/
-
-new Eggs=0;
+new Eggs[MAXPLAYERS+1]=0;
+new EggPos[MAXPLAYERS+1][3];
+new ClientInfo[MAXPLAYERS+1][2]; // 0은 데미지, 1은 최대체력
 
 new Handle:OnHaleRage = INVALID_HANDLE;
 
@@ -50,7 +48,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 
 public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:ability_name[], status)
 {
-	new slot=FF2GetAbliltyArgument(client, this_plugin_name, ability_name);
+	new slot=FF2_GetAbliltyArgument(client, this_plugin_name, ability_name);
 	if(!slot)
 	{
 		if(!boss)
@@ -73,6 +71,7 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 	if(!strcmp(ability_name, "charge_egg_ability"))
 	{
 		HookEvent("player_death", PlayerDeath, EventHookMode_Pre);
+		for 
 		Charge_egg_ability(boss)
 	}
 }
@@ -87,26 +86,113 @@ public Action:PlayerDeath(Handle:event, const String:eventName[], bool:dontBroad
 	new client=GetClientOfUserId(GetEventInt(event, "userid")), attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
 	new boss;
 	
-	new Float:position[3];
-	
-	for(new clientT=0; clientT<=MaxClient; clientT++)
+	if(FF2_GetBossIndex(client) != -1)
 	{
-		if(FF2_GetBossIndex(clientT) != -1)
+		return Plugin_Continue;
+	}
+	
+	GetClientEyePosition(client, EggPos[client]); //
+	
+	
+	new entity = CreateEntityByName("light_dynamic");
+	// 고맙습니다 엘리스님.
+	if( IsValidEntity(entity) )
+	{
+		DispatchSpawn(entity);
+		DispatchKeyValue(entity, "_light", "0 255 0");		
+		SetEntProp(entity, Prop_Send, "m_Exponent", 7);	
+		SetEntPropFloat(entity, Prop_Send, "m_Radius", 280.0);	
+
+		TeleportEntity(entity, EggPos[client], NULL_VECTOR, NULL_VECTOR);
+
+		AcceptEntityInput(entity, "SetParent", client);		
+	}
+	boss = GetBossIndex();
+	
+	if( FF2_HasAbility(boss, ff2_1st_set_abilities, special_dropprop) )
+	{
+		CreateTimer(0.1, Timer_StopEgg);
+	}	
+}
+
+public Action:Timer_StopEgg(Handle:timer)
+{
+	new eggprop = FindEntityByClassname("prop_physics_override");
+	if (IsValidEntity(eggprop)) SetEntityMoveType(prop, MOVETYPE_NONE);
+}
+
+public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:pos[3], Float:Angle[3], &weapon, &subtype, &cmdnum, &tickcount, &seed, mouse[2])
+{
+	new boss = GetBossIndex();
+	
+	if(IsPlayerAlive(client))
+	{
+		ClientInfo[0] = FF2_GetClientDamage(client);
+		ClientInfo[1] = GetEntProp(client, Prop_Data, "m_iMaxHealth");
+	}
+	
+	for(new i=0; i<=MaxClient; i++)
+	{
+		if(GetVectorDistance(pos, EggPos[i]) <= FF2_GetAbilityArgumentFloat(boss, , ff2_yoshi, charge_egg_ability, 1, 10.0))
 		{
-			boss =clientT;
-			break;
+			if(boss == client) 
+			{
+				if(Eggs[client] >= FF2_GetAbliltyArgument(boss, ff2_yoshi, charge_egg_ability, 0, 3))
+				{
+					CPrintToChat(client, "{olive}[FF2]{default} %t", "cant_get_egg");
+				}
+				else
+				{
+					Eggs[client]++;
+					removeegg(EggPos[i]);
+				}
+			}
+			else
+			{
+				if(Eggs[client] >= FF2_GetAbilityArgument(boss, ff2_yoshi, charge_egg_ability, 2, 1))
+				{
+					CPrintToChat(client, "{olive}[FF2][default} %t", "cant_get_egg");
+				}
+				else
+				{
+					Eggs[client]++;
+					removeegg(EggPos[i]);
+				}
+			}
 		}
 	}
 	
-	if (client == boss) return Plugin_Continue;
-	else
+	if(Eggs[client] > 0)
 	{
-		GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
-		CreateEntityByName(, );
-		
+		if (boss = client) PrintCenterText(client, "%t", "print_egg", Eggs[client], FF2_GetAbliltyArgument(boss, ff2_yoshi, charge_egg_ability, 0, 3));
+		else PrintCenterText(client, "t", "print_egg", Eggs[client], FF2_GetAbilityArgument(boss, ff2_yoshi, charge_egg_ability, 2, 1));
 	}
 	
+	else return Plugin_Continue;
+	
+	if
+	
+	
+	
+	
+	
 }
+
+stock GetBossIndex()
+{
+	for(new client = 0;  client<=MaxClient; client++)
+	{
+		if(FF2_GetBossIndex(client) != -1)
+		{
+			return FF2_GetBossIndex(client); // 
+		}
+	}
+	return -1;
+}
+
+stock removeegg(Float:Pos[3])
+{
 	
-	
+}
+
 }
