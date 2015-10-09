@@ -1,3 +1,22 @@
-cant_get_egg
-
-print_egg (정수 2개)
+"Phrases"
+{
+	"cant_get_egg"
+	{
+		"en"	"You can't get egg!"
+		"ko"	"알을 주울 수 없습니다!"
+	}
+	
+	"print_egg"
+	{
+		"#format"	"{1:d}"	"{2:d}"	"{3:d}"
+		"en"	"You have [{1}/{2}] | Damage: {3}"
+		"ko"	"알 갯수: [{1}/{2}] | 피해량: {3}"
+	}
+	
+	"eat_egg"
+	{
+		"#format"	"{1:s}"	"{2:s}" "{3:d}"
+		"en"	"{green}{1}{defalut} ate {green}{2}{defalut}(+{3}HP)"
+		"ko"	"{green}{1}{defalut}님이 {2}님을 먹었습니다.(+{3}HP)"
+	}
+}

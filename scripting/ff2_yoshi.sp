@@ -21,21 +21,21 @@
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
-#include <tf2_stock>
+#include <tf2_stocks>
 #include <morecolors>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
 new Eggs[MAXPLAYERS+1]=0;
 new EggInfo[][2];
-new EggPos[][3];
-new whategg[MAXPLAYERS+1][];
+
+new String:EggOwner[][50];
+new Float:EggPos[MAXPLAYERS][3];
+new whategg[MAXPLAYERS+1][128];
 
 new DeadCount=0;
 
 // 0은 데미지, 1은 최대체력
-
-new Handle:OnHaleRage = INVALID_HANDLE;
 
 public Plugin:myinfo={
 	name="Freak Fortress 2 : Yoshi",
@@ -47,9 +47,19 @@ public OnPluginStart2()
 	HookEvent("player_death", PlayerDeath, EventHookMode_Pre);
 }
 
+public Action:FF2_OnAbility2(index, const String:plugin_name[], const String:ability_name[], status)
+{	
+	if(!strcmp(ability_name, "charge_egg_ability"))
+	{
+		OnPluginStart2();
+	}
+	
+	return Plugin_Continue;
+}
+
 public Action:PlayerDeath(Handle:event, const String:eventName[], bool:dontBroadcast)
 {
-	new client=GetClientOfUserId(GetEventInt(event, "userid")), attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
+	new client=GetClientOfUserId(GetEventInt(event, "userid"));
 	new boss;
 	
 	if(FF2_GetBossIndex(client) != -1)
@@ -57,11 +67,13 @@ public Action:PlayerDeath(Handle:event, const String:eventName[], bool:dontBroad
 		return Plugin_Continue;
 	}
 	
-	GetClientEyePosition(client, EggPos[DeadCount]); //
+	GetClientEyePosition(client, EggPos[DeadCount]); 
 	
 	EggInfo[DeadCount][0] = FF2_GetClientDamage(client)/3;
 	
 	EggInfo[DeadCount][1] = GetEntProp(client, Prop_Data, "m_iMaxHealth");
+	
+	GetClientName(client, EggOwner[DeadCount], sizeof(EggOwner[]));
 	
 	new entity = CreateEntityByName("light_dynamic");
 	// 고맙습니다 엘리스님.
@@ -78,18 +90,20 @@ public Action:PlayerDeath(Handle:event, const String:eventName[], bool:dontBroad
 	}
 	boss = GetBossIndex();
 	
-	if( FF2_HasAbility(boss, ff2_1st_set_abilities, special_dropprop) )
+	if( FF2_HasAbility(boss, "ff2_1st_set_abilities", "special_dropprop") )
 	{
 		CreateTimer(0.03, Timer_StopEgg);
 	}
 
 	DeadCount++;
+	
+	return Plugin_Continue;
 }
 
 public Action:Timer_StopEgg(Handle:timer)
 {
-	new eggprop = FindEntityByClassname("prop_physics_override");
-	if (IsValidEntity(eggprop)) SetEntityMoveType(prop, MOVETYPE_NONE);
+	new eggprop = FindEntityByClassname(eggprop ,"prop_physics_override");
+	if (IsValidEntity(eggprop)) SetEntityMoveType(eggprop, MOVETYPE_NONE);
 }
 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:pos[3], Float:Angle[3], &weapon, &subtype, &cmdnum, &tickcount, &seed, mouse[2])
@@ -98,7 +112,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:pos[3], Float:Ang
 	
 	for(new i=0; i<=DeadCount; i++)
 	{
-		if(GetVectorDistance(pos, EggPos[i]) <= FF2_GetAbilityArgumentFloat(boss, , this_plugin_name, charge_egg_ability, 1, 10.0))
+		if(GetVectorDistance(pos, EggPos[i]) <= FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "charge_egg_ability", 1, 10.0))
 		{
 			if(buttons & IN_DUCK)
 			{
@@ -108,17 +122,21 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:pos[3], Float:Ang
 				if(client == boss) FF2_SetBossHealth(boss, (FF2_GetBossHealth(boss) + EggInfo[i][0]));
 				else
 				{
-				SetEntProp(client, Prop_Data, "m_iHealth", EggInfo[i][0]); 
-				SetEntProp(client, Prop_Send, "m_iHealth", EggInfo[i][0]);
+					SetEntProp(client, Prop_Data, "m_iHealth", EggInfo[i][0]); 
+					SetEntProp(client, Prop_Send, "m_iHealth", EggInfo[i][0]);
 				}
-				if(!removeegg(EggPos[i])) PrintToServer("WTF?!");
-				EggPos[i] = NULL; //
+				new String:name[50]
+				GetClientName(client, name, sizeof(name));
+				
+				CPrintToChatAll("{olive}[FF2]{default} %t", "eat_egg", name, EggOwner[i], EggInfo[i][0]);				
+				if(!removeegg(i)) PrintToServer("WTF?!");
+				
+				return Plugin_Continue;
 				
 			}
 			if(boss == client) 
-			{
-				
-				if(Eggs[client] >= FF2_GetAbliltyArgument(boss, this_plugin_name, "charge_egg_ability", 0, 3))
+			{				
+				if(Eggs[client] >= FF2_GetAbilityArgument(boss, this_plugin_name, "charge_egg_ability", 0, 3))
 				{
 					CPrintToChat(client, "{olive}[FF2]{default} %t", "cant_get_egg");
 				}
@@ -126,8 +144,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:pos[3], Float:Ang
 				{
 					Eggs[client]++; 
 					whategg[client][Eggs[client]] = EggInfo[DeadCount][1];
-					if(!removeegg(EggPos[i])) PrintToServer("WTF?!");
-					EggPos[i] = NULL; // 
+					if(!removeegg(i)) PrintToServer("WTF?!");
 				}
 			}
 			else
@@ -140,27 +157,32 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:pos[3], Float:Ang
 				{
 					Eggs[client]++;
 					whategg[client][Eggs[client]] = EggInfo[DeadCount][1];
-					if(!removeegg(EggPos[i])) PrintToServer("WTF?!");
-					EggPos[i] = NULL; //
+					if(!removeegg(i)) PrintToServer("WTF?!");
 				}
 			}
+			
+			return Plugin_Continue;
 		}
 	}
 	
 	if(Eggs[client] > 0)
 	{
-		if (boss = client) PrintCenterText(client, "%t", "print_egg", Eggs[client], FF2_GetAbliltyArgument(boss, ff2_yoshi, charge_egg_ability, 0, 3), whategg[client][Eggs[client]]);
-		else PrintCenterText(client, "t", "print_egg", Eggs[client], FF2_GetAbilityArgument(boss, ff2_yoshi, charge_egg_ability, 2, 1), whategg[client][Eggs[client]]);
+		if (boss == client) 
+		PrintCenterText(client, "%t", "print_egg", Eggs[client], FF2_GetAbilityArgument(boss, this_plugin_name, "charge_egg_ability", 0, 3), whategg[client][Eggs[client]]);
+		
+		else PrintCenterText(client, "%t", "print_egg", Eggs[client], FF2_GetAbilityArgument(boss, this_plugin_name, "charge_egg_ability", 2, 1), whategg[client][Eggs[client]]);
 	}
 	
 	else return Plugin_Continue;
+	
+	return Plugin_Continue;
 
 	
 }
 
 stock GetBossIndex()
 {
-	for(new client = 0;  client<=MaxClient; client++)
+	for(new client = 0;  client<=MaxClients; client++)
 	{
 		if(FF2_GetBossIndex(client) != -1)
 		{
@@ -170,24 +192,23 @@ stock GetBossIndex()
 	return -1;
 }
 
-stock bool:removeegg(Float:Pos[3])
+stock bool:removeegg(i)
 { 
 	new Float:proppos[3];
 	
-	new eggprop = FindEntityByClassname("prop_physics_override");
+	new eggprop = FindEntityByClassname(eggprop ,"prop_physics_override");
 	if(IsValidEntity(eggprop))
 	{
 		GetEntPropVector(eggprop, Prop_Data, "m_vecOrigin", proppos);
-		if(GetVectorDistance(Pos, proppos) <= 3)
+		if(GetVectorDistance(EggPos[i], proppos) <= 3)
 		{
 			AcceptEntityInput(eggprop, "Kill");
 			return true;
 		}
 	}	
-	else return false;
+	return false;
 }
 
-}
 
 
 
