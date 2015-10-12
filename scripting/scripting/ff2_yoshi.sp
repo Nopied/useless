@@ -12,9 +12,9 @@
 
 new eggs[MAXPLAYERS+1]=0;
 new egginfo[MAXPLAYERS+1]=0;
-new Float:eggpos[][3];
 
-new realboss;
+new Float:eggpos[][3];
+new bool:enableeggpos[MAXPLAYERS+1] = false;
 
 new deadcount=0;
 
@@ -38,8 +38,6 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 	// new slot=FF2_GetAbilityArgument(boss, this_plugin_name, ability_name, 0); 
 	// If you want...
 	
-	realboss = boss;
-	
 	if(!strcmp(ability_name, "charge_egg_ability"))
 	{
 	
@@ -48,17 +46,70 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 
 public Action:PlayerDead(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	new client=GetEventInt(event, "userid");
+
+	// Copied from ff2_1st_set_abilities
+
+	new client=GetClientOfUserId(GetEventInt(event, "userid"));
+	new boss;
 	
-	if(!FF2_HasAbility(realboss, this_plugin_name, "charge_egg_ability"))
+	if(!FF2_HasAbility(boss, this_plugin_name, "charge_egg_ability"))
 	{
 		return Plugin_Continue;
 	}
 	
-	GetClientEyePosition(client, eggpos[deadcount]);	
+	for(new i=0; i<=MaxClients; i++)
+	{
+		if(FF2_GetBossIndex(i) != -1) 
+		{
+			boss = i;
+			break;
+		}
+	}
 	
-	if(!CreateEgg(eggpos[deadcount], client)) PrintToServer("WTF!?");
+	GetEntPropVector(client, Prop_Send, "m_vecOrigin", eggpos[deadcount]);
+
+	new String:m[PLATFORM_MAX_PATH];
 	
+	// Copied from ff2_1st_set_abilities
+	
+	FF2_GetAbilityArgumentString(boss, this_plugin_name, "charge_egg_ability", 1, m, sizeof(m));
+	
+	if(m[0]!='\0')
+	{
+		if(!IsModelPrecached(m))
+		{
+			if(!FileExists(m, true))
+			{
+				PrintToServer("[FF2 Yoshi] ERROR!! I think you don't have model file.");
+				return Plugin_Continue;
+			}
+			PrintToServer("[FF2 Yoshi] WARMING! Please write \"mod_precache\".");
+			PrecacheModel(m);
+		}
+		
+		CreateTimer(0.01, Timer_RemoveRagdoll, GetEventInt(event, "userid"));
+		
+		new prop=CreateEntityByName("prop_physics_override");
+		if(IsValidEntity(prop))
+		{
+			SetEntityModel(prop, m);
+			SetEntityMoveType(prop, MOVETYPE_NONE);
+			SetEntProp(prop, Prop_Send, "m_CollisionGroup", 1);
+			SetEntProp(prop, Prop_Send, "m_usSolidFlags", 16);
+			DispatchSpawn(prop);
+			
+			eggpos[deadcount][2]+=20;
+			
+			TeleportEntity(prop, eggpos[deadcount], NULL_VECTOR, NULL_VECTOR);
+		}
+	}
+	else 
+	{
+		PrintToServer("[FF2 Yoshi] WARMING! No egg model. (arg5 is blank!?)");
+		return Plugin_Continue;
+	}
+	
+	enableeggpos[deadcount] = true;
 	deadcount++;
 	
 	return Plugin_Continue;
@@ -72,50 +123,4 @@ public Action:Timer_RemoveRagdoll(Handle:timer, any:userid)
 	{
 		AcceptEntityInput(ragdoll, "Kill");
 	}
-}
-
-stock bool:CreateEgg(Float:pos[3], client)
-{
-	decl String:model[PLATFORM_MAX_PATH];
-	
-	// Copied from ff2_1st_set_abilities
-	
-	FF2_GetAbilityArgumentString(realboss, this_plugin_name, "charge_egg_ability", 5, model, sizeof(model));
-	
-	if(model[0] != '\0') 
-	{
-		if(!IsModelPrecached(model))
-		{
-			if(!FileExists(model, true))
-			{
-				PrintToServer("[FF2 Yoshi] ERROR!! I think you don't have model file.");
-				return false;
-			}
-			PrintToServer("[FF2 Yoshi] WARMING! Please write \"mod_precache\".");
-			return false;
-		}
-		
-		CreateTimer(0.01, Timer_RemoveRagdoll, client);
-		
-		new prop=CreateEntityByName("prop_physics_override");
-		if(IsValidEntity(prop))
-		{
-			SetEntityModel(prop, model);
-			SetEntityMoveType(prop, MOVETYPE_NONE);
-			SetEntProp(prop, Prop_Send, "m_CollisionGroup", 1);
-			SetEntProp(prop, Prop_Send, "m_usSolidFlags", 16);
-			DispatchSpawn(prop);
-
-			new Float:position[3];
-			GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
-			position[2]+=20;
-			TeleportEntity(prop, position, NULL_VECTOR, NULL_VECTOR);
-		}
-		
-		return true;
-	}
-	else PrintToServer("[FF2 Yoshi] WARMING! No egg model. (arg5 is blank!?)");
-	
-	return false;
-	
 }
