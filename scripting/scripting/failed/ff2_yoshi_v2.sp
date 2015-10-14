@@ -1,3 +1,5 @@
+// failed. 모델이 불량품이네요 D:
+
 #pragma semicolon 1
 
 #include <sourcemod>
