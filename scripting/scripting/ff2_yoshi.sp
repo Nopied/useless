@@ -28,7 +28,7 @@ public Plugin:myinfo=
 
 public OnPluginStart2()
 {
-	LoadTranslations("ff2_yoshi");
+	// LoadTranslations("ff2_yoshi");
 	
 	HookEvent("player_death", PlayerDead);
 }
