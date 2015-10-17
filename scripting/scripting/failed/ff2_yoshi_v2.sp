@@ -1,3 +1,5 @@
+// failed. 모델이 불량품이네요 D:
+
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -28,7 +30,7 @@ public Plugin:myinfo=
 
 public OnPluginStart2()
 {
-	LoadTranslations("ff2_yoshi");
+	// LoadTranslations("ff2_yoshi");
 	
 	HookEvent("player_death", PlayerDead);
 }
