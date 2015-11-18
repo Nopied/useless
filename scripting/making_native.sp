@@ -3,7 +3,6 @@
 
 CreateNative("FF2_SetDamage", Native_SetDamage);
 CreateNative("FF2_GetCharaterName", Native_GetCharacterName);
-CreateNative("FF2_SetCharaterName", Native_SetCharacterName);
 
 // Native 역할
 
@@ -25,11 +24,6 @@ public Native_GetCharacterName(Handle:plugin, numParams)
 	
 	
 	
-	
-}
-
-public Native_SetCharacterName(Handle:plugin, numParams)
-{
 	
 }
 
