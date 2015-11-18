@@ -1,3 +1,5 @@
+// 나중으로 미룸.
+
 #pragma semicolon 1
 
 #include <sourcemod>
