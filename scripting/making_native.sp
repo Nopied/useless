@@ -15,6 +15,13 @@ public Native_SetDamage(Handle:plugin, numParams)
 
 // inc 파일에 작성할 것
 
+/**
+ * Sets damage dealt by this client
+ *
+ * @param client 	Client's index
+ * @param damage	New damage dealt
+ * @noreturn
+ */
 native FF2_SetClientDamage(client, damage);
 
 MarkNativeAsOptional("FF2_SetClientDamage");
