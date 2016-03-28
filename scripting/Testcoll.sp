@@ -18,5 +18,5 @@ public Action Command_TestColl(int client, int args)
 
 public Action SoundHook(int clients[64], int &numClients, char sample[], int &entity, int &channel, float &volume, int &level, int &pitch, int &flags)
 {
-    PrintToChatAll("SoundHook: \n sample: %s\n entity: %d\n channel: %d\n volume: %.1f", sample, *entity, *channel, *volume);
+    PrintToChatAll("SoundHook: \n sample: %s\n entity: %d\n channel: %d\n volume: %.1f", sample, entity, channel, volume);
 }
