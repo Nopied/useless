@@ -7,7 +7,7 @@
 #include <freak_fortress_2_subplugin>
 
 float abilityDuration[MAXPLAYER+1];
-bool g_bUseAbility=false;
+bool g_bUseAbility[MAXPLAYER+1]={false, ...};
 int g_iFogIndex=-1;
 
 public Plugin:myinfo=
@@ -39,7 +39,7 @@ void Ability_FreddyKrueger(int boss, const char[] ability_name)
 
     SetEntProp(client, Prop_Send, "m_CollisionGroup", 1);
 
-    if(!g_bUseAbility)
+    if(!g_bUseAbility[client])
     {
         FF2_GetAbilityArgumentString(boss, this_plugin_name, ability_name, 3, color, sizeof(color));
 
@@ -52,7 +52,7 @@ void Ability_FreddyKrueger(int boss, const char[] ability_name)
         FF2_StopMusic();
     }
 
-    g_bUseAbility=true;
+    g_bUseAbility[client]=true;
     Handle bossKV=FF2_GetSpecialKV(boss, 0); // 이게 될까!?
     abilityDuration[client]=bossKV.GetFloat("ability_duration", 10.0);
     CreateTimer(0.1, Timer_AbilityDuration, TIMER_REPEAT);
@@ -61,13 +61,18 @@ void Ability_FreddyKrueger(int boss, const char[] ability_name)
 
 public Action Timer_AbilityDuration(Handle timer, any client)
 {
-    if(!IsValidClient(client) || abilityDuration<=0.0)
+    if(!IsValidClient(client) || abilityDuration[client]<=0.0)
     {
         SetEntProp(client, Prop_Send, "m_CollisionGroup", 5);
-        g_bUseAbility=false;
+        g_bUseAbility[client]=false;
+        abilityDuration[client]=0.0;
+
+        for(int target=1; target<=MaxClients; target++)
+        {
+            if(g_bUseAbility[target])   return Plugin_Stop;
+        }
         RemoveNormalSoundHook(SoundHook);
         RemoveAmbientSoundHook(SoundAmbientHook);
-        ability_duration[client]=0.0;
         KillFog();
         FF2_StartMusic();
         return Plugin_Stop;
