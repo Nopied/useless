@@ -59,6 +59,8 @@ public Action Timer_SetupRound(Handle timer)
     g_iTimeleftMax=60+(CheckAlivePlayers()*15); // TODO: 커스터마이즈 가능하게.
     g_iTimeleft=g_iTimeleftMax;
     CreateTimer(1.0, RoundTimer, TIMER_REPEAT);
+
+    return Plugin_Continue;
 }
 
 public Action RoundTimer(Handle timer)
