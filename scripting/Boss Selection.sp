@@ -22,7 +22,7 @@ char Incoming[MAXPLAYERS+1][64];
 char g_strChatCommand[42][50]; // 이 말은 즉슨.. 42개 이상의 커맨드를 등록하면 이 플러그인은 터진다.
 
 Handle g_hBossCookie;
-// Handle g_hBossQueue;
+Handle g_hBossQueue;
 Handle g_hCvarChatCommand;
 // Handle g_hCvarLanguage;
 
@@ -91,20 +91,25 @@ public Action Listener_Say(int client, const char[] command, int argc)
 	if(!IsValidClient(client)) return Plugin_Continue;
 
 	char strChat[100];
+	char temp[2][64];
 	GetCmdArgString(strChat, sizeof(strChat));
 
 	int start;
 
 	if(strChat[start] == '"') start++;
 	if(strChat[start] == '!' || strChat[start] == '/') start++;
+	strChat[sizeof(strChat)-1] = '\0';
+	ExplodeString(strChat, " ", temp, 2, 64, true);
 
 	for (int i=0; i<=g_iChatCommand; i++)
 	{
-		char temp[50];
-
-		Format(temp, sizeof(temp), "%s\"", g_strChatCommand[i]);
-		if(StrEqual(strChat[start], temp, true))
+		if(StrEqual(temp[0], g_iChatCommand[i], true))
 		{
+			if(temp[1][0] == '\0')
+			{
+				CheckBossName(client, temp[1]);
+				return Plugin_Continue;
+			}
 			Command_SetMyBoss(client, 0);
 			return Plugin_Continue;
 		}
@@ -112,7 +117,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
 	return Plugin_Continue;
 }
-/*
+
 public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 {
 		char CookieV[MAX_NAME];
@@ -120,7 +125,7 @@ public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 
 		for (int client=1; client<=MaxClients; client++)
 		{
-			if(IsValidClient(client))
+			if(IsValidClient(client) && !IsBoss(client))
 			{
 				GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
 				StringToInt(CookieV, queuepoints);
@@ -133,7 +138,7 @@ public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 		}
 		return Plugin_Changed;
 }
-*/
+
 
 public void OnClientPutInServer(client)
 {
@@ -143,9 +148,8 @@ public void OnClientPutInServer(client)
 	{
 		SetClientCookie(client, g_hBossCookie, "");
 		IntToString(-1, CookieV, sizeof(CookieV));
-//		SetClientCookie(client, g_hBossQueue, CookieV);
+		SetClientCookie(client, g_hBossQueue, CookieV);
 	}
-
 	else
 	{
 		GetClientCookie(client, g_hBossCookie, CookieV, sizeof(CookieV));
@@ -168,8 +172,8 @@ public Action Command_SetMyBoss(int client, int args)
 		return Plugin_Handled;
 	}
 
-	char spclName[MAX_NAME];
-	Handle BossKV;
+	// char spclName[MAX_NAME];
+	// Handle BossKV;
 	char CookieV[MAX_NAME];
 	int queuepoints;
 
@@ -177,6 +181,9 @@ public Action Command_SetMyBoss(int client, int args)
 	{
 		char bossName[64];
 		GetCmdArgString(bossName, sizeof(bossName));
+
+		CheckBossName(client, bossName);
+/*
 		for (new i = 0; (BossKV=FF2_GetSpecialKV(i,true)); i++)
 		{
 			if (KvGetNum(BossKV, "blocked",0)) continue;
@@ -202,6 +209,7 @@ public Action Command_SetMyBoss(int client, int args)
 			}
 		}
 		CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossnotfound");
+*/
 		return Plugin_Handled;
 	}
 
@@ -300,6 +308,40 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 	}
 }
 
+stock void CheckBossName(int client, const char[] bossName)
+{
+	Handle BossKV;
+	char spclName[MAX_NAME];
+
+	for (new i = 0; (BossKV=FF2_GetSpecialKV(i,true)); i++)
+	{
+		if (KvGetNum(BossKV, "blocked",0)) continue;
+		if (KvGetNum(BossKV, "hidden",0)) continue;
+		KvGetString(BossKV, "name", spclName, sizeof(spclName));
+
+		if(StrContains(bossName, spclName, false)!=-1)
+		{
+			strcopy(Incoming[client], sizeof(Incoming[]), spclName);
+			SetClientCookie(client, g_hBossCookie, Incoming[client]);
+
+			CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossselected", spclName);
+			return;
+		}
+
+		KvGetString(BossKV, "filename", spclName, sizeof(spclName));
+		if(StrContains(bossName, spclName, false)!=-1)
+		{
+			KvGetString(BossKV, "name", spclName, sizeof(spclName));
+			strcopy(Incoming[client], sizeof(Incoming[]), spclName);
+			SetClientCookie(client, g_hBossCookie, Incoming[client]);
+
+			CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossselected", spclName);
+			return;
+		}
+	}
+	CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossnotfound");
+}
+
 
 public Action FF2_OnSpecialSelected(boss, &SpecialNum, char[] SpecialName, bool preset)
 {
@@ -335,3 +377,14 @@ void QueuePointRestore(int client)
 	CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2_queue_restored");
 }
 */
+
+stock bool IsBoss(int client)
+{
+	return (FF2_GetBossIndex(client) != -1);
+}
+
+stock int GetClientQueueCookie(int client)
+{
+	char CookieV[MAX_NAME];
+	GetClientCookie(client, )
+}
