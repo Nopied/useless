@@ -49,7 +49,9 @@ public Action Timer_Gag(Handle timer)
     }
   }
   int random=GetRandomInt(0, count);
-  CPrintToChatAll("{green}[개그]{default} %s{default} - {green}%N", cookieClient[random], clientQueue[random]);
+  CPrintToChatAll("{green}[개그]{default} %s{default} - {green}%N",
+	cookieClient[random],
+	clientQueue[random]);
   return Plugin_Continue;
 }
 
@@ -68,7 +70,18 @@ public Action Command_Ajegag(int client, int args)
   }
   else
   {
-    CPrintToChat(client, "{green}[개그]{default} 등록할 개그를 적어주세요!");
+		char CookieV[100];
+		GetClientCookie(client, g_hGagCookie, CookieV, sizeof(CookieV));
+
+		if(CookieV[0] == '\0')
+	  {
+			CPrintToChat(client, "{green}[개그]{default} 등록할 개그를 적어주세요!");
+		}
+    else
+		{
+			SetClientCookie(client, g_hGagCookie, "");
+			CPrintToChat(client, "{green}[개그]{default} 개그를 초기화했습니다.");
+		}
   }
   return Plugin_Continue;
 }
