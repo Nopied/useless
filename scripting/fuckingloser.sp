@@ -29,15 +29,13 @@ public Plugin:myinfo = {
 
 public void OnPluginStart()
 {
-	HookEvent("teamplay_round_active", OnRoundStart);
+	HookEvent("teamplay_round_start", OnRoundStart);
 	HookEvent("teamplay_round_win", OnRoundEnd);
 
 	cvarPeople=CreateConVar("ff2_loser_people", "5", ".");
 	cvarCheckPeople=CreateConVar("ff2_loser_check_people", "10", ".");
 	cvarDeathDamage=CreateConVar("ff2_loser_deathdamage", "500", ".");
 	cvarDeathTimer=CreateConVar("ff2_loser_deathtimer", "20", ".");
-
-
   // Wat.
 }
 
@@ -52,13 +50,17 @@ public void OnMapStart()
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
   LogMessage("라운드 시작.");
+	CreateTimer(10.4, OnRoundStart_Timer);
+}
 
-  if(CheckAlivePeople() < g_iCheckPeople) // 이건 보스가 아닌 팀의 인원만 확인함.
+public Action OnRoundStart_Timer(Handle timer)
+{
+	if(CheckAlivePeople() < g_iCheckPeople && CheckAlivePeople()) // 이건 보스가 아닌 팀의 인원만 확인함.
   {
     CPrintToChatAll("{olive}[FF2]{default} 잉여자 처리는 %d명부터 작동됩니다.", g_iCheckPeople);
     return Plugin_Continue;
   }
-  g_bCheckedAlive=true;
+  else g_bCheckedAlive=true;
   return Plugin_Continue;
 }
 
@@ -81,8 +83,9 @@ public Action FF2_OnAlivePlayersChanged(int players, int bosses)
 
 public Action TimeToDeath(Handle timer)
 {
-  bool end=false;
+	if (!actieved) return Plugin_Stop;
 
+  bool end=false;
   for(int client=1; client<=MaxClients; client++)
   {
     if(IsValidClient(client) && IsPlayerAlive(client) && FF2_GetClientDamage(client) < g_iDeathDamage)
@@ -96,6 +99,7 @@ public Action TimeToDeath(Handle timer)
       else
         PrintCenterText(client, "%d초 안에 데미지를 %d까지 쌓으세요!", staticTimer, g_iDeathDamage);
     }
+		else end=true;
   }
 
   staticTimer--;
