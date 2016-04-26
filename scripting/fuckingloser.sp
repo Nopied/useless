@@ -67,6 +67,7 @@ public Action OnRoundStart_Timer(Handle timer)
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
 	actieved=false;
+	g_bCheckedAlive=false;
 	return Plugin_Continue;
 }
 
