@@ -89,7 +89,7 @@ public Action TimeToDeath(Handle timer)
   bool end=false;
   for(int client=1; client<=MaxClients; client++)
   {
-    if(IsValidClient(client) && IsPlayerAlive(client) && FF2_GetClientDamage(client) < g_iDeathDamage)
+    if(IsValidClient(client) && IsPlayerAlive(client) && FF2_GetClientDamage(client) < g_iDeathDamage && FF2_GetBossIndex(client) == -1)
     {
       if(staticTimer<=0)
       {
@@ -100,7 +100,6 @@ public Action TimeToDeath(Handle timer)
       else
         PrintCenterText(client, "%d초 안에 데미지를 %d까지 쌓으세요!", staticTimer, g_iDeathDamage);
     }
-		else end=true;
   }
 
   staticTimer--;
