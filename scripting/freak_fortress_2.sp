@@ -75,6 +75,7 @@ new bool:goomba=false;
 new bool:smac=false;
 new bool:CheckedFirstRound=false;
 
+new currentMusicCount=0;
 new OtherTeam=2;
 new BossTeam=3;
 new playing;
@@ -158,6 +159,7 @@ new Handle:cvarDebug;
 new Handle:cvarPreroundBossDisconnect;
 
 new Handle:FF2Cookies;
+new Handle:FF2MusicCookie;
 
 new Handle:jumpHUD;
 new Handle:rageHUD;
@@ -191,6 +193,7 @@ new Handle:MusicTimer[MAXPLAYERS+1];
 new Handle:BossInfoTimer[MAXPLAYERS+1][2];
 new Handle:DrawGameTimer;
 new Handle:doorCheckTimer;
+new Handle:MusicData[MAXSPECIALS+1]=INVALID_HANDLE;
 
 new botqueuepoints;
 new Float:HPTime;
@@ -1210,6 +1213,7 @@ public OnPluginStart()
 	AutoExecConfig(true, "FreakFortress2");
 
 	FF2Cookies=RegClientCookie("ff2_cookies_mk2", "", CookieAccess_Protected);
+	FF2MusicCookie=RegClientCookie("ff2_music_cookie", "music coooooookie!!!!!!", CookieAccess_Protected);
 
 	jumpHUD=CreateHudSynchronizer();
 	rageHUD=CreateHudSynchronizer();
@@ -1227,6 +1231,7 @@ public OnPluginStart()
 
 	LoadTranslations("freak_fortress_2.phrases");
 	LoadTranslations("common.phrases");
+	LoadTranslations("core.phrases");
 
 	AddNormalSoundHook(HookSound);
 
@@ -1941,6 +1946,26 @@ public LoadCharacter(const String:character[])
 					{
 						LogError("[FF2 Bosses] Character %s is missing file '%s'!", character, key);
 					}
+				}
+			}
+		}
+		else if(!strcmp(section, "sound_bgm")) // For currentMusicCount. it precached in PrecacheCharacter
+		{
+			currentMusicCount=0;
+			for(new i=1; ; i++)
+			{
+				Format(key, sizeof(key), "path%d", i);
+				KvGetString(BossKV[characterIndex], key, file, sizeof(file));
+				if(!file[0])
+				{
+					break;
+				}
+
+				Format(filePath, sizeof(filePath), "sound/%s", file);  //Sounds doesn't include the sound/ prefix, so add that
+				if(FileExists(filePath, true))
+				{
+					currentMusicCount++;
+					MusicData[Specials]=BossKV[Specials];
 				}
 			}
 		}
@@ -3181,12 +3206,13 @@ SetClientSoundOptions(client, soundException, bool:enable)
 		return;
 	}
 
-	decl String:cookies[24];
-	decl String:cookieValues[8][5];
-	GetClientCookie(client, FF2Cookies, cookies, sizeof(cookies));
-	ExplodeString(cookies, " ", cookieValues, 8, 5);
+
 	if(soundException==SOUNDEXCEPT_VOICE)
 	{
+		decl String:cookies[24];
+		decl String:cookieValues[8][5];
+		GetClientCookie(client, FF2Cookies, cookies, sizeof(cookies));
+		ExplodeString(cookies, " ", cookieValues, 8, 5);
 		if(enable)
 		{
 			cookieValues[2][0]='1';
@@ -3195,20 +3221,42 @@ SetClientSoundOptions(client, soundException, bool:enable)
 		{
 			cookieValues[2][0]='0';
 		}
+		Format(cookies, sizeof(cookies), "%s %s %s %s %s %s %s %s", cookieValues[0], cookieValues[1], cookieValues[2], cookieValues[3], cookieValues[4], cookieValues[5], cookieValues[6], cookieValues[7]);
+		SetClientCookie(client, FF2Cookies, cookies);
 	}
 	else
 	{
-		if(enable)
+		if(!enable)
 		{
-			cookieValues[1][0]='1';
+			SetClientCookie(client, FF2MusicCookie, "");
+			return;
 		}
 		else
 		{
-			cookieValues[1][0]='0';
+			decl String:CookieV[currentMusicCount*3];
+			decl String:cookies[currentMusicCount+1][1];
+
+			for(new i=0; i<=currentMusicCount; i++)
+			{
+				if (i==0)
+				{
+					Format(CookieV, sizeof(CookieV), "1");
+					continue;
+				}
+				Format(CookieV, sizeof(CookieV), " 1");
+			}
 		}
 	}
-	Format(cookies, sizeof(cookies), "%s %s %s %s %s %s %s %s", cookieValues[0], cookieValues[1], cookieValues[2], cookieValues[3], cookieValues[4], cookieValues[5], cookieValues[6], cookieValues[7]);
-	SetClientCookie(client, FF2Cookies, cookies);
+}
+
+stock bool:GetClientMusicOptions(client, bgmIndex=0)
+{
+	decl String:CookieV[currentMusicCount*3];
+	decl String:cookies[currentMusicCount+1][1]; // Because include "ALL"
+	GetClientCookie(client, FF2MusicCookie, CookieV, sizeof(CookieV));
+	ExplodeString(CookieV, " ", cookies, currentMusicCount+1, 1);
+
+	return StringToInt(cookies[bgmIndex][0])==1;
 }
 
 public Action:Timer_Move(Handle:timer)
@@ -4694,8 +4742,8 @@ public OnClientPutInServer(client)
 		GetClientCookie(client, FF2Cookies, buffer, sizeof(buffer));
 		if(!buffer[0])
 		{
-			SetClientCookie(client, FF2Cookies, "0 1 1 1 1 3 3");
-			//Queue points | music exception | voice exception | class info | DIFFICULTY | UNUSED | UNUSED
+			SetClientCookie(client, FF2Cookies, "0 0 1 1 1 3 3");
+			//Queue points | music exception (now it will be unused)| voice exception | class info | DIFFICULTY | UNUSED | UNUSED
 		}
 	}
 }
@@ -8442,20 +8490,59 @@ public Action:MusicTogglePanel(client)
 		return Plugin_Continue;
 	}
 
-	new Handle:panel=CreatePanel();
-	SetPanelTitle(panel, "보스들의 BGM을..");
-	DrawPanelItem(panel, "켜기");
-	DrawPanelItem(panel, "끄기");
-	SendPanelToClient(panel, client, MusicTogglePanelH, MENU_TIME_FOREVER);
-	CloseHandle(panel);
+	decl String:item[100];
+	decl String:artist[80];
+	new musicIndex=0;
+
+	new Handle:menu=CreateMenu(MusicTogglePanelH);
+	SetPanelTitle(menu, "보스들의 BGM을..");
+	Format(item, sizeof(item), "모두 켜기");
+	AddMenuItem(menu, "켜기", item);
+	Format(item, sizeof(item), "모두 끄기");
+	AddMenuItem(menu, "끄기", item);
+
+	for(new i=0; i<=MAXSPECIALS; i++)
+	{
+		if(MusicData[i] != INVALID_HANDLE)
+		{
+			
+		}
+		Format(item, sizeof(item), "[%s]", GetClientMusicOptions(client) ? "*": " ");
+	}
+
+	GetMenuExitButton(menu);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 	return Plugin_Continue;
 }
 
-public MusicTogglePanelH(Handle:menu, MenuAction:action, client, selection)
+public int MusicTogglePanelH(Handle:menu, MenuAction:action, client, selection)
 {
+	if(action==MenuAction_End) CloseHandle(menu);
+
 	if(IsValidClient(client) && action==MenuAction_Select)
 	{
-		if(selection==2)  //Off
+		switch(selection)
+		{
+		  case 1:
+		  {
+				SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, true);
+				MusicTimer[client]=CreateTimer(0.0, Timer_PlayBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+				CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==2 ? "끄기" : "켜기");
+		  }
+			case 2:
+			{
+				SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, false);
+				StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
+				StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
+				CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==2 ? "끄기" : "켜기");
+			}
+			default:
+			{
+				SetClientMusicOptions(client, selection-2, !GetClientMusicOptions(client, selection-2));
+				DisplayMenu(menu, client, MENU_TIME_FOREVER);
+			}
+		}
+/*		if(selection==2)  //Off
 		{
 			SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, false);
 			StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
@@ -8466,7 +8553,27 @@ public MusicTogglePanelH(Handle:menu, MenuAction:action, client, selection)
 			SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, true);
 			MusicTimer[client]=CreateTimer(0.0, Timer_PlayBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 		}
-		CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==2 ? "끄기" : "켜기");
+*/
+		// CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==2 ? "끄기" : "켜기");
+	}
+}
+
+stock SetClientMusicOptions(client, bgmIndex, bool:enable)
+{
+	decl String:CookieV[currentMusicCount*3];
+	new String:cookies[currentMusicCount+1][1];
+	GetClientCookie(client, FF2MusicCookie, CookieV, sizeof(CookieV));
+	ExplodeString(CookieV, " ", cookies, currentMusicCount+1, 1);
+	Format(cookies[bgmIndex], 1, "%d", enable ? 1 : 0);
+
+	for (new i=0; i<=currentMusicCount; i++)
+	{
+		if(i==0)
+		{
+			Format(CookieV, sizeof(CookieV), "%s", cookies[i]);
+			continue;
+		}
+		Format(CookieV, sizeof(CookieV), " %s", cookies[i]);
 	}
 }
 

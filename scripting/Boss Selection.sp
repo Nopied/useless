@@ -101,20 +101,20 @@ public Action Listener_Say(int client, const char[] command, int argc)
 	strChat[sizeof(strChat)-1] = '\0';
 	ExplodeString(strChat, " ", temp, 2, 64, true);
 
+
 	for (int i=0; i<=g_iChatCommand; i++)
 	{
 		if(StrEqual(temp[0], g_iChatCommand[i], true))
 		{
-			if(temp[1][0] == '\0')
+			if(temp[1][0]!='\0')
 			{
 				CheckBossName(client, temp[1]);
-				return Plugin_Continue;
-			}
+				return Plugin_Handled;
+			} // !보스 (ㅁㄴㅁㄴㅁ)
 			Command_SetMyBoss(client, 0);
 			return Plugin_Continue;
 		}
 	}
-
 	return Plugin_Continue;
 }
 

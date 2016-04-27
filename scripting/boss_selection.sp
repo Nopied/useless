@@ -229,7 +229,8 @@ public Action Command_SetMyBoss(int client, int args)
 	else
 	{
 		GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
-		Format(s, sizeof(s), queuepoints>=0 ? "%s" : "%t", StringToInt(CookieV)>=0 ? Incoming[client] : "ff2boss_none_1");
+		queuepoints=StringToInt(CookieV);
+		Format(s, sizeof(s), queuepoints>=0 ? "%s" : "%t", queuepoints>=0 ? Incoming[client] : "ff2boss_none_1");
 		SetMenuTitle(dMenu, "%t", "ff2boss_title", s);
 	}
 
