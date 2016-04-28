@@ -8490,12 +8490,13 @@ public Action:MusicTogglePanel(client)
 		return Plugin_Continue;
 	}
 
-	decl String:item[100];
+	decl String:item[200];
+	decl String:musicName[100];
 	decl String:artist[80];
 	new musicIndex=0;
 
 	new Handle:menu=CreateMenu(MusicTogglePanelH);
-	SetPanelTitle(menu, "보스들의 BGM을..");
+	SetMenuTitle(menu, "보스들의 BGM을..");
 	Format(item, sizeof(item), "모두 켜기");
 	AddMenuItem(menu, "켜기", item);
 	Format(item, sizeof(item), "모두 끄기");
@@ -8505,9 +8506,27 @@ public Action:MusicTogglePanel(client)
 	{
 		if(MusicData[i] != INVALID_HANDLE)
 		{
-			
+			decl String:bossName[80];
+			decl String:key[20];
+			decl String:temp[PLATFORM_MAX_PATH];
+
+			KvRewind(MusicData[i]);
+			KvGetString(MusicData[i], "name", bossName, sizeof(bossName), "=ERROR NAME=");
+			if(KvJumpToKey(MusicData[i], "sound_bgm"))
+			{
+				while(true)
+				{
+				  new i=1;
+					Format(key, sizeof(key), "path%i", i);
+					KvGetString(MusicData[i], key, temp, sizeof(temp), "");
+					if(temp[0]=='\0') break;
+
+					Format(item, sizeof(item), "[%s] %s - %s(%s)", GetClientMusicOptions(client, musicIndex) ? "*": " ", );
+					i++;
+				}
+				else 	Debug("I CAN'T READ MUSICDATA! LOLOLOLOLOOLO!");
+			}
 		}
-		Format(item, sizeof(item), "[%s]", GetClientMusicOptions(client) ? "*": " ");
 	}
 
 	GetMenuExitButton(menu);

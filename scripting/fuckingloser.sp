@@ -89,9 +89,10 @@ public Action TimeToDeath(Handle timer)
   bool end=false;
   for(int client=1; client<=MaxClients; client++)
   {
-    if(IsValidClient(client) && IsPlayerAlive(client) && FF2_GetClientDamage(client) < g_iDeathDamage && FF2_GetBossIndex(client) == -1)
+    if(IsValidClient(client) && IsPlayerAlive(client) && FF2_GetClientDamage(client) < g_iDeathDamage)
     {
-      if(staticTimer<=0)
+			TFTeam team=TF2_GetClientTeam(client);
+      if(staticTimer<=0 && _:FF2_GetBossTeam(client) != team)
       {
         ForcePlayerSuicide(client);
         CPrintToChat(client, "{olive}[FF2]{default} 잉여자로 선정되어 사망합니다..");
