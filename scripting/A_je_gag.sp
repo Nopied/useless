@@ -104,7 +104,7 @@ void CheckGag(int client, const char[] gag)
 			SetClientCookie(client, g_hGagCookie, "");
 			CPrintToChat(client, "{green}[개그]{default} 개그를 초기화했습니다.");
 		}
-  }0
+  }
  }
 
 stock bool IsValidClient(int client)
