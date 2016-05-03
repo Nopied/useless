@@ -89,7 +89,6 @@ void CheckGag(int client, const char[] gag)
   {
     SetClientCookie(client, g_hGagCookie, gag);
     CPrintToChat(client, "{green}[개그]{default} ''%s''로 설정하셨습니다.", gag);
-    return;
   }
   else
   {
@@ -105,10 +104,10 @@ void CheckGag(int client, const char[] gag)
 			SetClientCookie(client, g_hGagCookie, "");
 			CPrintToChat(client, "{green}[개그]{default} 개그를 초기화했습니다.");
 		}
-  }
-}
+  }0
+ }
 
-stock bool IsValidClient(client)
+stock bool IsValidClient(int client)
 {
 	return (0 < client && client < MaxClients && IsClientInGame(client));
 }
