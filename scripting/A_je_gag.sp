@@ -15,17 +15,12 @@ public void OnPluginStart()
 {
   g_hGagCookie=RegClientCookie("A_je_gag.cookie", "LOL", CookieAccess_Protected);
 
+	AddCommandListener(Listener_Say, "say");
+	AddCommandListener(Listener_Say, "say_team");
+
   RegConsoleCmd("ajegag", Command_Ajegag);
 
   CreateTimer(90.0, Timer_Gag, _, TIMER_REPEAT);
-}
-
-public void OnClientPutInServer(int client)
-{
-  if(!AreClientCookiesCached(client))
-  {
-    SetClientCookie(client, g_hGagCookie, "");
-  }
 }
 
 public Action Timer_Gag(Handle timer)
@@ -56,22 +51,49 @@ public Action Timer_Gag(Handle timer)
   return Plugin_Continue;
 }
 
+public Action:Listener_Say(int client, const char[] command, int argc)
+{
+	if(!IsValidClient(client))	return Plugin_Continue;
+
+	char chat[150];
+	char gag[2][100];
+	int start=0;
+	GetCmdArgString(strChat, sizeof(strChat));
+
+	if(chat[start]=='"') start++;
+	if(chat[start]=='!' || chat[start]=='/') start++;
+
+	ExplodeString(chat[start], " ", gag, 2, 100);
+	if(StrEqual("개그", gag[0], true))
+	{
+		CheckGag(client, gag[1]);
+		return Plugin_Handled;
+	}
+	return Plugin_Continue;
+}
+
 public Action Command_Ajegag(int client, int args)
 {
   if(!IsValidClient(client)) return Plugin_Continue;
 
-  char gag[100];
+  char gag[150];
   GetCmdArgString(gag, sizeof(gag));
 
-  if(gag[0] != '\0')
+	CheckGag(client, gag);
+  return Plugin_Continue;
+}
+
+void CheckGag(int client, const char[] gag)
+{
+	if(gag[0] != '\0')
   {
     SetClientCookie(client, g_hGagCookie, gag);
     CPrintToChat(client, "{green}[개그]{default} ''%s''로 설정하셨습니다.", gag);
-    return Plugin_Handled;
+    return;
   }
   else
   {
-		char CookieV[100];
+		char CookieV[150];
 		GetClientCookie(client, g_hGagCookie, CookieV, sizeof(CookieV));
 
 		if(CookieV[0] == '\0')
@@ -84,7 +106,6 @@ public Action Command_Ajegag(int client, int args)
 			CPrintToChat(client, "{green}[개그]{default} 개그를 초기화했습니다.");
 		}
   }
-  return Plugin_Continue;
 }
 
 stock bool IsValidClient(client)
