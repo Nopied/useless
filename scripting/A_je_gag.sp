@@ -4,23 +4,30 @@
 
 Handle g_hGagCookie;
 
+Handle cvarTimer;
+
 public Plugin:myinfo = {
 	name = "A_je_gag",
-	description = "Yeah.",
+	description = "A-je... Are you stand that thing?",
 	author = "Nopied◎",
 	version = "18",
 };
 
 public void OnPluginStart()
 {
+	cvarTimer=CreateConVar("A_je_gag_Timer", "90.0", "A-je...", FCVAR_PLUGIN, true, 0.0);
+
   g_hGagCookie=RegClientCookie("A_je_gag.cookie", "LOL", CookieAccess_Protected);
 
 	AddCommandListener(Listener_Say, "say");
 	AddCommandListener(Listener_Say, "say_team");
 
   RegConsoleCmd("ajegag", Command_Ajegag);
+}
 
-  CreateTimer(90.0, Timer_Gag, _, TIMER_REPEAT);
+public void OnMapStart()
+{
+	CreateTimer(GetConVarFloat(cvarTimer), Timer_Gag, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action Timer_Gag(Handle timer)
@@ -56,17 +63,21 @@ public Action:Listener_Say(int client, const char[] command, int argc)
 	if(!IsValidClient(client))	return Plugin_Continue;
 
 	char chat[150];
-	char gag[2][100];
-	int start=0;
-	GetCmdArgString(strChat, sizeof(strChat));
+	char gag[1][100];
+	// int start=0;
+	bool start=false;
+	GetCmdArgString(chat, sizeof(chat));
 
-	if(chat[start]=='"') start++;
-	if(chat[start]=='!' || chat[start]=='/') start++;
+	// if(chat[start]=='"') start++;
+	if(strlen(chat)>=2 && (chat[1]=='!' || chat[1]=='/')) start=true; // start++;
+	chat[strlen(chat)-1]='\0';
 
-	ExplodeString(chat[start], " ", gag, 2, 100);
+	if(!start) return Plugin_Continue;
+
+	ExplodeString(chat[2], " ", gag, 1, 100);
 	if(StrEqual("개그", gag[0], true))
 	{
-		CheckGag(client, gag[1]);
+		CheckGag(client, chat[strlen(gag[0])+1]); // 띄어쓰기 때문에 1 추가
 		return Plugin_Handled;
 	}
 	return Plugin_Continue;
@@ -88,7 +99,7 @@ void CheckGag(int client, const char[] gag)
 	if(gag[0] != '\0')
   {
     SetClientCookie(client, g_hGagCookie, gag);
-    CPrintToChat(client, "{green}[개그]{default} ''%s''로 설정하셨습니다.", gag);
+    CPrintToChat(client, "{green}[개그]{default} ''%s{default}''로 설정하셨습니다.", gag);
   }
   else
   {
