@@ -77,7 +77,7 @@ public Action:Listener_Say(int client, const char[] command, int argc)
 	ExplodeString(chat[2], " ", gag, 1, 100);
 	if(StrEqual("개그", gag[0], true))
 	{
-		CheckGag(client, chat[strlen(gag[0])+1]); // 띄어쓰기 때문에 1 추가
+		CheckGag(client, chat[strlen(gag[0])+3]); // 띄어쓰기 때문에 1 추가 그리고 "랑 !를 포함
 		return Plugin_Handled;
 	}
 	return Plugin_Continue;
