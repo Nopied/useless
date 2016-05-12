@@ -132,6 +132,7 @@ void BlockShield(int client)
 	PrintCenterText(client, "쉴드가 깨졌습니다!");
 }
 
+//Copied from Chdata's Fixed Friendly Fire
 stock bool IsPlayerStuck(ent)
 {
     float vecMin[3];
@@ -144,6 +145,12 @@ stock bool IsPlayerStuck(ent)
 
     TR_TraceHullFilter(vecOrigin, vecOrigin, vecMin, vecMax, MASK_SOLID, TraceRayPlayerOnly, ent);
     return (TR_DidHit());
+}
+
+//Copied from Chdata's Fixed Friendly Fire
+public bool:TraceRayPlayerOnly(iEntity, iMask, any:iData)
+{
+    return (IsValidClient(iEntity) && IsValidClient(iData) && iEntity != iData);
 }
 
 stock bool IsValidClient(int client)
