@@ -67,7 +67,7 @@ public void Savior_Tick(int client)
 		SDKHooks_TakeDamage(client, client, client, 3.0, DMG_BLAST, -1);
 	}
 
-	if(g_flSaviorShield[client] <= 100.0)g_flSaviorShield[client]+=0.01; //TODO: 커스터마이즈.
+	if(g_flSaviorShield[client] <= 100.0) g_flSaviorShield[client]+=0.01; //TODO: 커스터마이즈.
 	if(!ShieldStatus[client] && g_flSaviorShield[client]>=50.0){
 		RestoreShield(client);
 	}
