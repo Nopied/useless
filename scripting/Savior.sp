@@ -58,15 +58,17 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		if(!IsValidEntity(ent))	return Plugin_Continue;
 		SaviorRocketStatus[client]=false;
 
-		float rocketVelocity[3]; float clientPos[3];
+		float rocketVelocity[3]; float clientPos[3]; float vcfl[3];
 		GetClientEyePosition(client, clientPos);
 
-		rocketVelocity[0]=angles[0]*2.0;
+		//GetAngleVectors(angles, rocketVelocity, vcfl, NULL_VECTOR);
+
+		// ScaleVector();
+		rocketVelocity[0]=angles[0]*2.0;	// Test this,
 		rocketVelocity[1]=angles[1]*2.0;
 		rocketVelocity[2]=angles[2]*2.0;
 
 		TeleportEntity(ent, clientPos, angles, rocketVelocity);
-
 		CreateTimer(3.0, RocketCooldown, client);
 	}
 }
@@ -131,6 +133,7 @@ void EnableSavior(int client)
 	RestoreShield(client, _, false);
 	SDKHook(client, SDKHook_PreThinkPost, Savior_Tick);
 	SDKHook(client, SDKHook_OnTakeDamage, Savior_TakeDamage);
+	SetOverlay(client, "Effects/combine_binocoverlay");
 	CPrintToChat(client, "Savior 모드가 활성화되었습니다.");
 }
 
@@ -140,6 +143,7 @@ void DisableSavior(int client)
 	SetEntityMoveType(client, MOVETYPE_WALK);
 	SDKUnhook(client, SDKHook_PreThinkPost, Savior_Tick);
 	SDKUnhook(client, SDKHook_OnTakeDamage, Savior_TakeDamage);
+	SetOverlay(client, "");
 	CPrintToChat(client, "Savior 모드가 비활성화되었습니다.");
 }
 
@@ -164,15 +168,26 @@ void BlockShield(int client)
 	PrintCenterText(client, "쉴드가 깨졌습니다!");
 }
 
+void SetOverlay(client, const char[] overlay)
+{
+	SetCommandFlags("r_screenoverlay", GetCommandFlags("r_screenoverlay") & ~FCVAR_CHEAT);
+	ClientCommand(client, "r_screenoverlay \"%s\"", overlay);
+	SetCommandFlags("r_screenoverlay", GetCommandFlags("r_screenoverlay") | FCVAR_CHEAT);
+}
+
 stock int SpawnRocket(int client, bool allowcrit)
 {
 	int ent=CreateEntityByName("tf_projectile_rocket");
 	if(!IsValidEntity(ent)) return -1;
 
 	DispatchSpawn(ent);
-	SetEntPropEnt(ent, Prop_Send, "m_hOwner", client);
+	SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
 	SetEntProp(ent, Prop_Send, "m_bCritical", allowcrit ? 1 : 0);
 	SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
+	SetEntProp(ent, Prop_Send, "m_CollisionGroup", 4);
+	SetEntProp(ent, Prop_Data, "m_takedamage", 0);
+	SetEntPropVector(ent, Prop_Send, "m_vecMins", Float:{0.0,0.0,0.0});
+	SetEntPropVector(ent, Prop_Send, "m_vecMaxs", Float:{0.0,0.0,0.0});
 	return ent;
 }
 
