@@ -5,6 +5,7 @@
 
 bool IsSavior[MAXPLAYERS+1];
 bool ShieldStatus[MAXPLAYERS+1];
+bool SaviorRocketStatus[MAXPLAYERS+1]=true;
 // true: if shield is not downed.
 // flase: if shield is downed. LOL.
 float g_flSaviorShield[MAXPLAYERS+1];
@@ -45,6 +46,34 @@ public Action CmdTurnToBeSavior(int client, int args)
 	if(!IsSavior[client]) EnableSavior(client);
 	else DisableSavior(client);
 
+	return Plugin_Continue;
+}
+
+public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+{
+	if(!IsSavior[client] || !IsValidClient(client) || !SaviorRocketStatus[client])	return Plugin_Continue;
+
+	if(buttons & IN_ATTACK2){
+		int ent=SpawnRocket(client, true);
+		if(!IsValidEntity(ent))	return Plugin_Continue;
+		SaviorRocketStatus[client]=false;
+
+		float rocketVelocity[3]; float clientPos[3];
+		GetClientEyePosition(client, clientPos);
+
+		rocketVelocity[0]=angles[0]*2.0;
+		rocketVelocity[1]=angles[1]*2.0;
+		rocketVelocity[2]=angles[2]*2.0;
+
+		TeleportEntity(ent, clientPos, angles, rocketVelocity);
+
+		CreateTimer(3.0, RocketCooldown, client);
+	}
+}
+
+public Action RocketCooldown(Handle timer, int client)
+{
+	SaviorRocketStatus[client]=true;
 	return Plugin_Continue;
 }
 
@@ -98,7 +127,8 @@ void EnableSavior(int client)
 		- 모델은..?
 	*/
 	SetEntityMoveType(client, MOVETYPE_NOCLIP);
-	RestoreShield(client);
+	SetEntProp(client, Prop_Send, "m_CollisionGroup", 5); // 노클립 상태에서 공격을 무시하는 버그 방지.
+	RestoreShield(client, _, false);
 	SDKHook(client, SDKHook_PreThinkPost, Savior_Tick);
 	SDKHook(client, SDKHook_OnTakeDamage, Savior_TakeDamage);
 	CPrintToChat(client, "Savior 모드가 활성화되었습니다.");
@@ -113,13 +143,15 @@ void DisableSavior(int client)
 	CPrintToChat(client, "Savior 모드가 비활성화되었습니다.");
 }
 
-void RestoreShield(int client, float giveshield=0.0)
+void RestoreShield(int client, float giveshield=0.0, bool notice=true)
 {
 	if(!IsSavior[client]) return;
 
 	ShieldStatus[client]=true;
 	if(giveshield) g_flSaviorShield[client]=giveshield;
 	else g_flSaviorShield[client]=100.0;
+
+	if(notice)	PrintCenterText(client, "쉴드가 회복되었습니다!");
 }
 
 void BlockShield(int client)
@@ -130,6 +162,18 @@ void BlockShield(int client)
 	ShieldStatus[client]=false;
 	g_flSaviorShield[client]=0.0;
 	PrintCenterText(client, "쉴드가 깨졌습니다!");
+}
+
+stock int SpawnRocket(int client, bool allowcrit)
+{
+	int ent=CreateEntityByName("tf_projectile_rocket");
+	if(!IsValidEntity(ent)) return -1;
+
+	DispatchSpawn(ent);
+	SetEntPropEnt(ent, Prop_Send, "m_hOwner", client);
+	SetEntProp(ent, Prop_Send, "m_bCritical", allowcrit ? 1 : 0);
+	SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
+	return ent;
 }
 
 //Copied from Chdata's Fixed Friendly Fire
