@@ -86,12 +86,12 @@ public void Savior_Tick(int client)
 		return; //
 	}
 	else if(IsPlayerStuck(client)){
-		float velocity[3];
+		float velocity[3]={0.0, 0.0, 0.0};
 		GetEntPropVector(client, Prop_Data, "m_vecVelocity", velocity);
 
-		velocity[0]=(velocity[0]*-1.0)+(velocity[0] ? 10 : -10);
-		velocity[1]=(velocity[1]*-1.0)+(velocity[1] ? 10 : -10);
-		velocity[2]=(velocity[2]*-1.0)+(velocity[2] ? 10 : -10);
+		//velocity[0]=(velocity[0]*-1.0)+(velocity[0] ? 10 : -10);
+		//velocity[1]=(velocity[1]*-1.0)+(velocity[1] ? 10 : -10);
+		//velocity[2]=(velocity[2]*-1.0)+(velocity[2] ? 10 : -10);
 
 		TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 
