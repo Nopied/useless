@@ -1,11 +1,15 @@
 #include <sourcemod>
 #include <sdkhooks>
+#include <tf2>
 #include <tf2_stocks>
 #include <morecolors>
+#include <tf2attributes>
 
 bool IsSavior[MAXPLAYERS+1];
+bool SaviorBlocked[MAXPLAYERS+1];
 bool ShieldStatus[MAXPLAYERS+1];
 bool SaviorRocketStatus[MAXPLAYERS+1]=true;
+bool ButtonPress[MAXPLAYERS+1]=false;
 // true: if shield is not downed.
 // flase: if shield is downed. LOL.
 float g_flSaviorShield[MAXPLAYERS+1];
@@ -49,30 +53,6 @@ public Action CmdTurnToBeSavior(int client, int args)
 	return Plugin_Continue;
 }
 
-public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
-{
-	if(!IsSavior[client] || !IsValidClient(client) || !SaviorRocketStatus[client])	return Plugin_Continue;
-
-	if(buttons & IN_ATTACK2){
-		int ent=SpawnRocket(client, true);
-		if(!IsValidEntity(ent))	return Plugin_Continue;
-		SaviorRocketStatus[client]=false;
-
-		float rocketVelocity[3]; float clientPos[3]; float vcfl[3];
-		GetClientEyePosition(client, clientPos);
-
-		//GetAngleVectors(angles, rocketVelocity, vcfl, NULL_VECTOR);
-
-		// ScaleVector();
-		rocketVelocity[0]=angles[0]*2.0;	// Test this,
-		rocketVelocity[1]=angles[1]*2.0;
-		rocketVelocity[2]=angles[2]*2.0;
-
-		TeleportEntity(ent, clientPos, angles, rocketVelocity);
-		CreateTimer(3.0, RocketCooldown, client);
-	}
-}
-
 public Action RocketCooldown(Handle timer, int client)
 {
 	SaviorRocketStatus[client]=true;
@@ -85,23 +65,93 @@ public void Savior_Tick(int client)
 		DisableSavior(client);
 		return; //
 	}
-	else if(IsPlayerStuck(client)){
-		float velocity[3]={0.0, 0.0, 0.0};
+	int buttons = GetClientButtons(client);
+/*	if(IsPlayerStuck(client)){ // 쓸모없어..
+		float velocity[3];
 		GetEntPropVector(client, Prop_Data, "m_vecVelocity", velocity);
 
-		//velocity[0]=(velocity[0]*-1.0)+(velocity[0] ? 10 : -10);
-		//velocity[1]=(velocity[1]*-1.0)+(velocity[1] ? 10 : -10);
-		//velocity[2]=(velocity[2]*-1.0)+(velocity[2] ? 10 : -10);
+		velocity[0]=(velocity[0]*-1.0); //+(velocity[0] ? 10 : -10)
+		velocity[1]=(velocity[1]*-1.0);
+		velocity[2]=(velocity[2]*-1.0);
 
 		TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 
 		SDKHooks_TakeDamage(client, client, client, 3.0, DMG_BLAST, -1);
+	}
+*/
+
+	if(SaviorRocketStatus[client] && buttons & IN_ATTACK2){
+		// PrintToChatAll("우클릭 감지");
+		int ent=SpawnRocket(client, true);
+		if(!IsValidEntity(ent)){
+			return;
+		}
+		// 	PrintToChatAll("감지된 로켓: %d", ent);
+		SaviorRocketStatus[client]=false;
+
+		//float rocketVelocity[3];
+		float clientPos[3]; float angles[3]; float angVector[3]; float vecrt[3];
+		GetClientEyeAngles(client, angles);
+		GetClientEyePosition(client, clientPos);
+
+		GetAngleVectors(angles, angVector, vecrt, NULL_VECTOR);
+		NormalizeVector(angVector, angVector);
+
+		//GetAngleVectors(angles, rocketVelocity, vcfl, NULL_VECTOR);
+
+		// ScaleVector();
+		angVector[0]*=1500.0;	// Test this,
+		angVector[1]*=1500.0;
+		angVector[2]*=1500.0;
+
+		TeleportEntity(ent, clientPos, angles, angVector);
+		TF2Attrib_SetByDefIndex(ent, 488, 1.0);
+		CreateTimer(0.25, RocketCooldown, client);
+	}
+
+	if(SaviorBlocked[client])
+	{
+		float velocity[3];
+		GetEntPropVector(client, Prop_Data, "m_vecVelocity", velocity);
+
+		velocity[2]=10.0;// velocity[2]*-1.0;
+
+		TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
+	}
+
+	if(!ButtonPress[client] && SaviorBlocked[client] && buttons & IN_RELOAD)
+	{
+		ButtonPress[client]=true;
+		SaviorBlocked[client]=false;
+		PrintCenterText(client, "고도의 고정이 헤체되었습니다.");
+		CreateTimer(0.5, ButtonTimer, client);
+	}
+	else if(!ButtonPress[client] && !SaviorBlocked[client] && buttons & IN_RELOAD)
+	{
+		ButtonPress[client]=true;
+		SaviorBlocked[client]=true;
+		PrintCenterText(client, "고도가 고정되었습니다.");
+		CreateTimer(0.5, ButtonTimer, client);
+	}
+	else if(buttons & IN_JUMP)
+	{
+		float velocity[3];
+		GetEntPropVector(client, Prop_Data, "m_vecVelocity", velocity);
+
+		velocity[2]+=30.0;
+
+		TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 	}
 
 	if(g_flSaviorShield[client] <= 100.0) g_flSaviorShield[client]+=0.01; //TODO: 커스터마이즈.
 	if(!ShieldStatus[client] && g_flSaviorShield[client]>=50.0){
 		RestoreShield(client);
 	}
+}
+
+public Action ButtonTimer(Handle timer, int client)
+{
+	ButtonPress[client]=false;
 }
 
 public Action Savior_TakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
@@ -120,6 +170,7 @@ void EnableSavior(int client)
 {
 	if(!IsPlayerAlive(client) || IsSavior[client]) return;
 	IsSavior[client]=true;
+	SaviorRocketStatus[client]=true;
 	/* TODO:
 		- 플레이어 스크린 오버레이 변경
 		- 무기 부여
@@ -128,8 +179,8 @@ void EnableSavior(int client)
 		- 사운드 추가
 		- 모델은..?
 	*/
-	SetEntityMoveType(client, MOVETYPE_NOCLIP);
-	SetEntProp(client, Prop_Send, "m_CollisionGroup", 5); // 노클립 상태에서 공격을 무시하는 버그 방지.
+	// SetEntityMoveType(client, MOVETYPE_NOCLIP);
+	// SetEntProp(client, Prop_Send, "m_CollisionGroup", 5); // 노클립 상태에서 공격을 무시하는 버그 방지.
 	RestoreShield(client, _, false);
 	SDKHook(client, SDKHook_PreThinkPost, Savior_Tick);
 	SDKHook(client, SDKHook_OnTakeDamage, Savior_TakeDamage);
@@ -140,7 +191,7 @@ void EnableSavior(int client)
 void DisableSavior(int client)
 {
 	IsSavior[client]=false;
-	SetEntityMoveType(client, MOVETYPE_WALK);
+	// SetEntityMoveType(client, MOVETYPE_WALK);
 	SDKUnhook(client, SDKHook_PreThinkPost, Savior_Tick);
 	SDKUnhook(client, SDKHook_OnTakeDamage, Savior_TakeDamage);
 	SetOverlay(client, "");
@@ -161,7 +212,7 @@ void RestoreShield(int client, float giveshield=0.0, bool notice=true)
 void BlockShield(int client)
 {
 	//TODO: 사운드 추가
-	if(!IsSavior[client]) return;
+	if(!IsSavior[client] || !ShieldStatus[client]) return;
 
 	ShieldStatus[client]=false;
 	g_flSaviorShield[client]=0.0;
@@ -178,23 +229,35 @@ void SetOverlay(client, const char[] overlay)
 stock int SpawnRocket(int client, bool allowcrit)
 {
 	int ent=CreateEntityByName("tf_projectile_rocket");
-	if(!IsValidEntity(ent)) return -1;
+	if(!IsValidEntity(ent)){
+		 return -1;
+		}
+	int clientTeam=_:TF2_GetClientTeam(client);
+	new damageOffset = FindSendPropOffs("CTFProjectile_Rocket", "m_iDeflected") + 4;
 
-	DispatchSpawn(ent);
 	SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
 	SetEntProp(ent, Prop_Send, "m_bCritical", allowcrit ? 1 : 0);
-	SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
+	SetEntProp(ent, Prop_Send, "m_iTeamNum", clientTeam);
 	SetEntProp(ent, Prop_Send, "m_CollisionGroup", 4);
 	SetEntProp(ent, Prop_Data, "m_takedamage", 0);
+	// SetEntPropEnt(ent, Prop_Send, "m_nForceBone", -1);
 	SetEntPropVector(ent, Prop_Send, "m_vecMins", Float:{0.0,0.0,0.0});
 	SetEntPropVector(ent, Prop_Send, "m_vecMaxs", Float:{0.0,0.0,0.0});
+	SetEntDataFloat(ent, damageOffset, 90.0); // set damage
+	SetVariantInt(clientTeam);
+	AcceptEntityInput(ent, "TeamNum", -1, -1, 0);
+	SetVariantInt(clientTeam);
+	AcceptEntityInput(ent, "SetTeam", -1, -1, 0);
+	DispatchSpawn(ent);
+	SetEntPropEnt(ent, Prop_Send, "m_hOriginalLauncher", GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"));
+	SetEntPropEnt(ent, Prop_Send, "m_hLauncher", GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"));
 	return ent;
 }
 
 //Copied from Chdata's Fixed Friendly Fire
 stock bool IsPlayerStuck(ent)
 {
-    float vecMin[3];
+  float vecMin[3];
 	float vecMax[3];
 	float vecOrigin[3];
 

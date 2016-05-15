@@ -129,8 +129,9 @@ public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 				queuepoints=GetClientQueueCookie(client);
 				if(queuepoints >= 0)
 				{
-					LogMessage("이 클라이언트는 %d의 대기포인트를 저장해놓은 상태.", queuepoints);
+					// LogMessage("이 클라이언트는 %d의 대기포인트를 저장해놓은 상태.", queuepoints);
 					add_points[client]=0;
+					FF2_SetQueuePoints(client, -1);
 				}
 			}
 		}
@@ -230,7 +231,7 @@ public Action Command_SetMyBoss(int client, int args)
 	{
 		GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
 		queuepoints=StringToInt(CookieV);
-		Format(s, sizeof(s), queuepoints>=0 ? "%s" : "%t", queuepoints>=0 ? Incoming[client] : "ff2boss_none_1");
+		Format(s, sizeof(s), queuepoints>=0 ? "%t" : "%s", queuepoints>=0 ? "ff2boss_none_1":Incoming[client]);
 		SetMenuTitle(dMenu, "%t", "ff2boss_title", s);
 	}
 
