@@ -9,11 +9,6 @@
 
 Handle TimerHUD;
 
-bool g_bEnable=false; //FF2나 기타 플러그인을 확인하는 용도
-
-int g_iTimeleft;
-int g_iTimeleftMax;
-
 public Plugin:myinfo=
 {
     name="Freak Fortress 2 : Deathmatch Mod",
