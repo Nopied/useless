@@ -26,14 +26,6 @@ public void OnPluginStart()
 	RegConsoleCmd("savior", CmdTurnToBeSavior);
 
 	HookEvent("arena_round_start", OnRoundStart, EventHookMode_Post);
-	HookEvent("projectile_direct_hit", OnDirectHit);
-}
-
-public Action OnDirectHit(Handle event, const char[] name, bool dont)
-{
-	// CPrintToChatAll("");
-	// int client=GetEventInt(event, "victim");
-	BlockShield(GetEventInt(event, "victim"));
 }
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
@@ -65,6 +57,34 @@ public void Savior_Tick(int client)
 		DisableSavior(client);
 		return; //
 	}
+
+	if(ShieldStatus[client])
+	{
+		// TF2_AddCondition(client, TFCond_DisguisedAsDispenser, TFCondDuration_Infinite, 0);
+
+		int ent=-1;
+		while((ent=FindEntityByClassname(ent, "tf_projectile_*")) != -1)
+		{
+			if(IsValidEntity(ent))
+			{
+				float velocity[3]; float clientPos[3]; float proOri[3];
+				GetClientEyePosition(client, clientPos);
+				GetEntPropVector(ent, Prop_Data, "m_vecOrigin", proOri);
+				GetEntPropVector(ent, Prop_Data, "m_vecVelocity", velocity);
+				if(GetVectorDistance(clientPos, proOri) <= 300.0)
+				{
+					velocity[0]=GetRandomFloat(-velocity[0], velocity[0]);
+					velocity[1]=GetRandomFloat(-velocity[1], velocity[1]);
+					velocity[2]=GetRandomFloat(-velocity[2], velocity[2]);
+
+					float angles[3];
+					GetVectorAngles(velocity, angles);
+					TeleportEntity(ent, NULL_VECTOR, angles, velocity);
+				}
+			}
+		}
+	}
+
 	int buttons = GetClientButtons(client);
 /*	if(IsPlayerStuck(client)){ // 쓸모없어..
 		float velocity[3];
@@ -154,16 +174,17 @@ public Action ButtonTimer(Handle timer, int client)
 	ButtonPress[client]=false;
 }
 
-public Action Savior_TakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
+public void Savior_TakeDamage(int victim, int attacker, int inflictor, float damage, int damagetype)
 {
 	if(ShieldStatus[victim]){
 		g_flSaviorShield[victim]-=damage/1000.0; // TODO: 커스터마이즈.
+		PrintToServer("남은 쉴드 %.1f", g_flSaviorShield[victim]);
 		if(!g_flSaviorShield[victim]){
 			BlockShield(victim);
 		}
-		return Plugin_Handled;
+		return;
 	}
-	return Plugin_Continue;
+	return;
 }
 
 void EnableSavior(int client)
@@ -179,11 +200,9 @@ void EnableSavior(int client)
 		- 사운드 추가
 		- 모델은..?
 	*/
-	// SetEntityMoveType(client, MOVETYPE_NOCLIP);
-	// SetEntProp(client, Prop_Send, "m_CollisionGroup", 5); // 노클립 상태에서 공격을 무시하는 버그 방지.
 	RestoreShield(client, _, false);
 	SDKHook(client, SDKHook_PreThinkPost, Savior_Tick);
-	SDKHook(client, SDKHook_OnTakeDamage, Savior_TakeDamage);
+	SDKHook(client, SDKHook_OnTakeDamagePost, Savior_TakeDamage);
 	SetOverlay(client, "Effects/combine_binocoverlay");
 	CPrintToChat(client, "Savior 모드가 활성화되었습니다.");
 }
@@ -193,7 +212,7 @@ void DisableSavior(int client)
 	IsSavior[client]=false;
 	// SetEntityMoveType(client, MOVETYPE_WALK);
 	SDKUnhook(client, SDKHook_PreThinkPost, Savior_Tick);
-	SDKUnhook(client, SDKHook_OnTakeDamage, Savior_TakeDamage);
+	SDKUnhook(client, SDKHook_OnTakeDamagePost, Savior_TakeDamage);
 	SetOverlay(client, "");
 	CPrintToChat(client, "Savior 모드가 비활성화되었습니다.");
 }
@@ -214,6 +233,7 @@ void BlockShield(int client)
 	//TODO: 사운드 추가
 	if(!IsSavior[client] || !ShieldStatus[client]) return;
 
+	TF2_RemoveCondition(client, TFCond_DisguisedAsDispenser);
 	ShieldStatus[client]=false;
 	g_flSaviorShield[client]=0.0;
 	PrintCenterText(client, "쉴드가 깨졌습니다!");
@@ -243,7 +263,7 @@ stock int SpawnRocket(int client, bool allowcrit)
 	// SetEntPropEnt(ent, Prop_Send, "m_nForceBone", -1);
 	SetEntPropVector(ent, Prop_Send, "m_vecMins", Float:{0.0,0.0,0.0});
 	SetEntPropVector(ent, Prop_Send, "m_vecMaxs", Float:{0.0,0.0,0.0});
-	SetEntDataFloat(ent, damageOffset, 90.0); // set damage
+	SetEntDataFloat(ent, damageOffset, 5.0); // set damage
 	SetVariantInt(clientTeam);
 	AcceptEntityInput(ent, "TeamNum", -1, -1, 0);
 	SetVariantInt(clientTeam);
