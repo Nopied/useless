@@ -3,10 +3,12 @@
 #include <sourcemod>
 #include <sdktools>
 #include <tf2items>
+#include <tf2>
 #include <tf2_stocks>
 #include <tf2attributes>
 #include <sdkhooks>
 #include <morecolors>
+#include <freak_fortress_2>
 
 new Handle:cvarHealthOnHit = INVALID_HANDLE;
 new Handle:cvarUpgradeOnHit = INVALID_HANDLE;
@@ -29,7 +31,7 @@ public OnPluginStart()
 	cvarHealthOnHit = CreateConVar("pyrogineer_healthonhit", "50", "How much health a building recieves per hit", FCVAR_NONE, true, 0.0);
 	cvarUpgradeOnHit = CreateConVar("pyrogineer_upgradeonhit", "25", "How much upgrade a building recieves per hit", FCVAR_NONE, true, 0.0, true, 199.0);
 	cvarMetalMult = CreateConVar("pyrogineer_metalmult", "2.0", "Multiplier for Pyrogineer metal pool, default is 100, thus a value of 2.0 yields a 200 metal pool", FCVAR_NONE, true, 0.0);
-	
+
 	HookConVarChange(cvarHealthOnHit, CvarChange);
 	HookConVarChange(cvarUpgradeOnHit, CvarChange);
 	HookConVarChange(cvarMetalMult, CvarChange);
@@ -75,7 +77,7 @@ public Action Hook_EntitySound(int clients[64],
 		new Float:eyepos[3];
 		GetClientEyeAngles(client, angles);
 		GetClientEyePosition(client, eyepos);
-				
+
 		TR_TraceRayFilter(eyepos, angles, MASK_SOLID_BRUSHONLY, RayType_Infinite, TraceRayDontHitSelf, client);
 		new ent = TR_GetEntityIndex();
 
@@ -107,21 +109,21 @@ public Action Hook_EntitySound(int clients[64],
 
 public Action:Timer_MetalHud(Handle:timer, client)
 {
-	if (IsValidClient(client) && IsPlayerAlive(client))
+	if (IsValidClient(client) && IsPlayerAlive(client) && TF2_GetPlayerClass(client) == TFClass_Pyro && FF2_GetBossTeam() != view_as<int>(TF2_GetClientTeam(client)))
 	{
 		new Handle:metalHudText = CreateHudSynchronizer();
 		new metal = GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
 		SetHudTextParams(0.6, 0.9, 1.0, 0, 0, 255, 255);
-		ShowSyncHudText(client, metalHudText, "Metal: %i", metal);
+		ShowSyncHudText(client, metalHudText, "금속: %i", metal);
 		CloseHandle(metalHudText);
 		CreateTimer(0.25, Timer_MetalHud, client);
-		
+
 		return Plugin_Handled;
 	}
 	return Plugin_Handled;
 }
 
-public Action:BuildingHit(ent, client) 
+public Action:BuildingHit(ent, client)
 {
 	new PlayerWeapon = GetPlayerWeaponSlot(client, TFWeaponSlot_Melee);
 	new index = GetEntProp(PlayerWeapon, Prop_Send, "m_iItemDefinitionIndex");
@@ -136,25 +138,25 @@ public Action:BuildingHit(ent, client)
 				new health = GetEntProp(ent, Prop_Send, "m_iHealth");
 				new maxhealth = GetEntProp(ent, Prop_Send, "m_iMaxHealth");
 				new newhealth;
-				
+
 				if (health < maxhealth) //Heal building
 				{
 					newhealth = health+HealthOnHit;
-					
+
 					if (newhealth > maxhealth)
 						newhealth = maxhealth;
-					
+
 					SetEntProp(ent, Prop_Data, "m_iHealth", newhealth);
 					SetEntProp(ent, Prop_Send, "m_iHealth", newhealth);
-					
+
 					return Plugin_Continue;
 				}
 				new buildlevel = GetEntProp(ent, Prop_Send, "m_iUpgradeLevel");
 				new buildmetal = GetEntProp(ent, Prop_Send, "m_iUpgradeMetal");
 				new metal = GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
-				
+
 				//CPrintToChat(client, "UpgLevel: %i | UpgMetal: %i | My Metal: %i | Constructed: %f", buildlevel, buildmetal, metal, Pconstructed);
-				
+
 				if (buildlevel < 3) //Don't build up max level building
 				{
 					if (metal >= UpgradeOnHit) //Enough metal for a full hit
@@ -163,14 +165,14 @@ public Action:BuildingHit(ent, client)
 						{
 							SetEntProp(ent, Prop_Send, "m_iUpgradeMetal", buildmetal+UpgradeOnHit);
 							SetEntProp(client, Prop_Send, "m_iAmmo", metal-UpgradeOnHit, _, 3);
-								
+
 							return Plugin_Continue;
 						}
 						else if (buildmetal+UpgradeOnHit >= 199) // if it will take the building to max upgrade level (199)
 						{
 							SetEntProp(client, Prop_Send, "m_iAmmo", metal-(199-buildmetal), _, 3);
 							SetEntProp(ent, Prop_Send, "m_iUpgradeMetal", 199);
-								
+
 							return Plugin_Continue;
 						}
 					}
@@ -180,14 +182,14 @@ public Action:BuildingHit(ent, client)
 						{
 							SetEntProp(ent, Prop_Send, "m_iUpgradeMetal", buildmetal+metal);
 							SetEntProp(client, Prop_Send, "m_iAmmo", 0, _, 3);
-							
+
 							return Plugin_Continue;
 						}
 						else //If it will make the building hit max upg level
 						{
 							SetEntProp(client, Prop_Send, "m_iAmmo", metal-(199-buildmetal), _, 3);
 							SetEntProp(ent, Prop_Send, "m_iUpgradeMetal", 199);
-								
+
 							return Plugin_Continue;
 						}
 					}
@@ -285,17 +287,17 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 	switch (iItemDefinitionIndex)
 	{
 		case 153, 466, 813, 834:
-		{	
+		{
 			new String:MetalGiven[16] = "80 ; x.x";
 			SetEntProp(client, Prop_Send, "m_iAmmo", 200, _, 3);
 			CreateTimer(0.1, Timer_MetalHud, client, TIMER_FLAG_NO_MAPCHANGE);
 			ReplaceString(MetalGiven, sizeof(MetalGiven), "x.x", MetalMult, false);
-				
+
 			new Handle:hItemOverride = PrepareItemHandle(hItem, _, _, MetalGiven); // 2x metal pool, default is 100
 			if (hItemOverride != INVALID_HANDLE)
 			{
 				hItem = hItemOverride;
-				
+
 				return Plugin_Changed;
 			}
 		}
