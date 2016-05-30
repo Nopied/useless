@@ -9,6 +9,7 @@
 
 // 아나운서의 음성은 FF2에서 이미 다운로드 테이블에 올리고, 캐시해둠.
 
+bool enabled=false;
 bool IsLastManStanding=false;
 
 public Plugin:myinfo=
@@ -23,6 +24,8 @@ public void OnPluginStart()
 {
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
     HookEvent("arena_round_start", OnRoundStart);
+    HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
+    //HookEvent("teamplay_win_panel", OnRoundEnd, EventHookMode_Pre);
     //
 }
 
@@ -30,11 +33,23 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     IsLastManStanding=false;
 }
+
+public Action OnRoundEnd(Handle event, const char[] name, bool dont)
+{
+  if(IsLastManStanding && enabled)
+  {
+    enabled=false;
+    return Plugin_Handled;
+  }
+  return Plugin_Continue;
+}
+
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
     if(!IsLastManStanding && CheckAlivePlayers() <= 1) // 라스트 맨 스탠딩
     {
         IsLastManStanding=true;
+        enabled=true;
         int bosses[MAXPLAYERS+1];
         int top[3];
         int totalDamage;
@@ -42,30 +57,30 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         for(int client=1; client<=MaxClients; client++)
         {
-            if(!IsValidClient(client)) // for bossCount.
-    			continue;
-            else if(IsBoss(client)){
-                bosses[bossCount++]=client;
-                continue;
-            }
-            else if(FF2_GetClientDamage(client)<=0 || IsBossTeam(client))
-                continue;
+          if(!IsValidClient(client)) // for bossCount.
+      			continue;
+          else if(IsBoss(client)){
+            bosses[bossCount++]=client;
+            continue;
+          }
+          else if(FF2_GetClientDamage(client)<=0 || IsBossTeam(client))
+            continue;
 
-    		if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
-    		{
-    			top[2]=top[1];
-    			top[1]=top[0];
-    			top[0]=client;
-    		}
-    		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[1]))
-    		{
-    			top[2]=top[1];
-    			top[1]=client;
-    		}
-    		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[2]))
-    		{
-    			top[2]=client;
-    		}
+      		if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
+      		{
+      			top[2]=top[1];
+      			top[1]=top[0];
+      			top[0]=client;
+      		}
+      		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[1]))
+      		{
+      			top[2]=top[1];
+      			top[1]=client;
+      		}
+      		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[2]))
+      		{
+      			top[2]=client;
+      		}
         }
 
         for(int i; i<3; i++)
@@ -95,7 +110,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         top[2], float(FF2_GetClientDamage(top[2])%totalDamage),
         winner);
 
-        for(int i; i<=bossCount; i++)
+        for(int i; i<bossCount; i++)
         {
             int boss=FF2_GetBossIndex(bosses[i]);
             int newhealth=10000/bossCount;
@@ -105,10 +120,18 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         TF2_RespawnPlayer(winner);
-        FF2_SetFF2flags(client, FF2_GetFF2flags(client)|FF2FLAG_CLASSTIMERDISABLED);
+        // CreateTimer(0.02, BeLastMan, winner);
+        // FF2_SetFF2flags(winner, FF2_GetFF2flags(winner)|FF2FLAG_CLASSTIMERDISABLED);
+        return Plugin_Handled;
     }
     return Plugin_Continue;
 }
+/*
+public Action BeLastMan(Handle timer, int client)
+{
+  TF2_RespawnPlayer(client);
+}
+*/
 
 stock int SpawnWeapon(int client, char[] name, int index, int level, int quality, char[] attribute)
 {
@@ -166,7 +189,7 @@ stock int CheckAlivePlayers() // Without bosses. LOL
 
     for(int i=1; i<=MaxClients; i++)
     {
-        if(IsValidClient(i) && IsPlayerAlive(i) && FF2_GetBossTeam() != GetClientTeam(client))
+        if(IsValidClient(i) && IsPlayerAlive(i) && FF2_GetBossTeam() != GetClientTeam(i))
             alive++;
     }
 
