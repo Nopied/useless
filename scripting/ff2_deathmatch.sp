@@ -50,6 +50,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     {
         IsLastManStanding=true;
         enabled=true;
+        bool change=false;
         int bosses[MAXPLAYERS+1];
         int top[3];
         int totalDamage;
@@ -83,14 +84,15 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       		}
         }
 
+        char temp[3][35];
+
         for(int i; i<3; i++)
         {
-            totalDamage+=FF2_GetClientDamage(top[i]);
+            int tempDamage=FF2_GetClientDamage(top[i]);
+            bool valid=IsValidClient(top[i]) && tempDamage>=1000;
 
-/*            top[0]=FF2_GetClientDamage(top[0]);
-            top[1]=top[0]+FF2_GetClientDamage(top[1]);
-            top[2]=top[0]+top[1]+FF2_GetClientDamage(top[2]);
-*/
+            totalDamage+=valid? tempDamage : 0;
+            //if(valid) Format(temp[0], sizeof(temp[]), "%N - %.1f", );
         }
 
         int random=GetRandomInt(0, totalDamage);
@@ -105,9 +107,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         CPrintToChatAll("{olive}[FF2]{default} 확률: %N - %.1f | %N - %.1f | %N - %.1f\n %N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
-        top[0], float(FF2_GetClientDamage(top[0])%totalDamage),
-        top[1], float(FF2_GetClientDamage(top[1])%totalDamage),
-        top[2], float(FF2_GetClientDamage(top[2])%totalDamage),
+        top[0], float(FF2_GetClientDamage(top[0])%totalDamage)*100.0,
+        top[1], float(FF2_GetClientDamage(top[1])%totalDamage)*100.0,
+        top[2], float(FF2_GetClientDamage(top[2])%totalDamage)*100.0,
         winner);
 
         for(int i; i<bossCount; i++)
@@ -122,7 +124,14 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         TF2_RespawnPlayer(winner);
         // CreateTimer(0.02, BeLastMan, winner);
         // FF2_SetFF2flags(winner, FF2_GetFF2flags(winner)|FF2FLAG_CLASSTIMERDISABLED);
-        return Plugin_Handled;
+        if(GetEventInt(event, "userid") == GetClientUserId(winner))
+        {
+          change=true;
+          SetEventInt(event, "death_flags", GetEventInt(event, "death_flags")|TF_DEATHFLAG_DEADRINGER);
+        }
+        TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
+        TF2_AddCondition(winner, TFCond_Cloaked, 10.0);
+        return change ? Plugin_Changed : Plugin_Continue;
     }
     return Plugin_Continue;
 }
