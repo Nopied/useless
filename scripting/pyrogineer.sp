@@ -109,25 +109,25 @@ public Action Hook_EntitySound(int clients[64],
 
 public Action:Timer_MetalHud(Handle:timer, client)
 {
-	if (IsValidClient(client) && IsPlayerAlive(client) && TF2_GetPlayerClass(client) == TFClass_Pyro && FF2_GetBossTeam() != view_as<int>(TF2_GetClientTeam(client)))
-	{
-		new Handle:metalHudText = CreateHudSynchronizer();
-		new metal = GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
-		SetHudTextParams(0.6, 0.9, 1.0, 0, 0, 255, 255);
-		ShowSyncHudText(client, metalHudText, "금속: %i", metal);
-		CloseHandle(metalHudText);
-		CreateTimer(0.25, Timer_MetalHud, client);
-
-		return Plugin_Handled;
-	}
-	return Plugin_Handled;
+    if (IsValidClient(client) && IsPlayerAlive(client) && TF2_GetPlayerClass(client) == TFClass_Pyro && FF2_GetBossTeam() != view_as<int>(TF2_GetClientTeam(client)))
+    {
+        if(IsValidTarget(client))
+        {
+    		new Handle:metalHudText = CreateHudSynchronizer();
+    		new metal = GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
+    		SetHudTextParams(0.6, 0.9, 1.0, 0, 0, 255, 255);
+    		ShowSyncHudText(client, metalHudText, "금속: %i", metal);
+    		CloseHandle(metalHudText);
+        }
+        CreateTimer(0.25, Timer_MetalHud, client);
+        return Plugin_Handled;
+    }
+    return Plugin_Handled;
 }
 
 public Action:BuildingHit(ent, client)
 {
-	new PlayerWeapon = GetPlayerWeaponSlot(client, TFWeaponSlot_Melee);
-	new index = GetEntProp(PlayerWeapon, Prop_Send, "m_iItemDefinitionIndex");
-	if (index == 153 || index == 466 || index == 813 || index == 834) //If using Homewrecker, Maul, or Neon Annihilator
+	if (IsValidTarget(client)) //If using Homewrecker, Maul, or Neon Annihilator
 	{
 		decl String:classname[32];
 		GetEdictClassname(ent, classname, sizeof(classname));
@@ -211,6 +211,14 @@ stock IsValidClient(client, bool:replaycheck = true)
 			return false;
 	}
 	return true;
+}
+
+stock bool:IsValidTarget(client)
+{
+    new PlayerWeapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+    new index = GetEntProp(PlayerWeapon, Prop_Send, "m_iItemDefinitionIndex");
+
+    return index == 153 || index == 466 || index == 813 || index == 834;
 }
 
 stock Handle:PrepareItemHandle(Handle:hItem, String:name[] = "", index = -1, const String:att[] = "", bool:dontpreserve = false)

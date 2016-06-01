@@ -46,6 +46,9 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
+    if(IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+        return Plugin_Continue;
+
     if(!IsLastManStanding && CheckAlivePlayers() <= 1) // 라스트 맨 스탠딩
     {
         IsLastManStanding=true;
@@ -53,8 +56,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         bool change=false;
         int bosses[MAXPLAYERS+1];
         int top[3];
+        int topDamage[3];
         int totalDamage;
         int bossCount;
+        bool valid[3];
 
         for(int client=1; client<=MaxClients; client++)
         {
@@ -88,10 +93,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         for(int i; i<3; i++)
         {
-            int tempDamage=FF2_GetClientDamage(top[i]);
-            bool valid=IsValidClient(top[i]) && tempDamage>=1000;
+            topDamage[i]=FF2_GetClientDamage(top[i]);
+            valid[i]=IsValidClient(top[i]) && topDamage[i]>=1000;
 
-            totalDamage+=valid? tempDamage : 0;
+            totalDamage+=valid[i] ? topDamage[i] : 0;
             //if(valid) Format(temp[0], sizeof(temp[]), "%N - %.1f", );
         }
 
@@ -100,6 +105,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         for(int i; i<3; i++) // OH this stupid code..
         {
+            int tempDamage;
+            for (int x=i; x>=0; x--)
+            {
+                
+            }
             if(random > FF2_GetClientDamage(top[i]))
                 continue;
             winner=top[i];
@@ -117,8 +127,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             int boss=FF2_GetBossIndex(bosses[i]);
             int newhealth=10000/bossCount;
 
-            if(FF2_GetBossHealth(boss) < newhealth)
+            if(FF2_GetBossHealth(boss) < newhealth){
+                FF2_SetBossMaxHealth(boss, newhealth);
                 FF2_SetBossHealth(boss, newhealth);
+            }
         }
 
         TF2_RespawnPlayer(winner);
@@ -130,7 +142,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
           SetEventInt(event, "death_flags", GetEventInt(event, "death_flags")|TF_DEATHFLAG_DEADRINGER);
         }
         TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
-        TF2_AddCondition(winner, TFCond_Cloaked, 10.0);
+        TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
         return change ? Plugin_Changed : Plugin_Continue;
     }
     return Plugin_Continue;
