@@ -50,12 +50,12 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
     if(IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
-
+    // FIXME: 가끔
+    // FIXME:당첨자가 마지막까지 살아있던 사람이었을 경우, 리스폰해도 그냥 사망처리됨.
     if(!IsLastManStanding && CheckAlivePlayers() <= 1) // 라스트 맨 스탠딩
     {
         IsLastManStanding=true;
         enabled=true;
-        bool change=false;
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
         int totalDamage;
@@ -70,7 +70,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             bosses[bossCount++]=client;
             continue;
           }
-          else if(FF2_GetClientDamage(client)<=0 || IsBossTeam(client))
+          else if(IsBossTeam(client)) // FF2_GetClientDamage(client)<=0 ||
             continue;
 
       		if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
@@ -118,9 +118,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         CPrintToChatAll("{olive}[FF2]{default} 확률: %N - %.2f%% | %N - %.2f%% | %N - %.2f%%\n %N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
-        top[0], float(FF2_GetClientDamage(top[0])%totalDamage)/100.0,
-        top[1], float(FF2_GetClientDamage(top[1])%totalDamage)/100.0,
-        top[2], float(FF2_GetClientDamage(top[2])%totalDamage)/100.0,
+        top[0], float(FF2_GetClientDamage(top[0]))/float(totalDamage)*100.0,
+        top[1], float(FF2_GetClientDamage(top[1]))/float(totalDamage)*100.0,
+        top[2], float(FF2_GetClientDamage(top[2]))/float(totalDamage)*100.0,
         winner);
 
         for(int i; i<bossCount; i++)
@@ -132,29 +132,99 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
                 FF2_SetBossMaxHealth(boss, newhealth);
                 FF2_SetBossHealth(boss, newhealth);
             }
+            FF2_SetBossCharge(boss, 0, 0.0);
         }
 
-        TF2_RespawnPlayer(winner);
+
         // CreateTimer(0.02, BeLastMan, winner);
         // FF2_SetFF2flags(winner, FF2_GetFF2flags(winner)|FF2FLAG_CLASSTIMERDISABLED);
+
+        /* TODO: Not Working. just spawn another person while winner is spawning.
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
           change=true;
           SetEventInt(event, "death_flags", GetEventInt(event, "death_flags")|TF_DEATHFLAG_DEADRINGER);
         }
+        */
+
+        if(GetEventInt(event, "userid") == GetClientUserId(winner))
+        {
+            int forWinner=FindAnotherPerson(winner);
+            Handle data=CreateDataPack(); // In this? data = winner | forWinner | team |  IsAlive | abserverTarget(when he dead)
+            WritePackCell(data, winner);
+            WritePackCell(data, forWinner);
+            WritePackCell(data, GetClientTeam(forWinner));
+            TF2_ChangeClientTeam(forWinner, view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Red ? TFTeam_Blue : TFTeam_Red);
+            if(IsPlayerAlive(forWinner))
+            {
+                WritePackCell(data, 1);
+            }
+            else // Yeah. then it said. Not FakeClient and Not Alive.
+            {
+                TF2_RespawnPlayer(forWinner);
+                WritePackCell(data, 0);
+                WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
+            }
+            ResetPack(data);
+            CreateDataTimer(0.05, LastManCheck, data);
+            return Plugin_Continue;
+
+        }
+        TF2_RespawnPlayer(winner);
         TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
         TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
         GiveLastManWeapon(winner);
-        return change ? Plugin_Changed : Plugin_Continue;
+        return Plugin_Continue;
     }
     return Plugin_Continue;
 }
-/*
-public Action BeLastMan(Handle timer, int client)
+
+public Action LastManCheck(Handle timer, Handle data)
 {
-  TF2_RespawnPlayer(client);
+    int winner=ReadPackCell(data);
+    int client=ReadPackCell(data);
+    TFTeam team=view_as<TFTeam>(ReadPackCell(data));
+    bool alive=ReadPackCell(data);
+
+    TF2_RespawnPlayer(winner);
+    TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
+    TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
+    GiveLastManWeapon(winner);
+
+    if(alive)
+    {
+        TF2_ChangeClientTeam(client, team);
+    }
+    else
+    {
+        TF2_ChangeClientTeam(client, TFTeam_Spectator);
+        TF2_ChangeClientTeam(client, team);
+
+        SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", ReadPackCell(data));
+    }
+    return Plugin_Continue;
 }
-*/
+
+
+stock int FindAnotherPerson(int Gclient)
+{
+    int count;
+    int validTarget[MAXPLAYERS+1];
+
+    for(int client=1; client<=MaxClients; client++)
+    {
+        if(IsValidClient(client) && client != Gclient && !IsBoss(client))
+        {
+            validTarget[count++]=client;
+        }
+    }
+
+    if(!count)
+    {
+        return CreateFakeClient("sorry. I can't find target.");
+    }
+    return validTarget[GetRandomInt(0, count-1)];
+}
 
 stock void GiveLastManWeapon(int client)
 {

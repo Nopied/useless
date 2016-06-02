@@ -42,6 +42,8 @@ new Handle:cvarCheats;
 new Handle:cvarKAC;
 new BossTeam=_:TFTeam_Blue;
 
+new Float:demoCharge[MAXPLAYERS+1];
+
 public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 {
 	OnHaleRage=CreateGlobalForward("VSH_OnDoRage", ET_Hook, Param_FloatByRef);
@@ -112,11 +114,12 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 			return Plugin_Continue;
 		}
 
-		if(CloneOwnerIndex[client]!=-1 && IsClientInGame(client) && GetClientTeam(client)==BossTeam)
+		if(CloneOwnerIndex[client]!=-1 && IsClientInGame(client) && GetClientTeam(client)==BossTeam) //FIXME: IsClientInGame() shouldn't be needed
 		{
 			CloneOwnerIndex[client]=-1;
 			FF2_SetFF2flags(client, FF2_GetFF2flags(client) & ~FF2FLAG_CLASSTIMERDISABLED);
 		}
+		demoCharge[client]=0.0;
 	}
 	return Plugin_Continue;
 }
@@ -167,6 +170,8 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 
 	if(!strcmp(ability_name, "special_democharge"))
 	{
+		PrintCenterText(GetClientOfUserId(FF2_GetBossUserId(boss)), "재장전 버튼: 순간 돌진 (게속 눌러서 연계 가능!)");
+		/*
 		if(status>0)
 		{
 			new client=GetClientOfUserId(FF2_GetBossUserId(boss));
@@ -175,7 +180,6 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 			{
 				int ent=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 
-				TF2Attrib_SetByName(ent, "full charge turn control", 50.0);
 				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 500.0);
 				SetEntProp(client, Prop_Send, "m_bRageDraining", 1);
 				TF2_AddCondition(client, TFCond_Charging, 5.0, client); // TFCond_CritDemoCharge
@@ -183,7 +187,9 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 				FF2_SetBossCharge(boss, 0, charge-5.0);
 			}
 		}
+		*/
 	}
+
 	else if(!strcmp(ability_name, "rage_cloneattack"))
 	{
 		Rage_Clone(ability_name, boss);
@@ -208,6 +214,27 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 	else if(!strcmp(ability_name, "rage_matrix_attack"))
 	{
 		Rage_Slowmo(boss, ability_name);
+	}
+	return Plugin_Continue;
+}
+
+public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon)
+{
+	if(FF2_GetBossIndex(client) != -1 && buttons & IN_RELOAD && FF2_HasAbility(FF2_GetBossIndex(client), this_plugin_name, "special_democharge")
+	{ // TODO: Aww!! Look at that!
+		if(demoCharge[client] <= GetEngineTime())
+		{
+			new client=GetClientOfUserId(FF2_GetBossUserId(boss));
+			new Float:charge=FF2_GetBossCharge(boss, 0);
+			if(charge >= 0.8)
+			{
+				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 100.0);
+				SetEntProp(client, Prop_Send, "m_bRageDraining", 1);
+				TF2_AddCondition(client, TFCond_Charging, 0.25, client);
+				FF2_SetBossCharge(boss, 0, charge-0.8);
+			}
+			demoCharge[client]=GetEngineTime()+0.2;
+		}
 	}
 	return Plugin_Continue;
 }

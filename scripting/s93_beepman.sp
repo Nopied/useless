@@ -1,15 +1,15 @@
 /*
 	Beepman's Abilities:
-	
+
 	Coded by SHADoW NiNE TR3S.
-	
+
 	Some code snippets from sarysa & pelipoika
-	
+
 	rage_scramble:
 		arg0 - ability slot
 		arg1 - distance
 		arg2 - duration
-	
+
 	special_hijacksg
 		arg1 - Button mode (1 - Reload, 2 - Special)
 		arg2 - RAGE cost
@@ -65,7 +65,7 @@ public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 			scrambleKeys[clientIdx]=false;
 			IsOnCoolDown[clientIdx]=false;
 		}
-	
+
 		if(IsValidLivingPlayer(clientIdx))
 		{
 			int bossIdx=FF2_GetBossIndex(clientIdx); // Well this seems to be the solution to make it multi-boss friendly
@@ -92,11 +92,11 @@ public void FF2_OnAbility2(int boss,const char[] plugin_name,const char[] abilit
 		return;
 	int bossIdx=GetClientOfUserId(FF2_GetBossUserId(boss));
 	if(!strcmp(ability_name, SCRAMBLE)) // Keyboard scramble
-	{	
+	{
 		float pos[3], pos2[3], dist;
 		float dist2=FF2_GetAbilityArgumentFloat(boss, this_plugin_name,ability_name, 1, FF2_GetRageDist(boss, this_plugin_name, ability_name));
 		GetEntPropVector(bossIdx, Prop_Send, "m_vecOrigin", pos);
-		
+
 		enemies=0;
 		for(int targetIdx=1;targetIdx<=MaxClients;targetIdx++)
 		{
@@ -112,12 +112,6 @@ public void FF2_OnAbility2(int boss,const char[] plugin_name,const char[] abilit
 				}
 			}
 		}
-		if(enemies==1)
-		{
-			char bossName[128];
-			FF2_GetBossSpecial(boss, bossName, sizeof(bossName));
-			CPrintToChatAll("{olive}[FF2]{default} {blue}%s{default} used {red}solo rage!", bossName);
-		}
 	}
 }
 
@@ -128,38 +122,37 @@ public void OnGameFrame()
 
 public void TickTock(float currentTime)
 {
-	
+
 	for(int clientIdx=1;clientIdx<=MaxClients;clientIdx++)
 	{
 		if(!IsValidClient(clientIdx)|| FF2_GetRoundState()!=1 || !FF2_IsFF2Enabled())
 			continue;
-		
+
 		if(currentTime>=CooldownEndsIn[clientIdx])
 		{
 			if(IsBoss(clientIdx) && HasHijackAbility[clientIdx])
 			{
 				SetHudTextParams(-1.0, 1.0, 1.0, 0, 255, 0, 255);
-				ShowHudText(clientIdx, -1, "Sentry hijack has now cooled down!");	
+				ShowHudText(clientIdx, -1, "Sentry hijack has now cooled down!");
 				IsOnCoolDown[clientIdx]=false;
 				CooldownEndsIn[clientIdx]=INACTIVE;
 			}
 		}
-		
+
 		if(currentTime>=LoopHudNotificationAt[clientIdx])
 		{
 			if(IsBoss(clientIdx) && FF2_GetBossCharge(FF2_GetBossIndex(clientIdx),0)>=ragecost && !IsOnCoolDown[clientIdx] && HasHijackAbility[clientIdx])
 			{
 					SetHudTextParams(-1.0, 1.0, 1.0, 0, 255, 0, 255);
-					ShowHudText(clientIdx, -1, "Press RELOAD to hijack sentries within your range (costs %i RAGE)", RoundFloat(ragecost));	
-			}		
+					ShowHudText(clientIdx, -1, "재장전 키로 센트리를 납치할 수 있습니다! (분노 %i 소모)", RoundFloat(ragecost));
+			}
 			LoopHudNotificationAt[clientIdx]=GetEngineTime()+1.0;
 		}
-		
+
 		if(currentTime>=UnscrambleAt[clientIdx])
 		{
 			if(enemies==1)
 			{
-				CPrintToChatAll(IsPlayerAlive(clientIdx) ? "{olive}[FF2]{default} {red}It's not very effective{default}...." : "{olive}[FF2]{default} {blue}It's super effective{default}....");
 				enemies=0;
 			}
 			scrambleKeys[clientIdx]=false;
@@ -173,7 +166,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	/*
 	 * TO-DO: i really gotta start organizing this crap.
 	 */
-	 
+
 	// Sentry Hijack
 	int bossIdx=FF2_GetBossIndex(client);
 	if(bossIdx>=0 && FF2_HasAbility(bossIdx, this_plugin_name, HIJACK))
@@ -189,10 +182,10 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					case 2: buttons &= ~IN_ATTACK3;
 				}
 				SetHudTextParams(-1.0, 0.96, 3.0, 255, 0, 0, 255);
-				ShowHudText(client, -1, "Ability is on cooldown! You cannot hijack a sentry yet!");	
+				ShowHudText(client, -1, "능력 쿨타임으로 인해 사용할 수 없습니다!");
 				return Plugin_Changed;
 			}
-			
+
 			if(FF2_GetBossCharge(bossIdx, 0)<ragecost) // Not enough RAGE, prevent ability
 			{
 				switch(buttonmode)
@@ -201,12 +194,12 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					case 2: buttons &= ~IN_ATTACK3;
 				}
 				SetHudTextParams(-1.0, 0.96, 3.0, 255, 0, 0, 255);
-				ShowHudText(client, -1, "You need at least %i RAGE to hijack a sentry!", RoundFloat(ragecost));	
+				ShowHudText(client, -1, "분노 %i 이상이어야 센트리 납치를 할 수 있습니다!", RoundFloat(ragecost));
 				return Plugin_Changed;
 			}
-			
+
 			// Else, we start the sentry hijack process
-			
+
 			float bossPosition[3], buildingPosition[3];
 			GetEntPropVector(client, Prop_Send, "m_vecOrigin", bossPosition);
 			float duration=FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, HIJACK, 1, 4.0); // Grace period between disabling and fully hijacking sentry
@@ -220,11 +213,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					SetEntProp(building, Prop_Data, "m_takedamage", 0);
 					SetEntProp(building, Prop_Send, "m_bDisabled", 1);
 					CreateTimer(duration, Timer_Hijack, EntIndexToEntRef(building));
-					
+
 					sentry++;
 				}
 			}
-			
+
 			if(sentry) // Let's not drain RAGE if no sentries are within range.
 			{
 				FF2_SetBossCharge(bossIdx, 0, FF2_GetBossCharge(bossIdx,0)-ragecost);
@@ -238,13 +231,13 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				}
 				return Plugin_Changed;
 			}
-			
+
 			return Plugin_Continue;
 		}
 		return Plugin_Continue;
 	}
 
-	// Keyboard scramble 
+	// Keyboard scramble
 	if(IsValidLivingPlayer(client) && scrambleKeys[client]) // Only affect raged players...
 	{
 		switch(GetRandomInt(1,27)) // Fake lag
@@ -272,7 +265,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			case 21: GetRandomInt(1,2)==1 ? (buttons &= IN_WEAPON1) : (buttons &= ~IN_WEAPON1);
 			case 22: GetRandomInt(1,2)==1 ? (buttons &= IN_WEAPON2) : (buttons &= ~IN_WEAPON2);
 			case 23: GetRandomInt(1,2)==1 ? (buttons &= IN_BULLRUSH) : (buttons &= ~IN_BULLRUSH);
-			case 24: GetRandomInt(1,2)==1 ? (buttons &= IN_GRENADE1) : (buttons &= ~IN_GRENADE1);	
+			case 24: GetRandomInt(1,2)==1 ? (buttons &= IN_GRENADE1) : (buttons &= ~IN_GRENADE1);
 			case 25: GetRandomInt(1,2)==1 ? (buttons &= IN_GRENADE2) : (buttons &= ~IN_GRENADE2);
 			case 26: return Plugin_Handled;
 			case 27: return Plugin_Continue;
@@ -299,11 +292,11 @@ public Action Timer_Hijack(Handle timer, any buildingIdx) // Grace period ends h
 			SetEntProp(building, Prop_Data, "m_takedamage", 2);
 			SetEntProp(building, Prop_Send, "m_bDisabled", 0);
 			owner=currentBossIdx;
-			float location[3], angle[3]; 
+			float location[3], angle[3];
 			GetEntDataVector(building, FindSendPropOffs("CObjectSentrygun","m_vecOrigin"), location);
 			GetEntDataVector(building, FindSendPropOffs("CObjectSentrygun","m_angRotation"), angle);
 			TF2_BuildSentry(owner, location, angle, GetEntProp(building, Prop_Send, "m_iUpgradeLevel"), GetEntProp(building, Prop_Send, "m_bMiniBuilding") ? true : false, GetEntProp(building, Prop_Send, "m_bMiniBuilding") ? true : false);
-			AcceptEntityInput(building, "kill");		
+			AcceptEntityInput(building, "kill");
 		}
 	}
 	return Plugin_Continue;
@@ -316,16 +309,16 @@ stock void TF2_BuildSentry(int builder, float fOrigin[3], float fAngle[3], int l
 	float m_vecMaxsMini[3] = {15.0, 15.0, 49.5};
 	static const float m_vecMinsDisp[3] = {-13.0, -13.0, 0.0};
 	float m_vecMaxsDisp[3] = {13.0, 13.0, 42.9};
-	
+
 	int sentry = CreateEntityByName("obj_sentrygun");
-	
+
 	if(IsValidEntity(sentry))
 	{
 		AcceptEntityInput(sentry, "SetBuilder", builder);
 
 		DispatchKeyValueVector(sentry, "origin", fOrigin);
 		DispatchKeyValueVector(sentry, "angles", fAngle);
-		
+
 		if(mini)
 		{
 			SetEntProp(sentry, Prop_Send, "m_bMiniBuilding", 1);
@@ -335,10 +328,10 @@ stock void TF2_BuildSentry(int builder, float fOrigin[3], float fAngle[3], int l
 			SetEntProp(sentry, Prop_Send, "m_bBuilding", 1);
 			SetEntProp(sentry, Prop_Send, "m_nSkin", level == 1 ? GetClientTeam(builder) : GetClientTeam(builder) - 2);
 			DispatchSpawn(sentry);
-			
+
 			SetVariantInt(100);
 			AcceptEntityInput(sentry, "SetHealth");
-			
+
 			SetEntPropFloat(sentry, Prop_Send, "m_flModelScale", 0.75);
 			SetEntPropVector(sentry, Prop_Send, "m_vecMins", m_vecMinsMini);
 			SetEntPropVector(sentry, Prop_Send, "m_vecMaxs", m_vecMaxsMini);
@@ -353,10 +346,10 @@ stock void TF2_BuildSentry(int builder, float fOrigin[3], float fAngle[3], int l
 			SetEntProp(sentry, Prop_Send, "m_bBuilding", 1);
 			SetEntProp(sentry, Prop_Send, "m_nSkin", level == 1 ? GetClientTeam(builder) : GetClientTeam(builder) - 2);
 			DispatchSpawn(sentry);
-			
+
 			SetVariantInt(100);
 			AcceptEntityInput(sentry, "SetHealth");
-			
+
 			SetEntPropFloat(sentry, Prop_Send, "m_flModelScale", 0.60);
 			SetEntPropVector(sentry, Prop_Send, "m_vecMins", m_vecMinsDisp);
 			SetEntPropVector(sentry, Prop_Send, "m_vecMaxs", m_vecMaxsDisp);
@@ -417,7 +410,7 @@ stock bool IsValidClient(int client)
 {
 	if (client <= 0 || client > MaxClients)
 		return false;
-		
+
 	return IsClientInGame(client);
 }
 
@@ -425,6 +418,6 @@ stock bool IsValidLivingPlayer(int client)
 {
 	if (client <= 0 || client > MaxClients)
 		return false;
-		
+
 	return IsClientInGame(client) && IsPlayerAlive(client);
 }
