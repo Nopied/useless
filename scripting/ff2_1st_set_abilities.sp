@@ -218,27 +218,6 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 	return Plugin_Continue;
 }
 
-public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon)
-{
-	if(FF2_GetBossIndex(client) != -1 && buttons & IN_RELOAD && FF2_HasAbility(FF2_GetBossIndex(client), this_plugin_name, "special_democharge")
-	{ // TODO: Aww!! Look at that!
-		if(demoCharge[client] <= GetEngineTime())
-		{
-			new client=GetClientOfUserId(FF2_GetBossUserId(boss));
-			new Float:charge=FF2_GetBossCharge(boss, 0);
-			if(charge >= 0.8)
-			{
-				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 100.0);
-				SetEntProp(client, Prop_Send, "m_bRageDraining", 1);
-				TF2_AddCondition(client, TFCond_Charging, 0.25, client);
-				FF2_SetBossCharge(boss, 0, charge-0.8);
-			}
-			demoCharge[client]=GetEngineTime()+0.2;
-		}
-	}
-	return Plugin_Continue;
-}
-
 Rage_Clone(const String:ability_name[], boss)
 {
 	new Handle:bossKV[8];
@@ -671,12 +650,27 @@ public Action:Timer_StopSlowMo(Handle:timer, any:boss)
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:velocity[3], Float:angles[3], &weapon)
 {
 	new boss=FF2_GetBossIndex(client);
-	if(boss==-1 || !(FF2Flags[boss] & FLAG_ONSLOWMO))
+	if(boss==-1)
 	{
 		return Plugin_Continue;
 	}
+	if(buttons & IN_RELOAD && FF2_HasAbility(FF2_GetBossIndex(client), this_plugin_name, "special_democharge"))
+	{ // TODO: Aww!! Look at that!
+		if(demoCharge[client] <= GetEngineTime())
+		{
+			new Float:charge=FF2_GetBossCharge(boss, 0);
+			if(charge >= 0.8)
+			{
+				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 100.0);
+				SetEntProp(client, Prop_Send, "m_bRageDraining", 1);
+				TF2_AddCondition(client, TFCond_Charging, 0.25, client);
+				FF2_SetBossCharge(boss, 0, charge-0.8);
+			}
+			demoCharge[client]=GetEngineTime()+0.2;
+		}
+	}
 
-	if(buttons & IN_ATTACK)
+	if(FF2Flags[boss] & FLAG_ONSLOWMO && buttons & IN_ATTACK)
 	{
 		FF2Flags[boss]&=~FLAG_SLOWMOREADYCHANGE;
 		CreateTimer(FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_matrix_attack", 3, 0.2), Timer_SlowMoChange, boss, TIMER_FLAG_NO_MAPCHANGE);

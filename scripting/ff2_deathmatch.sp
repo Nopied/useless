@@ -48,7 +48,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-    if(IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+    if(FF2_GetRoundState() != 1||IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
     // FIXME: 가끔
     // FIXME:당첨자가 마지막까지 살아있던 사람이었을 경우, 리스폰해도 그냥 사망처리됨.
@@ -151,9 +151,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         {
             int forWinner=FindAnotherPerson(winner);
             Handle data=CreateDataPack(); // In this? data = winner | forWinner | team |  IsAlive | abserverTarget(when he dead)
+            CreateDataTimer(0.05, LastManCheck, data);
             WritePackCell(data, winner);
             WritePackCell(data, forWinner);
             WritePackCell(data, GetClientTeam(forWinner));
+
             TF2_ChangeClientTeam(forWinner, view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Red ? TFTeam_Blue : TFTeam_Red);
             if(IsPlayerAlive(forWinner))
             {
@@ -166,7 +168,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
                 WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
             }
             ResetPack(data);
-            CreateDataTimer(0.05, LastManCheck, data);
+            TF2_AddCondition(forWinner, TFCond_Bonked, 0.05);
             return Plugin_Continue;
 
         }
@@ -181,9 +183,15 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public Action LastManCheck(Handle timer, Handle data)
 {
+    //int count;
+    ResetPack(data);
+    //SetPackPosition(data, ++count);
     int winner=ReadPackCell(data);
+    //SetPackPosition(data, ++count);
     int client=ReadPackCell(data);
+    //SetPackPosition(data, ++count);
     TFTeam team=view_as<TFTeam>(ReadPackCell(data));
+    //SetPackPosition(data, ++count);
     bool alive=ReadPackCell(data);
 
     TF2_RespawnPlayer(winner);
@@ -200,8 +208,12 @@ public Action LastManCheck(Handle timer, Handle data)
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
         TF2_ChangeClientTeam(client, team);
 
+        //SetPackPosition(data, ++count);
         SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", ReadPackCell(data));
     }
+
+    if(IsFakeClient(client))
+      FakeClientCommand(client, "disconnect");
     return Plugin_Continue;
 }
 
@@ -235,54 +247,72 @@ stock void GiveLastManWeapon(int client)
   {
     case TFClass_Scout:
     {
-      SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, _);
+      SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      // 2: 피해량 향상
+      // 97: 재장전 향상
+      // 6: 발사 속도 향상
     }
     case TFClass_Sniper:
     {
-      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
+      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 5.0 ; 390 ; 5.0 ; 521 ; 2.0");
+      SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4");
+      // 390: 헤드샷 보너스 데미지
+      // 521: 연기
     }
     case TFClass_Soldier:
     {
-      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      // SpawnWeapon(client, "tf_weapon_shotgun", 199, 0, 2, _);
+      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 1.3 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_shotgun", 10, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      // 103: 투사체 비행속도 향상
+      // 135: 로켓점프 피해량 감소
+      // 488: 로켓 특화
     }
     case TFClass_DemoMan:
     {
-      SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
+      SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      // 540:아이랜더 효과로 추정됨..
       changeMelee=false;
     }
     case TFClass_Medic:
     {
-      SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
+      SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 17 ; 0.08 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 2.0 ; 493 ; 3.0");
+      // 17: 적중 시 우버차지
+      // 482: 오버힐 마스터리
+      // 493: 힐 마스터리
     }
     case TFClass_Heavy:
     {
-      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      // SpawnWeapon(client, "tf_weapon_shotgun", 199, 0, 2, _);
+      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 87 ; 1.6 ; 6 ; 1.1");
+      SpawnWeapon(client, "tf_weapon_shotgun", 11, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      // 87: 미니건 돌리는 속도 증가
+      //
     }
     case TFClass_Pyro:
     {
-      SpawnWeapon(client, "tf_weapon_flamethrower", 208, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_shotgun", 199, 0, 2, _);
+      SpawnWeapon(client, "tf_weapon_flamethrower", 208, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0");
+      SpawnWeapon(client, "tf_weapon_shotgun", 12, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 178 ; 1.8");
+      changeMelee=false;
+      // 178: 무기 바꾸는 속도 향상
     }
     case TFClass_Spy:
     {
-      SpawnWeapon(client, "tf_weapon_revolver", 61, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
+      SpawnWeapon(client, "tf_weapon_revolver", 61, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 51 ; 1.0 ; 390 ; 5.0");
+      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0");
       SpawnWeapon(client, "tf_weapon_builder", 735, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_invis", 30, 0, 2, _);
+      // 51: 헤드샷 판정 가능
     }
     case TFClass_Engineer:
     {
-      SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
+      SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 1.35 ; 344 ; 1.3 ; 464 ; 1.6");
       SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, _);
-      SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, _);
+      SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 1, _, 0);
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 1, _, 1);
@@ -290,10 +320,15 @@ stock void GiveLastManWeapon(int client)
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 0, _, 3);
       SpawnWeapon(client, "tf_weapon_pda_engineer_destroy", 26, 0, 2, _);
       changeMelee=false;
+      // 124: 미니 센트리 설정
+      // 136: 센트리 복수
+      // 343: 센트리 발사 속도
+      // 344: 센트리 사정 거리
+      // 464: 센트리 짓는 속도
     }
   }
   if(changeMelee)
-    SpawnWeapon(client, "tf_weapon_bottle", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1");
+    SpawnWeapon(client, "tf_weapon_bottle", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
 
 }
 
