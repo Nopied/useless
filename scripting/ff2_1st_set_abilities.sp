@@ -654,7 +654,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:velocity[3], Floa
 	{
 		return Plugin_Continue;
 	}
-	if(buttons & IN_RELOAD && FF2_HasAbility(FF2_GetBossIndex(client), this_plugin_name, "special_democharge"))
+	if(buttons & IN_RELOAD && FF2_HasAbility(boss, this_plugin_name, "special_democharge"))
 	{ // TODO: Aww!! Look at that!
 		if(demoCharge[client] <= GetEngineTime())
 		{
@@ -663,10 +663,10 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:velocity[3], Floa
 			{
 				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 100.0);
 				SetEntProp(client, Prop_Send, "m_bRageDraining", 1);
-				TF2_AddCondition(client, TFCond_Charging, 0.25, client);
+				TF2_AddCondition(client, TFCond_Charging, 0.5, client);
 				FF2_SetBossCharge(boss, 0, charge-0.8);
 			}
-			demoCharge[client]=GetEngineTime()+0.2;
+			demoCharge[client]=GetEngineTime()+0.1;
 		}
 	}
 

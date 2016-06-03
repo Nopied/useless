@@ -48,7 +48,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-    if(FF2_GetRoundState() != 1||IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+    if(FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
     // FIXME: 가끔
     // FIXME:당첨자가 마지막까지 살아있던 사람이었을 경우, 리스폰해도 그냥 사망처리됨.
@@ -98,7 +98,8 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             valid[i]=IsValidClient(top[i]) && topDamage[i]>0;
 
             totalDamage+=valid[i] ? topDamage[i] : 0;
-            //if(valid) Format(temp[0], sizeof(temp[]), "%N - %.1f", );
+            if(valid) Format(temp[i], sizeof(temp[]), "%N - %.2f%%", top[i], float(FF2_GetClientDamage(top[0]))/float(totalDamage)*100.0);
+            else Format(temp[i], sizeof(temp[]) "N/A");
         }
 
         int random=GetRandomInt(0, totalDamage);
@@ -117,10 +118,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             break;
         }
 
-        CPrintToChatAll("{olive}[FF2]{default} 확률: %N - %.2f%% | %N - %.2f%% | %N - %.2f%%\n %N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
-        top[0], float(FF2_GetClientDamage(top[0]))/float(totalDamage)*100.0,
-        top[1], float(FF2_GetClientDamage(top[1]))/float(totalDamage)*100.0,
-        top[2], float(FF2_GetClientDamage(top[2]))/float(totalDamage)*100.0,
+        CPrintToChatAll("{olive}[FF2]{default} 확률: %s | %s | %s\n %N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
+        temp[0],
+        temp[1],
+        temp[2],
         winner);
 
         for(int i; i<bossCount; i++)
@@ -133,6 +134,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
                 FF2_SetBossHealth(boss, newhealth);
             }
             FF2_SetBossCharge(boss, 0, 0.0);
+            FF2_SetBossLives(boss, 1);
         }
 
 
@@ -151,17 +153,18 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         {
             int forWinner=FindAnotherPerson(winner);
             Handle data=CreateDataPack(); // In this? data = winner | forWinner | team |  IsAlive | abserverTarget(when he dead)
-            CreateDataTimer(0.05, LastManCheck, data);
+            CreateDataTimer(0.1, LastManCheck, data);
+
             WritePackCell(data, winner);
             WritePackCell(data, forWinner);
             WritePackCell(data, GetClientTeam(forWinner));
 
-            TF2_ChangeClientTeam(forWinner, view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Red ? TFTeam_Blue : TFTeam_Red);
+            TF2_ChangeClientTeam(forWinner, TF2_GetPlayerClass(winner));
             if(IsPlayerAlive(forWinner))
             {
                 WritePackCell(data, 1);
             }
-            else // Yeah. then it said. Not FakeClient and Not Alive.
+            else // Yeah. then it said. Not Alive.
             {
                 TF2_RespawnPlayer(forWinner);
                 WritePackCell(data, 0);
@@ -183,15 +186,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public Action LastManCheck(Handle timer, Handle data)
 {
-    //int count;
-    ResetPack(data);
-    //SetPackPosition(data, ++count);
+    // ResetPack(data);
     int winner=ReadPackCell(data);
-    //SetPackPosition(data, ++count);
     int client=ReadPackCell(data);
-    //SetPackPosition(data, ++count);
     TFTeam team=view_as<TFTeam>(ReadPackCell(data));
-    //SetPackPosition(data, ++count);
     bool alive=ReadPackCell(data);
 
     TF2_RespawnPlayer(winner);
@@ -206,10 +204,14 @@ public Action LastManCheck(Handle timer, Handle data)
     else
     {
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
-        TF2_ChangeClientTeam(client, team);
-
-        //SetPackPosition(data, ++count);
         SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", ReadPackCell(data));
+        TF2_ChangeClientTeam(client, team);
+        Debug("winner: %N, client: %N, team: %d, alive: %s, real Dead? : %s",
+        winner,
+        client,
+        view_as<int>(team),
+        alive ? "true" : "false",
+        IsPlayerAlive(client) ? "true" : "false");
     }
 
     if(IsFakeClient(client))
@@ -249,24 +251,27 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
       SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_bat", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
       // 2: 피해량 향상
       // 97: 재장전 향상
       // 6: 발사 속도 향상
     }
     case TFClass_Sniper:
     {
-      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 5.0 ; 390 ; 5.0 ; 521 ; 2.0");
+      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 5.0 ; 390 ; 5.0");
       SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_club", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
       // 390: 헤드샷 보너스 데미지
-      // 521: 연기
     }
     case TFClass_Soldier:
     {
-      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 1.3 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_shotgun", 10, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 0.4 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0 ; 521 ; 2.0");
+      SpawnWeapon(client, "tf_weapon_shotgun", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_shovel", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
       // 103: 투사체 비행속도 향상
       // 135: 로켓점프 피해량 감소
       // 488: 로켓 특화
+      // 521: 연기
     }
     case TFClass_DemoMan:
     {
@@ -280,14 +285,16 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 17 ; 0.08 ; 97 ; 1.3");
       SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 2.0 ; 493 ; 3.0");
+      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0 ; 17 ; 0.40");
       // 17: 적중 시 우버차지
       // 482: 오버힐 마스터리
       // 493: 힐 마스터리
     }
     case TFClass_Heavy:
     {
-      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 87 ; 1.6 ; 6 ; 1.1");
-      SpawnWeapon(client, "tf_weapon_shotgun", 11, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.3 ; 87 ; 1.6 ; 6 ; 1.1");
+      SpawnWeapon(client, "tf_weapon_shotgun", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
       // 87: 미니건 돌리는 속도 증가
       //
     }
@@ -327,8 +334,9 @@ stock void GiveLastManWeapon(int client)
       // 464: 센트리 짓는 속도
     }
   }
-  if(changeMelee)
+/*  if(changeMelee)
     SpawnWeapon(client, "tf_weapon_bottle", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
+*/
 
 }
 
