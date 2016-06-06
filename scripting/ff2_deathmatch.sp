@@ -4,15 +4,22 @@
 #include <tf2>
 #include <tf2_stocks>
 #include <tf2items>
+#include <tf2attributes>
 #include <morecolors>
 #include <freak_fortress_2>
+#tryinclude <POTRY>
 
 // 아나운서의 음성은 FF2에서 이미 다운로드 테이블에 올리고, 캐시해둠.
+//
 
+bool UsedPOTRY=false;
 bool enabled=false;
 bool IsLastManStanding=false;
 
 int top[3];
+int BGMCount;
+
+Handle MusicKV;
 
 public Plugin:myinfo=
 {
@@ -29,6 +36,16 @@ public void OnPluginStart()
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
     //HookEvent("teamplay_win_panel", OnRoundEnd, EventHookMode_Pre);
     // TODO: pass 커맨드 구현.
+}
+
+public void OnMapStart()
+{
+  if(MusicKV != INVALID_HANDLE)
+  {
+    CloseHandle(MusicKV);
+    MusicKV=INVALID_HANDLE;
+  }
+  PrecacheMusic();
 }
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
@@ -55,6 +72,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     if(!IsLastManStanding && CheckAlivePlayers() <= 1) // 라스트 맨 스탠딩
     {
         IsLastManStanding=true;
+        FF2_StopMusic();
+        FF2_StartMusic(); // Call FF2_OnMusic
+        //#if defined _POTRY_included_
+        // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM);
+        //#endif
         enabled=true;
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
@@ -73,7 +95,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
           else if(IsBossTeam(client)) // FF2_GetClientDamage(client)<=0 ||
             continue;
 
-      		if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
+          if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
       		{
       			top[2]=top[1];
       			top[1]=top[0];
@@ -90,16 +112,22 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       		}
         }
 
-        char temp[3][35];
+        char temp[3][80];
 
         for(int i; i<3; i++)
         {
             topDamage[i]=FF2_GetClientDamage(top[i]);
             valid[i]=IsValidClient(top[i]) && topDamage[i]>0;
 
+            for(int x=i-1; x>=0; x--)
+            {
+              if(top[i] == top[x]){
+                valid[i]=false;
+                break;
+              }
+            }
+
             totalDamage+=valid[i] ? topDamage[i] : 0;
-            if(valid) Format(temp[i], sizeof(temp[]), "%N - %.2f%%", top[i], float(FF2_GetClientDamage(top[0]))/float(totalDamage)*100.0);
-            else Format(temp[i], sizeof(temp[]) "N/A");
         }
 
         int random=GetRandomInt(0, totalDamage);
@@ -112,6 +140,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             {
                 tempDamage+=FF2_GetClientDamage(top[x]);
             }
+
+            if(valid[i]) Format(temp[i], sizeof(temp[]), "%N - %.2f%%", top[i], float(FF2_GetClientDamage(top[i]))/float(totalDamage)*100.0);
+
             if(random > tempDamage)
                 continue;
             winner=top[i];
@@ -119,9 +150,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         CPrintToChatAll("{olive}[FF2]{default} 확률: %s | %s | %s\n %N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
-        temp[0],
-        temp[1],
-        temp[2],
+        valid[0] ? temp[0] : "N/A",
+        valid[1] ? temp[1] : "N/A",
+        valid[2] ? temp[2] : "N/A",
         winner);
 
         for(int i; i<bossCount; i++)
@@ -152,24 +183,30 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
             int forWinner=FindAnotherPerson(winner);
-            Handle data=CreateDataPack(); // In this? data = winner | forWinner | team |  IsAlive | abserverTarget(when he dead)
-            CreateDataTimer(0.1, LastManCheck, data);
 
+            Handle data=CreateDataPack(); // In this? data = IsAlive | abserverTarget | winner | forWinner | team
+            CreateDataTimer(0.4, LastManCheck, data);
+
+            if(IsPlayerAlive(forWinner))
+            {
+                WritePackCell(data, 1);
+                WritePackCell(data, 0);
+            }
+            else // Yeah. then it said. Not Alive.
+            {
+                // TF2_RespawnPlayer(forWinner); // ?
+                while(!IsPlayerAlive(forWinner))
+                {
+                  TF2_RespawnPlayer(forWinner);
+                }
+                WritePackCell(data, 0);
+                WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
+            }
             WritePackCell(data, winner);
             WritePackCell(data, forWinner);
             WritePackCell(data, GetClientTeam(forWinner));
 
-            TF2_ChangeClientTeam(forWinner, TF2_GetPlayerClass(winner));
-            if(IsPlayerAlive(forWinner))
-            {
-                WritePackCell(data, 1);
-            }
-            else // Yeah. then it said. Not Alive.
-            {
-                TF2_RespawnPlayer(forWinner);
-                WritePackCell(data, 0);
-                WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
-            }
+            TF2_ChangeClientTeam(forWinner, view_as<TFTeam>(TF2_GetPlayerClass(winner)));
             ResetPack(data);
             TF2_AddCondition(forWinner, TFCond_Bonked, 0.05);
             return Plugin_Continue;
@@ -186,11 +223,13 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public Action LastManCheck(Handle timer, Handle data)
 {
-    // ResetPack(data);
+    ResetPack(data);
+    int observer=ReadPackCell(data);
+    FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM_SERVER|FF2SERVERFLAG_UNCHANGE_BGM_USER);
+    bool alive=ReadPackCell(data);
     int winner=ReadPackCell(data);
     int client=ReadPackCell(data);
     TFTeam team=view_as<TFTeam>(ReadPackCell(data));
-    bool alive=ReadPackCell(data);
 
     TF2_RespawnPlayer(winner);
     TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
@@ -203,15 +242,32 @@ public Action LastManCheck(Handle timer, Handle data)
     }
     else
     {
-        TF2_ChangeClientTeam(client, TFTeam_Spectator);
-        SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", ReadPackCell(data));
-        TF2_ChangeClientTeam(client, team);
+        while(!IsPlayerAlive(client)) // 0.1초의 기적? 엿먹어.
+        {
+          /*if(!IsClientInGame(client))
+            client=FindAnotherPerson(winner);*/
+
+          TF2_RespawnPlayer(client);
+        }
         Debug("winner: %N, client: %N, team: %d, alive: %s, real Dead? : %s",
         winner,
         client,
         view_as<int>(team),
         alive ? "true" : "false",
-        IsPlayerAlive(client) ? "true" : "false");
+        !IsPlayerAlive(client) ? "true" : "false");
+
+        // TF2_RespawnPlayer(client);
+        TF2_ChangeClientTeam(client, TFTeam_Spectator);
+        SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
+        TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
+
+  /*      Handle temp=CreateDataPack(); // In this? temp = client, observer, team
+        CreateDataTimer(0.1, SureYouDead, temp);
+        WritePackCell(temp, client);
+        WritePackCell(temp, ReadPackCell(data));
+        WritePackCell(temp, team);
+        ResetPack(temp);
+  */
     }
 
     if(IsFakeClient(client))
@@ -219,6 +275,60 @@ public Action LastManCheck(Handle timer, Handle data)
     return Plugin_Continue;
 }
 
+/*public Action SureYouDead(Handle timer, Handle temp)
+{
+  int client=ReadPackCell(temp);
+  int observer=ReadPackCell(temp);
+  int team=ReadPackCell(temp);
+
+  TF2_RespawnPlayer(client);
+  TF2_ChangeClientTeam(client, TFTeam_Spectator);
+  SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
+  TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
+}*/
+//#if defined _POTRY_included_
+public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist[80], char name[100], bool &notice, int client)
+//#else
+//public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time)
+//#endif
+{
+  if(IsLastManStanding && BGMCount)
+  {
+    int random=GetRandomInt(1, BGMCount);
+    char tempItem[35];
+    char tempPath[PLATFORM_MAX_PATH];
+    char tempArtist[80];
+    char tempName[100];
+
+    if(MusicKV==INVALID_HANDLE)
+    {
+      LogError("MusicKV is invalid!");
+      return Plugin_Continue;
+    }
+
+    Format(tempItem, sizeof(tempItem), "time%i", random);
+    time=KvGetFloat(MusicKV, tempItem);
+
+    Format(tempPath, sizeof(tempPath), "path%i", random);
+    KvGetString(MusicKV, tempPath, tempPath, sizeof(tempPath));
+    // strcopy(path, sizeof(path), tempPath);
+    Format(path, sizeof(path), "%s", tempPath);
+
+    Format(tempArtist, sizeof(tempArtist), "artist%i", random);
+    KvGetString(MusicKV, tempArtist, tempArtist, sizeof(tempArtist));
+    // strcopy(artist, sizeof(artist), tempArtist);
+    Format(artist, sizeof(artist), "%s", tempArtist);
+
+    Format(tempName, sizeof(tempName), "name%i", random);
+    KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
+    // strcopy(name, sizeof(name), tempName);
+    Format(name, sizeof(name), "%s", tempName);
+    // Debug("성공적으로 %N의 BGM를 교체함.", client);
+
+    return Plugin_Changed;
+  }
+  return Plugin_Continue;
+}
 
 stock int FindAnotherPerson(int Gclient)
 {
@@ -242,16 +352,17 @@ stock int FindAnotherPerson(int Gclient)
 
 stock void GiveLastManWeapon(int client)
 {
-  bool changeMelee=true;
-
+  //bool changeMelee=true;
+  TF2Attrib_SetByDefIndex(client, 112, 100.0); // AMMO REGEN!
   TF2_RemoveAllWeapons(client);
+
   switch(TF2_GetPlayerClass(client))
   {
     case TFClass_Scout:
     {
       SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
       SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_bat", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
+      SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 1, "2 ; 4.0");
       // 2: 피해량 향상
       // 97: 재장전 향상
       // 6: 발사 속도 향상
@@ -260,14 +371,14 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 5.0 ; 390 ; 5.0");
       SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_club", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
+      SpawnWeapon(client, "tf_weapon_club", 264, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
       // 390: 헤드샷 보너스 데미지
     }
     case TFClass_Soldier:
     {
       SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 0.4 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0 ; 521 ; 2.0");
-      SpawnWeapon(client, "tf_weapon_shotgun", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_shovel", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
+      SpawnWeapon(client, "tf_weapon_shotgun_soldier", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_shovel", 1071, 0, 1, "2 ; 4.0");
       // 103: 투사체 비행속도 향상
       // 135: 로켓점프 피해량 감소
       // 488: 로켓 특화
@@ -279,31 +390,31 @@ stock void GiveLastManWeapon(int client)
       SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 1.3");
       SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4");
       // 540:아이랜더 효과로 추정됨..
-      changeMelee=false;
+      //changeMelee=false;
     }
     case TFClass_Medic:
     {
       SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 17 ; 0.08 ; 97 ; 1.3");
       SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 2.0 ; 493 ; 3.0");
-      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0 ; 17 ; 0.40");
+      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 1, "2 ; 4.0 ; 17 ; 0.40");
       // 17: 적중 시 우버차지
       // 482: 오버힐 마스터리
       // 493: 힐 마스터리
     }
     case TFClass_Heavy:
     {
-      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.3 ; 87 ; 1.6 ; 6 ; 1.1");
-      SpawnWeapon(client, "tf_weapon_shotgun", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
+      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.3 ; 87 ; 0.6 ; 6 ; 1.1");
+      SpawnWeapon(client, "tf_weapon_shotgun_hwg", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 1, "2 ; 4.0");
       // 87: 미니건 돌리는 속도 증가
       //
     }
     case TFClass_Pyro:
     {
       SpawnWeapon(client, "tf_weapon_flamethrower", 208, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0");
-      SpawnWeapon(client, "tf_weapon_shotgun", 12, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 178 ; 1.8");
-      changeMelee=false;
+      SpawnWeapon(client, "tf_weapon_shotgun_pyro", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 178 ; 0.2");
+      //changeMelee=false;
       // 178: 무기 바꾸는 속도 향상
     }
     case TFClass_Spy:
@@ -318,7 +429,7 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
       SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 1.35 ; 344 ; 1.3 ; 464 ; 1.6");
-      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, _);
+      SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 1, _, 0);
@@ -326,7 +437,7 @@ stock void GiveLastManWeapon(int client)
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 1, _, 2);
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 0, _, 3);
       SpawnWeapon(client, "tf_weapon_pda_engineer_destroy", 26, 0, 2, _);
-      changeMelee=false;
+      //changeMelee=false;
       // 124: 미니 센트리 설정
       // 136: 센트리 복수
       // 343: 센트리 발사 속도
@@ -338,6 +449,48 @@ stock void GiveLastManWeapon(int client)
     SpawnWeapon(client, "tf_weapon_bottle", 1071, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0");
 */
 
+}
+
+void PrecacheMusic()
+{
+  new String:config[PLATFORM_MAX_PATH];
+  BuildPath(Path_SM, config, sizeof(config), "configs/ff2_lastman.cfg");
+
+  if(!FileExists(config))
+  {
+    return;
+  }
+  if(MusicKV==INVALID_HANDLE)
+  {
+    BGMCount=0;
+    MusicKV=CreateKeyValues("lastmanstanding");
+    FileToKeyValues(MusicKV, config);
+    KvRewind(MusicKV);
+
+    char path[PLATFORM_MAX_PATH];
+    char item[20];
+
+    for(int i=1; ; i++)
+    {
+      Format(item, sizeof(item), "path%i", i);
+      KvGetString(MusicKV, item, path, sizeof(path), "");
+
+      if(!path[0]) break;
+
+      char temp[PLATFORM_MAX_PATH];
+      Format(temp, sizeof(temp), "sound/%s", path);
+
+      if(!FileExists(temp, true))
+      {
+        LogMessage("파일이 감지되지 않아 path%i에서 검색을 멈췄습니다.", BGMCount);
+        break;
+      }
+      AddFileToDownloadsTable(temp);
+      PrecacheSound(path, true);
+
+      BGMCount++;
+    }
+  }
 }
 
 stock int SpawnWeapon(int client, char[] name, int index, int level, int quality, char[] attribute="")

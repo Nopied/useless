@@ -659,14 +659,14 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:velocity[3], Floa
 		if(demoCharge[client] <= GetEngineTime())
 		{
 			new Float:charge=FF2_GetBossCharge(boss, 0);
-			if(charge >= 0.8)
+			if(charge >= 0.4)
 			{
 				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 100.0);
 				SetEntProp(client, Prop_Send, "m_bRageDraining", 1);
-				TF2_AddCondition(client, TFCond_Charging, 0.5, client);
-				FF2_SetBossCharge(boss, 0, charge-0.8);
+				TF2_AddCondition(client, TFCond_Charging, 0.7, client);
+				FF2_SetBossCharge(boss, 0, charge-0.4);
 			}
-			demoCharge[client]=GetEngineTime()+0.1;
+			demoCharge[client]=GetEngineTime()+0.05;
 		}
 	}
 

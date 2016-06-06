@@ -9,7 +9,7 @@ public Plugin:myinfo=
 	name="Freak Fortress 2: Sam's Abilities",
 	author="Nopied",
 	description="",
-	version=PLUGIN_VERSION,
+	version="wat.",
 };
 
 public void OnPluginStart2()
@@ -32,6 +32,7 @@ void Rage_Sam(int boss, const char[] ability_name)
 	{
 		if(IsClientInGame(client) && !IsBossTeam(client) && IsPlayerAlive(client))
 		{
+			TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
 			TF2_StunPlayer(client, 10.0, 1.0, TF_STUNFLAG_NOSOUNDOREFFECT|TF_STUNFLAG_THIRDPERSON, bossClient); // TODO: 시간 커스터마이즈
 
 			// 들고있던 무기 떨구기
@@ -43,7 +44,7 @@ void Rage_Sam(int boss, const char[] ability_name)
 				{
 					// 프롭소한 필요
 					SpawnWeaponProp(client, weapon);
-					TF2_RemoveWeaponSlot(client, i);
+					//TF2_RemoveWeaponSlot(client, i);
 					break;
 				}
 			}
@@ -57,8 +58,9 @@ stock void SpawnWeaponProp(int client, int weapon)
 
 	if(!IsValidEntity(ent)) return;
 
-	
+
 }
+
 
 stock bool IsValidClient(int client)
 {
