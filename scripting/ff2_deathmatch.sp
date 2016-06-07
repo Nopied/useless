@@ -9,17 +9,16 @@
 #include <freak_fortress_2>
 #tryinclude <POTRY>
 
-// 아나운서의 음성은 FF2에서 이미 다운로드 테이블에 올리고, 캐시해둠.
-//
-
-bool UsedPOTRY=false;
+// bool UsedPOTRY=false;
 bool enabled=false;
 bool IsLastManStanding=false;
 
 int top[3];
+int lastmanClientIndex;
 int BGMCount;
 
 Handle MusicKV;
+Handle LastManData;
 
 public Plugin:myinfo=
 {
@@ -31,6 +30,7 @@ public Plugin:myinfo=
 
 public void OnPluginStart()
 {
+    HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
     HookEvent("arena_round_start", OnRoundStart);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
@@ -48,9 +48,22 @@ public void OnMapStart()
   PrecacheMusic();
 }
 
+public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+{
+    if(IsLastManStanding && IsClientInGame(lastmanClientIndex))
+    {
+        int client=GetClientOfUserId(GetEventInt(event, "userid"));
+
+        Debug("Spawn %N", client);
+        CreateTimer(0.1, BeLastMan, lastmanClientIndex);
+
+    }
+}
+
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     IsLastManStanding=false;
+    // FF2_SetServerFlags(FF2_GetServerFlags()|~FF2SERVERFLAG_ISLASTMAN|~FF2SERVERFLAG_UNCHANGE_BGM_USER|~FF2SERVERFLAG_UNCHANGE_BGM_SERVER);
 }
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
@@ -67,13 +80,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
     if(FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
-    // FIXME: 가끔
-    // FIXME:당첨자가 마지막까지 살아있던 사람이었을 경우, 리스폰해도 그냥 사망처리됨.
+    // FIXME: 가끔 당첨자가 마지막까지 살아있던 사람이었을 경우, 리스폰해도 그냥 사망처리됨.
     if(!IsLastManStanding && CheckAlivePlayers() <= 1) // 라스트 맨 스탠딩
     {
         IsLastManStanding=true;
-        FF2_StopMusic();
-        FF2_StartMusic(); // Call FF2_OnMusic
+        StartMusic(); // Call FF2_OnMusic
         //#if defined _POTRY_included_
         // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM);
         //#endif
@@ -88,7 +99,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         {
           if(!IsValidClient(client)) // for bossCount.
       			continue;
-          else if(IsBoss(client)){
+          else if(IsBoss(client) && IsPlayerAlive(client)){
             bosses[bossCount++]=client;
             continue;
           }
@@ -168,9 +179,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             FF2_SetBossLives(boss, 1);
         }
 
-
-        // CreateTimer(0.02, BeLastMan, winner);
-        // FF2_SetFF2flags(winner, FF2_GetFF2flags(winner)|FF2FLAG_CLASSTIMERDISABLED);
+        lastmanClientIndex=winner;
 
         /* TODO: Not Working. just spawn another person while winner is spawning.
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
@@ -184,8 +193,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         {
             int forWinner=FindAnotherPerson(winner);
 
-            Handle data=CreateDataPack(); // In this? data = IsAlive | abserverTarget | winner | forWinner | team
-            CreateDataTimer(0.4, LastManCheck, data);
+            Handle data=CreateDataPack(); // In this? data = winner | forWinner | team | IsAlive | abserverTarget
+
+            WritePackCell(data, winner);
+            WritePackCell(data, forWinner);
+            WritePackCell(data, GetClientTeam(forWinner));
 
             if(IsPlayerAlive(forWinner))
             {
@@ -194,22 +206,15 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             }
             else // Yeah. then it said. Not Alive.
             {
-                // TF2_RespawnPlayer(forWinner); // ?
-                while(!IsPlayerAlive(forWinner))
-                {
-                  TF2_RespawnPlayer(forWinner);
-                }
                 WritePackCell(data, 0);
                 WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
+                WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
+                SpawnPlayer(forWinner, GetClientTeam(winner));
             }
-            WritePackCell(data, winner);
-            WritePackCell(data, forWinner);
-            WritePackCell(data, GetClientTeam(forWinner));
-
-            TF2_ChangeClientTeam(forWinner, view_as<TFTeam>(TF2_GetPlayerClass(winner)));
             ResetPack(data);
-            TF2_AddCondition(forWinner, TFCond_Bonked, 0.05);
+            TF2_AddCondition(forWinner, TFCond_Bonked, 0.1);
             return Plugin_Continue;
+
 
         }
         TF2_RespawnPlayer(winner);
@@ -220,12 +225,12 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     }
     return Plugin_Continue;
 }
-
+/*
 public Action LastManCheck(Handle timer, Handle data)
 {
     ResetPack(data);
     int observer=ReadPackCell(data);
-    FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM_SERVER|FF2SERVERFLAG_UNCHANGE_BGM_USER);
+    // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM_SERVER|FF2SERVERFLAG_UNCHANGE_BGM_USER);
     bool alive=ReadPackCell(data);
     int winner=ReadPackCell(data);
     int client=ReadPackCell(data);
@@ -244,9 +249,6 @@ public Action LastManCheck(Handle timer, Handle data)
     {
         while(!IsPlayerAlive(client)) // 0.1초의 기적? 엿먹어.
         {
-          /*if(!IsClientInGame(client))
-            client=FindAnotherPerson(winner);*/
-
           TF2_RespawnPlayer(client);
         }
         Debug("winner: %N, client: %N, team: %d, alive: %s, real Dead? : %s",
@@ -260,37 +262,15 @@ public Action LastManCheck(Handle timer, Handle data)
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
         SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
         TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
-
-  /*      Handle temp=CreateDataPack(); // In this? temp = client, observer, team
-        CreateDataTimer(0.1, SureYouDead, temp);
-        WritePackCell(temp, client);
-        WritePackCell(temp, ReadPackCell(data));
-        WritePackCell(temp, team);
-        ResetPack(temp);
-  */
     }
 
     if(IsFakeClient(client))
       FakeClientCommand(client, "disconnect");
     return Plugin_Continue;
 }
+*/
 
-/*public Action SureYouDead(Handle timer, Handle temp)
-{
-  int client=ReadPackCell(temp);
-  int observer=ReadPackCell(temp);
-  int team=ReadPackCell(temp);
-
-  TF2_RespawnPlayer(client);
-  TF2_ChangeClientTeam(client, TFTeam_Spectator);
-  SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
-  TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
-}*/
-//#if defined _POTRY_included_
 public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist[80], char name[100], bool &notice, int client)
-//#else
-//public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time)
-//#endif
 {
   if(IsLastManStanding && BGMCount)
   {
@@ -311,23 +291,34 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist
 
     Format(tempPath, sizeof(tempPath), "path%i", random);
     KvGetString(MusicKV, tempPath, tempPath, sizeof(tempPath));
-    // strcopy(path, sizeof(path), tempPath);
     Format(path, sizeof(path), "%s", tempPath);
 
     Format(tempArtist, sizeof(tempArtist), "artist%i", random);
     KvGetString(MusicKV, tempArtist, tempArtist, sizeof(tempArtist));
-    // strcopy(artist, sizeof(artist), tempArtist);
     Format(artist, sizeof(artist), "%s", tempArtist);
 
     Format(tempName, sizeof(tempName), "name%i", random);
     KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
-    // strcopy(name, sizeof(name), tempName);
     Format(name, sizeof(name), "%s", tempName);
     // Debug("성공적으로 %N의 BGM를 교체함.", client);
 
     return Plugin_Changed;
   }
   return Plugin_Continue;
+}
+
+stock void SpawnPlayer(int client, int team)
+{
+    Handle event=CreateEvent("player_spawn", true);
+    SetEventInt(event, "userid", GetClientUserId(client));
+    SetEventInt(event, "team", team);
+    SetEventInt(event, "class", GetRandomInt(1, 10));
+    FireEvent(event);
+}
+
+stock void StartMusic(int client=0)
+{
+    FF2_StartMusic(client);
 }
 
 stock int FindAnotherPerson(int Gclient)

@@ -9,7 +9,7 @@ new WastedTime;
 public Plugin:myinfo=
 {
 	name="Wait for players (For tf2)",
-	author="Team Potry : Nopied◎",
+	author="Nopied◎",
 	description="EZ(Because this plugin used Cvar(mp_waitingforplayers_restart)",
 };
 
