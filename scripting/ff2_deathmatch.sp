@@ -50,10 +50,10 @@ public void OnMapStart()
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
-    if(IsLastManStanding && IsClientInGame(lastmanClientIndex))
-    {
-        int client=GetClientOfUserId(GetEventInt(event, "userid"));
+    int client=GetClientOfUserId(GetEventInt(event, "userid"));
 
+    if(IsLastManStanding && IsClientInGame(lastmanClientIndex) && lastmanClientIndex != client)
+    {
         Debug("Spawn %N", client);
         CreateTimer(0.1, BeLastMan, lastmanClientIndex);
 
@@ -160,10 +160,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             break;
         }
 
-        CPrintToChatAll("{olive}[FF2]{default} 확률: %s | %s | %s\n %N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
+        CPrintToChatAll("{olive}[FF2]{default} 확률: %s | %s | %s",
         valid[0] ? temp[0] : "N/A",
         valid[1] ? temp[1] : "N/A",
-        valid[2] ? temp[2] : "N/A",
+        valid[2] ? temp[2] : "N/A");
+        CPrintToChatAll("%N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
         winner);
 
         for(int i; i<bossCount; i++)
@@ -193,30 +194,28 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         {
             int forWinner=FindAnotherPerson(winner);
 
-            Handle data=CreateDataPack(); // In this? data = winner | forWinner | team | IsAlive | abserverTarget
+            LastManData=CreateDataPack(); // In this? data = winner | forWinner | team | IsAlive | abserverTarget
 
-            WritePackCell(data, winner);
-            WritePackCell(data, forWinner);
-            WritePackCell(data, GetClientTeam(forWinner));
+            WritePackCell(LastManData, winner);
+            WritePackCell(LastManData, forWinner);
+            WritePackCell(LastManData, GetClientTeam(forWinner));
 
             if(IsPlayerAlive(forWinner))
             {
-                WritePackCell(data, 1);
-                WritePackCell(data, 0);
+                WritePackCell(LastManData, 1);
+                WritePackCell(LastManData, 0);
             }
             else // Yeah. then it said. Not Alive.
             {
-                WritePackCell(data, 0);
-                WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
-                WritePackCell(data, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
+                WritePackCell(LastManData, 0);
+                WritePackCell(LastManData, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
                 SpawnPlayer(forWinner, GetClientTeam(winner));
             }
-            ResetPack(data);
+            ResetPack(LastManData);
             TF2_AddCondition(forWinner, TFCond_Bonked, 0.1);
             return Plugin_Continue;
-
-
         }
+
         TF2_RespawnPlayer(winner);
         TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
         TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
@@ -225,16 +224,17 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     }
     return Plugin_Continue;
 }
-/*
-public Action LastManCheck(Handle timer, Handle data)
+
+public Action BeLastMan_Dead(Handle timer) // Called when
 {
-    ResetPack(data);
-    int observer=ReadPackCell(data);
+    ResetPack(LastManData);
+
     // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM_SERVER|FF2SERVERFLAG_UNCHANGE_BGM_USER);
-    bool alive=ReadPackCell(data);
-    int winner=ReadPackCell(data);
-    int client=ReadPackCell(data);
-    TFTeam team=view_as<TFTeam>(ReadPackCell(data));
+    int winner=ReadPackCell(LastManData);
+    int client=ReadPackCell(LastManData);
+    TFTeam team=view_as<TFTeam>(ReadPackCell(LastManData));
+    bool alive=ReadPackCell(LastManData);
+    int observer=ReadPackCell(LastManData);
 
     TF2_RespawnPlayer(winner);
     TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
@@ -263,12 +263,10 @@ public Action LastManCheck(Handle timer, Handle data)
         SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
         TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
     }
-
-    if(IsFakeClient(client))
-      FakeClientCommand(client, "disconnect");
+    CloseLastmanData();
     return Plugin_Continue;
 }
-*/
+
 
 public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist[80], char name[100], bool &notice, int client)
 {
@@ -527,6 +525,11 @@ stock int SpawnWeapon(int client, char[] name, int index, int level, int quality
 	CloseHandle(weapon);
 	EquipPlayerWeapon(client, entity);
 	return entity;
+}
+
+stock void CloseLastmanData()
+{
+    CloseHandle(LastManData);
 }
 
 stock bool IsValidClient(int client)
