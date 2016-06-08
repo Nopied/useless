@@ -52,11 +52,10 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
     int client=GetClientOfUserId(GetEventInt(event, "userid"));
 
-    if(IsLastManStanding && IsClientInGame(lastmanClientIndex) && lastmanClientIndex != client)
+    if(FF2_GetRoundState() == 1 && IsLastManStanding && IsClientInGame(lastmanClientIndex) && lastmanClientIndex != client)
     {
         Debug("Spawn %N", client);
-        CreateTimer(0.1, BeLastMan, lastmanClientIndex);
-
+        CreateTimer(0.1, BeLastMan);
     }
 }
 
@@ -85,9 +84,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     {
         IsLastManStanding=true;
         StartMusic(); // Call FF2_OnMusic
-        //#if defined _POTRY_included_
         // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM);
-        //#endif
         enabled=true;
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
@@ -204,15 +201,18 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             {
                 WritePackCell(LastManData, 1);
                 WritePackCell(LastManData, 0);
+                CreateTimer(0.4, BeLastMan);
+                TF2_AddCondition(forWinner, TFCond_Bonked, 0.4);
             }
             else // Yeah. then it said. Not Alive.
             {
                 WritePackCell(LastManData, 0);
                 WritePackCell(LastManData, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
-                SpawnPlayer(forWinner, GetClientTeam(winner));
+                Debug("Spawning %n...", forWinner);
+                TF2_ChangeClientTeam(forWinner, TF2_GetClientTeam(winner));
+                TF2_RespawnPlayer(forWinner);
             }
             ResetPack(LastManData);
-            TF2_AddCondition(forWinner, TFCond_Bonked, 0.1);
             return Plugin_Continue;
         }
 
@@ -225,11 +225,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     return Plugin_Continue;
 }
 
-public Action BeLastMan_Dead(Handle timer) // Called when
+public Action BeLastMan(Handle timer)
 {
     ResetPack(LastManData);
 
-    // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM_SERVER|FF2SERVERFLAG_UNCHANGE_BGM_USER);
+    FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM_SERVER|FF2SERVERFLAG_UNCHANGE_BGM_USER);
     int winner=ReadPackCell(LastManData);
     int client=ReadPackCell(LastManData);
     TFTeam team=view_as<TFTeam>(ReadPackCell(LastManData));
@@ -247,10 +247,6 @@ public Action BeLastMan_Dead(Handle timer) // Called when
     }
     else
     {
-        while(!IsPlayerAlive(client)) // 0.1초의 기적? 엿먹어.
-        {
-          TF2_RespawnPlayer(client);
-        }
         Debug("winner: %N, client: %N, team: %d, alive: %s, real Dead? : %s",
         winner,
         client,
@@ -258,10 +254,10 @@ public Action BeLastMan_Dead(Handle timer) // Called when
         alive ? "true" : "false",
         !IsPlayerAlive(client) ? "true" : "false");
 
-        // TF2_RespawnPlayer(client);
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
         SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
         TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
+
     }
     CloseLastmanData();
     return Plugin_Continue;

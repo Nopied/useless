@@ -6761,7 +6761,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					{
 						if(damagecustom==TF_CUSTOM_HEADSHOT)
 						{
-							damage=85.0;  //Final damage 255
+							if(damage<85.0)	damage=85.0;  //Final damage 255
 							return Plugin_Changed;
 						}
 					}
