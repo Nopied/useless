@@ -2674,6 +2674,12 @@ public Action:BossInfoTimer_Begin(Handle:timer, any:boss)
 
 public Action:BossInfoTimer_ShowInfo(Handle:timer, any:boss)
 {
+	if(!IsValidClient(Boss[boss]))
+ 	{
+ 		BossInfoTimer[boss][1]=INVALID_HANDLE;
+ 		return Plugin_Stop;
+ 	}
+
 	if(bossHasReloadAbility[boss])
 	{
 		SetHudTextParams(0.75, 0.7, 0.15, 255, 255, 255, 255);
@@ -3108,6 +3114,12 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 					}
 					return Plugin_Stop;
 				}
+			}
+
+			if(MusicTimer[client]!=INVALID_HANDLE)
+			{
+				KillTimer(MusicTimer[client]);
+				MusicTimer[client]=INVALID_HANDLE;
 			}
 		}
 	}
@@ -5050,6 +5062,7 @@ public OnClientDisconnect(client)
 			CreateTimer(0.1, CheckAlivePlayers, 0, TIMER_FLAG_NO_MAPCHANGE);
 		}
 	}
+
 	FF2flags[client]=0;
 	Damage[client]=0;
 	uberTarget[client]=-1;
@@ -6641,17 +6654,13 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 		{
 			if(attacker<=MaxClients)
 			{
-				new bool:bIsTelefrag, bool:bIsBackstab, bool:bIsFacestab;
+				new bool:bIsTelefrag, bool:bIsBackstab;
 				if(dmgCustomInOTD)
 				{
 					if(damagecustom==TF_CUSTOM_BACKSTAB)
 					{
 						bIsBackstab=true;
 					}
-/*					else if(FF2ServerFlag & FF2SERVERFLAG_ISLASTMAN)
-					{
-						bIsFacestab=true;
-					}*/
 					else if(damagecustom==TF_CUSTOM_TELEFRAG)
 					{
 						bIsTelefrag=true;
@@ -6670,14 +6679,6 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					bIsTelefrag=true;
 				}
 				////////////////
-				if(FF2ServerFlag & FF2SERVERFLAG_ISLASTMAN && weapon!=4095 && IsValidEntity(weapon) && weapon==GetPlayerWeaponSlot(attacker, TFWeaponSlot_Melee) && damage>1000.0 && !bIsBackstab)
-				{
-					decl String:classname[32];
-					if(GetEntityClassname(weapon, classname, sizeof(classname)) && !StrContains(classname, "tf_weapon_knife", false))
-					{
-						bIsFacestab=true;
-					}
-				} // TODO: Need clean...?
 				if(GetClientButtons(client) & IN_DUCK && GetEntityFlags(client) & FL_ONGROUND)
 				{
 					Change=true;
@@ -6999,15 +7000,12 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					}*/
 				}
 
-				if(bIsBackstab || bIsFacestab)
+				if(bIsBackstab)
 				{
 					new Float:sliencedTime=6.0; // TODO: 광역변수.
 					new bool:slienced=false;
 
 					damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.12)/(255.0/85.0));
-
-					if(bIsFacestab)
-						damage/=2.0;
 
 					damagetype|=DMG_CRIT;
 					damagecustom=0;
@@ -7061,7 +7059,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						PrintHintText(client, "%t", "Backstabbed");
 					}
 
-					if(index==225 || index==574 || bIsFacestab)  //Your Eternal Reward, Wanga Prick
+					if(index==225 || index==574)  //Your Eternal Reward, Wanga Prick
 					{
 						slienced=true;
 						BossAbilityCooldown[boss]+=sliencedTime;
@@ -7076,7 +7074,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						}
 						SetEntityHealth(attacker, health);
 					}
-					else if(index==461 || bIsFacestab)  //Big Earner
+					else if(index==461)  //Big Earner
 					{
 						SetEntPropFloat(attacker, Prop_Send, "m_flCloakMeter", 100.0);  //Full cloak
 						TF2_AddCondition(attacker, TFCond_SpeedBuffAlly, 3.0);  //Speed boost
@@ -7101,14 +7099,10 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					KvRewind(BossKV[Special[boss]]);
 					KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-					CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, bIsFacestab ? "페이스스탭" : "백스탭", bossName, RoundFloat(damage*(255.0/85.0)));
+					CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "백스탭", bossName, RoundFloat(damage*(255.0/85.0)));
 					if(slienced) CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(BossAbilityCooldown[boss]));
 					return Plugin_Changed;
 				}
-/*				else if(bIsFacestab) // TODO: need clean!!
-				{
-
-				}*/
 				else if(bIsTelefrag)
 				{
 					damagecustom=0;
