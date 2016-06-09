@@ -36,7 +36,7 @@ public void OnPluginStart()
     //HookEvent("teamplay_win_panel", OnRoundEnd, EventHookMode_Pre);
     // TODO: pass 커맨드 구현.
 
-    LoadTranslations("freak_fortress_2");
+    LoadTranslations("freak_fortress_2.phrases");
 }
 
 public void OnMapStart()
@@ -53,7 +53,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
     int client=GetClientOfUserId(GetEventInt(event, "userid"));
 
-    if(FF2_GetRoundState() == 1 && IsLastManStanding && IsClientInGame(lastmanClientIndex) && !IsLastMan[client])
+    if(FF2_GetRoundState() == 1 && IsLastManStanding && !IsLastMan[client])
     {
         // Debug("Spawn %N", client);
         CreateTimer(0.1, BeLastMan);
@@ -95,16 +95,18 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
     {
         int boss=FF2_GetBossIndex(victim);
         char classname[60];
+        float bossPosition[3];
+        GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
         GetEntityClassname(weapon, classname, sizeof(classname));
 
         if(!StrContains(classname, "tf_weapon_knife") && !(damagetype & TF_CUSTOM_BACKSTAB))
         {
-            damagetype|=DMG_CRIT;
+            damagetype|=DMG_CRIT; //
             damage=((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.06)/3.0;
 
-            EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
-            EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
-            EmitSoundToClient(client, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
+            EmitSoundToClient(victim, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
+            EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
+            EmitSoundToClient(victim, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
             EmitSoundToClient(attacker, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
             SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+2.0);
             SetEntPropFloat(attacker, Prop_Send, "m_flNextAttack", GetGameTime()+2.0);
@@ -129,46 +131,58 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
                 SetEntProp(viewmodel, Prop_Send, "m_nSequence", animation);
             }
 
+            if(!(FF2_GetFF2flags(attacker) & FF2FLAG_HUDDISABLED))
+  					{
+  						PrintHintText(attacker, "%t", "Backstab");
+  					}
+
+  					if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
+  					{
+  						PrintHintText(victim, "%t", "Backstabbed");
+  					}
+
+            Handle BossKV=FF2_GetSpecialKV(boss);
             char playerName[64];
             char bossName[64];
             GetClientName(attacker, playerName, sizeof(playerName));
-            KvRewind(BossKV[Special[boss]]);
-            KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
+            KvRewind(BossKV);
+            KvGetString(BossKV, "name", bossName, sizeof(bossName), "ERROR NAME");
+
+            FF2_SetAbilityCooldown(boss, FF2_GetAbilityCooldown(boss)+12.0);
 
             CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "페이스스탭", bossName, RoundFloat(damage*(255.0/85.0)));
+            CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(FF2_GetAbilityCooldown(boss)));
             return Plugin_Changed;
         }
         else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
         {
-            float bossPosition[3];
-            GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
             int explosion=CreateEntityByName("env_explosion");
 
             DispatchKeyValueFloat(explosion, "DamageForce", 180.0);
+      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 280, 4);
+      			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
+      			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
 
-			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 280, 4);
-			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
-			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", client);
+      			DispatchSpawn(explosion);
 
-			DispatchSpawn(explosion);
-
-/*			if(!(GetEntityFlags(victim) & FL_ONGROUND))
-			{
-				explosionPosition[2]=bossPosition[2]+GetRandomInt(-150, 150);
-			}
-			else
-			{
-				explosionPosition[2]=bossPosition[2]+GetRandomInt(0,100);
-			}/*/ // TODO: if it need....
-			TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
-			AcceptEntityInput(explosion, "Explode");
-			AcceptEntityInput(explosion, "kill");
+      /*			if(!(GetEntityFlags(victim) & FL_ONGROUND))
+      			{
+      				explosionPosition[2]=bossPosition[2]+GetRandomInt(-150, 150);
+      			}
+      			else
+      			{
+      				explosionPosition[2]=bossPosition[2]+GetRandomInt(0,100);
+      			}*/ // TODO: if it need....
+      			TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
+      			AcceptEntityInput(explosion, "Explode");
+      			AcceptEntityInput(explosion, "kill");
         }
         else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Pyro)
         {
             TF2_IgnitePlayer(victim, attacker);
         }
     }
+    return Plugin_Continue;
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -181,7 +195,6 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         IsLastManStanding=true;
         StartMusic(); // Call FF2_OnMusic
         // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM);
-        enabled=true;
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
         int totalDamage;
@@ -232,7 +245,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
               }
             }
             */
-
+            Format(temp[i], sizeof(temp[]), "%N - %.2f%%", top[i], float(FF2_GetClientDamage(top[i]))/float(totalDamage)*100.0);
             totalDamage+=topDamage[i];
         }
 
@@ -246,8 +259,6 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             {
                 tempDamage+=FF2_GetClientDamage(top[x]);
             }
-
-            Format(temp[i], sizeof(temp[]), "%N - %.2f%%", top[i], float(FF2_GetClientDamage(top[i]))/float(totalDamage)*100.0);
 
             if(random > tempDamage)
                 continue;
@@ -340,12 +351,12 @@ public Action BeLastMan(Handle timer)
     }
     else
     {
-        Debug("winner: %N, client: %N, team: %d, alive: %s, real Dead? : %s",
+      /*  Debug("winner: %N, client: %N, team: %d, alive: %s, real Dead? : %s",
         winner,
         client,
         view_as<int>(team),
         alive ? "true" : "false",
-        !IsPlayerAlive(client) ? "true" : "false");
+        !IsPlayerAlive(client) ? "true" : "false");*/
 
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
         SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
@@ -512,7 +523,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Engineer:
     {
       SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 0.4 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 2.0 ; 112 ; 100.0 ; 287 ; 1.5");
       SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);
@@ -524,6 +535,7 @@ stock void GiveLastManWeapon(int client)
       //changeMelee=false;
       // 124: 미니 센트리 설정
       // 136: 센트리 복수
+      // 287: 센트리 공격력
       // 343: 센트리 발사 속도
       // 344: 센트리 사정 거리
       // 464: 센트리 짓는 속도
@@ -643,6 +655,12 @@ stock int CheckAlivePlayers() // Without bosses. LOL
     }
 
     return alive;
+}
+
+stock int GetIndexOfWeaponSlot(int client, int slot)
+{
+	int weapon=GetPlayerWeaponSlot(client, slot);
+	return (weapon>MaxClients && IsValidEntity(weapon) ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
 }
 
 stock bool IsBoss(int client)
