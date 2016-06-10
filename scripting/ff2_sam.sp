@@ -57,12 +57,12 @@ void Rage_Sam(int boss)
 			// 들고있던 무기 떨구기 || 107: 이속 증가
 
 			int weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
-			TF2Attrib_SetByDefIndex(client, 107, 9999.0);
+			// TF2Attrib_SetByDefIndex(client, 107, 9999.0);
 
 			if(lostWeapon[client] && lostWeapon[client] != weapon)
 			{
 				SetEntityRenderColor(lostWeapon[client], _, _, _, 255);
-				SDKUnhook(lostWeapon[client], SDKHook_WeaponCanUse, OnWeaponUse);
+				// SDKUnhook(lostWeapon[client], SDKHook_WeaponCanUse, OnWeaponUse);
 				AcceptEntityInput(propIndex[client], "Kill");
 			}
 			for(int i=0; i<=5; i++)
@@ -75,7 +75,7 @@ void Rage_Sam(int boss)
 
 					SDKHook(prop, SDKHook_StartTouch, OnPlayerTouch);
 					SDKHook(prop, SDKHook_SetTransmit, OnEntityTransmit);
-					SDKHook(client, SDKHook_WeaponCanUse, OnWeaponUse);
+					// SDKHook(client, SDKHook_WeaponCanUse, OnWeaponUse);
 
 					propIndex[client]=prop;
 					lostWeapon[client]=weapon;
@@ -89,21 +89,21 @@ void Rage_Sam(int boss)
 
 public Action FF2_OnBossAbilityTime(int boss, char[] abilityName, float &abilityDuration, float &abilityCooldown)
 {
-	if(Raging && !abilityDuration)
+	if(FF2_HasAbility(boss, this_plugin_name, "rage_sam") && Raging && !abilityDuration)
 	{
 		Raging=false;
-		for(int client=1; client<=MaxClients; client++)
+/*		for(int client=1; client<=MaxClients; client++)
 		{
 			if(IsClientInGame(client))
 			{
 				TF2Attrib_SetByDefIndex(client, 107, 0.0);//
 			}
-		}
+		}*/
 	}
 	return Plugin_Continue;
 }
 
-public Action OnWeaponUse(int client, int weapon)
+/* public Action OnWeaponUse(int client, int weapon) // TODO: 쓸모 없음.
 {
 	if(lostWeapon[client] == weapon)
 	{
@@ -112,6 +112,7 @@ public Action OnWeaponUse(int client, int weapon)
 	}
 	return Plugin_Continue;
 }
+*/
 
 public Action OnEntityTransmit(int prop, int client)
 {
@@ -126,7 +127,7 @@ public Action OnPlayerTouch(int prop, int client)
 	if(!Raging && IsValidClient(client) && IsPlayerAlive(client) && propIndex[client] == prop && lostWeapon[client])
 	{
 		SetEntityRenderColor(lostWeapon[client], _, _, _, 255);
-		SDKUnhook(lostWeapon[client], SDKHook_WeaponCanUse, OnWeaponUse);
+		// SDKUnhook(lostWeapon[client], SDKHook_WeaponCanUse, OnWeaponUse);
 
 		AcceptEntityInput(prop, "Kill");
 
