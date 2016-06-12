@@ -388,11 +388,11 @@ static const String:ff2versiondates[][]=
 	"November 19, 2015",	//1.10.7
 	"November 19, 2015",	//1.10.7
 	"November 24, 2015",		//1.10.8
-	"May 3, 2015",
-	"May 3, 2015",
-	"May 3, 2015",
-	"May 3, 2015",
-	"May 3, 2015"
+	"May 3, 2016",
+	"May 3, 2016",
+	"May 3, 2016",
+	"May 3, 2016",
+	"May 3, 2016"
 };
 
 stock FindVersionData(Handle:panel, versionIndex)
@@ -2286,7 +2286,7 @@ public Action:Timer_Announce(Handle:timer)
 			}
 			case 3:
 			{
-				//CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_3");
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_3");
 			}
 			case 4:
 			{
@@ -3078,7 +3078,6 @@ public Action:StartBossTimer(Handle:timer)
 	CreateTimer(0.2, StartRound, _, TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(0.2, ClientTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(2.0, Timer_PlayBGM, 0, TIMER_FLAG_NO_MAPCHANGE);
-	// Debug("StartBossTimer => Timer_PlayBGM | time: 2.0");
 
 	if(!PointType)
 	{
@@ -3109,6 +3108,7 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 				{
 					if(MusicTimer[client]!=INVALID_HANDLE)
 					{
+						// Debug("!client, In for, Not INVALID_HANDLE");
 						KillTimer(MusicTimer[client]);
 						MusicTimer[client]=INVALID_HANDLE;
 					}
@@ -3118,6 +3118,7 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 
 			if(MusicTimer[client]!=INVALID_HANDLE)
 			{
+				// Debug("!client, Not for, Not INVALID_HANDLE");
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
@@ -3133,6 +3134,7 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 		{
 			if(MusicTimer[client]!=INVALID_HANDLE)
 			{
+				// Debug("client, Not for, Not INVALID_HANDLE");
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
@@ -3342,23 +3344,16 @@ PrepareBGM(client)
 		KvGetString(BossKV[Special[0]], name, name, sizeof(name));
 		KvGetString(BossKV[Special[0]], music, music, sizeof(music));
 		decl String:temp[PLATFORM_MAX_PATH];
-		// decl String:temp2[80];
-		// decl String:temp3[100];
 
 		if(!(FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_SERVER))
 		{
-			// new String:temp2[80];
-			// new String:temp3[100];
 			new Action:action;
 			Call_StartForward(OnMusic);
-			new Float:time2=time;
 			new bool:notice2=notice;
 			strcopy(temp, sizeof(temp), music);
 			Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-			Call_PushFloatRef(time2);
-			 // strcopy(temp2, sizeof(temp2), artist);
+			Call_PushFloatRef(time);
 			Call_PushStringEx(artist, sizeof(artist), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-			 // strcopy(temp3, sizeof(temp3), name);
 			Call_PushStringEx(name, sizeof(name), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
 			Call_PushCell(notice2);
 			Call_PushCell(client);
@@ -3373,7 +3368,6 @@ PrepareBGM(client)
 				case Plugin_Changed:
 				{
 					strcopy(music, sizeof(music), temp);
-					time=time2;
 					// strcopy(artist, sizeof(artist), temp2);
 					// strcopy(name, sizeof(name), temp3);
 					notice=notice2;
@@ -3396,7 +3390,7 @@ PrepareBGM(client)
 				}
 				if(notice) 	CPrintToChat(client, "{olive}[FF2]{default} Now Playing: {orange}%s{default} - {green}%s{default}", name, artist);
 			}
-		// 	Debug("AHH..INPUT! %s | MORE INPUT! %f", music, time);
+		 	Debug("AHH..INPUT! %s | MORE INPUT! %f", music, time);
 		}
 		else
 		{
@@ -4852,23 +4846,17 @@ public Action:Command_StartMusic(client, args)
 			{
 				for(new target; target<matches; target++)
 				{
-					strcopy(currentBGM[targets[target]], PLATFORM_MAX_PATH, "");
 					StartMusic(targets[target]);
 				}
 			}
 			else
 			{
-				strcopy(currentBGM[targets[0]], PLATFORM_MAX_PATH, "");
 				StartMusic(targets[0]);
 			}
 			CReplyToCommand(client, "{olive}[FF2]{default} Started boss music for %s.", targetName);
 		}
 		else
 		{
-			for(new target=MaxClients;target;target--)
-			{
-				strcopy(currentBGM[target], PLATFORM_MAX_PATH, "");
- 			}
 			StartMusic();
 			CReplyToCommand(client, "{olive}[FF2]{default} Started boss music for all clients.");
 		}
@@ -6684,7 +6672,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					Change=true;
 					damagetype|=DMG_PREVENT_PHYSICS_FORCE;
 				}
-				//////////////////
+				///////////////
 
 				new index;
 				decl String:classname[64];
@@ -6755,6 +6743,8 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						}
 					}
 				}
+
+
 
 				switch(index)
 				{
@@ -8839,7 +8829,6 @@ public MusicTogglePanelH(Handle:menu, MenuAction:action, client, selection)
 					if(!currentBGM[client][0])
 						CreateTimer(0.0, Timer_PlayBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 					CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==1 ? "끄기" : "켜기");
-					// Debug("MusicTogglePanelH => Timer_PlayBGM");
 				}
 		  }
 			case 1:
@@ -8854,28 +8843,6 @@ public MusicTogglePanelH(Handle:menu, MenuAction:action, client, selection)
 		  }
 		}
 	}
-/*
-	if(IsValidClient(client) && action==MenuAction_Select)
-	{
-		if(selection==2)  //Off
-		{
-			SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, false);
-			StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
-			StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
-		}
-		else  //On
-		{
-			//If they already have music enabled don't do anything
-			if(!CheckSoundException(client, SOUNDEXCEPT_MUSIC))
-			{
-				SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, true);
-				MusicTimer[client]=CreateTimer(0.0, Timer_PlayBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
-				Debug("MusicTogglePanelH => Timer_PlayBGM");
-			}
-		}
-		CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==2 ? "끄기" : "켜기");
-	}
-*/
 }
 
 void ViewClientMusicMenu(client)
@@ -8924,7 +8891,6 @@ public MusicSelectionMenu(Handle:menu, MenuAction:action, client, selection)
 		playingCustomBGM[client]=true;
 		selectedBGM[client]=selection+1;
 		CPrintToChat(client, "{olive}[FF2]{default} 선택하신 곡으로 재생합니다..");
-		// StopMusic(client); // Yeah. I know this stupid code.
 		StartMusic(client);
 	}
 }
@@ -9458,11 +9424,13 @@ public Native_GetBossHealth(Handle:plugin, numParams)
 
 public Native_SetBossHealth(Handle:plugin, numParams)
 {
+	UpdateHealthBar();
 	BossHealth[GetNativeCell(1)]=GetNativeCell(2);
 }
 
 public Native_GetBossMaxHealth(Handle:plugin, numParams)
 {
+	UpdateHealthBar();
 	return BossHealthMax[GetNativeCell(1)];
 }
 

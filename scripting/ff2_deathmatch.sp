@@ -19,6 +19,8 @@ int BGMCount;
 Handle MusicKV;
 Handle LastManData;
 
+bool enable=false;
+
 public Plugin:myinfo=
 {
     name="Freak Fortress 2 : Deathmatch Mod",
@@ -33,7 +35,6 @@ public void OnPluginStart()
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
     HookEvent("arena_round_start", OnRoundStart);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
-    //HookEvent("teamplay_win_panel", OnRoundEnd, EventHookMode_Pre);
     // TODO: pass 커맨드 구현.
 
     LoadTranslations("freak_fortress_2.phrases");
@@ -63,9 +64,23 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     IsLastManStanding=false;
+    enable=false;
+
+    CreateTimer(10.4, CheckEnable);
     // FF2_SetServerFlags(FF2_GetServerFlags()|~FF2SERVERFLAG_ISLASTMAN|~FF2SERVERFLAG_UNCHANGE_BGM_USER|~FF2SERVERFLAG_UNCHANGE_BGM_SERVER);
 }
 
+public Action CheckEnable(Handle timer)
+{
+  if(CheckAlivePlayers() <= 1)
+  {
+    enable=false; // Wat.
+    CPrintToChatAll("{olive}[FF2]{default} 인간이 최소 2명 이상이어야 합니다!");
+    return Plugin_Continue;
+  }
+  enable=true;
+  return Plugin_Continue;
+}
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
@@ -82,7 +97,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
     return Plugin_Continue;
 }
 
-public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
+public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
     if(!IsLastManStanding || FF2_GetRoundState() != 1)
     {
@@ -99,9 +114,9 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
         GetEntityClassname(weapon, classname, sizeof(classname));
 
-        if(!StrContains(classname, "tf_weapon_knife") && !(damagetype & TF_CUSTOM_BACKSTAB))
+        if(!StrContains(classname, "tf_weapon_knife") && !(damagecustom & TF_CUSTOM_BACKSTAB))
         {
-            damagetype|=DMG_CRIT; //
+            damagetype|=DMG_CRIT;
             damage=((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.06)/3.0;
 
             EmitSoundToClient(victim, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
@@ -158,7 +173,7 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 180.0);
+            DispatchKeyValueFloat(explosion, "DamageForce", 600.0);
       			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 280, 4);
       			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
@@ -187,7 +202,7 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-    if(FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+    if(!enable && FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
 
     if(!IsLastManStanding && CheckAlivePlayers() <= 1) // 라스트 맨 스탠딩
@@ -229,23 +244,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       		}
         }
 
-        char temp[3][60];
-
         for(int i; i<3; i++)
         {
             topDamage[i]=FF2_GetClientDamage(top[i]);
-            // valid[i]=IsValidClient(top[i]) && topDamage[i]>0;
-
-            /*
-            for(int x=i-1; x>=0; x--)
-            {
-              if(top[i] == top[x]){
-                valid[i]=false;
-                break;
-              }
-            }
-            */
-            Format(temp[i], sizeof(temp[]), "%N - %.2f%%", top[i], float(FF2_GetClientDamage(top[i]))/float(totalDamage)*100.0);
             totalDamage+=topDamage[i];
         }
 
@@ -257,7 +258,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             int tempDamage;
             for (int x=i; x>=0; x--)
             {
-                tempDamage+=FF2_GetClientDamage(top[x]);
+                tempDamage+=topDamage[x];
             }
 
             if(random > tempDamage)
@@ -266,10 +267,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             break;
         }
 
-        CPrintToChatAll("{olive}[FF2]{default} 확률: %s | %s | %s",
-        temp[0],
-        temp[1],
-        temp[2]);
+        CPrintToChatAll("{olive}[FF2]{default} 확률: %N - %.2f%% | %N - %.2f%% | %N - %.2f%%",
+        top[0], float(FF2_GetClientDamage(top[0]))/float(totalDamage)*100.0,
+        top[1], float(FF2_GetClientDamage(top[1]))/float(totalDamage)*100.0,
+        top[2], float(FF2_GetClientDamage(top[2]))/float(totalDamage)*100.0
+        );
         CPrintToChatAll("%N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
         winner);
 
@@ -284,6 +286,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             }
             FF2_SetBossCharge(boss, 0, 0.0);
             FF2_SetBossLives(boss, 1);
+            FF2_SetBossMaxLives(boss, 1);
             SDKHook(bosses[i], SDKHook_OnTakeDamage, OnTakeDamage);
         }
 
@@ -472,8 +475,8 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Soldier:
     {
       SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 0.4 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0 ; 521 ; 2.0");
-      SpawnWeapon(client, "tf_weapon_shotgun_soldier", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_shovel", 1071, 0, 1, "2 ; 4.0 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_shotgun_soldier", 15016, 0, 2, "2 ; 2.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_shovel", 416, 0, 1, "2 ; 4.0 ; 112 ; 100.0");
       // 103: 투사체 비행속도 향상
       // 135: 로켓점프 피해량 감소
       // 488: 로켓 특화
@@ -523,7 +526,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Engineer:
     {
       SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 2.0 ; 112 ; 100.0 ; 287 ; 1.5");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 2.0 ; 112 ; 100.0 ; 287 ; 1.5 ; 80 ; 4.0 ; 113 ; 40.0");
       SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);
@@ -533,6 +536,8 @@ stock void GiveLastManWeapon(int client)
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 0, _, 3);
       SpawnWeapon(client, "tf_weapon_pda_engineer_destroy", 26, 0, 2, _);
       //changeMelee=false;
+      // 113: 금속 리젠
+      // 80: 최대 금속량
       // 124: 미니 센트리 설정
       // 136: 센트리 복수
       // 287: 센트리 공격력
