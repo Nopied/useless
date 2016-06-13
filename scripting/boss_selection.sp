@@ -129,7 +129,11 @@ public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 				queuepoints=GetClientQueueCookie(client);
 				if(queuepoints >= 0)
 				{
-					// LogMessage("이 클라이언트는 %d의 대기포인트를 저장해놓은 상태.", queuepoints);
+					if(FF2_GetQueuePoints(client))
+					{
+						SetClientQueueCookie(client, FF2_GetQueuePoints(client));
+					}
+
 					add_points[client]=0;
 					FF2_SetQueuePoints(client, -1);
 				}
@@ -146,7 +150,6 @@ public void OnClientPutInServer(client)
 	if(AreClientCookiesCached(client))
 	{
 		GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
-		LogMessage("%s", CookieV);
 		if(CookieV[0] == '\0')
 		{
 			SetClientCookie(client, g_hBossCookie, "");
@@ -272,11 +275,11 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 
 					SetClientCookie(param1, g_hBossCookie, Incoming[param1]);
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_randomboss");
-					SetClientQueueCookie(param1, false);
+					SetClientQueueNoneCookie(param1, false);
 				}
 				case 1:
 				{
-					SetClientQueueCookie(param1, true);
+					SetClientQueueNoneCookie(param1, true);
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_none");
 				}
 				default:
@@ -285,7 +288,7 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 					GetMenuItem(menu, param2, Incoming[param1], sizeof(Incoming[]));
 					SetClientCookie(param1, g_hBossCookie, Incoming[param1]);
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_bossselected", Incoming[param1]);
-					SetClientQueueCookie(param1, false);
+					SetClientQueueNoneCookie(param1, false);
 				}
 			}
 		}
@@ -358,9 +361,21 @@ stock int GetClientQueueCookie(int client)
 	return	StringToInt(CookieV);
 }
 
+stock void SetClientQueueCookie(int client, int points)
+{
+	char CookieV[50];
+
+	GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
+	int queuepoints=StringToInt(CookieV);
+	if(queuepoints==-1) return;
+
+	Format(CookieV, sizeof(CookieV), "%i", FF2_GetQueuePoints(client)+queuepoints);
+	SetClientCookie(client, g_hBossQueue, CookieV);
+}
+
 // true = 보스 안함 설정, 대기포인트 저장
 // false = 보스 안함 미설정.
-stock void SetClientQueueCookie(int client, bool setNone)
+stock void SetClientQueueNoneCookie(int client, bool setNone)
 {
 	char CookieV[50];
 
