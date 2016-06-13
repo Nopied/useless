@@ -6,7 +6,9 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
-float abilityDuration[MAXPLAYER+1];
+Handle RageTimer[MAXPLAYER+1];
+Handle RageData;
+
 bool g_bUseAbility[MAXPLAYER+1]={false, ...};
 int g_iFogIndex=-1;
 
@@ -14,9 +16,15 @@ public Plugin:myinfo=
 {
     name="Freak Fortress 2 : Freddy Krueger's Ability",
     author="Nopied",
-    description="FF2: Abilities used by some bosses",
+    description="FF2",
     version="1.0",
 };
+
+public void OnPluginStart2()
+{
+    AddNormalSoundHook(SoundHook);
+    AddAmbientSoundHook(SoundAmbientHook);
+}
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
 {
@@ -37,66 +45,34 @@ void Ability_FreddyKrueger(int boss, const char[] ability_name)
     new client=GetClientOfUserId(FF2_GetBossUserId(boss));
     char color[25];
 
-    SetEntProp(client, Prop_Send, "m_CollisionGroup", 1);
-
-    if(!g_bUseAbility[client])
-    {
-        FF2_GetAbilityArgumentString(boss, this_plugin_name, ability_name, 3, color, sizeof(color));
-
-        AddNormalSoundHook(SoundHook);
-        AddAmbientSoundHook(SoundAmbientHook);
-        SpawnFog(
-        FF2_GetAbilityArgumentFloat(boss, this_plugin_name, ability_name, 1, 300.0)
-        , FF2_GetAbilityArgumentFloat(boss, this_plugin_name, ability_name, 2, 500.0)
-        , "0 0 0");
-        FF2_StopMusic();
-    }
-
     g_bUseAbility[client]=true;
-    Handle bossKV=FF2_GetSpecialKV(boss, 0); // 이게 될까!?
-    abilityDuration[client]=bossKV.GetFloat("ability_duration", 10.0);
-    CreateTimer(0.1, Timer_AbilityDuration, TIMER_REPEAT);
-    CloseHandle(bossKV);
 }
 
-public Action Timer_AbilityDuration(Handle timer, any client)
-{
-    if(!IsValidClient(client) || abilityDuration[client]<=0.0)
-    {
-        SetEntProp(client, Prop_Send, "m_CollisionGroup", 5);
-        g_bUseAbility[client]=false;
-        abilityDuration[client]=0.0;
-
-        for(int target=1; target<=MaxClients; target++)
-        {
-            if(g_bUseAbility[target])   return Plugin_Stop;
-        }
-        RemoveNormalSoundHook(SoundHook);
-        RemoveAmbientSoundHook(SoundAmbientHook);
-        KillFog();
-        FF2_StartMusic();
-        return Plugin_Stop;
-    }
-    ability_duration[client]-=0.1;
-    return Plugin_Continue;
-}
 
 public Action SoundHook(int clients[64], int &numClients, char sample[PLATFORM_MAX_PATH], int &entity, int &channel, float &volume, int &level, int &pitch, int &flags)
 {
-    volume=0.0;
-    StopSound(client, channel, sample);
-    return Plugin_Changed;
+    if(g_bUseAbility[entity])
+    {
+        volume=0.0;
+        StopSound(entity, channel, sample);
+        return Plugin_Changed;
+    }
+    return Plugin_Continue;
 }
 
 public Action SoundAmbientHook(char sample[PLATFORM_MAX_PATH], int &entity, float &volume, int &level, int &pitch, float pos[3], int &flags, float &delay)
 {
-    volume=0.0;
-    StopSound(entity, 0, sample);
-    return Plugin_Changed;
+    if(g_bUseAbility[entity])
+    {
+        volume=0.0;
+        StopSound(entity, channel, sample);
+        return Plugin_Changed;
+    }
+    return Plugin_Continue;
 }
 
 stock void SpawnFog(float fogStart, float fogEnd, const char color[25])
-{
+{ // TODO: 안개가 이미 있다고? 그럼 그 안개를 이용해!
     g_iFogIndex=CreateEntityByName("env_fog_controller");
     DispatchSpawn(g_iFogIndex);
     if(IsValidEntity(g_iFogIndex))
@@ -126,4 +102,9 @@ stock void KillFog()
     {
         AcceptEntityInput(g_iFogIndex, "Kill");
     }
+}
+
+stock bool IsValidClient(int client)
+{
+    return (0<client && client <= MaxClients && IsClientInGame(client));
 }

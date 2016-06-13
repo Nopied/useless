@@ -17,12 +17,12 @@ public void OnPluginStart()
 {
 	cvarTimer=CreateConVar("A_je_gag_Timer", "90.0", "A-je...", FCVAR_PLUGIN, true, 0.0);
 
-  g_hGagCookie=RegClientCookie("A_je_gag.cookie", "LOL", CookieAccess_Protected);
+  	g_hGagCookie=RegClientCookie("A_je_gag.cookie", "LOL", CookieAccess_Protected);
 
 	AddCommandListener(Listener_Say, "say");
 	AddCommandListener(Listener_Say, "say_team");
 
-  RegConsoleCmd("ajegag", Command_Ajegag);
+  	RegConsoleCmd("ajegag", Command_Ajegag);
 }
 
 public void OnMapStart()
@@ -32,30 +32,30 @@ public void OnMapStart()
 
 public Action Timer_Gag(Handle timer)
 {
-  char cookieClient[MAXPLAYERS+1][100];
-  char CookieV[100];
-  int clientQueue[MAXPLAYERS+1]; // 이것도 0은 취급 안함.
-  int count=0; // for문의 client는 1부터 시작.
+	  char cookieClient[MAXPLAYERS+1][100];
+	  char CookieV[100];
+	  int clientQueue[MAXPLAYERS+1]; // 이것도 0은 취급 안함.
+	  int count=0; // for문의 client는 1부터 시작.
 
-  for(int client=1; client<=MaxClients; client++) // 0은 World.
-  {
-    if(IsValidClient(client))
-    {
-      GetClientCookie(client, g_hGagCookie, CookieV, sizeof(CookieV));
-      if(CookieV[0] != '\0')
-      {
-        Format(cookieClient[count], 100, "%s", CookieV);
-        clientQueue[count]=client;
-				count++;
-      }
-    }
-  }
-  int random=GetRandomInt(0, count-1);
+	  for(int client=1; client<=MaxClients; client++) // 0은 World.
+	  {
+	    if(IsValidClient(client))
+	    {
+	      GetClientCookie(client, g_hGagCookie, CookieV, sizeof(CookieV));
+	      if(CookieV[0] != '\0')
+	      {
+	        Format(cookieClient[count], 100, "%s", CookieV);
+	        clientQueue[count]=client;
+					count++;
+	      }
+	    }
+	  }
+	int random=GetRandomInt(0, count-1);
 	if(count)
-  CPrintToChatAll("{green}[개그]{default} %s{default} - {green}%N",
-	cookieClient[random],
-	clientQueue[random]);
-  return Plugin_Continue;
+	  	CPrintToChatAll("{green}[개그]{default} %s{default} - {green}%N",
+		cookieClient[random],
+		clientQueue[random]);
+	 return Plugin_Continue;
 }
 
 public Action:Listener_Say(int client, const char[] command, int argc)

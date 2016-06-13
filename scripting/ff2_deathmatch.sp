@@ -147,14 +147,13 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             }
 
             if(!(FF2_GetFF2flags(attacker) & FF2FLAG_HUDDISABLED))
-  					{
-  						PrintHintText(attacker, "%t", "Backstab");
-  					}
-
-  					if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
-  					{
-  						PrintHintText(victim, "%t", "Backstabbed");
-  					}
+  			{
+  				PrintHintText(attacker, "%t", "Backstab");
+  			}
+  			if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
+  			{
+  				PrintHintText(victim, "%t", "Backstabbed");
+  			}
 
             Handle BossKV=FF2_GetSpecialKV(boss);
             char playerName[64];
@@ -173,7 +172,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 600.0);
+            DispatchKeyValueFloat(explosion, "DamageForce", 60.0);
       			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 280, 4);
       			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
@@ -414,15 +413,6 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist
     return Plugin_Changed;
   }
   return Plugin_Continue;
-}
-
-stock void SpawnPlayer(int client, int team)
-{
-    Handle event=CreateEvent("player_spawn", true);
-    SetEventInt(event, "userid", GetClientUserId(client));
-    SetEventInt(event, "team", team);
-    SetEventInt(event, "class", GetRandomInt(1, 10));
-    FireEvent(event);
 }
 
 stock void StartMusic(int client=0)

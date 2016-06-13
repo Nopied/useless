@@ -1176,6 +1176,8 @@ public OnPluginStart()
 
 	HookUserMessage(GetUserMessageId("PlayerJarated"), OnJarate);  //Used to subtract rage when a boss is jarated (not through Sydney Sleeper)
 
+	AddCommandListener(Listener_Say, "say");
+	AddCommandListener(Listener_Say, "say_team");
 	AddCommandListener(OnCallForMedic, "voicemenu");    //Used to activate rages
 	AddCommandListener(OnSuicide, "explode");           //Used to stop boss from suiciding
 	AddCommandListener(OnSuicide, "kill");              //Used to stop boss from suiciding
@@ -1297,10 +1299,10 @@ public OnPluginStart()
 
 	AddNormalSoundHook(HookSound);
 
-	AddMultiTargetFilter("@hale", BossTargetFilter, "all current Bosses", false);
-	AddMultiTargetFilter("@!hale", BossTargetFilter, "all non-Boss players", false);
-	AddMultiTargetFilter("@boss", BossTargetFilter, "all current Bosses", false);
-	AddMultiTargetFilter("@!boss", BossTargetFilter, "all non-Boss players", false);
+	AddMultiTargetFilter("@hale", BossTargetFilter, "모든 보스", false);
+	AddMultiTargetFilter("@!hale", BossTargetFilter, "보스를 제외한 대상들", false);
+	AddMultiTargetFilter("@boss", BossTargetFilter, "모든 보스", false);
+	AddMultiTargetFilter("@!boss", BossTargetFilter, "보스를 제외한 대상들", false);
 
 	#if defined _steamtools_included
 	steamtools=LibraryExists("SteamTools");
@@ -1314,6 +1316,54 @@ public OnPluginStart()
 	tf2attributes=LibraryExists("tf2attributes");
 	#endif
 }
+
+public Action:Listener_Say(client, const String:command[], argc)
+{
+	if(!IsValidClient(client))	return Plugin_Continue;
+
+	new String:chat[150];
+	new bool:start=false;
+	new bool:handleChat=false;
+
+	GetCmdArgString(chat, sizeof(chat));
+
+	if(strlen(chat)>=2 ){
+		start=true;
+		if(chat[1]=='!') handleChat=false;
+		else if(chat[1]=='/') handleChat=true;
+		else return Plugin_Continue;
+		}  // start++; && (chat[1]=='!' || chat[1]=='/')
+	chat[strlen(chat)-1]='\0';
+
+	if(StrEqual("프리크", chat[2], true) ||
+	StrEqual("ㄹㄹ2", chat[2], true))
+	{
+		FF2Panel(client, 0);
+	}
+
+	else if(StrEqual("음악", chat[2], true) ||
+	StrEqual("보스음악", chat[2], true) ||
+	StrEqual("ㄹㄹ2ㅡㅕ냧", chat[2], true))
+	{
+		MusicTogglePanel(client);
+	}
+
+	else if(StrEqual("난이도", chat[2], true) ||
+	StrEqual("보스난이도", chat[2], true) ||
+	StrEqual("ㅗ미드ㅐㅇㄷ", chat[2], true))
+	{
+		CallDifficultyMenu(client);
+	}
+
+	else if(StrEqual("패치", chat[2], true) ||
+	StrEqual("업데이트", chat[2], true) ||
+	StrEqual("ㄹㄹ2ㅜㄷㅈ", chat[2], true))
+	{
+		NewPanel(client, maxVersion);
+	}
+	return handleChat ? Plugin_Handled : Plugin_Continue;
+}
+
 public Action:OnRPS(Handle:event, const String:name[], bool:dont)
 {
 	new winner = GetEventInt(event, "winner");
