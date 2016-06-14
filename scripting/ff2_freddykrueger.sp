@@ -43,7 +43,6 @@ Arg 3: 안개 색
 void Ability_FreddyKrueger(int boss, const char[] ability_name)
 {
     new client=GetClientOfUserId(FF2_GetBossUserId(boss));
-    char color[25];
 
     g_bUseAbility[client]=true;
 }

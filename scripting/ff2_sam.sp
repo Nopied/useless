@@ -7,6 +7,8 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
+int clientWeapon[MAXPLAYERS+1];
+
 public Plugin myinfo=
 {
 	name="Freak Fortress 2: Sam's Abilities",
@@ -17,7 +19,13 @@ public Plugin myinfo=
 
 public void OnPluginStart2()
 {
+	HookEvent("player_spawn", OnPlayerSpawn);
+}
 
+public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+{
+	int client=GetClientOfUserId(GetEventInt(event, "userid"));
+	clientWeapon[client]=0;
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
@@ -37,18 +45,39 @@ void Rage_Sam(int boss)
 		{
 			TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
 			TF2_StunPlayer(client, 10.0, 1.0, TF_STUNFLAG_NOSOUNDOREFFECT|TF_STUNFLAG_THIRDPERSON, bossClient); // TODO: 시간 커스터마이즈
-			// 들고있던 무기 떨구기 || 107: 이속 증가
-		}
 
+			// 들고있던 무기 떨구기 || 107: 이속 증가
+
+			int weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+
+			if(weapon!=clientWeapon[client] && IsValidEntity(weapon))
+			{
+				if(clientWeapon[client] && IsValidEntity(clientWeapon[client]))
+				{
+					SetEntityRenderColor(clientWeapon[client], _, _, _, 255);
+				}
+				SetEntityRenderColor(weapon, _, _, _, 70);
+				clientWeapon[client]=weapon;
+				PrintCenterText(client, "들고 있던 무기를 사용할 수 없게 되었습니다!");
+			}
+		}
 	}
 }
 
-public Action OnEntityTransmit(int prop, int client)
+public void OnClientDisconnect(int client)
 {
-	if(IsValidClient(client) && IsPlayerAlive(client) && propIndex[client] == prop && lostWeapon[client])
+	clientWeapon[client]=0;
+}
+
+public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+{
+	if(!IsValidClient(client) || !clientWeapon[client])
 		return Plugin_Continue;
 
-	return Plugin_Handled;
+	if(buttons & IN_ATTACK|IN_ATTACK2|IN_ATTACK3|IN_RELOAD && GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") == clientWeapon[client])
+	{// 무기 못써요!
+		return Plugin_Handled;
+	}
 }
 
 stock int SpawnWeaponProp(int client, int weapon)

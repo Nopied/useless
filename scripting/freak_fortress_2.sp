@@ -3158,17 +3158,16 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 				{
 					if(MusicTimer[client]!=INVALID_HANDLE)
 					{
-						// Debug("!client, In for, Not INVALID_HANDLE");
 						KillTimer(MusicTimer[client]);
 						MusicTimer[client]=INVALID_HANDLE;
+						// return Plugin_Stop;
 					}
-					return Plugin_Stop;
 				}
+				continue;
 			}
 
 			if(MusicTimer[client]!=INVALID_HANDLE)
 			{
-				// Debug("!client, Not for, Not INVALID_HANDLE");
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
@@ -3184,7 +3183,6 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 		{
 			if(MusicTimer[client]!=INVALID_HANDLE)
 			{
-				// Debug("client, Not for, Not INVALID_HANDLE");
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
@@ -3193,113 +3191,6 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 	}
 	return Plugin_Continue;
 }
-
-/*
-	KvRewind(BossKV[Special[0]]);
-	if(KvJumpToKey(BossKV[Special[0]], "sound_bgm"))
-	{
-		decl String:music[PLATFORM_MAX_PATH];
-		new String:artist[80];
-		new String:name[100];
-		new bool:notice=true;
-
-		new index;
-		do
-		{
-			index++;
-			Format(music, 10, "time%i", index);
-		}
-		while(KvGetFloat(BossKV[Special[0]], music)>1);
-
-		if(!client || !playingCustomBGM[client])	index=GetRandomInt(1, index-1);
-		else index=selectedBGM[client];
-
-		Format(music, 10, "time%i", index);
-		new Float:time=KvGetFloat(BossKV[Special[0]], music);
-		Format(music, 10, "path%i", index);
-		Format(artist, sizeof(artist), "artist%i", index);
-		KvGetString(BossKV[Special[0]], artist, artist, sizeof(artist), "이름 없는 아티스트");
-		Format(name, sizeof(name), "name%i", index);
-		KvGetString(BossKV[Special[0]], name, name, sizeof(name), "이름 없는 곡");
-		KvGetString(BossKV[Special[0]], music, music, sizeof(music));
-		decl String:temp[PLATFORM_MAX_PATH];
-		decl String:temp2[80];
-		decl String:temp3[100];
-
-		new Action:action;
-		Call_StartForward(OnMusic);
-		new Float:time2=time;
-		new bool:notice2=notice;
-		strcopy(temp, sizeof(temp), music);
-		Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-		Call_PushFloatRef(time2);
-		strcopy(temp2, sizeof(temp2), artist);
-		Call_PushStringEx(temp2, sizeof(temp2), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-		strcopy(temp3, sizeof(temp3), name);
-		Call_PushStringEx(temp3, sizeof(temp3), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-		Call_PushCell(notice2);
-		Call_Finish(action);
-		switch(action)
-		{
-			case Plugin_Stop, Plugin_Handled:
-			{
-			// 	Debug("NEED INPUT!");
-				return Plugin_Stop;
-			}
-			case Plugin_Changed:
-			{
-				if(!(FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM))
-				{
-					strcopy(music, sizeof(music), temp);
-					time=time2;
-					strcopy(artist, sizeof(artist), temp2);
-					strcopy(name, sizeof(name), temp3);
-					notice=notice2;
-					// Debug("OOO... INPUT! %s | %f", music, time);
-				}
-			}
-		}
-
-		Format(temp, sizeof(temp), "sound/%s", music);
-		if(FileExists(temp, true))
-		{
-			if(!client)
-			{
-				for(new target=1; target<=MaxClients; target++)
-				{
-					strcopy(currentBGM[target], PLATFORM_MAX_PATH, music);
-					if(time>1 && IsValidClient(target))
-					{
-						MusicTimer[target]=CreateTimer(time, Timer_PlayBGM, GetClientUserId(target), TIMER_FLAG_NO_MAPCHANGE);
-					}
-				}
-				EmitSoundToAllExcept(SOUNDEXCEPT_MUSIC, music);
-				if(notice)	CPrintToChatAll("{olive}[FF2]{default} BGM: {orange}%s{default} - {green}%s{default}", name, artist);
-			}
-			else if(CheckSoundException(client, SOUNDEXCEPT_MUSIC))
-			{
-				strcopy(currentBGM[client], PLATFORM_MAX_PATH, music);
-				EmitSoundToClient(client, music);
-				if(time>1)
-				{
-					MusicTimer[client]=CreateTimer(time, Timer_PlayBGM, userid, TIMER_FLAG_NO_MAPCHANGE);
-					// Debug("Timer_PlayBGM => Timer_PlayBGM | %.1f", time);
-				}
-				if(notice) 	CPrintToChat(client, "{olive}[FF2]{default} BGM: {orange}%s{default} - {green}%s{default}", name, artist);
-			}
-		// 	Debug("AHH..INPUT! %s | MORE INPUT! %f", music, time);
-		}
-		else
-		{
-			decl String:bossName[64];
-			KvRewind(BossKV[Special[0]]);
-			KvGetString(BossKV[Special[0]], "filename", bossName, sizeof(bossName));
-			PrintToServer("[FF2 Bosses] Character %s is missing BGM file '%s'!", bossName, music);
-			// Debug("{red}MALFUNCTION! NEED INPUT!");
-		}
-	}
-	return Plugin_Continue;
-*/
 
 StartMusic(client=0)
 {
@@ -3323,18 +3214,12 @@ StopMusic(client=0, bool:permanent=false)
 		{
 			if(IsValidClient(client))
 			{
-			/*	if(!currentBGM[client][0])
-				{
-					Debug("{green}MALFUNCTION! NEED INPUT!");
-				}
-				*/
 				StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 				StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 			}
 
 			if(MusicTimer[client]!=INVALID_HANDLE)
 			{
-				// Debug("TERMINATING INPUT!");
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
@@ -3344,18 +3229,11 @@ StopMusic(client=0, bool:permanent=false)
 	}
 	else
 	{
-		/*
-		if(!currentBGM[client][0])
-		{
-			Debug("{green}MALFUNCTION! NEED INPUT!");
-		}
-		*/
 		StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 		StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 
 		if(MusicTimer[client]!=INVALID_HANDLE)
 		{
-			// Debug("END INPUT FOR %N!", client);
 			KillTimer(MusicTimer[client]);
 			MusicTimer[client]=INVALID_HANDLE;
 		}
@@ -3412,16 +3290,12 @@ PrepareBGM(client)
 			{
 				case Plugin_Stop, Plugin_Handled:
 				{
-				// 	Debug("NEED INPUT!");
 					return;
 				}
 				case Plugin_Changed:
 				{
 					strcopy(music, sizeof(music), temp);
-					// strcopy(artist, sizeof(artist), temp2);
-					// strcopy(name, sizeof(name), temp3);
 					notice=notice2;
-					// Debug("OOO... INPUT! %s | %f", music, time);
 				}
 			}
 		}
@@ -3440,7 +3314,6 @@ PrepareBGM(client)
 				}
 				if(notice) 	CPrintToChat(client, "{olive}[FF2]{default} Now Playing: {orange}%s{default} - {green}%s{default}", name, artist);
 			}
-		 	Debug("AHH..INPUT! %s | MORE INPUT! %f", music, time);
 		}
 		else
 		{
@@ -3448,7 +3321,6 @@ PrepareBGM(client)
 			KvRewind(BossKV[Special[0]]);
 			KvGetString(BossKV[Special[0]], "filename", bossName, sizeof(bossName));
 			PrintToServer("[FF2 Bosses] Character %s is missing BGM file '%s'!", bossName, music);
-			// Debug("{red}MALFUNCTION! NEED INPUT!");
 		}
 	}
 }
@@ -3463,7 +3335,6 @@ stock EmitSoundToAllExcept(exceptiontype=SOUNDEXCEPT_MUSIC, const String:sample[
 			if(CheckSoundException(client, exceptiontype))
 			{
 				clients[total++]=client;
-				// Debug("Detected Player: %N(MUSIC ON!)", client);
 			}
 		}
 	}

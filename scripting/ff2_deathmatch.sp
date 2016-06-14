@@ -13,7 +13,6 @@ bool IsLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 
 int top[3];
-// int lastmanClientIndex;
 int BGMCount;
 
 Handle MusicKV;
@@ -172,21 +171,12 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 60.0);
+            DispatchKeyValueFloat(explosion, "DamageForce", 10.0);
       			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 280, 4);
       			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
-
       			DispatchSpawn(explosion);
 
-      /*			if(!(GetEntityFlags(victim) & FL_ONGROUND))
-      			{
-      				explosionPosition[2]=bossPosition[2]+GetRandomInt(-150, 150);
-      			}
-      			else
-      			{
-      				explosionPosition[2]=bossPosition[2]+GetRandomInt(0,100);
-      			}*/ // TODO: if it need....
       			TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
       			AcceptEntityInput(explosion, "Explode");
       			AcceptEntityInput(explosion, "kill");
