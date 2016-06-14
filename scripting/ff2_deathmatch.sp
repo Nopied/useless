@@ -18,8 +18,6 @@ int BGMCount;
 Handle MusicKV;
 Handle LastManData;
 
-bool enable=false;
-
 public Plugin:myinfo=
 {
     name="Freak Fortress 2 : Deathmatch Mod",
@@ -63,22 +61,8 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     IsLastManStanding=false;
-    enable=false;
 
-    CreateTimer(10.4, CheckEnable);
     // FF2_SetServerFlags(FF2_GetServerFlags()|~FF2SERVERFLAG_ISLASTMAN|~FF2SERVERFLAG_UNCHANGE_BGM_USER|~FF2SERVERFLAG_UNCHANGE_BGM_SERVER);
-}
-
-public Action CheckEnable(Handle timer)
-{
-  if(CheckAlivePlayers() <= 1)
-  {
-    enable=false; // Wat.
-    CPrintToChatAll("{olive}[FF2]{default} 인간이 최소 2명 이상이어야 합니다!");
-    return Plugin_Continue;
-  }
-  enable=true;
-  return Plugin_Continue;
 }
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
@@ -171,8 +155,8 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 10.0);
-      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 280, 4);
+            DispatchKeyValueFloat(explosion, "DamageForce", 1.0);
+      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 50, 4);
       			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
       			DispatchSpawn(explosion);
@@ -191,19 +175,17 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-    if(!enable && FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+    if(FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
 
-    if(!IsLastManStanding && CheckAlivePlayers() <= 1) // 라스트 맨 스탠딩
+    if(!IsLastManStanding && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
         IsLastManStanding=true;
         StartMusic(); // Call FF2_OnMusic
-        // FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM);
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
         int totalDamage;
         int bossCount;
-        // bool valid[3];
 
         for(int client=1; client<=MaxClients; client++)
         {
@@ -506,7 +488,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Engineer:
     {
       SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 2.0 ; 112 ; 100.0 ; 287 ; 1.5 ; 80 ; 4.0 ; 113 ; 40.0");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; ; 286 ; 3.5 ; 287 ; 1.5 ; 80 ; 4.0 ; 113 ; 40.0");
       SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);
@@ -520,6 +502,7 @@ stock void GiveLastManWeapon(int client)
       // 80: 최대 금속량
       // 124: 미니 센트리 설정
       // 136: 센트리 복수
+      // 286: 건물 체력
       // 287: 센트리 공격력
       // 343: 센트리 발사 속도
       // 344: 센트리 사정 거리

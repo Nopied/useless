@@ -1320,17 +1320,18 @@ public Action:Listener_Say(client, const String:command[], argc)
 	if(!IsValidClient(client))	return Plugin_Continue;
 
 	new String:chat[150];
-	new bool:start=false;
 	new bool:handleChat=false;
 
 	GetCmdArgString(chat, sizeof(chat));
 
 	if(strlen(chat)>=2 ){
-		start=true;
 		if(chat[1]=='!') handleChat=false;
 		else if(chat[1]=='/') handleChat=true;
 		else return Plugin_Continue;
 		}  // start++; && (chat[1]=='!' || chat[1]=='/')
+	else{
+		return Plugin_Continue;
+	}
 	chat[strlen(chat)-1]='\0';
 
 	if(StrEqual("프리크", chat[2], true) ||
@@ -3173,6 +3174,7 @@ public Action:Timer_PlayBGM(Handle:timer, any:userid)
 
 			if(MusicTimer[client]!=INVALID_HANDLE)
 			{
+				Debug("Not ValidClient");
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}

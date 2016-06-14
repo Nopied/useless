@@ -75,9 +75,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		return Plugin_Continue;
 
 	if(buttons & IN_ATTACK|IN_ATTACK2|IN_ATTACK3|IN_RELOAD && GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") == clientWeapon[client])
-	{// 무기 못써요!
-		return Plugin_Handled;
+	{// 무기 못써요! Need fix
+		buttons |= ~IN_ATTACK|~IN_ATTACK2|~IN_ATTACK3|~IN_RELOAD;
+		return Plugin_Changed;
 	}
+	return Plugin_Continue;
 }
 
 stock int SpawnWeaponProp(int client, int weapon)
