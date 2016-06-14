@@ -97,8 +97,6 @@ new GoombaCount[MAXPLAYERS+1];
 new selectedBGM[MAXPLAYERS+1];
 
 new String:currentBGM[MAXPLAYERS+1][PLATFORM_MAX_PATH];
-// new Handle:currentBGMData[MAXSPECIALS+1];
-// new currentBGMcount=0;
 
 new FF2flags[MAXPLAYERS+1];
 new FF2ServerFlag;
@@ -1360,6 +1358,13 @@ public Action:Listener_Say(client, const String:command[], argc)
 	StrEqual("ㄹㄹ2ㅜㄷㅈ", chat[2], true))
 	{
 		NewPanel(client, maxVersion);
+	}
+
+	else if(StrEqual("패치", chat[2], true) ||
+	StrEqual("업데이트", chat[2], true) ||
+	StrEqual("ㄹㄹ2ㅜㄷㅈ", chat[2], true))
+	{
+		QueuePanelCmd(client, 0);
 	}
 	return handleChat ? Plugin_Handled : Plugin_Continue;
 }
