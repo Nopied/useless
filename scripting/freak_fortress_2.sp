@@ -1360,9 +1360,9 @@ public Action:Listener_Say(client, const String:command[], argc)
 		NewPanel(client, maxVersion);
 	}
 
-	else if(StrEqual("패치", chat[2], true) ||
-	StrEqual("업데이트", chat[2], true) ||
-	StrEqual("ㄹㄹ2ㅜㄷㅈ", chat[2], true))
+	else if(StrEqual("대기열", chat[2], true) ||
+	StrEqual("보스대기열", chat[2], true) ||
+	StrEqual("ㄹㄹ2ㅜㄷㅌㅅ", chat[2], true))
 	{
 		QueuePanelCmd(client, 0);
 	}
