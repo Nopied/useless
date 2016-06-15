@@ -1787,7 +1787,7 @@ public DisableFF2()
 			}
 		}
 
-		if(MusicTimer[client]!=INVALID_HANDLE)
+		if(MusicTimer[client])
 		{
 			KillTimer(MusicTimer[client]);
 			MusicTimer[client]=INVALID_HANDLE;
@@ -3154,27 +3154,32 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 	{
 		for(client=MaxClients;client;client--)
 		{
-			if(MusicTimer[client]!=INVALID_HANDLE)
-			{
-				KillTimer(MusicTimer[client]);
-				MusicTimer[client]=INVALID_HANDLE;
-			}
-			
 			if(IsValidClient(client))
 			{
+				// if(MusicTimer[client]==INVALID_HANDLE) Debug("MusicTimer[client] is INVALID: 3159 (%N)", client);
+
 				if(CheckRoundState()==1 && (!currentBGM[client][0] || !StrEqual(currentBGM[client], "ff2_stop_music", false)))
 				{
 					PlayBGM(client);
 				}
 				else
 				{
-					if(MusicTimer[client]!=INVALID_HANDLE)
+					if(MusicTimer[client])
 					{
+						// Debug("MusicTimer[client] is VALID: 3169");
 						KillTimer(MusicTimer[client]);
 						MusicTimer[client]=INVALID_HANDLE;
 						// return Plugin_Stop;
 					}
 				}
+				continue;
+			}
+
+			if(MusicTimer[client])
+			{
+				// Debug("MusicTimer[client] is VALID: 3179");
+				KillTimer(MusicTimer[client]);
+				MusicTimer[client]=INVALID_HANDLE;
 			}
 		}
 	}
@@ -3182,12 +3187,13 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 	{
 		if(CheckRoundState()==1 && (!currentBGM[client][0] || !StrEqual(currentBGM[client], "ff2_stop_music", false)))
 		{
-			PrepareBGM(client);
+			PlayBGM(client);
 		}
 		else
 		{
-			if(MusicTimer[client]!=INVALID_HANDLE)
+			if(MusicTimer[client])
 			{
+				// Debug("MusicTimer[client] is VALID: 3195");
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
@@ -3223,7 +3229,7 @@ StopMusic(client=0, bool:permanent=false)
 				StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 			}
 
-			if(MusicTimer[client]!=INVALID_HANDLE)
+			if(MusicTimer[client])
 			{
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
@@ -3237,7 +3243,7 @@ StopMusic(client=0, bool:permanent=false)
 		StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 		StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 
-		if(MusicTimer[client]!=INVALID_HANDLE)
+		if(MusicTimer[client])
 		{
 			KillTimer(MusicTimer[client]);
 			MusicTimer[client]=INVALID_HANDLE;
@@ -4358,7 +4364,7 @@ public Action:CheckItems(Handle:timer, any:userid)
 			case 265:  //Stickybomb Jumper
 			{
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
-				SpawnWeapon(client, "tf_weapon_pipebomblauncher", 265, 1, 0, "96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 0.2");
+				SpawnWeapon(client, "tf_weapon_pipebomblauncher", 265, 1, 0, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 6.0");
 				FF2_SetAmmo(client, weapon, 24);
 			}
 		}

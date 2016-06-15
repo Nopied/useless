@@ -155,8 +155,8 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 1.0);
-      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 50, 4);
+            DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
+      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
       			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
       			DispatchSpawn(explosion);
@@ -181,7 +181,6 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     if(!IsLastManStanding && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
         IsLastManStanding=true;
-        StartMusic(); // Call FF2_OnMusic
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
         int totalDamage;
@@ -262,7 +261,6 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             SDKHook(bosses[i], SDKHook_OnTakeDamage, OnTakeDamage);
         }
 
-        // lastmanClientIndex=winner;
         IsLastMan[winner]=true;
         SDKHook(winner, SDKHook_OnTakeDamage, OnTakeDamage);
 
@@ -279,19 +277,19 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             if(IsPlayerAlive(forWinner))
             {
                 WritePackCell(LastManData, 1);
-                WritePackCell(LastManData, 0);
+                // WritePackCell(LastManData, 0);
                 CreateTimer(0.4, BeLastMan);
                 TF2_AddCondition(forWinner, TFCond_Bonked, 0.4);
             }
             else // Yeah. then it said. Not Alive.
             {
                 WritePackCell(LastManData, 0);
-                WritePackCell(LastManData, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
-                // Debug("Spawning %n...", forWinner);
+                // WritePackCell(LastManData, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
                 TF2_ChangeClientTeam(forWinner, TF2_GetClientTeam(winner));
                 TF2_RespawnPlayer(forWinner);
             }
             ResetPack(LastManData);
+            FF2_StartMusic(); // Call FF2_OnMusic
             return Plugin_Continue;
         }
 
@@ -299,6 +297,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
         TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
         GiveLastManWeapon(winner);
+        FF2_StartMusic(); // Call FF2_OnMusic
         return Plugin_Continue;
     }
     return Plugin_Continue;
@@ -313,7 +312,7 @@ public Action BeLastMan(Handle timer)
     int client=ReadPackCell(LastManData);
     TFTeam team=view_as<TFTeam>(ReadPackCell(LastManData));
     bool alive=ReadPackCell(LastManData);
-    int observer=ReadPackCell(LastManData);
+    // int observer=ReadPackCell(LastManData);
 
     TF2_RespawnPlayer(winner);
     TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
@@ -327,7 +326,7 @@ public Action BeLastMan(Handle timer)
     else
     {
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
-        SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
+        // SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
         TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
     }
     CloseLastmanData();
@@ -378,11 +377,6 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist
     return Plugin_Changed;
   }
   return Plugin_Continue;
-}
-
-stock void StartMusic(int client=0)
-{
-    FF2_StartMusic(client);
 }
 
 stock int FindAnotherPerson(int Gclient)

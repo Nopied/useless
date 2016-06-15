@@ -6,10 +6,10 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
-Handle RageTimer[MAXPLAYER+1];
+Handle RageTimer[MAXPLAYERS+1];
 Handle RageData;
 
-bool g_bUseAbility[MAXPLAYER+1]={false, ...};
+bool g_bUseAbility[MAXPLAYERS+1]={false, ...};
 int g_iFogIndex=-1;
 
 public Plugin:myinfo=
@@ -56,15 +56,15 @@ public Action ActiveNight(Handle time, int client)
 
     if(IsValidClient(client) && IsPlayerAlive(client))
     {
-        SetEntPropFloat(client, Prop_Send, "m_fadeMinDist", 50.0);
-        SetEntPropFloat(client, Prop_Send, "m_fadeMaxDist", 500.0);
+        SetEntPropFloat(client, Prop_Send, "m_fadeMinDist", 0.0);
+        SetEntPropFloat(client, Prop_Send, "m_fadeMaxDist", 0.0);
         // m_flFadeScale
     }
 }
 
 public Action SoundHook(int clients[64], int &numClients, char sample[PLATFORM_MAX_PATH], int &entity, int &channel, float &volume, int &level, int &pitch, int &flags)
 {
-    if(g_bUseAbility[entity])
+    if(IsValidClient(entity) && g_bUseAbility[entity])
     {
         volume=0.0;
         StopSound(entity, channel, sample);
@@ -75,10 +75,10 @@ public Action SoundHook(int clients[64], int &numClients, char sample[PLATFORM_M
 
 public Action SoundAmbientHook(char sample[PLATFORM_MAX_PATH], int &entity, float &volume, int &level, int &pitch, float pos[3], int &flags, float &delay)
 {
-    if(g_bUseAbility[entity])
+    if(IsValidClient(entity) && g_bUseAbility[entity])
     {
         volume=0.0;
-        StopSound(entity, channel, sample);
+        StopSound(entity, 0, sample);
         return Plugin_Changed;
     }
     return Plugin_Continue;

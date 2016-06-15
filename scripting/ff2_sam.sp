@@ -56,7 +56,7 @@ void Rage_Sam(int boss)
 				{
 					SetEntityRenderColor(clientWeapon[client], _, _, _, 255);
 				}
-				SetEntityRenderColor(weapon, _, _, _, 70);
+				SetEntityRenderColor(weapon, 255, 255, 255, 70);
 				clientWeapon[client]=weapon;
 				PrintCenterText(client, "들고 있던 무기를 사용할 수 없게 되었습니다!");
 			}
@@ -76,17 +76,15 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 	if(buttons & IN_ATTACK|IN_ATTACK2|IN_ATTACK3|IN_RELOAD && GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") == clientWeapon[client])
 	{
-		switch(buttons)
-		{
-		  case IN_ATTACK:
+			if(buttons & IN_ATTACK)
 		  	buttons|=~IN_ATTACK;
-		  case IN_ATTACK2:
+			if(buttons & IN_ATTACK2)
 		  	buttons|=~IN_ATTACK2;
-		  case IN_ATTACK3:
+			if(buttons & IN_ATTACK3)
 		  	buttons|=~IN_ATTACK3;
-		  case IN_RELOAD:
+			if(buttons & IN_RELOAD)
 		  	buttons|=~IN_RELOAD;
-		}
+
 		return Plugin_Changed;
 	}
 	return Plugin_Continue;
