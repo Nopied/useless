@@ -45,6 +45,8 @@ void Ability_FreddyKrueger(int boss, const char[] ability_name)
     new client=GetClientOfUserId(FF2_GetBossUserId(boss));
 
     g_bUseAbility[client]=true;
+    SetEntPropFloat(client, Prop_Send, "m_fadeMinDist", 50.0);
+    SetEntPropFloat(client, Prop_Send, "m_fadeMaxDist", 500.0);
     CreateTimer(15.0, ActiveNight, client);
 }
 
@@ -56,7 +58,7 @@ public Action ActiveNight(Handle time, int client)
     {
         SetEntPropFloat(client, Prop_Send, "m_fadeMinDist", 50.0);
         SetEntPropFloat(client, Prop_Send, "m_fadeMaxDist", 500.0);
-        // m_flFadeScale 
+        // m_flFadeScale
     }
 }
 
