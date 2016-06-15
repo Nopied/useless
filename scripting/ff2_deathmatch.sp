@@ -245,6 +245,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         );
         CPrintToChatAll("%N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
         winner);
+        // PrintCenterTextAll("%N", winner);
 
         for(int i; i<bossCount; i++)
         {
@@ -325,17 +326,9 @@ public Action BeLastMan(Handle timer)
     }
     else
     {
-      /*  Debug("winner: %N, client: %N, team: %d, alive: %s, real Dead? : %s",
-        winner,
-        client,
-        view_as<int>(team),
-        alive ? "true" : "false",
-        !IsPlayerAlive(client) ? "true" : "false");*/
-
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
         SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
         TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
-
     }
     CloseLastmanData();
     return Plugin_Continue;
@@ -422,23 +415,23 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
       SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 1, "2 ; 4.0 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
       // 2: 피해량 향상
       // 97: 재장전 향상
       // 6: 발사 속도 향상
     }
     case TFClass_Sniper:
     {
-      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 5.0 ; 390 ; 3.0");
+      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 390 ; 3.0");
       SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_club", 264, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_club", 264, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0 ; 112 ; 1.0");
       // 390: 헤드샷 보너스 데미지
     }
     case TFClass_Soldier:
     {
-      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 0.4 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0 ; 521 ; 2.0");
+      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4 ; 97 ; 0.4 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0 ; 521 ; 2.0");
       SpawnWeapon(client, "tf_weapon_shotgun_soldier", 15016, 0, 2, "2 ; 2.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_shovel", 416, 0, 1, "2 ; 4.0 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_shovel", 416, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
       // 103: 투사체 비행속도 향상
       // 135: 로켓점프 피해량 감소
       // 488: 로켓 특화
@@ -448,7 +441,7 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 1.3");
       SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 1.0");
       // 540:아이랜더 효과로 추정됨..
       //changeMelee=false;
     }
@@ -456,7 +449,7 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 17 ; 0.08 ; 97 ; 1.3");
       SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 2.0 ; 493 ; 3.0");
-      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 1, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 1, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0");
       // 17: 적중 시 우버차지
       // 482: 오버힐 마스터리
       // 493: 힐 마스터리
@@ -465,7 +458,7 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.3 ; 87 ; 0.6 ; 6 ; 1.1");
       SpawnWeapon(client, "tf_weapon_shotgun_hwg", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 1, "2 ; 4.0 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
       // 87: 미니건 돌리는 속도 증가
       //
     }
@@ -473,14 +466,14 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_flamethrower", 208, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0");
       SpawnWeapon(client, "tf_weapon_shotgun_pyro", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 178 ; 0.2 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 178 ; 0.2 ; 112 ; 1.0");
       //changeMelee=false;
       // 178: 무기 바꾸는 속도 향상
     }
     case TFClass_Spy:
     {
       SpawnWeapon(client, "tf_weapon_revolver", 61, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 51 ; 1.0 ; 390 ; 5.0");
-      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 112 ; 100.0");
+      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 112 ; 1.0");
       SpawnWeapon(client, "tf_weapon_builder", 735, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_invis", 30, 0, 2, _);
       // 51: 헤드샷 판정 가능

@@ -131,11 +131,15 @@ public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 				{
 					if(FF2_GetQueuePoints(client))
 					{
-						SetClientQueueCookie(client, FF2_GetQueuePoints(client));
+						SetClientQueueCookie(client, queuepoints+FF2_GetQueuePoints(client));
 					}
 
 					add_points[client]=0;
 					FF2_SetQueuePoints(client, -1);
+				}
+				else
+				{
+					LogMessage("%N의 대기열 포인트: %d, 저장된 대기열포인트: %d", client, FF2_GetQueuePoints(client), GetClientQueueCookie(client));
 				}
 			}
 		}
@@ -190,33 +194,6 @@ public Action Command_SetMyBoss(int client, int args)
 		PrintToChatAll("%s", bossName);
 
 		CheckBossName(client, bossName);
-/*
-		for (new i = 0; (BossKV=FF2_GetSpecialKV(i,true)); i++)
-		{
-			if (KvGetNum(BossKV, "blocked",0)) continue;
-			if (KvGetNum(BossKV, "hidden",0)) continue;
-			KvGetString(BossKV, "name", spclName, sizeof(spclName));
-
-			if(StrContains(bossName, spclName, false)!=-1)
-			{
-				strcopy(Incoming[client], sizeof(Incoming[]), spclName);
-
-				CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossselected", spclName);
-				return Plugin_Handled;
-			}
-
-			KvGetString(BossKV, "filename", spclName, sizeof(spclName));
-			if(StrContains(bossName, spclName, false)!=-1)
-			{
-				KvGetString(BossKV, "name", spclName, sizeof(spclName));
-				strcopy(Incoming[client], sizeof(Incoming[]), spclName);
-
-				CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossselected", spclName);
-				return Plugin_Handled;
-			}
-		}
-		CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossnotfound");
-*/
 		return Plugin_Handled;
 	}
 
