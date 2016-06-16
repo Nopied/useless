@@ -12,17 +12,12 @@
 bool IsLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 
-int top[3];
+int top[4];
 int BGMCount;
 int timeleft;
 
 Handle MusicKV;
 Handle LastManData;
-
-enum GameMode={
-    Mode_None=0,
-    Mode_LastmanStanding
-};
 
 public Plugin:myinfo=
 {
@@ -36,7 +31,7 @@ public void OnPluginStart()
 {
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
-    HookEvent("arena_round_start", OnRoundStart, EventHookMode_Pre);
+    // HookEvent("arena_round_start", OnRoundStart, EventHookMode_Pre);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
     // TODO: pass 커맨드 구현.
 
@@ -63,7 +58,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
         CreateTimer(0.1, BeLastMan);
     }
 }
-
+/*
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     IsLastManStanding=false;
@@ -76,6 +71,7 @@ public Action SetUp(Handle timer)
 {
     CreateTimer(1.0, RoundTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 }
+*/
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
@@ -88,7 +84,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
             SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
         }
     }
-
+    IsLastManStanding=false;
     return Plugin_Continue;
 }
 
@@ -194,7 +190,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     {
         IsLastManStanding=true;
         int bosses[MAXPLAYERS+1];
-        int topDamage[3];
+        int topDamage[4];
         int totalDamage;
         int bossCount;
 
@@ -211,16 +207,23 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
           if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
       		{
+            top[3]=top[2];
       			top[2]=top[1];
       			top[1]=top[0];
       			top[0]=client;
       		}
       		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[1]))
       		{
+            top[3]=top[2];
       			top[2]=top[1];
       			top[1]=client;
       		}
       		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[2]))
+      		{
+            top[3]=top[2];
+      			top[2]=client;
+      		}
+          else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[3]))
       		{
       			top[2]=client;
       		}
@@ -280,7 +283,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         {
             int forWinner=FindAnotherPerson(winner);
 
-            LastManData=CreateDataPack(); // In this? data = winner | forWinner | team | IsAlive | abserverTarget
+            LastManData=CreateDataPack(); // In this? data = winner | forWinner | team | IsAlive
 
             WritePackCell(LastManData, winner);
             WritePackCell(LastManData, forWinner);
@@ -289,18 +292,17 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             if(IsPlayerAlive(forWinner))
             {
                 WritePackCell(LastManData, 1);
-                // WritePackCell(LastManData, 0);
                 CreateTimer(0.4, BeLastMan);
                 TF2_AddCondition(forWinner, TFCond_Bonked, 0.4);
             }
             else // Yeah. then it said. Not Alive.
             {
                 WritePackCell(LastManData, 0);
-                // WritePackCell(LastManData, GetEntPropEnt(forWinner, Prop_Send, "m_hObserverTarget"));
                 TF2_ChangeClientTeam(forWinner, TF2_GetClientTeam(winner));
                 TF2_RespawnPlayer(forWinner);
             }
             ResetPack(LastManData);
+
             FF2_StartMusic(); // Call FF2_OnMusic
             FF2_LoadMusicData(MusicKV);
             return Plugin_Continue;
@@ -310,7 +312,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
         TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
         GiveLastManWeapon(winner);
+
+        FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
         FF2_StartMusic(); // Call FF2_OnMusic
+        FF2_LoadMusicData(MusicKV);
         return Plugin_Continue;
     }
     return Plugin_Continue;
@@ -318,9 +323,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public Action BeLastMan(Handle timer)
 {
-    ResetPack(LastManData);
-
-    FF2_SetServerFlags(FF2_GetServerFlags()|FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BGM_SERVER|FF2SERVERFLAG_UNCHANGE_BGM_USER);
+    FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
     int winner=ReadPackCell(LastManData);
     int client=ReadPackCell(LastManData);
     TFTeam team=view_as<TFTeam>(ReadPackCell(LastManData));
@@ -354,7 +357,7 @@ public void OnClientDisconnect(int client)
 }
 
 
-public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist[80], char name[100], bool &notice, int client)
+public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist[80], char name[100], bool &notice, int client, int selected)
 {
   if(IsLastManStanding && BGMCount)
   {
@@ -364,28 +367,31 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist
     char tempArtist[80];
     char tempName[100];
 
-    if(MusicKV==INVALID_HANDLE)
+    if(!MusicKV || selected)
     {
-      LogError("MusicKV is invalid!");
+      Debug("MusicKV: %s, selected: %s", MusicKV ? "valid" : "Invalid", selected ? "true" : "false");
       return Plugin_Continue;
     }
+    KvRewind(MusicKV);
+    if(KvJumpToKey(MusicKV, "sound_bgm"))
+    {
+      Format(tempItem, sizeof(tempItem), "time%i", random);
+      time=KvGetFloat(MusicKV, tempItem);
 
-    Format(tempItem, sizeof(tempItem), "time%i", random);
-    time=KvGetFloat(MusicKV, tempItem);
+      Format(tempPath, sizeof(tempPath), "path%i", random);
+      KvGetString(MusicKV, tempPath, tempPath, sizeof(tempPath));
+      Format(path, sizeof(path), "%s", tempPath);
 
-    Format(tempPath, sizeof(tempPath), "path%i", random);
-    KvGetString(MusicKV, tempPath, tempPath, sizeof(tempPath));
-    Format(path, sizeof(path), "%s", tempPath);
+      Format(tempArtist, sizeof(tempArtist), "artist%i", random);
+      KvGetString(MusicKV, tempArtist, tempArtist, sizeof(tempArtist));
+      Format(artist, sizeof(artist), "%s", tempArtist);
 
-    Format(tempArtist, sizeof(tempArtist), "artist%i", random);
-    KvGetString(MusicKV, tempArtist, tempArtist, sizeof(tempArtist));
-    Format(artist, sizeof(artist), "%s", tempArtist);
+      Format(tempName, sizeof(tempName), "name%i", random);
+      KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
+      Format(name, sizeof(name), "%s", tempName);
 
-    Format(tempName, sizeof(tempName), "name%i", random);
-    KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
-    Format(name, sizeof(name), "%s", tempName);
-
-    return Plugin_Changed;
+      return Plugin_Changed;
+    }
   }
   return Plugin_Continue;
 }
@@ -528,6 +534,11 @@ void PrecacheMusic()
     MusicKV=CreateKeyValues("lastmanstanding");
     FileToKeyValues(MusicKV, config);
     KvRewind(MusicKV);
+    if(!KvJumpToKey(MusicKV, "sound_bgm"))
+    {
+      LogMessage("No BGM found!");
+      return;
+    }
 
     char path[PLATFORM_MAX_PATH];
     char item[20];

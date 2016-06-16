@@ -198,7 +198,7 @@ new Handle:MusicTimer[MAXPLAYERS+1];
 new Handle:BossInfoTimer[MAXPLAYERS+1][2];
 new Handle:DrawGameTimer;
 new Handle:doorCheckTimer;
-new Handle:LoadedMusicData[MAXPLAYERS+1];
+new Handle:LoadedMusicData;
 
 new botqueuepoints;
 new Float:HPTime;
@@ -1100,7 +1100,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 
 	PreAbility=CreateGlobalForward("FF2_PreAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell, Param_CellByRef);  //Boss, plugin name, ability name, slot, enabled
 	OnAbility=CreateGlobalForward("FF2_OnAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell);  //Boss, plugin name, ability name, status
-	OnMusic=CreateGlobalForward("FF2_OnMusic", ET_Hook, Param_String, Param_FloatByRef, Param_String, Param_String, Param_Cell, Param_Cell);
+	OnMusic=CreateGlobalForward("FF2_OnMusic", ET_Hook, Param_String, Param_FloatByRef, Param_String, Param_String, Param_Cell, Param_Cell, Param_Cell);
 	OnTriggerHurt=CreateGlobalForward("FF2_OnTriggerHurt", ET_Hook, Param_Cell, Param_Cell, Param_FloatByRef);
 	OnSpecialSelected=CreateGlobalForward("FF2_OnSpecialSelected", ET_Hook, Param_Cell, Param_CellByRef, Param_String, Param_Cell);  //Boss, character index, character name, preset
 	OnAddQueuePoints=CreateGlobalForward("FF2_OnAddQueuePoints", ET_Hook, Param_Array);
@@ -1352,7 +1352,7 @@ public Action:Listener_Say(client, const String:command[], argc)
 
 	else if(StrEqual("외부음악", chat[2], true))
 	{
-
+		ViewClientMusicMenu(client);
 	}
 
 	else if(StrEqual("난이도", chat[2], true) ||
@@ -3277,17 +3277,17 @@ StopMusic(client=0, bool:permanent=false)
 PlayBGM(client)
 {
 	new Handle:musicKv;
+	new bool:selected=playingCustomBossBGM[client] || playingCustomBGM[client];
 
-	if(playingCustomBGM[client] && LoadedMusicData)
-		musicKv=LoadedMusicData;
-	//else if(playingCustomBossBGM[client]) // TODO: it need?
-	//	musicKv=BossKV[Special[0]];
+	if(selected && LoadedMusicData)
+		musicKv=CloneHandle(LoadedMusicData);
 	else
-		musicKv=BossKV[Special[0]];
+		musicKv=CloneHandle(BossKV[Special[0]]);
 
 	KvRewind(musicKv);
 	if(KvJumpToKey(musicKv, "sound_bgm"))
 	{
+		// Debug("key: sound_bgm");
 		decl String:music[PLATFORM_MAX_PATH];
 		new String:artist[80];
 		new String:name[100];
@@ -3301,10 +3301,14 @@ PlayBGM(client)
 		}
 		while(KvGetFloat(musicKv, music)>1);
 
-		if(!client || !playingCustomBossBGM[client] || !playingCustomBGM[client])
+		if(!client || !selected)
+		{
 			index=GetRandomInt(1, index-1);
-		else
+		}
+		else if(selected)
+		{
 			index=selectedBGM[client];
+		}
 
 		Format(music, 10, "time%i", index);
 		new Float:time=KvGetFloat(musicKv, music);
@@ -3328,6 +3332,7 @@ PlayBGM(client)
 			Call_PushStringEx(name, sizeof(name), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
 			Call_PushCell(notice2);
 			Call_PushCell(client);
+			Call_PushCell(selected ? 1 : 0);
 			Call_Finish(action);
 			switch(action)
 			{
@@ -3349,13 +3354,15 @@ PlayBGM(client)
 			if(CheckSoundException(client, SOUNDEXCEPT_MUSIC))
 			{
 				strcopy(currentBGM[client], PLATFORM_MAX_PATH, music);
+
+				if(!IsSoundPrecached(music))
+					PrecacheSound(music);
 				EmitSoundToClient(client, music);
 				if(time>1)
 				{
 					MusicTimer[client]=CreateTimer(time, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
-					// Debug("Timer_PlayBGM => Timer_PlayBGM | %.1f", time);
 				}
-				if(notice) 	CPrintToChat(client, "{olive}[FF2]{default} Now Playing: {orange}%s{default} - {green}%s{default}", name, artist);
+				if(notice) 	CPrintToChat(client, "{olive}[FF2]{default} Now Playing: {green}%s{default} - {orange}%s{default}", artist, name);
 			}
 		}
 		else
@@ -8774,8 +8781,8 @@ public Action:MusicTogglePanel(client)
 	SetMenuTitle(menu, "보스들의 BGM을..");
 	AddMenuItem(menu, "켜기", "켜기");
 	AddMenuItem(menu, "끄기", "끄기");
-	AddMenuItem(menu, "곡 선택하기", "현재 보스 BGM 선택", !KvJumpToKey(BossKV[Special[0]], "sound_bgm") || FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_USER ? ITEMDRAW_DISABLED : 0);
-	AddMenuItem(menu, "외부 곡 선택하기", "현재 외부 BGM 선택", !KvJumpToKey(LoadedMusicData, "sound_bgm") || FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_USER ? ITEMDRAW_DISABLED : 0);
+	AddMenuItem(menu, "곡 선택하기", "현재 보스 BGM 선택", !KvJumpToKey(BossKV[Special[0]], "sound_bgm") || FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER ? ITEMDRAW_DISABLED : 0);
+	AddMenuItem(menu, "외부 곡 선택하기", "현재 외부 BGM 선택", !LoadedMusicData && (!KvJumpToKey(LoadedMusicData, "sound_bgm") || FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_USER) ? ITEMDRAW_DISABLED : 0);
 	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 	return Plugin_Continue;
 }
@@ -8830,7 +8837,7 @@ void ViewClientBossMusicMenu(client)
 	new i=1;
 	new bool:compilerNo=true;
 
-	Format(temp, sizeof(temp), "들으실 곡을 선택해주세요. %s", FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_USER ? "지금은 곡을 설정할 수 없습니다!" : "");
+	Format(temp, sizeof(temp), "들으실 곡을 선택해주세요. %s", FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER ? "지금은 곡을 설정할 수 없습니다!" : "");
 	new Handle:menu=CreateMenu(BossMusicSelectionMenu);
 	SetMenuTitle(menu, temp);
 	while(compilerNo)
@@ -8845,8 +8852,8 @@ void ViewClientBossMusicMenu(client)
 		Format(temp, sizeof(temp), "name%i", i);
 		KvGetString(BossKV[Special[0]], temp, name, sizeof(name), "이름 없는 곡");
 
-		Format(temp, sizeof(temp), "%s - %s", name, artist);
-		AddMenuItem(menu, "곡", temp, FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_USER ? ITEMDRAW_DISABLED : 0);
+		Format(temp, sizeof(temp), "%s - %s", artist, name);
+		AddMenuItem(menu, "곡", temp, FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER ? ITEMDRAW_DISABLED : 0);
 		i++;
 	}
 	SetMenuExitButton(menu, true);
@@ -8868,7 +8875,11 @@ public BossMusicSelectionMenu(Handle:menu, MenuAction:action, client, selection)
 
 void ViewClientMusicMenu(client)
 {
-	if(!LoadedMusicData) CPrintToChat(client, "{olive}[FF2]{default} 현재 등록된 외부음악이 없습니다!");
+	if(!LoadedMusicData)
+	{
+		CPrintToChat(client, "{olive}[FF2]{default} 현재 등록된 외부음악이 없습니다!");
+		return;
+	}
 	KvRewind(LoadedMusicData);
 	if(!KvJumpToKey(LoadedMusicData, "sound_bgm"))
 	{
@@ -8897,7 +8908,7 @@ void ViewClientMusicMenu(client)
 		Format(temp, sizeof(temp), "name%i", i);
 		KvGetString(LoadedMusicData, temp, name, sizeof(name), "이름 없는 곡");
 
-		Format(temp, sizeof(temp), "%s - %s", name, artist);
+		Format(temp, sizeof(temp), "%s - %s", artist, name);
 		AddMenuItem(menu, "곡", temp, FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_USER ? ITEMDRAW_DISABLED : 0);
 		i++;
 	}
