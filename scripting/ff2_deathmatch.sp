@@ -14,9 +14,15 @@ bool IsLastMan[MAXPLAYERS+1];
 
 int top[3];
 int BGMCount;
+int timeleft;
 
 Handle MusicKV;
 Handle LastManData;
+
+enum GameMode={
+    Mode_None=0,
+    Mode_LastmanStanding
+};
 
 public Plugin:myinfo=
 {
@@ -30,7 +36,7 @@ public void OnPluginStart()
 {
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
-    HookEvent("arena_round_start", OnRoundStart);
+    HookEvent("arena_round_start", OnRoundStart, EventHookMode_Pre);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
     // TODO: pass 커맨드 구현.
 
@@ -61,8 +67,14 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     IsLastManStanding=false;
+    CreateTimer(10.4, SetUp);
 
     // FF2_SetServerFlags(FF2_GetServerFlags()|~FF2SERVERFLAG_ISLASTMAN|~FF2SERVERFLAG_UNCHANGE_BGM_USER|~FF2SERVERFLAG_UNCHANGE_BGM_SERVER);
+}
+
+public Action SetUp(Handle timer)
+{
+    CreateTimer(1.0, RoundTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
@@ -155,9 +167,9 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
-      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
-      			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 200, 4);
+            DispatchKeyValueFloat(explosion, "DamageForce", 1.0);
+      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 1, 4);
+      			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
       			DispatchSpawn(explosion);
 
@@ -290,6 +302,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             }
             ResetPack(LastManData);
             FF2_StartMusic(); // Call FF2_OnMusic
+            FF2_LoadMusicData(MusicKV);
             return Plugin_Continue;
         }
 
@@ -312,7 +325,6 @@ public Action BeLastMan(Handle timer)
     int client=ReadPackCell(LastManData);
     TFTeam team=view_as<TFTeam>(ReadPackCell(LastManData));
     bool alive=ReadPackCell(LastManData);
-    // int observer=ReadPackCell(LastManData);
 
     TF2_RespawnPlayer(winner);
     TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
@@ -326,7 +338,6 @@ public Action BeLastMan(Handle timer)
     else
     {
         TF2_ChangeClientTeam(client, TFTeam_Spectator);
-        // SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", observer);
         TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
     }
     CloseLastmanData();
