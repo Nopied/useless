@@ -1,0 +1,46 @@
+L 05/30/2016 - 20:44:23: SourceMod log file session started (file "L20160530.log") (Version "1.7.3-dev+5298")
+L 05/30/2016 - 20:44:23: -------- Mapchange to vsh_apg_v2 --------
+L 05/30/2016 - 20:44:23: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/30/2016 - 20:44:25: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/30/2016 - 20:44:25: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/30/2016 - 20:44:25: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/30/2016 - 20:44:25: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/30/2016 - 20:44:25: [custompart.smx] Debug for CustomPart
+L 05/30/2016 - 20:44:25: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/30/2016 - 20:44:39: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/30/2016 - 20:44:39: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/30/2016 - 20:44:39: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/30/2016 - 20:44:39: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/30/2016 - 21:26:54: Log file closed.
+L 05/30/2016 - 21:27:28: SourceMod log file session started (file "L20160530.log") (Version "1.7.3-dev+5298")
+L 05/30/2016 - 21:27:28: -------- Mapchange to vsh_apg_v2 --------
+L 05/30/2016 - 21:27:28: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/30/2016 - 21:27:30: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/30/2016 - 21:27:30: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/30/2016 - 21:27:30: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/30/2016 - 21:27:30: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/30/2016 - 21:27:30: [custompart.smx] Debug for CustomPart
+L 05/30/2016 - 21:27:30: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/30/2016 - 21:27:43: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/30/2016 - 21:27:43: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/30/2016 - 21:27:43: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/30/2016 - 21:27:43: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/30/2016 - 21:42:29: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "DandA1025<3><[U:1:150941697]><>"
+L 05/30/2016 - 21:49:15: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/30/2016 - 21:53:31: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/30/2016 - 21:57:15: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/30/2016 - 22:00:55: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/30/2016 - 22:04:11: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:11: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:14: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Nopied◎<2><[U:1:103205717]><>" (damage "99")
+L 05/30/2016 - 22:04:41: Log file closed.

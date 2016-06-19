@@ -1,0 +1,23 @@
+L 04/08/2016 - 20:58:42: SourceMod log file session started (file "L20160408.log") (Version "1.7.3-dev+5298")
+L 04/08/2016 - 20:58:42: -------- Mapchange to arena_badlands --------
+L 04/08/2016 - 20:58:43: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/08/2016 - 20:58:45: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/08/2016 - 20:58:45: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/08/2016 - 20:58:45: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/08/2016 - 20:58:45: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/08/2016 - 20:58:45: [custompart.smx] Debug for CustomPart
+L 04/08/2016 - 20:58:45: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/08/2016 - 20:58:57: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/08/2016 - 20:58:57: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/08/2016 - 20:58:57: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/08/2016 - 20:58:57: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/08/2016 - 21:04:26: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/08/2016 - 21:05:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/08/2016 - 21:08:32: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/08/2016 - 21:08:59: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/08/2016 - 21:11:59: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/08/2016 - 21:11:59: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나에<4><[U:1:175650516]><>"
+L 04/08/2016 - 21:17:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/08/2016 - 21:17:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "후와와 (작다)<3><[U:1:209760731]><>"
+L 04/08/2016 - 21:17:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나에<4><[U:1:175650516]><>"
+L 04/08/2016 - 21:17:56: Log file closed.

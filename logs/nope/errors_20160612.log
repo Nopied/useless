@@ -1,0 +1,963 @@
+L 06/12/2016 - 09:29:45: SourceMod error session started
+L 06/12/2016 - 09:29:45: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 09:29:45: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 09:29:45: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 09:29:45: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 09:29:45: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 09:29:45: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 09:29:45: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 09:29:45: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 09:29:45: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 09:29:45: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 09:30:01: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 09:30:01: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 09:30:01: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 09:30:01: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 09:30:01: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 09:30:01: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 09:38:02: Error log file session closed.
+L 06/12/2016 - 09:40:43: SourceMod error session started
+L 06/12/2016 - 09:40:43: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 09:40:43: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 09:40:43: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 09:40:43: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 09:40:43: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 09:40:43: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 09:40:43: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 09:40:43: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 09:40:43: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 09:40:43: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 09:40:56: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 09:40:56: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 09:40:56: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 09:40:56: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 09:40:56: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 09:40:56: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 10:01:06: [SM] Plugin encountered error 15: Array index is out of bounds
+L 06/12/2016 - 10:01:06: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 10:01:06: [SM]   [0]  Line 7735, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::GetAbilityArgument()
+L 06/12/2016 - 10:01:06: [SM]   [1]  Line 9619, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::Native_GetAbilityArgument()
+L 06/12/2016 - 10:01:06: [SM] Plugin encountered error 15: Array index is out of bounds
+L 06/12/2016 - 10:01:06: [SM] Native "FF2_GetAbilityArgument" reported: Error encountered while processing a dynamic native
+L 06/12/2016 - 10:01:06: [SM] Displaying call stack trace for plugin "freaks\ff2_tnw.ff2":
+L 06/12/2016 - 10:01:06: [SM]   [0]  Line 53, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_tnw2.sp::Rage_Timed_New_Weapon()
+L 06/12/2016 - 10:01:06: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_tnw2.sp::FF2_OnAbility2()
+L 06/12/2016 - 10:01:06: [SM]   [2]  Line 52, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\freak_fortress_2_subplugin.inc::FF2_OnAbility()
+L 06/12/2016 - 10:08:51: Error log file session closed.
+L 06/12/2016 - 10:10:28: SourceMod error session started
+L 06/12/2016 - 10:10:28: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 10:10:28: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 10:10:28: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 10:10:28: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 10:10:28: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 10:10:28: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 10:10:28: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 10:10:28: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 10:10:28: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 10:10:28: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 10:10:40: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 10:10:40: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 10:10:40: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 10:10:40: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 10:10:40: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 10:10:40: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 10:47:13: Error log file session closed.
+L 06/12/2016 - 10:47:13: SourceMod error session started
+L 06/12/2016 - 10:47:13: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 10:47:13: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 10:47:13: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 10:47:13: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 10:47:13: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 10:47:13: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 10:47:13: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 10:47:13: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 10:47:13: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 10:47:13: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 10:47:21: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 10:47:21: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 10:47:21: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 10:47:21: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 10:47:21: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 10:47:21: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 11:10:25: Error log file session closed.
+L 06/12/2016 - 11:10:38: SourceMod error session started
+L 06/12/2016 - 11:10:38: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 11:10:38: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 11:10:38: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 11:10:38: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 11:10:38: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 11:10:38: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 11:10:38: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 11:10:38: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 11:10:38: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 11:10:39: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 11:10:51: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 11:10:51: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 11:10:51: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 11:10:51: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 11:10:51: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 11:10:51: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 11:20:02: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 06/12/2016 - 11:20:02: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 06/12/2016 - 11:20:21: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/12/2016 - 11:50:53: Error log file session closed.
+L 06/12/2016 - 21:22:30: SourceMod error session started
+L 06/12/2016 - 21:22:30: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 21:22:30: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 21:22:30: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 21:22:30: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 21:22:30: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 21:22:30: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 21:22:30: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 21:22:30: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 21:22:30: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 21:22:31: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 21:22:46: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 21:22:46: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 21:22:46: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 21:22:46: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 21:22:46: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 21:22:46: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 21:42:06: [SM] Native "ResetPack" reported: Invalid data pack handle af90191 (error 3)
+L 06/12/2016 - 21:42:06: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/12/2016 - 21:42:06: [SM]   [0]  Line 337, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/12/2016 - 21:45:30: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/12/2016 - 21:54:19: [SM] Native "ResetPack" reported: Invalid data pack handle 29db0143 (error 3)
+L 06/12/2016 - 21:54:19: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/12/2016 - 21:54:19: [SM]   [0]  Line 337, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/12/2016 - 21:59:14: Error log file session closed.
+L 06/12/2016 - 21:59:14: SourceMod error session started
+L 06/12/2016 - 21:59:14: Info (map "vsh_minegay_b3") (file "errors_20160612.log")
+L 06/12/2016 - 21:59:14: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 21:59:14: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 21:59:14: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 21:59:14: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 21:59:14: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 21:59:14: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 21:59:14: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 21:59:14: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 21:59:14: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 21:59:21: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 21:59:21: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 21:59:21: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 21:59:21: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 21:59:21: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 21:59:21: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 22:00:52: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/12/2016 - 22:29:46: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/12/2016 - 22:36:25: Error log file session closed.
+L 06/12/2016 - 22:36:27: SourceMod error session started
+L 06/12/2016 - 22:36:27: Info (map "vsh_rockslide_2") (file "errors_20160612.log")
+L 06/12/2016 - 22:36:27: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 22:36:27: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 22:36:27: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 22:36:27: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 22:36:27: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 22:36:27: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 22:36:27: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 22:36:27: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 22:36:27: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 22:36:33: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 22:36:33: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 22:36:33: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 22:36:33: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 22:36:33: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 22:36:33: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 22:38:06: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/12/2016 - 22:40:35: [SM] Native "VFormat" reported: Client index 8 is invalid
+L 06/12/2016 - 22:40:35: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/12/2016 - 22:40:35: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 06/12/2016 - 22:40:35: [SM]   [1]  Line 270, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/12/2016 - 22:43:02: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/12/2016 - 22:44:52: [SM] Native "ResetPack" reported: Invalid data pack handle b34d016d (error 3)
+L 06/12/2016 - 22:44:52: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/12/2016 - 22:44:52: [SM]   [0]  Line 337, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/12/2016 - 22:51:14: Error log file session closed.
+L 06/12/2016 - 23:07:21: SourceMod error session started
+L 06/12/2016 - 23:07:21: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:07:21: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:07:21: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:07:21: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:07:21: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:07:21: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:07:21: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:07:21: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:07:21: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:07:21: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:07:37: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:07:37: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:07:37: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:07:37: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:07:37: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:07:37: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 23:09:39: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/12/2016 - 23:19:01: Error log file session closed.
+L 06/12/2016 - 23:20:00: SourceMod error session started
+L 06/12/2016 - 23:20:00: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:20:00: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:20:00: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:20:00: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:20:00: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:20:00: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:20:00: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:20:00: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:20:00: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:20:00: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:20:13: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:20:13: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:20:13: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:20:13: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:20:13: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:20:13: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 23:24:16: Error log file session closed.
+L 06/12/2016 - 23:24:53: SourceMod error session started
+L 06/12/2016 - 23:24:53: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:24:53: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:24:53: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:24:53: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:24:53: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:24:53: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:24:53: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:24:53: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:24:53: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:24:53: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:25:07: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:25:07: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:25:07: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:25:07: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:25:07: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:25:07: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 23:31:08: Error log file session closed.
+L 06/12/2016 - 23:31:22: SourceMod error session started
+L 06/12/2016 - 23:31:22: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:31:22: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:31:22: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:31:22: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:31:22: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:31:22: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:31:22: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:31:22: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:31:22: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:31:22: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:31:36: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:31:36: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:31:36: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:31:36: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:31:36: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:31:36: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 23:36:42: Error log file session closed.
+L 06/12/2016 - 23:37:11: SourceMod error session started
+L 06/12/2016 - 23:37:11: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:37:11: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:37:11: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:37:11: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:37:11: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:37:11: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:37:11: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:37:11: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:37:11: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:37:11: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:37:25: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:37:25: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:37:25: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:37:25: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:37:25: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:37:25: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 23:43:03: Error log file session closed.
+L 06/12/2016 - 23:43:16: SourceMod error session started
+L 06/12/2016 - 23:43:16: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:43:16: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:43:16: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:43:16: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:43:16: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:43:16: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:43:16: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:43:16: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:43:16: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:43:16: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:43:29: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:43:29: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:43:29: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:43:29: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:43:29: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:43:29: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 23:46:43: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:43: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:43: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:43: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:43: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:43: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:43: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:43: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:43: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:43: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:43: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:43: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:44: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:44: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:44: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:44: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:44: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:44: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:44: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:44: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:44: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:45: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:45: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:45: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:45: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:45: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:45: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:45: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:45: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:45: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:45: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:45: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:45: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:45: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:45: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:45: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:45: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:46: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:46: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:46: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:46: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:46: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:46: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:46: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:46: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:46: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:46: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:46: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:46: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:47: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:47: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:47: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:47: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:47: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:47: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:47: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:47: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:47: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:47: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:47: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:47: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:48: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:48: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:48: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:48: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:48: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:48: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:48: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:48: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:48: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:48: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:48: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:48: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:48: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:48: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:48: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:48: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:49: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:49: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:49: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:49: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:49: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:49: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:49: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:49: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:49: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:49: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:49: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:49: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:50: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:50: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:50: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:50: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:50: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:50: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:50: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:50: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:50: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:50: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:50: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:50: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:51: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:51: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:51: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:51: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:51: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:51: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:51: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:51: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:51: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:51: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:51: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:51: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:51: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:51: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:51: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:51: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:52: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:52: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:52: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:52: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:52: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:52: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:52: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:52: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:53: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:53: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:53: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:53: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:53: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:53: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:53: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:53: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:53: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:53: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:54: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:54: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:54: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:54: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:54: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:54: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:54: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:54: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:54: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:54: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:54: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:54: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:54: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:54: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:55: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:55: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:55: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:55: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:55: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:55: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:55: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:55: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:55: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:55: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:55: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:55: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:55: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:55: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:55: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:55: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:56: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:56: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:56: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:56: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:56: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:56: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:56: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:56: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:56: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:56: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:56: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:56: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:56: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:56: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:56: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:56: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:57: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:57: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:57: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:57: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:57: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:57: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:57: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:57: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:57: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:57: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:57: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:57: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:58: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:58: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:58: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:58: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:58: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:58: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:58: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:58: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:58: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:58: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:58: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:58: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:58: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:58: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:58: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:58: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:59: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:59: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:59: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:59: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:59: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:59: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:59: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:59: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:46:59: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:46:59: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:46:59: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:46:59: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:00: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:00: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:00: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:00: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:00: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:00: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:00: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:00: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:00: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:00: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:00: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:00: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:00: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:00: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:00: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:00: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:01: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:01: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:01: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:01: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:01: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:01: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:01: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:01: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:01: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:01: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:01: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:01: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:02: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:02: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:02: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:02: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:02: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:02: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:02: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:02: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:02: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:02: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:02: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:02: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:02: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:02: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:02: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:02: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:03: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:03: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:03: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:03: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:03: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:03: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:03: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:03: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:03: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:03: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:03: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:03: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:04: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:04: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:04: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:04: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:04: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:04: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:04: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:04: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:04: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:04: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:04: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:04: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:04: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:04: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:04: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:04: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:05: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:05: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:05: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:05: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:05: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:05: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:05: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:05: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:05: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:05: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:05: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:05: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:05: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:05: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:05: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:05: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:06: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:06: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:06: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:06: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:06: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:06: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:06: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:06: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:06: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:06: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:06: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:06: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:07: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:07: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:07: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:07: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:07: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:07: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:07: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:07: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:07: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:07: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:07: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:07: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:07: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:07: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:07: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:07: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:08: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:08: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:08: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:08: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:08: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:08: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:08: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:08: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:08: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:08: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:08: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:08: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:09: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:09: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:09: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:09: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:09: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:09: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:09: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:09: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:09: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:09: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:09: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:09: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:09: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:09: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:09: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:09: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:10: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:10: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:10: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:10: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:10: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:10: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:10: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:10: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:10: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:10: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:10: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:10: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:11: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:11: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:11: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:11: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:11: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:11: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:11: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:11: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:11: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:11: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:11: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:11: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:11: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:11: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:11: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:11: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:12: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:12: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:12: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:12: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:12: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:12: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:12: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:12: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:12: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:12: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:12: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:12: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:12: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:12: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:12: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:13: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:13: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:13: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:13: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:13: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:13: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:13: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:13: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:13: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:13: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:13: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:13: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:13: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:22: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:22: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:22: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:22: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:22: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:22: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:22: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:22: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:22: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:22: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:22: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:22: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:22: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:22: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:22: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:22: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:23: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:23: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:23: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:23: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:23: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:23: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:23: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:23: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:23: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:23: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:23: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:23: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:24: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:24: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:24: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:24: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:24: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:24: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:24: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:24: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:24: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:24: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:24: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:24: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:25: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:25: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:25: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:25: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:25: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:25: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:25: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:25: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:25: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:25: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:25: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:25: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:26: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:26: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:26: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:26: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:26: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:26: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:26: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:26: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:26: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:26: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:26: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:26: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:26: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:26: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:26: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:26: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:27: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:27: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:27: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:27: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:27: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:27: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:27: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:27: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:27: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:27: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:27: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:27: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:27: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:27: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:27: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:27: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:28: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:28: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:28: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:28: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:28: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:28: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:28: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:28: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:28: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:28: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:28: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:28: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:28: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:28: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:28: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:28: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:29: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:29: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:29: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:29: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:29: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:29: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:29: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:29: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:29: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:29: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:29: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:29: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:30: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:30: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:30: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:30: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:30: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:30: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:30: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:30: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:30: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:30: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:30: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:30: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:30: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:30: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:30: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:30: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:31: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:31: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:31: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:31: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:31: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:31: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:31: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:31: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:31: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:31: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:31: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:31: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:32: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:32: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:32: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:32: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:32: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:32: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:32: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:32: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:32: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:32: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:32: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:32: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:32: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:32: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:32: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:32: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:33: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:33: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:33: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:33: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:33: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:33: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:33: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:33: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:33: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:33: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:33: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:33: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:47:34: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:47:34: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:47:34: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:47:34: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:48:16: Error log file session closed.
+L 06/12/2016 - 23:48:53: SourceMod error session started
+L 06/12/2016 - 23:48:53: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:48:53: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:48:53: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:48:53: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:48:53: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:48:53: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:48:53: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:48:53: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:48:53: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:48:53: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:49:07: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:49:07: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:49:07: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:49:07: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:49:07: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:49:07: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/12/2016 - 23:51:42: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:42: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:42: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:42: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:42: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:42: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:42: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:42: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:42: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:42: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:42: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:42: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:42: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:42: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:42: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:42: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:43: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:43: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:43: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:43: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:43: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:43: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:43: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:43: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:43: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:44: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:44: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:44: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:44: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:44: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:44: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:44: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:44: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:44: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:51:44: [SM] Native "GetEntPropString" reported: Entity -1 (-1) is invalid
+L 06/12/2016 - 23:51:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/12/2016 - 23:51:44: [SM]   [0]  Line 732, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\entity.inc::GetEntityClassname()
+L 06/12/2016 - 23:51:44: [SM]   [1]  Line 6677, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 06/12/2016 - 23:53:07: Error log file session closed.
+L 06/12/2016 - 23:53:07: SourceMod error session started
+L 06/12/2016 - 23:53:07: Info (map "vsh_apg_v2") (file "errors_20160612.log")
+L 06/12/2016 - 23:53:07: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/12/2016 - 23:53:07: [SM] Invalid token ' ' in #format property on line 71.
+L 06/12/2016 - 23:53:07: [SM] Invalid token ' ' in #format property on line 424.
+L 06/12/2016 - 23:53:07: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:53:07: [SM] Invalid token ' ' in #format property on line 429.
+L 06/12/2016 - 23:53:07: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:53:07: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:53:07: [SM] Invalid token ' ' in #format property on line 438.
+L 06/12/2016 - 23:53:07: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/12/2016 - 23:53:13: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/12/2016 - 23:53:13: [SM] Plugin encountered error 25: Call was aborted
+L 06/12/2016 - 23:53:13: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/12/2016 - 23:53:13: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/12/2016 - 23:53:13: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/12/2016 - 23:53:13: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()

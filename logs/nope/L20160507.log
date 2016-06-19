@@ -1,0 +1,69 @@
+L 05/07/2016 - 22:40:15: SourceMod log file session started (file "L20160507.log") (Version "1.7.3-dev+5298")
+L 05/07/2016 - 22:40:15: -------- Mapchange to vsh_apg_v2 --------
+L 05/07/2016 - 22:40:16: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/07/2016 - 22:40:18: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/07/2016 - 22:40:18: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/07/2016 - 22:40:18: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/07/2016 - 22:40:18: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/07/2016 - 22:40:18: [custompart.smx] Debug for CustomPart
+L 05/07/2016 - 22:40:18: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 05/07/2016 - 22:40:31: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/07/2016 - 22:40:31: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/07/2016 - 22:40:31: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/07/2016 - 22:40:31: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/07/2016 - 22:40:59: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:41:06: [boss_selection.smx] 0
+L 05/07/2016 - 22:42:38: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:43:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/07/2016 - 22:43:25: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:45:37: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:45:57: [boss_selection.smx] -1
+L 05/07/2016 - 22:46:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/07/2016 - 22:46:49: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:46:56: [boss_selection.smx] -1
+L 05/07/2016 - 22:47:33: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:49:13: [boss_selection.smx] -1
+L 05/07/2016 - 22:49:34: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "✔<5><[U:1:168642180]><>"
+L 05/07/2016 - 22:49:59: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:50:02: [boss_selection.smx] -1
+L 05/07/2016 - 22:53:04: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:53:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "깜찍이<8><[U:1:108655766]><>"
+L 05/07/2016 - 22:53:33: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 22:56:39: [boss_selection.smx] 
+L 05/07/2016 - 23:00:37: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" drugged "깜찍이<8><[U:1:108655766]><>"
+L 05/07/2016 - 23:00:41: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" undrugged "깜찍이<8><[U:1:108655766]><>"
+L 05/07/2016 - 23:02:15: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:05:29: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Hat-Wearing MAN<3><BOT><>"
+L 05/07/2016 - 23:07:05: [boss_selection.smx] 
+L 05/07/2016 - 23:07:37: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/07/2016 - 23:07:46: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:07:57: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "✔<5><[U:1:168642180]><>"
+L 05/07/2016 - 23:08:12: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:11:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/07/2016 - 23:11:58: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:16:14: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_2fortdesk_v8"
+L 05/07/2016 - 23:16:17: [SM] Changed map to "vsh_2fortdesk_v8"
+L 05/07/2016 - 23:16:19: -------- Mapchange to vsh_2fortdesk_v8 --------
+L 05/07/2016 - 23:16:19: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/07/2016 - 23:16:19: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/07/2016 - 23:16:19: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/07/2016 - 23:16:19: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/07/2016 - 23:16:19: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 05/07/2016 - 23:16:26: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/07/2016 - 23:16:26: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/07/2016 - 23:16:26: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/07/2016 - 23:16:26: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/07/2016 - 23:16:27: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:16:33: [boss_selection.smx] -1
+L 05/07/2016 - 23:16:35: [boss_selection.smx] -1
+L 05/07/2016 - 23:16:37: [boss_selection.smx] -1
+L 05/07/2016 - 23:16:56: [boss_selection.smx] -1
+L 05/07/2016 - 23:17:58: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:18:41: [boss_selection.smx] -1
+L 05/07/2016 - 23:20:09: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:20:09: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:23:23: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:25:27: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:28:42: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:30:37: [fuckingloser.smx] 라운드 시작.
+L 05/07/2016 - 23:30:47: Log file closed.

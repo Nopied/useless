@@ -1,0 +1,86 @@
+L 06/11/2016 - 21:14:35: SourceMod log file session started (file "L20160611.log") (Version "1.7.3-dev+5298")
+L 06/11/2016 - 21:14:35: -------- Mapchange to vsh_apg_v2 --------
+L 06/11/2016 - 21:14:35: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 06/11/2016 - 21:14:37: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/11/2016 - 21:14:37: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/11/2016 - 21:14:37: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/11/2016 - 21:14:37: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/11/2016 - 21:14:37: [custompart.smx] Debug for CustomPart
+L 06/11/2016 - 21:14:37: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 06/11/2016 - 21:14:54: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/11/2016 - 21:14:54: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/11/2016 - 21:14:54: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/11/2016 - 21:14:54: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/11/2016 - 21:19:28: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<5><BOT><>"
+L 06/11/2016 - 21:24:32: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "Nopied◎<2><[U:1:103205717]><>"
+L 06/11/2016 - 21:24:33: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "팀[DT]탄산음료<4><[U:1:189202825]><>"
+L 06/11/2016 - 21:26:33: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "ThatGuy<5><BOT><>"
+L 06/11/2016 - 21:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<5><BOT><>"
+L 06/11/2016 - 21:37:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<5><BOT><>"
+L 06/11/2016 - 21:37:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<5><BOT><>"
+L 06/11/2016 - 21:43:57: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<5><BOT><>"
+L 06/11/2016 - 21:47:39: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "♪(*´∀｀)(작다)<8><[U:1:209760731]><>"
+L 06/11/2016 - 21:53:59: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_snowflakes_b1"
+L 06/11/2016 - 21:54:02: [SM] Changed map to "vsh_snowflakes_b1"
+L 06/11/2016 - 21:54:02: -------- Mapchange to vsh_snowflakes_b1 --------
+L 06/11/2016 - 21:54:10: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/11/2016 - 21:54:10: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/11/2016 - 21:54:10: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/11/2016 - 21:54:10: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/11/2016 - 21:59:14: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Hat-Wearing MAN<10><BOT><>"
+L 06/11/2016 - 22:05:41: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "♪(*´∀｀)(작다)<8><[U:1:209760731]><>"
+L 06/11/2016 - 22:18:25: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<11><[U:1:61271689]><>"
+L 06/11/2016 - 22:18:25: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "-҉҉҉҉҉o҉҉҉҉҉-<12><[U:1:40881577]><>"
+L 06/11/2016 - 22:18:25: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "Hat-Wearing MAN<10><BOT><>"
+L 06/11/2016 - 22:18:25: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "♪(*´∀｀)(작다)<8><[U:1:209760731]><>"
+L 06/11/2016 - 22:18:25: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "MANN CO.<9><[U:1:150941697]><>"
+L 06/11/2016 - 22:18:25: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "✔<13><[U:1:168642180]><>"
+L 06/11/2016 - 22:21:48: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "MANN CO.<9><[U:1:150941697]><>"
+L 06/11/2016 - 22:27:11: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "♪(*´∀｀)(작다)<8><[U:1:209760731]><>"
+L 06/11/2016 - 22:27:11: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "티벳여우<14><[U:1:171130010]><>"
+L 06/11/2016 - 22:31:21: [SM] Changed map to "vsh_snowflakes_b1"
+L 06/11/2016 - 22:31:22: -------- Mapchange to vsh_snowflakes_b1 --------
+L 06/11/2016 - 22:31:26: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/11/2016 - 22:31:26: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/11/2016 - 22:31:26: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/11/2016 - 22:31:26: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/11/2016 - 22:32:00: -------- Mapchange to vsh_mountain_pb2 --------
+L 06/11/2016 - 22:32:05: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/11/2016 - 22:32:05: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/11/2016 - 22:32:05: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/11/2016 - 22:32:05: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/11/2016 - 22:35:25: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The G-Man<19><BOT><>"
+L 06/11/2016 - 22:36:15: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "sorry. I can't find target.<20><BOT><>" (reason "")
+L 06/11/2016 - 22:37:33: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The G-Man<19><BOT><>"
+L 06/11/2016 - 22:39:47: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text  아)
+L 06/11/2016 - 22:39:52: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text  이 맵 어때요?)
+L 06/11/2016 - 22:39:57: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text  멀록같아요?)
+L 06/11/2016 - 22:40:20: [basevotes.smx] "Nopied◎<2><[U:1:103205717]><>" initiated a generic vote.
+L 06/11/2016 - 22:43:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The G-Man<19><BOT><>"
+L 06/11/2016 - 22:45:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The G-Man<19><BOT><>"
+L 06/11/2016 - 22:48:52: [basecomm.smx] "Nopied◎<2><[U:1:103205717]><>" gagged "티벳여우<18><[U:1:171130010]><>"
+L 06/11/2016 - 22:51:10: [basecomm.smx] "Nopied◎<2><[U:1:103205717]><>" ungagged "티벳여우<18><[U:1:171130010]><>"
+L 06/11/2016 - 22:52:11: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "arena_badlands"
+L 06/11/2016 - 22:52:14: [SM] Changed map to "arena_badlands"
+L 06/11/2016 - 22:52:16: -------- Mapchange to arena_badlands --------
+L 06/11/2016 - 22:52:21: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/11/2016 - 22:52:21: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/11/2016 - 22:52:21: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/11/2016 - 22:52:21: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/11/2016 - 22:52:54: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "The Combine<24><BOT><>" (reason "")
+L 06/11/2016 - 22:58:48: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "MANN CO.<9><[U:1:150941697]><>"
+L 06/11/2016 - 22:58:48: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "✔<13><[U:1:168642180]><>"
+L 06/11/2016 - 23:07:01: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text  참고로 MAD는 보스 설명이 거꾸로 되먹었습니다)
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "GO mediseun (자연산)<11><[U:1:61271689]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "-҉҉҉҉҉o҉҉҉҉҉-<12><[U:1:40881577]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "♪(*´∀｀)(작다)<8><[U:1:209760731]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "MANN CO.<9><[U:1:150941697]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "✔<13><[U:1:168642180]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Pow!<26><BOT><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "나는 브로니다! 으아아<15><[U:1:224567350]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Nari<30><[U:1:336427473]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Sinanju<23><[U:1:189750934]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "나에<25><[U:1:175650516]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "LAZY<29><[U:1:124164169]><>" (reason "멀록")
+L 06/11/2016 - 23:09:27: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Nopied◎<2><[U:1:103205717]><>" (reason "멀록")
+L 06/11/2016 - 23:09:34: Log file closed.

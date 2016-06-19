@@ -1,0 +1,91 @@
+L 06/08/2016 - 20:32:17: SourceMod log file session started (file "L20160608.log") (Version "1.7.3-dev+5298")
+L 06/08/2016 - 20:32:17: -------- Mapchange to vsh_apg_v2 --------
+L 06/08/2016 - 20:32:17: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 06/08/2016 - 20:32:19: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/08/2016 - 20:32:19: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/08/2016 - 20:32:19: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/08/2016 - 20:32:19: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/08/2016 - 20:32:19: [custompart.smx] Debug for CustomPart
+L 06/08/2016 - 20:32:19: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 06/08/2016 - 20:32:33: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/08/2016 - 20:32:33: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/08/2016 - 20:32:33: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/08/2016 - 20:32:33: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/08/2016 - 20:35:29: [funcommands.smx] "시난주노예<2><[U:1:103205717]><>" set a TimeBomb on "Nom Nom Nom<5><BOT><>"
+L 06/08/2016 - 20:35:31: [funcommands.smx] "시난주노예<2><[U:1:103205717]><>" set a TimeBomb on "시난주노예<2><[U:1:103205717]><>"
+L 06/08/2016 - 20:37:31: [playercommands.smx] "시난주노예<2><[U:1:103205717]><>" slayed "GENTLE MANNE of LEISURE<6><BOT><>"
+L 06/08/2016 - 20:40:52: [playercommands.smx] "시난주노예<2><[U:1:103205717]><>" slayed "Nom Nom Nom<5><BOT><>"
+L 06/08/2016 - 20:45:59: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:46:02: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:48:15: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:48:17: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" removed a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:48:18: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:48:19: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" removed a TimeBomb on "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:48:20: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 20:48:22: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:52:15: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:52:17: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" removed a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:52:18: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 20:52:21: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:55:40: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 20:55:40: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:56:22: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 20:56:25: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 20:57:22: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:58:01: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 20:58:01: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:58:05: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" removed a TimeBomb on "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 20:58:05: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" removed a TimeBomb on "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:58:06: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 20:58:07: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Force of Nature<9><BOT><>"
+L 06/08/2016 - 20:58:09: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 21:06:39: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "DandA1025<11><[U:1:150941697]><>"
+L 06/08/2016 - 21:06:42: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "Tiny Baby Man<8><BOT><>"
+L 06/08/2016 - 21:06:46: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:10:14: [basecommands.smx] "시난주노예<7><[U:1:103205717]><>" changed map to "vsh_snowflakes_b1"
+L 06/08/2016 - 21:10:17: [SM] Changed map to "vsh_snowflakes_b1"
+L 06/08/2016 - 21:10:18: -------- Mapchange to vsh_snowflakes_b1 --------
+L 06/08/2016 - 21:10:26: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/08/2016 - 21:10:26: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/08/2016 - 21:10:26: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/08/2016 - 21:10:26: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/08/2016 - 21:14:28: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:23:39: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:24:05: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 06/08/2016 - 21:28:15: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Grim Bloody Fable<12><BOT><>"
+L 06/08/2016 - 21:28:15: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "A Professional With Standards<13><BOT><>"
+L 06/08/2016 - 21:28:19: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:28:19: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<14><[U:1:61271689]><>"
+L 06/08/2016 - 21:28:21: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" removed a TimeBomb on "GO mediseun (자연산)<14><[U:1:61271689]><>"
+L 06/08/2016 - 21:28:21: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "DandA1025<11><[U:1:150941697]><>"
+L 06/08/2016 - 21:28:21: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<14><[U:1:61271689]><>"
+L 06/08/2016 - 21:29:35: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 21:30:00: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:32:04: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 21:32:05: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Grim Bloody Fable<12><BOT><>"
+L 06/08/2016 - 21:32:05: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "A Professional With Standards<13><BOT><>"
+L 06/08/2016 - 21:32:06: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:32:08: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<14><[U:1:61271689]><>"
+L 06/08/2016 - 21:33:47: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "A Professional With Standards<13><BOT><>"
+L 06/08/2016 - 21:35:43: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Grim Bloody Fable<12><BOT><>"
+L 06/08/2016 - 21:36:43: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:47:25: [SM] Changed map to "vsh_snowflakes_b1"
+L 06/08/2016 - 21:47:26: -------- Mapchange to vsh_snowflakes_b1 --------
+L 06/08/2016 - 21:47:30: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/08/2016 - 21:47:30: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/08/2016 - 21:47:30: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/08/2016 - 21:47:30: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/08/2016 - 21:47:48: -------- Mapchange to vsh_manncohq_v14 --------
+L 06/08/2016 - 21:47:52: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/08/2016 - 21:47:52: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/08/2016 - 21:47:52: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/08/2016 - 21:47:52: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/08/2016 - 21:48:24: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 06/08/2016 - 21:49:05: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:51:07: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "시난주노예<7><[U:1:103205717]><>"
+L 06/08/2016 - 21:51:07: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Mega Baboon<20><BOT><>"
+L 06/08/2016 - 21:51:07: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "Chucklenuts<21><BOT><>"
+L 06/08/2016 - 21:51:08: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "[F]sakldkzldxjep<10><[U:1:159644927]><>"
+L 06/08/2016 - 21:51:09: [funcommands.smx] "시난주노예<7><[U:1:103205717]><>" set a TimeBomb on "나는 브로니다! 으아아<16><[U:1:224567350]><>"
+L 06/08/2016 - 21:52:31: [playercommands.smx] "시난주노예<7><[U:1:103205717]><>" slayed "DandA1025<11><[U:1:150941697]><>"
+L 06/08/2016 - 21:56:12: Log file closed.

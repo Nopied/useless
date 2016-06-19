@@ -1,0 +1,82 @@
+L 05/06/2016 - 11:38:44: SourceMod log file session started (file "L20160506.log") (Version "1.7.3-dev+5298")
+L 05/06/2016 - 11:38:44: -------- Mapchange to vsh_apg_v2 --------
+L 05/06/2016 - 11:38:44: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/06/2016 - 11:38:46: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/06/2016 - 11:38:46: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/06/2016 - 11:38:46: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/06/2016 - 11:38:46: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/06/2016 - 11:38:46: [custompart.smx] Debug for CustomPart
+L 05/06/2016 - 11:38:46: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 05/06/2016 - 11:38:59: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/06/2016 - 11:38:59: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/06/2016 - 11:38:59: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/06/2016 - 11:38:59: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/06/2016 - 11:39:48: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:39:54: [boss_selection.smx] -1
+L 05/06/2016 - 11:41:03: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:41:16: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:43:59: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:44:12: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:45:10: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:45:10: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:46:03: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 11:46:15: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:47:30: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:48:57: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/06/2016 - 11:49:00: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 11:49:12: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:50:18: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:52:23: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 11:52:35: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:53:22: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:54:58: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:55:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 11:55:50: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:57:50: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/06/2016 - 11:58:05: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:59:16: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 11:59:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/06/2016 - 11:59:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 11:59:49: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:02:41: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:05:16: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:06:16: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:06:16: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:07:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 12:08:03: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:10:49: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:11:13: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:14:27: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 12:14:39: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:17:18: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 12:19:01: Log file closed.
+L 05/06/2016 - 14:27:22: SourceMod log file session started (file "L20160506.log") (Version "1.7.3-dev+5298")
+L 05/06/2016 - 14:27:22: -------- Mapchange to vsh_apg_v2 --------
+L 05/06/2016 - 14:27:22: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/06/2016 - 14:27:24: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/06/2016 - 14:27:24: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/06/2016 - 14:27:24: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/06/2016 - 14:27:24: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/06/2016 - 14:27:24: [custompart.smx] Debug for CustomPart
+L 05/06/2016 - 14:27:24: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 05/06/2016 - 14:27:38: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/06/2016 - 14:27:38: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/06/2016 - 14:27:38: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/06/2016 - 14:27:38: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/06/2016 - 14:27:50: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:27:55: [boss_selection.smx] 0
+L 05/06/2016 - 14:29:43: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:30:27: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 14:30:39: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:31:47: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 14:31:59: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:36:14: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 14:36:26: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:41:20: [boss_selection.smx] 0
+L 05/06/2016 - 14:41:28: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:42:10: [playercommands.smx] "Nopied◎<4><[U:1:103205717]><>" slayed "Nopied◎<4><[U:1:103205717]><>"
+L 05/06/2016 - 14:42:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 14:42:25: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:44:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 05/06/2016 - 14:44:57: [fuckingloser.smx] 라운드 시작.
+L 05/06/2016 - 14:45:14: Log file closed.

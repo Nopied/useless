@@ -1,0 +1,70 @@
+L 06/13/2016 - 00:01:11: SourceMod log file session started (file "L20160613.log") (Version "1.7.3-dev+5298")
+L 06/13/2016 - 00:01:11: -------- Mapchange to vsh_apg_v2 --------
+L 06/13/2016 - 00:01:11: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 06/13/2016 - 00:01:12: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/13/2016 - 00:01:12: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/13/2016 - 00:01:12: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/13/2016 - 00:01:12: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/13/2016 - 00:01:12: [custompart.smx] Debug for CustomPart
+L 06/13/2016 - 00:01:12: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 06/13/2016 - 00:01:24: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/13/2016 - 00:01:24: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/13/2016 - 00:01:24: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/13/2016 - 00:01:24: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/13/2016 - 00:01:42: SourceMod log file session started (file "L20160613.log") (Version "1.7.3-dev+5298")
+L 06/13/2016 - 00:01:42: Log file closed.
+L 06/13/2016 - 00:09:00: Log file closed.
+L 06/13/2016 - 20:43:18: SourceMod log file session started (file "L20160613.log") (Version "1.7.3-dev+5298")
+L 06/13/2016 - 20:43:18: -------- Mapchange to vsh_apg_v2 --------
+L 06/13/2016 - 20:43:18: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 06/13/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/13/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/13/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/13/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/13/2016 - 20:43:20: [custompart.smx] Debug for CustomPart
+L 06/13/2016 - 20:43:20: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 06/13/2016 - 20:43:33: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/13/2016 - 20:43:33: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/13/2016 - 20:43:33: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/13/2016 - 20:43:33: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/13/2016 - 20:49:11: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<3><[U:1:61271689]><>"
+L 06/13/2016 - 20:49:19: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" removed a TimeBomb on "GO mediseun (자연산)<3><[U:1:61271689]><>"
+L 06/13/2016 - 20:49:27: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<3><[U:1:61271689]><>"
+L 06/13/2016 - 21:02:01: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "Nopied◎<2><[U:1:103205717]><>"
+L 06/13/2016 - 21:02:02: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "여중생 14살 시난주<5><[U:1:189750934]><>"
+L 06/13/2016 - 21:02:04: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "MANN CO.<7><[U:1:150941697]><>"
+L 06/13/2016 - 21:02:26: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<3><[U:1:61271689]><>"
+L 06/13/2016 - 21:06:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "GO mediseun (자연산)<3><[U:1:61271689]><>"
+L 06/13/2016 - 21:06:58: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "GO mediseun (자연산)<3><[U:1:61271689]><>"
+L 06/13/2016 - 21:09:16: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "Hata no kokoro<6><[U:1:122523408]><>"
+L 06/13/2016 - 21:13:34: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "♪(*´∀｀)(작다)<4><[U:1:209760731]><>"
+L 06/13/2016 - 21:13:34: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "Hata no kokoro<6><[U:1:122523408]><>"
+L 06/13/2016 - 21:13:34: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "MANN CO.<7><[U:1:150941697]><>"
+L 06/13/2016 - 21:19:45: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text ok)
+L 06/13/2016 - 21:19:55: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "GO mediseun (자연산)<3><[U:1:61271689]><>"
+L 06/13/2016 - 21:21:19: [basecomm.smx] "Nopied◎<2><[U:1:103205717]><>" gagged "티벳여우<8><[U:1:171130010]><>"
+L 06/13/2016 - 21:22:28: [SM] Changed map to "vsh_apg_v2"
+L 06/13/2016 - 21:22:28: -------- Mapchange to vsh_apg_v2 --------
+L 06/13/2016 - 21:22:36: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/13/2016 - 21:22:36: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/13/2016 - 21:22:36: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/13/2016 - 21:22:36: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/13/2016 - 21:22:43: -------- Mapchange to vsh_2fortdesk_v8 --------
+L 06/13/2016 - 21:22:48: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 06/13/2016 - 21:22:48: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 06/13/2016 - 21:22:48: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 06/13/2016 - 21:22:48: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 06/13/2016 - 21:31:12: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 06/13/2016 - 21:36:29: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<11><[U:1:61271689]><>"
+L 06/13/2016 - 21:36:32: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "댕댕콘(퇴물)<9><[U:1:239344862]><>"
+L 06/13/2016 - 21:36:41: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "♪(*´∀｀)(작다)<4><[U:1:209760731]><>"
+L 06/13/2016 - 21:39:45: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text 아)
+L 06/13/2016 - 21:39:48: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text 사볼하고 싶어요)
+L 06/13/2016 - 21:40:05: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text 알면 다쳐요)
+L 06/13/2016 - 21:46:33: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text 아마 폭발로)
+L 06/13/2016 - 21:46:43: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text 맵 천장까지 닿게하면 죽지 않을까 싶네요)
+L 06/13/2016 - 21:52:51: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<11><[U:1:61271689]><>"
+L 06/13/2016 - 21:52:51: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "MANN CO.<7><[U:1:150941697]><>"
+L 06/13/2016 - 21:56:34: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text 이번맵 끝나면 끄겠습니다)
+L 06/13/2016 - 21:57:23: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "GO mediseun (자연산)<11><[U:1:61271689]><>"
+L 06/13/2016 - 21:58:20: Log file closed.

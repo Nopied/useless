@@ -138,17 +138,18 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             }
 
             if(!(FF2_GetFF2flags(attacker) & FF2FLAG_HUDDISABLED))
-  			{
-  				PrintHintText(attacker, "%t", "Backstab");
-  			}
-  			if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
-  			{
-  				PrintHintText(victim, "%t", "Backstabbed");
-  			}
+      			{
+      				PrintHintText(attacker, "%t", "Backstab");
+      			}
+      			if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
+      			{
+      				PrintHintText(victim, "%t", "Backstabbed");
+      			}
 
             Handle BossKV=FF2_GetSpecialKV(boss);
             char playerName[64];
             char bossName[64];
+
             GetClientName(attacker, playerName, sizeof(playerName));
             KvRewind(BossKV);
             KvGetString(BossKV, "name", bossName, sizeof(bossName), "ERROR NAME");
@@ -163,8 +164,8 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 1.0);
-      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 1, 4);
+            DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
+      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 200, 4);
       			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
       			DispatchSpawn(explosion);
@@ -225,7 +226,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       		}
           else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[3]))
       		{
-      			top[2]=client;
+      			top[3]=client;
       		}
         }
 
@@ -324,6 +325,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 public Action BeLastMan(Handle timer)
 {
     FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
+    if(!LastManData)
+    {
+      Debug("LastManData is invalid! what!?!?");
+      return Plugin_Continue;
+    }
     int winner=ReadPackCell(LastManData);
     int client=ReadPackCell(LastManData);
     TFTeam team=view_as<TFTeam>(ReadPackCell(LastManData));
@@ -369,7 +375,7 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist
 
     if(!MusicKV || selected)
     {
-      Debug("MusicKV: %s, selected: %s", MusicKV ? "valid" : "Invalid", selected ? "true" : "false");
+      // Debug("MusicKV: %s, selected: %s", MusicKV ? "valid" : "Invalid", selected ? "true" : "false");
       return Plugin_Continue;
     }
     KvRewind(MusicKV);
@@ -492,7 +498,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Engineer:
     {
       SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; ; 286 ; 3.5 ; 287 ; 1.5 ; 80 ; 4.0 ; 113 ; 40.0");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; ; 286 ; 3.5 ; 287 ; 1.5 ; 80 ; 4.0");
       SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);

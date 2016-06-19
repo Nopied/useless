@@ -1,0 +1,125 @@
+L 04/09/2016 - 11:25:21: SourceMod error session started
+L 04/09/2016 - 11:25:21: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 11:25:21: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 11:25:21: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 11:25:21: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 11:25:21: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 11:25:21: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 11:25:21: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 11:25:21: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 11:25:21: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 11:28:14: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 11:28:14: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 11:28:14: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 11:30:42: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 11:30:42: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 11:30:42: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 12:16:09: Error log file session closed.
+L 04/09/2016 - 12:16:22: SourceMod error session started
+L 04/09/2016 - 12:16:22: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 12:16:22: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 12:16:22: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 12:16:22: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 12:16:22: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 12:16:22: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 12:16:22: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 12:16:22: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 12:16:22: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 12:18:48: Error log file session closed.
+L 04/09/2016 - 12:19:00: SourceMod error session started
+L 04/09/2016 - 12:19:00: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 12:19:00: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 12:19:00: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 12:19:00: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 12:19:00: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 12:19:00: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 12:19:00: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 12:19:00: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 12:19:00: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 12:22:04: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 12:22:04: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 12:22:04: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 12:24:43: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 12:24:43: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 12:24:43: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 12:28:38: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 12:28:38: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 12:28:38: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 12:30:32: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 04/09/2016 - 12:30:32: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 04/09/2016 - 12:31:21: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 12:31:21: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 12:31:21: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 12:36:17: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 12:36:17: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 12:36:17: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 12:39:18: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 12:39:18: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 12:39:18: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 12:39:33: Error log file session closed.
+L 04/09/2016 - 22:43:04: SourceMod error session started
+L 04/09/2016 - 22:43:04: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 22:43:04: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 22:43:04: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 22:43:04: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 22:43:04: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:43:04: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:43:04: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:43:04: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:43:04: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:43:49: SourceMod error session started
+L 04/09/2016 - 22:43:49: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 22:43:49: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 22:43:49: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 22:43:49: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 22:43:49: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:43:49: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:43:49: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:43:49: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:43:49: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:46:16: Error log file session closed.
+L 04/09/2016 - 22:46:16: SourceMod error session started
+L 04/09/2016 - 22:46:16: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 22:46:16: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 22:46:16: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 22:46:16: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 22:46:16: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:46:16: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:46:16: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:46:16: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:46:16: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:48:25: Error log file session closed.
+L 04/09/2016 - 22:48:25: SourceMod error session started
+L 04/09/2016 - 22:48:25: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 22:48:25: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 22:48:25: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 22:48:25: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 22:48:25: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:48:25: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:48:25: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:48:25: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:48:25: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:51:17: Error log file session closed.
+L 04/09/2016 - 22:51:17: SourceMod error session started
+L 04/09/2016 - 22:51:17: Info (map "arena_badlands") (file "errors_20160409.log")
+L 04/09/2016 - 22:51:17: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/09/2016 - 22:51:17: [SM] Invalid token ' ' in #format property on line 59.
+L 04/09/2016 - 22:51:17: [SM] Invalid token ' ' in #format property on line 402.
+L 04/09/2016 - 22:51:17: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:51:17: [SM] Invalid token ' ' in #format property on line 407.
+L 04/09/2016 - 22:51:17: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:51:17: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:51:17: [SM] Invalid token ' ' in #format property on line 416.
+L 04/09/2016 - 22:53:26: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 22:53:26: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 22:53:26: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 22:55:05: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 22:55:05: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 22:55:05: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 22:56:12: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 22:56:12: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 22:56:12: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 22:57:50: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/09/2016 - 22:57:50: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/09/2016 - 22:57:50: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/09/2016 - 22:58:01: Error log file session closed.

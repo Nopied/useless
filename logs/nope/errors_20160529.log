@@ -1,0 +1,349 @@
+L 05/29/2016 - 12:48:00: SourceMod error session started
+L 05/29/2016 - 12:48:00: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 12:48:00: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 12:48:00: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 12:48:00: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 12:48:00: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 12:48:00: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 12:48:00: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 12:48:00: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 12:48:00: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 12:48:00: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 12:48:17: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 12:48:17: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 12:48:17: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 12:48:17: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 12:48:17: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 12:48:17: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 12:53:36: Error log file session closed.
+L 05/29/2016 - 12:53:36: SourceMod error session started
+L 05/29/2016 - 12:53:36: Info (map "arena_badlands") (file "errors_20160529.log")
+L 05/29/2016 - 12:53:36: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 12:53:36: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 12:53:36: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 12:53:36: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 12:53:36: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 12:53:36: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 12:53:36: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 12:53:36: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 12:53:36: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 12:53:42: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 12:53:42: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 12:53:42: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 12:53:42: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 12:53:42: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 12:53:42: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 12:59:30: Error log file session closed.
+L 05/29/2016 - 13:01:12: SourceMod error session started
+L 05/29/2016 - 13:01:12: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 13:01:12: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 13:01:12: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 13:01:12: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 13:01:12: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 13:01:12: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 13:01:12: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 13:01:12: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 13:01:12: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 13:01:12: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 13:01:25: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 13:01:25: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 13:01:25: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 13:01:25: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 13:01:25: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 13:01:25: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 13:03:36: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 05/29/2016 - 13:03:36: [SM] Native "Format" reported: Language phrase "" not found
+L 05/29/2016 - 13:03:36: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 13:03:36: [SM]   [0]  Line 3606, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MessageTimer()
+L 05/29/2016 - 13:26:24: Error log file session closed.
+L 05/29/2016 - 13:26:38: SourceMod error session started
+L 05/29/2016 - 13:26:38: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 13:26:38: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 13:26:38: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 13:26:38: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 13:26:38: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 13:26:38: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 13:26:39: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 13:26:39: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 13:26:39: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 13:26:39: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 13:26:51: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 13:26:51: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 13:26:51: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 13:26:51: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 13:26:51: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 13:26:51: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 13:28:54: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iItemDefinitionIndex = 264
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iEntityQuality = 1
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 13:28:54: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 13:28:54: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 13:28:54: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 13:28:54: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 13:28:54: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 13:28:54: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 13:28:54: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iItemDefinitionIndex = 264
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iEntityQuality = 10
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 13:28:54: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 13:28:54: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 13:28:54: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 13:28:54: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 13:28:54: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 13:28:54: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 13:28:54: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iItemDefinitionIndex = 264
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iEntityQuality = 8
+L 05/29/2016 - 13:28:54: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 13:28:54: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 13:28:54: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 13:28:54: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 13:28:54: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 13:28:54: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 13:28:54: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 13:32:39: Error log file session closed.
+L 05/29/2016 - 20:15:34: SourceMod error session started
+L 05/29/2016 - 20:15:34: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 20:15:34: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 20:15:34: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 20:15:34: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 20:15:34: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 20:15:34: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 20:15:34: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:15:34: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:15:34: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:15:35: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 20:15:50: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 20:15:50: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 20:15:50: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 20:15:50: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 20:15:50: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 20:15:50: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 20:19:39: Error log file session closed.
+L 05/29/2016 - 20:19:53: SourceMod error session started
+L 05/29/2016 - 20:19:53: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 20:19:53: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 20:19:53: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 20:19:53: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 20:19:53: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 20:19:53: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 20:19:53: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:19:53: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:19:53: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:19:53: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 20:20:06: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 20:20:06: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 20:20:06: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 20:20:06: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 20:20:06: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 20:20:06: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 20:24:17: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iEntityQuality = 15
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:24:17: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:24:17: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:24:17: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:24:17: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:24:17: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:24:17: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:24:17: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iEntityQuality = 10
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:24:17: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:24:17: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:24:17: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:24:17: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:24:17: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:24:17: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:24:17: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iEntityQuality = 0
+L 05/29/2016 - 20:24:17: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:24:17: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:24:17: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:24:17: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:24:17: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:24:17: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:24:17: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:28:14: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iEntityQuality = 5
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:28:14: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:28:14: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:28:14: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:28:14: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:28:14: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:28:14: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:28:14: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iEntityQuality = 1
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:28:14: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:28:14: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:28:14: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:28:14: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:28:14: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:28:14: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:28:14: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iEntityQuality = 9
+L 05/29/2016 - 20:28:14: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:28:14: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:28:14: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:28:14: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:28:14: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:28:14: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:28:14: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:31:21: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:31:21: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:31:21: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:31:21: [TF2ITEMS] >>> iEntityQuality = 13
+L 05/29/2016 - 20:31:21: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:31:21: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:31:21: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:31:21: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:31:21: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:31:21: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:31:21: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:31:22: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> iEntityQuality = 11
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:31:22: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:31:22: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:31:22: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:31:22: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:31:22: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:31:22: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:31:22: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> szClassname = saxxy
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> iItemDefinitionIndex = 1071
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> iEntityQuality = 8
+L 05/29/2016 - 20:31:22: [TF2ITEMS] >>> iEntityLevel = 101
+L 05/29/2016 - 20:31:22: [TF2ITEMS] ---------------------------------------
+L 05/29/2016 - 20:31:22: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 05/29/2016 - 20:31:22: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 20:31:22: [SM]   [0]  Line 8175, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 05/29/2016 - 20:31:22: [SM]   [1]  Line 3702, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 05/29/2016 - 20:31:22: [SM]   [2]  Line 3888, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 05/29/2016 - 20:32:30: Error log file session closed.
+L 05/29/2016 - 20:32:42: SourceMod error session started
+L 05/29/2016 - 20:32:42: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 20:32:42: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 20:32:42: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 20:32:42: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 20:32:42: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 20:32:42: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 20:32:42: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:32:42: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:32:42: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 20:32:42: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 20:32:55: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 20:32:55: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 20:32:55: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 20:32:55: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 20:32:55: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 20:32:55: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 21:04:23: Error log file session closed.
+L 05/29/2016 - 21:04:36: SourceMod error session started
+L 05/29/2016 - 21:04:36: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 21:04:36: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 21:04:36: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 21:04:36: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 21:04:36: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 21:04:36: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 21:04:36: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:04:36: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:04:36: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:04:36: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 21:04:48: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 21:04:48: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 21:04:48: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 21:04:48: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 21:04:48: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 21:04:48: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 21:09:46: SourceMod error session started
+L 05/29/2016 - 21:09:46: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 21:09:46: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 21:09:46: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 21:09:46: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 21:09:46: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 21:09:46: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 21:09:47: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:09:47: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:09:47: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:09:47: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 21:09:59: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 21:09:59: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 21:09:59: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 21:09:59: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 21:09:59: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 21:09:59: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 21:22:12: [SM] Native "KillTimer" reported: Invalid timer handle 840013c (error 3)
+L 05/29/2016 - 21:22:12: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 21:22:12: [SM]   [0]  Line 3272, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 05/29/2016 - 21:22:12: [SM]   [1]  Line 2768, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 05/29/2016 - 21:29:13: [SM] Native "KillTimer" reported: Invalid timer handle 840013c (error 3)
+L 05/29/2016 - 21:29:13: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 21:29:13: [SM]   [0]  Line 3272, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 05/29/2016 - 21:29:13: [SM]   [1]  Line 2768, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 05/29/2016 - 21:29:26: [SM] Native "KillTimer" reported: Invalid timer handle 840013c (error 3)
+L 05/29/2016 - 21:29:26: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 21:29:26: [SM]   [0]  Line 1734, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::DisableFF2()
+L 05/29/2016 - 21:29:26: [SM]   [1]  Line 1614, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnMapEnd()
+L 05/29/2016 - 21:29:26: Error log file session closed.
+L 05/29/2016 - 21:29:47: SourceMod error session started
+L 05/29/2016 - 21:29:47: Info (map "vsh_apg_v2") (file "errors_20160529.log")
+L 05/29/2016 - 21:29:47: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 21:29:47: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 21:29:47: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 21:29:47: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 21:29:47: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 21:29:47: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:29:47: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:29:47: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 21:29:47: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 21:30:00: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 21:30:00: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 21:30:00: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 21:30:00: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 21:30:00: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 21:30:00: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 21:59:44: [SM] Native "KillTimer" reported: Invalid timer handle 1e6f012b (error 3)
+L 05/29/2016 - 21:59:44: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 05/29/2016 - 21:59:44: [SM]   [0]  Line 3272, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 05/29/2016 - 21:59:44: [SM]   [1]  Line 2768, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 05/29/2016 - 22:07:40: Error log file session closed.
+L 05/29/2016 - 22:07:41: SourceMod error session started
+L 05/29/2016 - 22:07:41: Info (map "vsh_snowflakes_b1") (file "errors_20160529.log")
+L 05/29/2016 - 22:07:41: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 05/29/2016 - 22:07:41: [SM] Invalid token ' ' in #format property on line 71.
+L 05/29/2016 - 22:07:41: [SM] Invalid token ' ' in #format property on line 424.
+L 05/29/2016 - 22:07:41: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 22:07:41: [SM] Invalid token ' ' in #format property on line 429.
+L 05/29/2016 - 22:07:41: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 22:07:41: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 22:07:41: [SM] Invalid token ' ' in #format property on line 438.
+L 05/29/2016 - 22:07:41: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 05/29/2016 - 22:07:47: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 05/29/2016 - 22:07:47: [SM] Plugin encountered error 25: Call was aborted
+L 05/29/2016 - 22:07:47: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 05/29/2016 - 22:07:47: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 05/29/2016 - 22:07:47: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 05/29/2016 - 22:07:47: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 05/29/2016 - 22:31:54: Error log file session closed.

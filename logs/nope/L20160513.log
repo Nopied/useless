@@ -1,0 +1,15 @@
+L 05/13/2016 - 20:59:09: SourceMod log file session started (file "L20160513.log") (Version "1.7.3-dev+5298")
+L 05/13/2016 - 20:59:09: -------- Mapchange to vsh_apg_v2 --------
+L 05/13/2016 - 20:59:09: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/13/2016 - 20:59:11: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/13/2016 - 20:59:11: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/13/2016 - 20:59:11: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/13/2016 - 20:59:11: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/13/2016 - 20:59:11: [custompart.smx] Debug for CustomPart
+L 05/13/2016 - 20:59:11: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/13/2016 - 20:59:25: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/13/2016 - 20:59:25: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/13/2016 - 20:59:25: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/13/2016 - 20:59:25: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/13/2016 - 21:00:47: [boss_selection.smx] -1
+L 05/13/2016 - 21:19:59: Log file closed.

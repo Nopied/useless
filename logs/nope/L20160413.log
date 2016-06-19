@@ -1,0 +1,163 @@
+L 04/13/2016 - 11:02:44: SourceMod log file session started (file "L20160413.log") (Version "1.7.3-dev+5298")
+L 04/13/2016 - 11:02:44: -------- Mapchange to arena_badlands --------
+L 04/13/2016 - 11:02:44: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/13/2016 - 11:02:46: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 11:02:46: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 11:02:46: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 11:02:46: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 11:02:46: [custompart.smx] Debug for CustomPart
+L 04/13/2016 - 11:02:46: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/13/2016 - 11:02:59: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 11:02:59: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 11:02:59: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 11:02:59: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 11:04:17: Log file closed.
+L 04/13/2016 - 11:04:28: SourceMod log file session started (file "L20160413.log") (Version "1.7.3-dev+5298")
+L 04/13/2016 - 11:04:28: -------- Mapchange to arena_badlands --------
+L 04/13/2016 - 11:04:28: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/13/2016 - 11:04:28: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 11:04:28: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 11:04:28: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 11:04:28: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 11:04:28: [custompart.smx] Debug for CustomPart
+L 04/13/2016 - 11:04:28: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/13/2016 - 11:04:39: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 11:04:39: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 11:04:39: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 11:04:39: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 11:07:10: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Nopied◎(Ignored chat)<2><[U:1:103205717]><>"
+L 04/13/2016 - 11:12:23: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Nopied◎(Ignored chat)<2><[U:1:103205717]><>"
+L 04/13/2016 - 11:14:10: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot09<12><BOT><>"
+L 04/13/2016 - 11:16:27: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Nopied◎(Ignored chat)<2><[U:1:103205717]><>"
+L 04/13/2016 - 11:16:36: [freak_fortress_2.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎(Ignored chat)<2><[U:1:103205717]><>"
+L 04/13/2016 - 11:16:40: [Boss Selection.smx] 선택한 보스 이름: 프레디 크루거
+L 04/13/2016 - 11:26:12: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Nopied◎(Ignored chat)<2><[U:1:103205717]><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Nopied◎(Ignored chat)<2><[U:1:103205717]><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot06<9><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot07<10><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot08<11><BOT><>"
+L 04/13/2016 - 11:28:42: [playercommands.smx] "Nopied◎(Ignored chat)<2><[U:1:103205717]><>" slayed "Bot09<12><BOT><>"
+L 04/13/2016 - 11:33:43: Log file closed.
+L 04/13/2016 - 21:14:35: SourceMod log file session started (file "L20160413.log") (Version "1.7.3-dev+5298")
+L 04/13/2016 - 21:14:35: -------- Mapchange to arena_badlands --------
+L 04/13/2016 - 21:14:35: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/13/2016 - 21:14:37: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 21:14:37: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 21:14:37: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 21:14:37: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 21:14:37: [custompart.smx] Debug for CustomPart
+L 04/13/2016 - 21:14:37: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/13/2016 - 21:14:50: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 21:14:50: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 21:14:50: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 21:14:50: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 21:18:45: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot01<2><BOT><>"
+L 04/13/2016 - 21:18:45: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot02<3><BOT><>"
+L 04/13/2016 - 21:18:45: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot03<4><BOT><>"
+L 04/13/2016 - 21:18:45: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot04<5><BOT><>"
+L 04/13/2016 - 21:18:45: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot05<6><BOT><>"
+L 04/13/2016 - 21:18:45: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot06<7><BOT><>"
+L 04/13/2016 - 21:18:45: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot07<8><BOT><>"
+L 04/13/2016 - 21:19:51: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 21:21:58: [Boss Selection.smx] 선택한 보스 이름: 색스턴 헤일
+L 04/13/2016 - 21:29:52: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 21:30:03: [Boss Selection.smx] 선택한 보스 이름: 프레디 크루거
+L 04/13/2016 - 21:30:26: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Gay<11><[U:1:97781225]><>"
+L 04/13/2016 - 21:33:46: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 21:33:54: [Boss Selection.smx] 선택한 보스 이름: 씨맨
+L 04/13/2016 - 21:34:03: [freak_fortress_2.smx] "Nopied◎<9><[U:1:103205717]><>" added 123 queue points to "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 21:35:44: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "@ _ @  ♥ 깜찍이<13><[U:1:250739772]><>"
+L 04/13/2016 - 21:36:52: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 21:40:27: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 21:40:35: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot01<2><BOT><>"
+L 04/13/2016 - 21:40:35: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot02<3><BOT><>"
+L 04/13/2016 - 21:40:35: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot03<4><BOT><>"
+L 04/13/2016 - 21:40:35: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot04<5><BOT><>"
+L 04/13/2016 - 21:40:35: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot05<6><BOT><>"
+L 04/13/2016 - 21:40:35: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot06<7><BOT><>"
+L 04/13/2016 - 21:40:35: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot07<8><BOT><>"
+L 04/13/2016 - 21:46:01: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 21:46:01: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 21:46:10: [Boss Selection.smx] 선택한 보스 이름: 프레디 크루거
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot01<2><BOT><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot02<3><BOT><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot03<4><BOT><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot04<5><BOT><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot05<6><BOT><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot06<7><BOT><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Bot07<8><BOT><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "배트게이<11><[U:1:97781225]><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "@ _ @  ♥ 깜찍이<13><[U:1:250739772]><>"
+L 04/13/2016 - 21:48:50: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 21:51:37: [SM] Changed map to "koth_nucleus"
+L 04/13/2016 - 21:51:38: -------- Mapchange to koth_nucleus --------
+L 04/13/2016 - 21:51:44: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 21:51:44: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 21:51:44: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 21:51:44: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 21:56:57: [Boss Selection.smx] 선택한 보스 이름: 닌자 스파이
+L 04/13/2016 - 21:57:12: [Boss Selection.smx] 선택한 보스 이름: 데모판
+L 04/13/2016 - 22:00:42: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 22:00:42: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "신선하고 찰진 고기<16><[U:1:100119082]><>"
+L 04/13/2016 - 22:00:42: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 22:00:50: [Boss Selection.smx] 선택한 보스 이름: 버지니어
+L 04/13/2016 - 22:02:48: [basecommands.smx] "러스러스<17><[U:1:122272762]><>" refreshed the admin cache.
+L 04/13/2016 - 22:03:05: [funcommands.smx] "러스러스<17><[U:1:122272762]><>" set a beacon on "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 22:03:11: [funcommands.smx] "러스러스<17><[U:1:122272762]><>" removed a beacon on "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 22:07:01: [Boss Selection.smx] 선택한 보스 이름: 닌자 스파이
+L 04/13/2016 - 22:16:47: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "러스러스<17><[U:1:122272762]><>"
+L 04/13/2016 - 22:17:07: [Boss Selection.smx] 선택한 보스 이름: 이스터 버니
+L 04/13/2016 - 22:18:15: [playercommands.smx] "러스러스<17><[U:1:122272762]><>" slayed "Nopied◎<9><[U:1:103205717]><>"
+L 04/13/2016 - 22:19:24: [Boss Selection.smx] 선택한 보스 이름: 색스턴 헤일
+L 04/13/2016 - 22:27:29: [SM] Changed map to "koth_viaduct"
+L 04/13/2016 - 22:27:31: -------- Mapchange to koth_viaduct --------
+L 04/13/2016 - 22:27:36: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/13/2016 - 22:27:36: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/13/2016 - 22:27:36: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/13/2016 - 22:27:36: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/13/2016 - 22:33:29: [playercommands.smx] "러스러스<17><[U:1:122272762]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:55: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:55: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:55: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:55: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:56: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:56: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:56: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:56: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:56: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:56: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:56: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:57: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:57: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:57: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:57: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:57: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:57: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:58: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:58: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:58: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:58: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:33:58: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:34:02: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:34:03: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:34:03: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:34:03: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slapped "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (damage "1")
+L 04/13/2016 - 22:34:12: [Boss Selection.smx] 선택한 보스 이름: 말도 없고 머리도 없는 기만병 주니어
+L 04/13/2016 - 22:38:23: [basecomm.smx] "Nopied◎<9><[U:1:103205717]><>" muted "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 22:38:32: [basecomm.smx] "Nopied◎<9><[U:1:103205717]><>" muted "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 22:38:47: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" renamed "Nopied◎<9><[U:1:103205717]><>" to "�dpNeNN��")
+L 04/13/2016 - 22:38:48: [basecomm.smx] "러스러스<17><[U:1:122272762]><>" silenced "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 22:39:08: [basecomm.smx] "러스러스<17><[U:1:122272762]><>" unsilenced "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 22:39:21: [Boss Selection.smx] 선택한 보스 이름: 프레디 크루거
+L 04/13/2016 - 22:39:54: [playercommands.smx] "러스러스<17><[U:1:122272762]><>" slayed "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 22:41:16: [Boss Selection.smx] 선택한 보스 이름: 프레디 크루거
+L 04/13/2016 - 22:44:02: [playercommands.smx] "Nopied◎<9><[U:1:103205717]><>" slayed "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>"
+L 04/13/2016 - 22:47:36: [basecommands.smx] "Nopied◎<9><[U:1:103205717]><>" kicked "WAVER!<20><[U:1:159081753]><>" (reason "이 텍스트를 봤다면 자네는 멀록이야!")
+L 04/13/2016 - 22:47:36: [basecommands.smx] "Nopied◎<9><[U:1:103205717]><>" kicked "CAPTAIN:Yuudachi「夕立<15><[U:1:94273821]><>" (reason "이 텍스트를 봤다면 자네는 멀록이야!")
+L 04/13/2016 - 22:47:36: [basecommands.smx] "Nopied◎<9><[U:1:103205717]><>" kicked "Nopied◎<9><[U:1:103205717]><>" (reason "이 텍스트를 봤다면 자네는 멀록이야!")
+L 04/13/2016 - 22:47:44: Log file closed.

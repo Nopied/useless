@@ -1,0 +1,2297 @@
+L 03/28/2016 - 20:53:02: SourceMod log file session started (file "L20160328.log") (Version "1.7.3-dev+5298")
+L 03/28/2016 - 20:53:02: -------- Mapchange to arena_badlands --------
+L 03/28/2016 - 20:53:02: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 03/28/2016 - 20:53:04: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 20:53:04: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 20:53:04: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 20:53:04: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 20:53:04: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 20:53:04: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 03/28/2016 - 20:53:18: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 20:53:18: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 20:53:18: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 20:53:18: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 20:53:18: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 20:54:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 20:54:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 20:56:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 20:56:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 20:58:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 20:58:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 20:58:06: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "CEDA<3><BOT><>"
+L 03/28/2016 - 20:58:06: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "BeepBeepBoop<4><BOT><>"
+L 03/28/2016 - 20:58:06: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "NotMe<5><BOT><>"
+L 03/28/2016 - 20:58:06: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "CreditToTeam<6><BOT><>"
+L 03/28/2016 - 20:58:06: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "BoomerBile<7><BOT><>"
+L 03/28/2016 - 20:59:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 20:59:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:00:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:00:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:02:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:02:55: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:02:55: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:03:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:03:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:03:35: [Boss Selection.smx] client index: 1, g_hBossQueue: -1
+L 03/28/2016 - 21:10:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:10:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:10:02: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "CEDA<3><BOT><>"
+L 03/28/2016 - 21:10:02: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "BeepBeepBoop<4><BOT><>"
+L 03/28/2016 - 21:10:02: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "NotMe<5><BOT><>"
+L 03/28/2016 - 21:10:02: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "CreditToTeam<6><BOT><>"
+L 03/28/2016 - 21:10:02: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "BoomerBile<7><BOT><>"
+L 03/28/2016 - 21:10:06: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 21:10:06: [Boss Selection.smx] client index: 1, g_hBossQueue: -1
+L 03/28/2016 - 21:10:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:10:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:10:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:10:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:11:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:11:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:12:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:12:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:12:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 03/28/2016 - 21:12:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "BeepBeepBoop<4><BOT><>"
+L 03/28/2016 - 21:12:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "BoomerBile<7><BOT><>"
+L 03/28/2016 - 21:12:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bёtrαyαl fαster thαn l!ght<9><[U:1:45110770]><>"
+L 03/28/2016 - 21:12:20: [Boss Selection.smx] 선택한 보스 이름: Saxton Hale
+L 03/28/2016 - 21:12:20: [Boss Selection.smx] client index: 7, g_hBossQueue: 
+L 03/28/2016 - 21:13:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:13:13: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:13:13: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:13:13: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 45132 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 03/28/2016 - 21:14:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:14:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:16:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:16:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:20:26: -------- Mapchange to arena_badlands --------
+L 03/28/2016 - 21:20:26: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 21:20:26: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 21:20:26: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 21:20:26: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 21:20:26: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 21:20:26: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 03/28/2016 - 21:20:32: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 21:20:32: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 21:20:32: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 21:20:32: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 21:20:32: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 21:21:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:21:06: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:21:06: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:22:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:22:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:23:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:23:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:23:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:23:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:23:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:23:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:23:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:23:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:24:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:24:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:24:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:24:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:24:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:24:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:25:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:25:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:25:17: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Nopied◎<12><[U:1:103205717]><>"
+L 03/28/2016 - 21:25:17: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Mann Co.<13><BOT><>"
+L 03/28/2016 - 21:25:17: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Kaboom!<14><BOT><>"
+L 03/28/2016 - 21:25:17: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "0xDEADBEEF<15><BOT><>"
+L 03/28/2016 - 21:25:17: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "SomeDude<16><BOT><>"
+L 03/28/2016 - 21:25:17: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Hostage<17><BOT><>"
+L 03/28/2016 - 21:25:22: [Boss Selection.smx] 선택한 보스 이름: Easter Bunny
+L 03/28/2016 - 21:25:22: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 21:25:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:25:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:25:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:25:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:25:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:25:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:25:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:25:58: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:25:58: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:26:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:26:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:26:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:26:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:26:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:26:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:26:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:26:46: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:26:46: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:26:46: [freak_fortress_2.smx] "Nopied◎<12><[U:1:103205717]><>" added 451 queue points to "Nopied◎<12><[U:1:103205717]><>"
+L 03/28/2016 - 21:26:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:26:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:26:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:26:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:27:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:04: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:27:04: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:27:04: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:27:04: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:27:04: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:27:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:27:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:27:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:27:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:27:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:27:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:27:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:27:56: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:28:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:28:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:28:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:28:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:28:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:28:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:28:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:28:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:28:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:28:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:28:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:28:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:28:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:28:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:29:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:29:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:29:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:29:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:29:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:29:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:29:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:29:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:29:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:29:25: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:29:25: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:29:25: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:29:25: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:29:25: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:29:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:29:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:30:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:30:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:30:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:30:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:30:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:30:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:31:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:31:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:31:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:31:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:32:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:32:06: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:32:06: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:32:06: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:32:06: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:32:06: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:32:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:32:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:32:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:32:21: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:32:21: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:32:21: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:32:21: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:32:21: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:32:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:32:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:32:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:32:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:32:52: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 21:32:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:32:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:32:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:32:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:33:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:33:02: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:33:02: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:33:02: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:33:02: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:33:02: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:33:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:33:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:33:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:33:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:33:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:33:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:33:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:33:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:33:49: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 21:33:49: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 21:33:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:33:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:00: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:00: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:34:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:34:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:35:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:35:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:35:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:35:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:35:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:35:18: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:35:18: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:35:18: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:35:18: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:35:18: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:35:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:35:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:35:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:35:55: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 21:35:55: [Boss Selection.smx] client index: 8, g_hBossQueue: 
+L 03/28/2016 - 21:36:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:36:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:36:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:36:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:37:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:03: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:37:03: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:37:03: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:37:03: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:37:03: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:37:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:37:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:37:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:37:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:37:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:37:39: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:37:39: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:37:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:42: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:37:42: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:37:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:51: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:37:51: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:37:51: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:37:51: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:37:51: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:37:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:37:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:37:53: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 21:37:53: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 21:38:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:38:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:38:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:38:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:38:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:38:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:38:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:38:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:39:00: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:39:00: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:39:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:39:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:39:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:39:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:39:05: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 21:39:05: [Boss Selection.smx] client index: 8, g_hBossQueue: 
+L 03/28/2016 - 21:39:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:39:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:39:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:39:26: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:39:26: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:39:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:39:34: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:39:34: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:39:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:39:36: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:39:36: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:40:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:40:05: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:40:05: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:40:05: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:40:05: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:40:05: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:40:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:40:06: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:40:06: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:40:06: [freak_fortress_2.smx] "Nopied◎<12><[U:1:103205717]><>" added 1234 queue points to "Nopied◎<12><[U:1:103205717]><>"
+L 03/28/2016 - 21:40:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:40:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:40:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:40:17: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:40:17: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:40:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:40:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:40:30: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 21:40:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:40:32: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:40:32: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:40:32: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:40:32: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:40:32: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:40:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:40:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:05: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:41:06: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:41:06: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:41:06: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:41:06: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:41:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:14: [Boss Selection.smx] 선택한 보스 이름: Saxton Hale
+L 03/28/2016 - 21:41:14: [Boss Selection.smx] client index: 10, g_hBossQueue: 
+L 03/28/2016 - 21:41:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:41:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:41:51: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:41:51: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:41:51: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:41:51: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:41:51: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:41:57: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:41:57: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:42:01: [Boss Selection.smx] 선택한 보스 이름: Saxton Hale
+L 03/28/2016 - 21:42:01: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 21:42:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:42: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:42:42: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:42:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:42:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:42:59: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:43:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:10: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 21:43:10: [Boss Selection.smx] client index: 8, g_hBossQueue: 
+L 03/28/2016 - 21:43:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:43:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:43:59: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:43:59: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:43:59: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:43:59: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:43:59: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:44:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:13: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:44:13: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:44:13: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:44:13: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:44:13: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:44:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:28: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:44:28: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:44:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:33: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:44:33: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:44:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:38: [Boss Selection.smx] 선택한 보스 이름: Horseless Headless Horsemann Jr.
+L 03/28/2016 - 21:44:38: [Boss Selection.smx] client index: 10, g_hBossQueue: 
+L 03/28/2016 - 21:44:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:49: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:44:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:44:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:54: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:44:54: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:44:54: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:44:54: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:44:54: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:44:55: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:45:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:45:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:45:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:45:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:45:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:45:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:45:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:45:46: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:45:46: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:45:46: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:45:46: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:45:46: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:45:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:45:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:45:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:45:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:45:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:45:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:35: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:46:35: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:46:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:41: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:46:41: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:46:41: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:46:41: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:46:41: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:46:43: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:46:43: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:46:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:46:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:46:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:47:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:47:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:47:01: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 21:47:01: [Boss Selection.smx] client index: 10, g_hBossQueue: 
+L 03/28/2016 - 21:47:02: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 21:47:02: [Boss Selection.smx] client index: 8, g_hBossQueue: 0
+L 03/28/2016 - 21:47:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:47:04: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:47:04: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:47:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:47:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:47:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:47:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:47:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:47:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:47:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:47:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:47:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:47:58: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:47:58: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:47:58: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:47:58: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:47:58: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:48:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:09: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:48:09: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:48:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:17: [Boss Selection.smx] 선택한 보스 이름: Christian Brutal Sniper
+L 03/28/2016 - 21:48:17: [Boss Selection.smx] client index: 10, g_hBossQueue: 
+L 03/28/2016 - 21:48:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:26: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:48:26: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:48:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:48: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:48:48: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:48:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:52: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 21:48:52: [Boss Selection.smx] client index: 2, g_hBossQueue: 0
+L 03/28/2016 - 21:48:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:48:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:48:54: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:48:54: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:48:54: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:48:54: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:49:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:13: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:49:13: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:49:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:49:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:49:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:49:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:49:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:49:43: [Boss Selection.smx] client index: 2, g_hBossQueue: 0
+L 03/28/2016 - 21:49:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:49:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:49:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:51: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:50:51: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:50:51: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:50:51: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:50:51: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:50:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:50:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:56: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:50:56: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:50:56: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:50:56: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:50:56: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:50:57: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:50:57: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:50:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:50:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:51:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:51:56: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 21:51:56: [Boss Selection.smx] client index: 8, g_hBossQueue: 0
+L 03/28/2016 - 21:52:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:52:04: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:52:04: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:52:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:52:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:52:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:52:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:18: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:52:18: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:52:18: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:52:18: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:52:18: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:52:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:28: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:52:28: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 21:52:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:52:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:52:44: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 21:52:44: [Boss Selection.smx] client index: 8, g_hBossQueue: 0
+L 03/28/2016 - 21:52:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:52:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:06: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:53:06: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:53:06: [Boss Selection.smx] client index: 2, g_hBossQueue: 0
+L 03/28/2016 - 21:53:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:15: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:53:15: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:53:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:21: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:53:21: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:53:21: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:53:21: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:53:21: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:53:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:27: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:53:27: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:53:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:53:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:48: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:53:48: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:53:48: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:53:48: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:53:48: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:53:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:53:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:54:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:54:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:54:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:54:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:54:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:54:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:54:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:54:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:54:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:54:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:54:25: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:54:25: [Boss Selection.smx] client index: 10, g_hBossQueue: 
+L 03/28/2016 - 21:54:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:54:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:54:33: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 21:54:33: [Boss Selection.smx] client index: 2, g_hBossQueue: 0
+L 03/28/2016 - 21:54:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:54:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:55:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:55:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:56:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:56:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:56:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:56:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:56:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:56:11: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 21:56:11: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:56:15: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 21:56:15: [Boss Selection.smx] client index: 8, g_hBossQueue: 0
+L 03/28/2016 - 21:56:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:56:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:56:34: [SM] Changed map to "cp_dustbowl"
+L 03/28/2016 - 21:56:37: -------- Mapchange to cp_dustbowl --------
+L 03/28/2016 - 21:56:37: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 21:56:37: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 21:56:37: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 21:56:37: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 21:56:37: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 21:56:43: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 21:56:43: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 21:56:43: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 21:56:43: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 21:56:43: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 21:57:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:11: [Boss Selection.smx] client index: 10, g_hBossQueue: 
+L 03/28/2016 - 21:57:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:11: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:57:11: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:57:11: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:57:11: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:57:11: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:57:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:33: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:57:33: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:57:33: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:57:33: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:57:33: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:57:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:57:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:57:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:34: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:58:34: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:58:34: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:58:34: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:58:34: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:58:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:35: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:58:36: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:58:36: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:58:36: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:58:36: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:58:36: [Boss Selection.smx] client index: 9, g_hBossQueue: 
+L 03/28/2016 - 21:58:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:58:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:58:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:02: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 21:59:02: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 21:59:02: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 21:59:02: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 21:59:02: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 21:59:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 21:59:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 21:59:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:49: [Boss Selection.smx] client index: 9, g_hBossQueue: 0
+L 03/28/2016 - 22:00:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:00:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:00:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:01:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:01:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:01:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:01:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:01:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:01:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:01:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:01:49: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:01:49: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:01:49: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:01:49: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:01:49: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:03:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:03:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:03:19: [Boss Selection.smx] client index: 9, g_hBossQueue: -1
+L 03/28/2016 - 22:03:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:03:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:03:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:03:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:03:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:03:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:03:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:03:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:03:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:03:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:03:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:03:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:03:45: [Boss Selection.smx] client index: 9, g_hBossQueue: 0
+L 03/28/2016 - 22:04:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:06: [Boss Selection.smx] client index: 9, g_hBossQueue: -1
+L 03/28/2016 - 22:04:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:13: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:04:13: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:04:13: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:04:13: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:04:13: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:04:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:33: [Boss Selection.smx] client index: 9, g_hBossQueue: 0
+L 03/28/2016 - 22:04:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:56: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:04:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:04:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:04: [Boss Selection.smx] client index: 9, g_hBossQueue: -1
+L 03/28/2016 - 22:05:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:23: [Boss Selection.smx] client index: 9, g_hBossQueue: 0
+L 03/28/2016 - 22:05:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:24: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:05:24: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:05:24: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:05:24: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:05:24: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:05:24: [Boss Selection.smx] client index: 9, g_hBossQueue: -1
+L 03/28/2016 - 22:05:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:05:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:05:40: [Boss Selection.smx] client index: 9, g_hBossQueue: -1
+L 03/28/2016 - 22:06:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:06:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:06:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:06:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:06:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:06:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:06:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:06:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:06:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:06:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:07:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:07:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:07:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:07:48: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:07:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:07:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:07:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:07:52: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:07:52: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:07:52: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:07:52: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:07:52: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:07:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:07:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:07:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:07:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:00: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:00: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:08: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:08:14: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:14: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:24: [Boss Selection.smx] client index: 9, g_hBossQueue: 0
+L 03/28/2016 - 22:08:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:42: [Boss Selection.smx] client index: 9, g_hBossQueue: -1
+L 03/28/2016 - 22:08:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:08:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:08:51: Log file closed.
+L 03/28/2016 - 22:09:30: SourceMod log file session started (file "L20160328.log") (Version "1.7.3-dev+5298")
+L 03/28/2016 - 22:09:30: -------- Mapchange to arena_badlands --------
+L 03/28/2016 - 22:09:30: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 03/28/2016 - 22:09:31: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 22:09:31: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 22:09:31: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 22:09:31: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 22:09:31: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 22:09:31: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 03/28/2016 - 22:09:42: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 03/28/2016 - 22:09:42: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 03/28/2016 - 22:09:42: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 03/28/2016 - 22:09:42: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 03/28/2016 - 22:09:42: [Boss Selection.smx] [FF2boss] Added chat command: 
+L 03/28/2016 - 22:10:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:10:33: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:10:33: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:10:33: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:10:33: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:10:33: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:10:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:10:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:10:47: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:10:47: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:10:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:10:49: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:10:49: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:10:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:10:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:10:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:10:55: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:10:55: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:10:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:10:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:10:59: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 22:10:59: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:11:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:17: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:11:17: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:11:17: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:11:17: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:11:17: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:11:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:27: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:11:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:28: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:11:28: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:11:28: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:11:28: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:11:28: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:11:29: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 22:11:29: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:11:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:36: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:11:36: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:11:36: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:11:36: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:11:36: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:11:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:39: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:11:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:42: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:11:42: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:11:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:11:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:11:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:00: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:00: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:14: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:14: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:12:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:12:51: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:12:55: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:13:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:20: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:13:20: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:13:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:38: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:13:38: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:13:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:40: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:13:40: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:13:41: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:13:41: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:13:41: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:13:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:13:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:13:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:02: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 22:14:02: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:14:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:10: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:14:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] 선택한 보스 이름: Demopan
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:14:23: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:14:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:32: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:14:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:46: [Boss Selection.smx] 선택한 보스 이름: Easter Bunny
+L 03/28/2016 - 22:14:46: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:14:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:14:51: [Boss Selection.smx] 선택한 보스 이름: Easter Bunny
+L 03/28/2016 - 22:14:51: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:14:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:14:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:14: [Boss Selection.smx] 선택한 보스 이름: Vagineer
+L 03/28/2016 - 22:15:14: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:15:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:24: [Boss Selection.smx] 선택한 보스 이름: Easter Bunny
+L 03/28/2016 - 22:15:24: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:15:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:32: [Boss Selection.smx] 선택한 보스 이름: Vagineer
+L 03/28/2016 - 22:15:32: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:15:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:15:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:15:54: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:15:54: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:16:00: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:00: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:09: [Boss Selection.smx] 선택한 보스 이름: Easter Bunny
+L 03/28/2016 - 22:16:09: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:16:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:22: [Boss Selection.smx] 선택한 보스 이름: Saxton Hale
+L 03/28/2016 - 22:16:22: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:16:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:42: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:16:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:47: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:16:47: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:16:47: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:16:47: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:16:47: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:16:50: [Boss Selection.smx] 선택한 보스 이름: Easter Bunny
+L 03/28/2016 - 22:16:50: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:16:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:51: [playercommands.smx] "Nopied◎<3><[U:1:103205717]><>" slayed "나는 브로니다! 으아아<8><[U:1:224567350]><>"
+L 03/28/2016 - 22:16:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:16:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:16:56: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:11: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:17:11: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:17:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:14: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:17:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:16: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:17:16: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:17:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:17:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:17:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:00: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:00: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:09: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:18:09: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:18:09: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:18:09: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:18:09: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:18:11: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:18:11: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:18:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:13: [Boss Selection.smx] client index: 4, g_hBossQueue: 0
+L 03/28/2016 - 22:18:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:30: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:18:30: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:18:30: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:18:30: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:18:30: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:18:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:49: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 22:18:49: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:18:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:18:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:18:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:10: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:19:10: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:19:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:19:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:52: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:19:52: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:19:52: [freak_fortress_2.smx] "Nopied◎<3><[U:1:103205717]><>" added 13234 queue points to "Nopied◎<3><[U:1:103205717]><>"
+L 03/28/2016 - 22:19:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:19:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:09: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:20:09: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:20:09: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:20:09: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:20:09: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:20:10: [Boss Selection.smx] 선택한 보스 이름: Easter Bunny
+L 03/28/2016 - 22:20:10: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:20:10: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:20:10: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:20:17: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:20:17: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:20:19: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 22:20:19: [Boss Selection.smx] client index: 1, g_hBossQueue: -1
+L 03/28/2016 - 22:20:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:26: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:20:26: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:20:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:34: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:20:34: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:20:34: [freak_fortress_2.smx] "Nopied◎<3><[U:1:103205717]><>" added 12445 queue points to "Nopied◎<3><[U:1:103205717]><>"
+L 03/28/2016 - 22:20:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:48: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:20:48: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:20:48: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:20:48: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:20:48: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:20:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:20:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:20:56: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:21:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:21:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:08: [Boss Selection.smx] 선택한 보스 이름: Vagineer
+L 03/28/2016 - 22:22:08: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:22:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:22:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:22:52: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:22:52: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:23:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:13: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:23:13: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:23:13: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:23:13: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:23:13: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:23:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:17: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:23:17: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:23:17: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:23:17: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:23:17: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:23:22: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:22: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:27: [Boss Selection.smx] 선택한 보스 이름: Vagineer
+L 03/28/2016 - 22:23:27: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:23:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:23:49: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:23:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:23:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:23:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:24:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:24:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:38: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:38: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:57: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:25:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:25:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:08: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:26:08: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:26:08: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:26:08: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:26:08: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:26:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:19: [Boss Selection.smx] 선택한 보스 이름: Horseless Headless Horsemann Jr.
+L 03/28/2016 - 22:26:19: [Boss Selection.smx] client index: 3, g_hBossQueue: -1
+L 03/28/2016 - 22:26:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:28: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:26:28: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:26:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:26:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:48: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:26:48: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:26:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:54: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:26:54: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:26:54: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:26:54: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:26:54: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:26:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:26:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:27:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:27:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:27:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:27:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:27:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:27:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:27:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:27:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:27:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:27:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:27:27: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:27:27: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:27:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:27:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:06: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:28:06: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:28:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:32: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:28:32: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:28:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:37: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:28:37: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:28:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:28:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:28:56: [Boss Selection.smx] client index: 4, g_hBossQueue: -1
+L 03/28/2016 - 22:29:00: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:00: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:05: [Boss Selection.smx] 선택한 보스 이름: Horseless Headless Horsemann Jr.
+L 03/28/2016 - 22:29:05: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:29:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:06: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:29:06: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:29:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:12: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:29:12: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:29:12: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:29:12: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:29:12: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:29:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:29:42: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:29:42: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:29:43: [Boss Selection.smx] client index: 1, g_hBossQueue: -1
+L 03/28/2016 - 22:29:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:29:46: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:29:46: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:29:46: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:29:46: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:29:46: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:30:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:04: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:30:04: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:10: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:30:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:13: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:30:13: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:30:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:56: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:30:59: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:30:59: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:30:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:30:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:06: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "[KOR]dwgwjw1024[PFBT]<11><[U:1:159644927]><>"
+L 03/28/2016 - 22:31:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:18: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:31:18: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:31:18: [Boss Selection.smx] 선택한 보스 이름: Horseless Headless Horsemann Jr.
+L 03/28/2016 - 22:31:18: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:31:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:40: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:40: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:53: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:31:53: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:31:53: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:31:53: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:31:53: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:31:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:57: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:57: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:31:57: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:31:57: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:31:57: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:31:57: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:31:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:31:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:31:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:02: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:03: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:03: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:14: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:14: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:15: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 22:32:15: [Boss Selection.smx] client index: 8, g_hBossQueue: -1
+L 03/28/2016 - 22:32:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:20: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:20: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:23: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:32:23: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:32:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:42: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:32:42: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:32:42: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:32:42: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:32:42: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:32:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:48: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:48: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:32:48: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:32:48: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:32:48: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:32:48: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:32:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:55: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:55: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:56: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:32:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:32:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:05: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:06: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:33:06: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:33:14: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:14: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:16: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:16: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:18: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:33:18: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:33:18: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:33:18: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:33:18: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:33:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:23: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:23: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:25: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:33:25: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:33:27: [Boss Selection.smx] client index: 2, g_hBossQueue: -1
+L 03/28/2016 - 22:33:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:39: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:33:39: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:33:39: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:33:39: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:33:39: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:33:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:51: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:51: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:33:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:33:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:02: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:02: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:34:02: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:34:02: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:34:02: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:34:02: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:34:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:14: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:14: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:18: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:18: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:28: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:34:28: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:34:28: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:34:28: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:34:28: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:34:30: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:30: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:33: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:33: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:35: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:35: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:36: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:36: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:44: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:34:44: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:34:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:54: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:54: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:56: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:56: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:34:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:34:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:05: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:05: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:35:05: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:35:05: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:35:05: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:35:05: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:35:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:35:11: [Boss Selection.smx] client index: 5, g_hBossQueue: -1
+L 03/28/2016 - 22:35:13: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:13: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:13: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Nopied◎<12><[U:1:103205717]><>"
+L 03/28/2016 - 22:35:13: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "DandA1025<4><[U:1:150941697]><>"
+L 03/28/2016 - 22:35:13: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "나는 브로니다! 으아아<8><[U:1:224567350]><>"
+L 03/28/2016 - 22:35:13: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Δ<13><[U:1:168642180]><>"
+L 03/28/2016 - 22:35:14: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:14: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:15: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:15: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:17: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:18: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:35:18: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:35:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:27: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:35:27: [Boss Selection.smx] 명령어 boss 감지
+L 03/28/2016 - 22:35:28: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:28: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:37: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:37: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:39: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:39: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:41: [Boss Selection.smx] 선택한 보스 이름: Seeman
+L 03/28/2016 - 22:35:41: [Boss Selection.smx] client index: 8, g_hBossQueue: -1
+L 03/28/2016 - 22:35:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:35:55: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 22:35:55: [Boss Selection.smx] client index: 8, g_hBossQueue: -1
+L 03/28/2016 - 22:35:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:35:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:08: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:08: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:10: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:10: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:43: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:43: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:44: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:44: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:47: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:47: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:47: [Boss Selection.smx] 선택한 보스 이름: Saxton Hale
+L 03/28/2016 - 22:36:47: [Boss Selection.smx] client index: 6, g_hBossQueue: -1
+L 03/28/2016 - 22:36:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:49: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:49: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:52: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:52: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:36:58: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:36:58: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:06: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:06: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:09: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:09: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:19: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:19: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:21: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:21: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:24: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:24: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:29: [Boss Selection.smx] g_strChatCommand[i] = boss
+L 03/28/2016 - 22:37:29: [Boss Selection.smx] g_strChatCommand[i] = 보스
+L 03/28/2016 - 22:37:29: [Boss Selection.smx] g_strChatCommand[i] = 보스선택
+L 03/28/2016 - 22:37:29: [Boss Selection.smx] g_strChatCommand[i] = 
+L 03/28/2016 - 22:37:29: [Boss Selection.smx] 명령어  감지
+L 03/28/2016 - 22:37:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:41: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:41: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:42: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:42: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:44: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 03/28/2016 - 22:37:44: [Boss Selection.smx] client index: 8, g_hBossQueue: -1
+L 03/28/2016 - 22:37:45: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:45: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:46: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:46: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:48: [Boss Selection.smx] 선택한 보스 이름: GentleSpy
+L 03/28/2016 - 22:37:48: [Boss Selection.smx] client index: 7, g_hBossQueue: -1
+L 03/28/2016 - 22:37:50: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:50: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:53: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:53: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:37:59: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:37:59: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:01: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:01: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:04: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:04: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:07: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:07: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:11: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:11: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:12: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:12: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:25: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:25: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:26: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:26: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:27: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:27: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:29: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:29: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:31: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:31: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:32: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:32: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:34: [Boss Selection.smx] g_strChatCommand[i] = ff2boss
+L 03/28/2016 - 22:38:34: [Boss Selection.smx] 명령어 ff2boss 감지
+L 03/28/2016 - 22:38:40: Log file closed.

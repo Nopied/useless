@@ -1,0 +1,245 @@
+L 04/15/2016 - 20:26:13: SourceMod error session started
+L 04/15/2016 - 20:26:13: Info (map "arena_badlands") (file "errors_20160415.log")
+L 04/15/2016 - 20:26:13: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 59.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 213.
+L 04/15/2016 - 20:26:13: [SM] Invalid token '[' in #format property on line 213.
+L 04/15/2016 - 20:26:13: [SM] Invalid token '3' in #format property on line 213.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ':' in #format property on line 213.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ']' in #format property on line 213.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 407.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:26:13: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:27:41: Error log file session closed.
+L 04/15/2016 - 20:27:54: SourceMod error session started
+L 04/15/2016 - 20:27:54: Info (map "arena_badlands") (file "errors_20160415.log")
+L 04/15/2016 - 20:27:54: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 59.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 213.
+L 04/15/2016 - 20:27:54: [SM] Invalid token '[' in #format property on line 213.
+L 04/15/2016 - 20:27:54: [SM] Invalid token '3' in #format property on line 213.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ':' in #format property on line 213.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ']' in #format property on line 213.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 407.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:27:54: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:31:14: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:14: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:14: [SM]   [0]  Line 149, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::OnClientPutInServer()
+L 04/15/2016 - 20:31:14: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:14: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:14: [SM]   [0]  Line 149, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::OnClientPutInServer()
+L 04/15/2016 - 20:31:15: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:15: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:15: [SM]   [0]  Line 149, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::OnClientPutInServer()
+L 04/15/2016 - 20:31:16: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:16: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:16: [SM]   [0]  Line 149, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::OnClientPutInServer()
+L 04/15/2016 - 20:31:16: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:16: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:16: [SM]   [0]  Line 149, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::OnClientPutInServer()
+L 04/15/2016 - 20:31:17: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:17: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:17: [SM]   [0]  Line 149, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::OnClientPutInServer()
+L 04/15/2016 - 20:31:46: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:46: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:46: [SM]   [0]  Line 382, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::SetClientQueueCookie()
+L 04/15/2016 - 20:31:46: [SM]   [1]  Line 274, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::Command_SetMyBossH()
+L 04/15/2016 - 20:31:51: [SM] Native "SetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:51: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:51: [SM]   [0]  Line 382, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::SetClientQueueCookie()
+L 04/15/2016 - 20:31:51: [SM]   [1]  Line 274, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::Command_SetMyBossH()
+L 04/15/2016 - 20:31:55: [SM] Native "GetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:31:55: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:31:55: [SM]   [0]  Line 387, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::SetClientQueueCookie()
+L 04/15/2016 - 20:31:55: [SM]   [1]  Line 283, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::Command_SetMyBossH()
+L 04/15/2016 - 20:32:35: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:32:35: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:32:35: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:32:38: [SM] Native "GetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:32:38: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:32:38: [SM]   [0]  Line 369, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::GetClientQueueCookie()
+L 04/15/2016 - 20:32:38: [SM]   [1]  Line 129, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::FF2_OnAddQueuePoints()
+L 04/15/2016 - 20:33:26: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:33:26: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:33:26: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:33:29: [SM] Native "GetClientCookie" reported: Invalid Cookie handle 0 (error 4)
+L 04/15/2016 - 20:33:29: [SM] Displaying call stack trace for plugin "Boss Selection.smx":
+L 04/15/2016 - 20:33:29: [SM]   [0]  Line 369, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::GetClientQueueCookie()
+L 04/15/2016 - 20:33:29: [SM]   [1]  Line 129, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection.sp::FF2_OnAddQueuePoints()
+L 04/15/2016 - 20:37:44: Error log file session closed.
+L 04/15/2016 - 20:37:44: SourceMod error session started
+L 04/15/2016 - 20:37:44: Info (map "arena_nucleus") (file "errors_20160415.log")
+L 04/15/2016 - 20:37:44: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 59.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 213.
+L 04/15/2016 - 20:37:44: [SM] Invalid token '[' in #format property on line 213.
+L 04/15/2016 - 20:37:44: [SM] Invalid token '3' in #format property on line 213.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ':' in #format property on line 213.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ']' in #format property on line 213.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 407.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:37:44: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 20:41:16: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:41:16: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:41:16: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:42:21: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:42:21: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:42:21: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:43:37: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:43:37: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:43:37: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:45:43: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:45:43: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:45:43: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:46:39: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:46:39: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:46:39: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:48:26: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:48:26: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:48:26: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:49:03: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:49:03: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:49:03: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:51:02: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:51:02: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:51:02: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:52:03: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:52:03: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:52:03: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:54:17: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:54:17: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:54:17: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:56:33: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:56:33: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:56:33: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 20:59:04: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 20:59:04: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 20:59:04: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:00:31: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:00:31: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:00:32: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:02:04: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:02:04: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:02:04: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:03:45: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:03:45: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:03:45: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:07:34: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:07:34: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:07:34: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:10:40: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:10:40: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:10:40: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:14:38: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:14:38: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:14:38: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:15:05: Error log file session closed.
+L 04/15/2016 - 21:15:05: SourceMod error session started
+L 04/15/2016 - 21:15:05: Info (map "koth_nucleus") (file "errors_20160415.log")
+L 04/15/2016 - 21:15:05: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 59.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 213.
+L 04/15/2016 - 21:15:05: [SM] Invalid token '[' in #format property on line 213.
+L 04/15/2016 - 21:15:05: [SM] Invalid token '3' in #format property on line 213.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ':' in #format property on line 213.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ']' in #format property on line 213.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 407.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:15:05: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:15:49: Error log file session closed.
+L 04/15/2016 - 21:15:49: SourceMod error session started
+L 04/15/2016 - 21:15:49: Info (map "arena_lumberyard") (file "errors_20160415.log")
+L 04/15/2016 - 21:15:49: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 59.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 213.
+L 04/15/2016 - 21:15:49: [SM] Invalid token '[' in #format property on line 213.
+L 04/15/2016 - 21:15:49: [SM] Invalid token '3' in #format property on line 213.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ':' in #format property on line 213.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ']' in #format property on line 213.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 407.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:15:49: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:20:55: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:20:55: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:20:55: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:24:05: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:24:05: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:24:05: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:28:54: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:28:54: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:28:54: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:31:56: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:31:56: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:31:56: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:33:33: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:33:33: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:33:33: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:36:52: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:36:52: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:36:52: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:38:02: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:38:02: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:38:02: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:40:24: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:40:24: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:40:24: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:44:08: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:44:08: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:44:08: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:45:50: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:45:50: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:45:50: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:47:04: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:47:04: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:47:04: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:47:47: Error log file session closed.
+L 04/15/2016 - 21:47:47: SourceMod error session started
+L 04/15/2016 - 21:47:47: Info (map "arena_byre") (file "errors_20160415.log")
+L 04/15/2016 - 21:47:47: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 59.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 213.
+L 04/15/2016 - 21:47:47: [SM] Invalid token '[' in #format property on line 213.
+L 04/15/2016 - 21:47:47: [SM] Invalid token '3' in #format property on line 213.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ':' in #format property on line 213.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ']' in #format property on line 213.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 407.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 412.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:47:47: [SM] Invalid token ' ' in #format property on line 421.
+L 04/15/2016 - 21:51:43: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:51:43: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:51:43: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:54:02: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:54:02: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:54:02: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:55:51: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:55:51: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:55:51: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 21:58:43: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 21:58:43: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 21:58:43: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 22:00:07: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 22:00:07: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 22:00:07: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 22:02:15: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/15/2016 - 22:02:15: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/15/2016 - 22:02:15: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/15/2016 - 22:02:30: Error log file session closed.

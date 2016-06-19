@@ -74,18 +74,12 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	if(!IsValidClient(client) || !clientWeapon[client])
 		return Plugin_Continue;
 
-	if(buttons & IN_ATTACK|IN_ATTACK2|IN_ATTACK3|IN_RELOAD && GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") == clientWeapon[client])
+	int weapon2=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+	if(weapon2 == clientWeapon[client] && IsValidEntity(weapon2))
 	{
-			if(buttons & IN_ATTACK)
-		  	buttons|=~IN_ATTACK;
-			if(buttons & IN_ATTACK2)
-		  	buttons|=~IN_ATTACK2;
-			if(buttons & IN_ATTACK3)
-		  	buttons|=~IN_ATTACK3;
-			if(buttons & IN_RELOAD)
-		  	buttons|=~IN_RELOAD;
-
-		return Plugin_Changed;
+		SetEntPropFloat(weapon2, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+0.2);
+		SetEntPropFloat(weapon2, Prop_Send, "m_flNextSecondaryAttack", GetGameTime()+0.2);
+		SetEntPropFloat(client, Prop_Send, "m_flNextAttack", GetGameTime()+0.2);
 	}
 	return Plugin_Continue;
 }

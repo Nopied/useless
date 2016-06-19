@@ -1,0 +1,38 @@
+L 04/08/2016 - 20:58:45: SourceMod error session started
+L 04/08/2016 - 20:58:45: Info (map "arena_badlands") (file "errors_20160408.log")
+L 04/08/2016 - 20:58:45: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/08/2016 - 20:58:45: [SM] Invalid token ' ' in #format property on line 59.
+L 04/08/2016 - 20:58:45: [SM] Invalid token ' ' in #format property on line 402.
+L 04/08/2016 - 20:58:45: [SM] Invalid token ' ' in #format property on line 407.
+L 04/08/2016 - 20:58:45: [SM] Invalid token ' ' in #format property on line 407.
+L 04/08/2016 - 20:58:45: [SM] Invalid token ' ' in #format property on line 416.
+L 04/08/2016 - 20:58:45: [SM] Invalid token ' ' in #format property on line 416.
+L 04/08/2016 - 20:58:45: [SM] Invalid token ' ' in #format property on line 416.
+L 04/08/2016 - 21:01:57: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:01:57: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:01:57: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:03:39: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:03:39: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:03:39: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:04:26: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:04:26: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:04:26: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:05:20: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:05:20: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:05:20: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:08:32: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:08:32: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:08:32: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:08:59: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:08:59: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:08:59: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:11:59: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:11:59: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:11:59: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:15:46: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:15:46: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:15:46: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:17:44: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/08/2016 - 21:17:44: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/08/2016 - 21:17:44: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/08/2016 - 21:17:56: Error log file session closed.

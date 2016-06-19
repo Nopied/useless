@@ -1,0 +1,334 @@
+L 04/07/2016 - 20:24:28: SourceMod error session started
+L 04/07/2016 - 20:24:28: Info (map "arena_badlands") (file "errors_20160407.log")
+L 04/07/2016 - 20:24:28: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/07/2016 - 20:24:28: [SM] Invalid token ' ' in #format property on line 59.
+L 04/07/2016 - 20:24:28: [SM] Invalid token ' ' in #format property on line 402.
+L 04/07/2016 - 20:24:28: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 20:24:28: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 20:24:28: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 20:24:28: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 20:24:28: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 20:27:51: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:27:51: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:27:51: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:28:23: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:28:23: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:28:23: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:29:56: [SM] Native "SetEntProp" reported: Property "m_fFlags" not found (entity 236/env_fog_controller)
+L 04/07/2016 - 20:29:56: [SM] Displaying call stack trace for plugin "Testcoll.smx":
+L 04/07/2016 - 20:29:56: [SM]   [0]  Line 50, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Testcoll.sp::Command_Fog()
+L 04/07/2016 - 20:30:36: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:30:36: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:30:36: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:31:35: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:31:35: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:31:35: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:32:02: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:32:02: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:32:02: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:35:04: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:35:04: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:35:04: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:35:29: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:35:29: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:35:29: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:36:19: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:36:19: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:36:19: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:37:20: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:37:20: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:37:20: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:37:47: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:37:47: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:37:47: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:39:15: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:39:15: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:39:15: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:41:00: [SM] Native "SetEntProp" reported: Property "m_fFlags" not found (entity 239/env_fog_controller)
+L 04/07/2016 - 20:41:00: [SM] Displaying call stack trace for plugin "Testcoll.smx":
+L 04/07/2016 - 20:41:00: [SM]   [0]  Line 50, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Testcoll.sp::Command_Fog()
+L 04/07/2016 - 20:41:03: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:41:03: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:41:03: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:42:36: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:42:36: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:42:36: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:46:51: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:46:51: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:46:51: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:50:19: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:50:19: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:50:19: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:53:19: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:53:19: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:53:19: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:53:52: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:53:52: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:53:52: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 20:56:58: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 20:56:58: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 20:56:58: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:00:39: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:39: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:39: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:39: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:39: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:41: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:41: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:41: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:41: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:41: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:42: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:42: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:42: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:42: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:42: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:43: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:43: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:43: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:43: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:45: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:45: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:45: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:45: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:45: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:48: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:48: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:48: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:48: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:48: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:49: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:49: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:49: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:49: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:49: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:50: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:50: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:50: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:50: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:50: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:51: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:51: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:51: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:51: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:51: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:55: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:55: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:55: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:55: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:55: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:00:57: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:00:57: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:00:57: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:00:57: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:00:57: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:01:14: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:01:14: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:01:14: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:01:14: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:01:14: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:01:28: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:01:28: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:01:28: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:01:28: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:01:28: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:01:34: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:01:34: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:01:34: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:01:34: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:01:34: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:01:35: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:01:35: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:01:35: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:01:35: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:01:35: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:01:37: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:01:37: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:01:37: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:01:37: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:01:37: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:01:37: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:01:37: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:01:37: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:01:37: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:01:37: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:01:54: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:01:54: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:01:54: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:02:20: Error log file session closed.
+L 04/07/2016 - 21:02:20: SourceMod error session started
+L 04/07/2016 - 21:02:20: Info (map "koth_nucleus") (file "errors_20160407.log")
+L 04/07/2016 - 21:02:20: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/07/2016 - 21:02:20: [SM] Invalid token ' ' in #format property on line 59.
+L 04/07/2016 - 21:02:20: [SM] Invalid token ' ' in #format property on line 402.
+L 04/07/2016 - 21:02:20: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 21:02:20: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 21:02:20: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 21:02:20: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 21:02:20: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 21:07:04: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:04: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:04: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:04: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:04: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:11: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:11: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:11: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:11: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:11: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:16: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:16: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:16: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:16: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:16: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:17: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:17: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:17: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:17: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:17: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:17: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:17: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:17: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:17: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:17: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:18: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:18: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:18: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:18: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:18: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:19: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:19: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:19: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:19: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:19: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:20: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:20: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:20: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:20: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:20: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:21: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:21: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:21: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:21: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:21: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:22: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:22: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:22: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:22: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:22: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:23: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:23: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:23: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:23: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:23: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:24: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:24: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:24: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:24: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:24: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:25: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:25: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:25: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:25: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:25: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:26: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:26: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:26: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:26: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:26: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:27: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:27: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:27: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:27: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:27: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:28: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:28: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:28: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:28: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:28: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:30: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:30: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:30: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:30: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:30: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:31: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:31: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:31: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:31: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:31: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:33: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:33: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:33: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:33: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:33: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:34: [SM] Plugin encountered error 4: Invalid parameter or parameter type
+L 04/07/2016 - 21:07:34: [SM] Native "VFormat" reported: String formatted incorrectly - parameter 2 (total 1)
+L 04/07/2016 - 21:07:34: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 04/07/2016 - 21:07:34: [SM]   [0]  Line 71, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\include\morecolors.inc::CPrintToChatAll()
+L 04/07/2016 - 21:07:34: [SM]   [1]  Line 6100, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnTakeDamage()
+L 04/07/2016 - 21:07:51: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:07:51: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:07:51: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:09:16: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:09:16: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:09:16: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:09:42: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:09:42: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:09:42: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:10:09: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:10:09: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:10:09: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:13:49: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:13:49: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:13:49: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:14:27: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:14:27: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:14:27: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:15:42: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:15:42: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:15:42: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:15:50: Error log file session closed.
+L 04/07/2016 - 21:20:49: SourceMod error session started
+L 04/07/2016 - 21:20:49: Info (map "arena_badlands") (file "errors_20160407.log")
+L 04/07/2016 - 21:20:49: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/07/2016 - 21:20:49: [SM] Invalid token ' ' in #format property on line 59.
+L 04/07/2016 - 21:20:49: [SM] Invalid token ' ' in #format property on line 402.
+L 04/07/2016 - 21:20:49: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 21:20:49: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 21:20:49: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 21:20:49: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 21:20:49: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 21:24:27: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:24:27: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:24:27: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:25:23: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:25:23: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:25:23: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:28:31: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:28:31: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:28:31: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:31:44: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:31:44: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:31:44: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:34:25: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:34:25: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:34:25: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:35:12: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/07/2016 - 21:35:12: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/07/2016 - 21:35:12: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/07/2016 - 21:40:25: Error log file session closed.
+L 04/07/2016 - 22:04:32: SourceMod error session started
+L 04/07/2016 - 22:04:32: Info (map "arena_badlands") (file "errors_20160407.log")
+L 04/07/2016 - 22:04:32: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/07/2016 - 22:04:32: [SM] Invalid token ' ' in #format property on line 59.
+L 04/07/2016 - 22:04:32: [SM] Invalid token ' ' in #format property on line 402.
+L 04/07/2016 - 22:04:32: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 22:04:32: [SM] Invalid token ' ' in #format property on line 407.
+L 04/07/2016 - 22:04:32: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 22:04:32: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 22:04:32: [SM] Invalid token ' ' in #format property on line 416.
+L 04/07/2016 - 22:10:38: [SM] Native "SetEntProp" reported: Property "m_iEFlags" not found (entity 250/env_fog_controller)
+L 04/07/2016 - 22:10:38: [SM] Displaying call stack trace for plugin "Testcoll.smx":
+L 04/07/2016 - 22:10:38: [SM]   [0]  Line 50, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Testcoll.sp::Command_Fog()
+L 04/07/2016 - 22:11:30: Error log file session closed.

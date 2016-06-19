@@ -1,0 +1,71 @@
+L 04/12/2016 - 20:40:49: SourceMod log file session started (file "L20160412.log") (Version "1.7.3-dev+5298")
+L 04/12/2016 - 20:40:49: -------- Mapchange to arena_badlands --------
+L 04/12/2016 - 20:40:50: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/12/2016 - 20:40:52: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/12/2016 - 20:40:52: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/12/2016 - 20:40:52: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/12/2016 - 20:40:52: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/12/2016 - 20:40:52: [custompart.smx] Debug for CustomPart
+L 04/12/2016 - 20:40:52: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/12/2016 - 20:41:05: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/12/2016 - 20:41:05: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/12/2016 - 20:41:05: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/12/2016 - 20:41:05: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/12/2016 - 20:41:43: Log file closed.
+L 04/12/2016 - 20:43:00: SourceMod log file session started (file "L20160412.log") (Version "1.7.3-dev+5298")
+L 04/12/2016 - 20:43:00: -------- Mapchange to arena_badlands --------
+L 04/12/2016 - 20:43:00: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/12/2016 - 20:43:00: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/12/2016 - 20:43:00: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/12/2016 - 20:43:00: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/12/2016 - 20:43:00: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/12/2016 - 20:43:00: [custompart.smx] Debug for CustomPart
+L 04/12/2016 - 20:43:00: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/12/2016 - 20:43:12: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/12/2016 - 20:43:12: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/12/2016 - 20:43:12: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/12/2016 - 20:43:12: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/12/2016 - 20:44:26: [Boss Selection.smx] 선택한 보스 이름: 이스터 버니
+L 04/12/2016 - 20:47:30: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot02<5><BOT><>"
+L 04/12/2016 - 20:47:39: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot03<6><BOT><>"
+L 04/12/2016 - 20:47:48: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot04<7><BOT><>"
+L 04/12/2016 - 20:47:54: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot05<8><BOT><>"
+L 04/12/2016 - 20:48:00: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot06<9><BOT><>"
+L 04/12/2016 - 20:48:15: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot01<4><BOT><>"
+L 04/12/2016 - 20:49:46: [freak_fortress_2.smx] "Subconsciousness<2><[U:1:300348140]><>" added 123 queue points to "Subconsciousness<2><[U:1:300348140]><>"
+L 04/12/2016 - 20:55:00: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Subconsciousness<2><[U:1:300348140]><>"
+L 04/12/2016 - 20:55:00: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot01<4><BOT><>"
+L 04/12/2016 - 20:55:00: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot02<5><BOT><>"
+L 04/12/2016 - 20:55:00: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot03<6><BOT><>"
+L 04/12/2016 - 20:55:00: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot04<7><BOT><>"
+L 04/12/2016 - 20:55:00: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot06<9><BOT><>"
+L 04/12/2016 - 20:55:59: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "내일 MvM 하실분 구함<3><[U:1:171130010]><>"
+L 04/12/2016 - 20:55:59: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot06<9><BOT><>"
+L 04/12/2016 - 20:56:14: [Boss Selection.smx] 선택한 보스 이름: 색스턴 헤일
+L 04/12/2016 - 20:56:28: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Subconsciousness<2><[U:1:300348140]><>"
+L 04/12/2016 - 20:56:34: [freak_fortress_2.smx] "Subconsciousness<2><[U:1:300348140]><>" added 123 queue points to "Subconsciousness<2><[U:1:300348140]><>"
+L 04/12/2016 - 21:00:44: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot01<4><BOT><>"
+L 04/12/2016 - 21:00:44: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot02<5><BOT><>"
+L 04/12/2016 - 21:00:44: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot03<6><BOT><>"
+L 04/12/2016 - 21:00:44: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot04<7><BOT><>"
+L 04/12/2016 - 21:00:44: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot05<8><BOT><>"
+L 04/12/2016 - 21:00:44: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot06<9><BOT><>"
+L 04/12/2016 - 21:00:44: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Subconsciousness<2><[U:1:300348140]><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "내일 MvM 하실분 구함<3><[U:1:171130010]><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot01<4><BOT><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot02<5><BOT><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot03<6><BOT><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot04<7><BOT><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot05<8><BOT><>"
+L 04/12/2016 - 21:03:34: [playercommands.smx] "Subconsciousness<2><[U:1:300348140]><>" slayed "Bot06<9><BOT><>"
+L 04/12/2016 - 21:03:38: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "내일 MvM 하실분 구함<3><[U:1:171130010]><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "Bot01<4><BOT><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "Bot02<5><BOT><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "Bot03<6><BOT><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "Bot04<7><BOT><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "Bot05<8><BOT><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "Bot06<9><BOT><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>" (reason "")
+L 04/12/2016 - 21:03:39: [basecommands.smx] "Subconsciousness<2><[U:1:300348140]><>" kicked "Subconsciousness<2><[U:1:300348140]><>" (reason "")
+L 04/12/2016 - 21:03:45: Log file closed.

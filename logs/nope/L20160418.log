@@ -1,0 +1,282 @@
+L 04/18/2016 - 15:06:30: SourceMod log file session started (file "L20160418.log") (Version "1.7.3-dev+5298")
+L 04/18/2016 - 15:06:30: -------- Mapchange to arena_badlands --------
+L 04/18/2016 - 15:06:30: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/18/2016 - 15:06:32: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 15:06:32: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 15:06:32: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 15:06:32: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 15:06:32: [custompart.smx] Debug for CustomPart
+L 04/18/2016 - 15:06:32: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/18/2016 - 15:06:46: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 15:06:46: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 15:06:46: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 15:06:46: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 15:13:01: SourceMod log file session started (file "L20160418.log") (Version "1.7.3-dev+5298")
+L 04/18/2016 - 15:13:01: -------- Mapchange to arena_badlands --------
+L 04/18/2016 - 15:13:01: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/18/2016 - 15:13:01: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 15:13:01: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 15:13:01: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 15:13:01: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 15:13:01: [custompart.smx] Debug for CustomPart
+L 04/18/2016 - 15:13:01: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/18/2016 - 15:13:13: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 15:13:13: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 15:13:13: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 15:13:13: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 15:15:06: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 15:16:40: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 15:16:40: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 15:16:40: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<5><BOT><>"
+L 04/18/2016 - 15:16:40: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<6><BOT><>"
+L 04/18/2016 - 15:16:40: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<7><BOT><>"
+L 04/18/2016 - 15:16:40: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<8><BOT><>"
+L 04/18/2016 - 15:16:40: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<9><BOT><>"
+L 04/18/2016 - 15:25:46: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 15:25:46: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot02<5><BOT><>"
+L 04/18/2016 - 15:25:46: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot03<6><BOT><>"
+L 04/18/2016 - 15:25:46: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot04<7><BOT><>"
+L 04/18/2016 - 15:25:46: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot05<8><BOT><>"
+L 04/18/2016 - 15:25:46: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot06<9><BOT><>"
+L 04/18/2016 - 15:34:29: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Nopied◎<12><[U:1:103205717]><>"
+L 04/18/2016 - 15:34:29: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 15:34:29: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot02<5><BOT><>"
+L 04/18/2016 - 15:34:29: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot03<6><BOT><>"
+L 04/18/2016 - 15:34:29: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot04<7><BOT><>"
+L 04/18/2016 - 15:34:29: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot05<8><BOT><>"
+L 04/18/2016 - 15:34:29: [playercommands.smx] "Nopied◎<12><[U:1:103205717]><>" slayed "Bot06<9><BOT><>"
+L 04/18/2016 - 15:34:35: [freak_fortress_2.smx] "Nopied◎<12><[U:1:103205717]><>" added 1234 queue points to "Nopied◎<12><[U:1:103205717]><>"
+L 04/18/2016 - 15:39:26: Log file closed.
+L 04/18/2016 - 15:39:42: SourceMod log file session started (file "L20160418.log") (Version "1.7.3-dev+5298")
+L 04/18/2016 - 15:39:42: -------- Mapchange to arena_badlands --------
+L 04/18/2016 - 15:39:42: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/18/2016 - 15:39:43: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 15:39:43: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 15:39:43: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 15:39:43: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 15:39:43: [custompart.smx] Debug for CustomPart
+L 04/18/2016 - 15:39:43: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/18/2016 - 15:39:54: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 15:39:54: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 15:39:54: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 15:39:54: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 15:43:05: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 15:43:05: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 15:43:08: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 15:44:55: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 15:45:25: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 15:45:28: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 15:45:50: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 15:45:53: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 15:48:31: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 15:48:34: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 15:51:07: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 15:57:00: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 15:57:03: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 15:59:37: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 15:59:37: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "-҉҉҉҉҉o҉҉҉҉҉-<3><[U:1:40881577]><>"
+L 04/18/2016 - 15:59:37: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 15:59:40: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:00:06: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 16:00:09: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:02:17: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:02:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "팀[DT]탄산음료<5><[U:1:189202825]><>"
+L 04/18/2016 - 16:02:46: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:04:33: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:06:49: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:09:08: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:09:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 16:09:37: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:11:11: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Bot01<4><BOT><>" (damage "99")
+L 04/18/2016 - 16:11:11: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "Bot01<4><BOT><>" (damage "99")
+L 04/18/2016 - 16:11:11: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:11: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:14: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:11:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:11:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "팀[DT]탄산음료<5><[U:1:189202825]><>" (damage "99")
+L 04/18/2016 - 16:12:24: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:13:13: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:14:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 16:14:38: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:15:06: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<4><BOT><>"
+L 04/18/2016 - 16:15:09: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:16:52: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:18:51: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 16:19:13: [SM] Changed map to "koth_nucleus"
+L 04/18/2016 - 16:19:15: -------- Mapchange to koth_nucleus --------
+L 04/18/2016 - 16:19:22: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 16:19:22: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 16:19:22: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 16:19:22: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 16:19:49: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "arena_granary"
+L 04/18/2016 - 16:19:52: [SM] Changed map to "arena_granary"
+L 04/18/2016 - 16:19:53: -------- Mapchange to arena_granary --------
+L 04/18/2016 - 16:19:58: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 16:19:58: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 16:19:58: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 16:19:58: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 16:21:12: Log file closed.
+L 04/18/2016 - 20:00:35: SourceMod log file session started (file "L20160418.log") (Version "1.7.3-dev+5298")
+L 04/18/2016 - 20:00:35: -------- Mapchange to arena_badlands --------
+L 04/18/2016 - 20:00:36: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/18/2016 - 20:00:38: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 20:00:38: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 20:00:38: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 20:00:38: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 20:00:38: [custompart.smx] Debug for CustomPart
+L 04/18/2016 - 20:00:38: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/18/2016 - 20:00:52: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 20:00:52: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 20:00:52: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 20:00:52: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 20:08:12: Log file closed.
+L 04/18/2016 - 20:08:24: SourceMod log file session started (file "L20160418.log") (Version "1.7.3-dev+5298")
+L 04/18/2016 - 20:08:24: -------- Mapchange to arena_badlands --------
+L 04/18/2016 - 20:08:24: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/18/2016 - 20:08:24: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 20:08:24: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 20:08:24: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 20:08:24: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 20:08:24: [custompart.smx] Debug for CustomPart
+L 04/18/2016 - 20:08:24: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/18/2016 - 20:08:37: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 20:08:37: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 20:08:37: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 20:08:37: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 20:10:36: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 1234 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:15:52: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 124 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:19:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/18/2016 - 20:19:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/18/2016 - 20:19:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/18/2016 - 20:19:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/18/2016 - 20:19:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/18/2016 - 20:19:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/18/2016 - 20:20:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/18/2016 - 20:20:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/18/2016 - 20:20:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/18/2016 - 20:20:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/18/2016 - 20:20:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/18/2016 - 20:20:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/18/2016 - 20:20:15: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:22:03: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:22:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/18/2016 - 20:22:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/18/2016 - 20:22:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/18/2016 - 20:22:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/18/2016 - 20:22:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/18/2016 - 20:22:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/18/2016 - 20:22:13: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:23:32: Log file closed.
+L 04/18/2016 - 20:23:56: SourceMod log file session started (file "L20160418.log") (Version "1.7.3-dev+5298")
+L 04/18/2016 - 20:23:56: -------- Mapchange to arena_badlands --------
+L 04/18/2016 - 20:23:56: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/18/2016 - 20:23:56: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 20:23:56: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 20:23:56: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 20:23:56: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 20:23:56: [custompart.smx] Debug for CustomPart
+L 04/18/2016 - 20:23:56: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/18/2016 - 20:24:08: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/18/2016 - 20:24:08: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/18/2016 - 20:24:08: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/18/2016 - 20:24:08: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/18/2016 - 20:29:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!<4><[U:1:150941697]><>"
+L 04/18/2016 - 20:29:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<7><BOT><>"
+L 04/18/2016 - 20:29:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<8><BOT><>"
+L 04/18/2016 - 20:29:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<9><BOT><>"
+L 04/18/2016 - 20:29:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<10><BOT><>"
+L 04/18/2016 - 20:29:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<11><BOT><>"
+L 04/18/2016 - 20:29:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<12><BOT><>"
+L 04/18/2016 - 20:29:12: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 1234 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:32:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:32:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<7><BOT><>"
+L 04/18/2016 - 20:32:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<8><BOT><>"
+L 04/18/2016 - 20:32:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<9><BOT><>"
+L 04/18/2016 - 20:32:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<10><BOT><>"
+L 04/18/2016 - 20:32:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<11><BOT><>"
+L 04/18/2016 - 20:32:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<12><BOT><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!<4><[U:1:150941697]><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[KOR]dwgwjw1024[PFBT]<6><[U:1:159644927]><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<7><BOT><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<8><BOT><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<9><BOT><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<10><BOT><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<11><BOT><>"
+L 04/18/2016 - 20:37:43: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<12><BOT><>"
+L 04/18/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<7><BOT><>"
+L 04/18/2016 - 20:39:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<8><BOT><>"
+L 04/18/2016 - 20:39:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<9><BOT><>"
+L 04/18/2016 - 20:39:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<10><BOT><>"
+L 04/18/2016 - 20:39:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<11><BOT><>"
+L 04/18/2016 - 20:39:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<12><BOT><>"
+L 04/18/2016 - 20:39:51: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 1234 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:42:46: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!<4><[U:1:150941697]><>"
+L 04/18/2016 - 20:46:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 20:46:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나도 브로니다!<13><[U:1:171130010]><>"
+L 04/18/2016 - 20:46:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!<4><[U:1:150941697]><>"
+L 04/18/2016 - 20:46:41: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 20:48:26: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<7><BOT><>"
+L 04/18/2016 - 20:48:26: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<8><BOT><>"
+L 04/18/2016 - 20:48:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<9><BOT><>"
+L 04/18/2016 - 20:48:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<10><BOT><>"
+L 04/18/2016 - 20:48:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<11><BOT><>"
+L 04/18/2016 - 20:49:47: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 20:51:28: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 20:51:57: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!<4><[U:1:150941697]><>"
+L 04/18/2016 - 20:52:00: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 20:53:28: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Bot01<7><BOT><>" (reason "")
+L 04/18/2016 - 20:53:28: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Bot02<8><BOT><>" (reason "")
+L 04/18/2016 - 20:53:29: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Bot03<9><BOT><>" (reason "")
+L 04/18/2016 - 20:53:29: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Bot04<10><BOT><>" (reason "")
+L 04/18/2016 - 20:53:30: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Bot05<11><BOT><>" (reason "")
+L 04/18/2016 - 20:53:30: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" kicked "Bot06<12><BOT><>" (reason "")
+L 04/18/2016 - 20:54:29: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 20:56:12: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 21:00:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[KOR]dwgwjw1024[PFBT]<18><[U:1:159644927]><>"
+L 04/18/2016 - 21:00:57: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added -123456 queue points to "[KOR]dwgwjw1024[PFBT]<18><[U:1:159644927]><>"
+L 04/18/2016 - 21:04:29: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나도 브로니다!<13><[U:1:171130010]><>"
+L 04/18/2016 - 21:04:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!<4><[U:1:150941697]><>"
+L 04/18/2016 - 21:14:59: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 21:17:22: [Boss Selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/18/2016 - 21:19:31: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 21:23:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:08: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:08: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:08: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:08: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:23:08: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "GO mediseun<14><[U:1:61271689]><>" (damage "5")
+L 04/18/2016 - 21:28:24: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "[Ch.ZBK]-[GamesOn]<19><[U:1:100562803]><>"
+L 04/18/2016 - 21:29:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 21:29:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!<4><[U:1:150941697]><>"
+L 04/18/2016 - 21:29:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[KOR]dwgwjw1024[PFBT]<24><[U:1:159644927]><>"
+L 04/18/2016 - 21:29:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[Ch.ZBK]-[GamesOn]<19><[U:1:100562803]><>"
+L 04/18/2016 - 21:29:18: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "GO mediseun<14><[U:1:61271689]><>"
+L 04/18/2016 - 21:29:26: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 1234 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 21:32:33: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 124 queue points to "[Ch.ZBK]-[GamesOn]<19><[U:1:100562803]><>"
+L 04/18/2016 - 21:36:21: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[Ch.ZBK]-[GamesOn]<19><[U:1:100562803]><>"
+L 04/18/2016 - 21:38:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[KOR]dwgwjw1024[PFBT]<24><[U:1:159644927]><>"
+L 04/18/2016 - 21:46:53: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/18/2016 - 21:46:53: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "GO mediseun<14><[U:1:61271689]><>"
+L 04/18/2016 - 21:47:08: Log file closed.

@@ -1,0 +1,99 @@
+L 04/04/2016 - 21:52:03: SourceMod error session started
+L 04/04/2016 - 21:52:03: Info (map "arena_badlands") (file "errors_20160404.log")
+L 04/04/2016 - 21:52:03: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/04/2016 - 21:52:03: [SM] Invalid token ' ' in #format property on line 59.
+L 04/04/2016 - 21:52:03: [SM] Invalid token ' ' in #format property on line 402.
+L 04/04/2016 - 21:52:03: [SM] Invalid token ' ' in #format property on line 407.
+L 04/04/2016 - 21:52:03: [SM] Invalid token ' ' in #format property on line 407.
+L 04/04/2016 - 21:52:03: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 21:52:03: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 21:52:03: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 21:54:35: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 300/entity_revive_marker)
+L 04/04/2016 - 21:54:35: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:54:35: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:54:35: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:54:35: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 304/entity_revive_marker)
+L 04/04/2016 - 21:54:35: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:54:35: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:54:35: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:54:35: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 308/entity_revive_marker)
+L 04/04/2016 - 21:54:35: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:54:35: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:54:35: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:54:35: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 312/entity_revive_marker)
+L 04/04/2016 - 21:54:35: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:54:35: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:54:35: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:54:35: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 316/entity_revive_marker)
+L 04/04/2016 - 21:54:35: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:54:35: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:54:35: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:54:35: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 320/entity_revive_marker)
+L 04/04/2016 - 21:54:35: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:54:35: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:54:35: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:55:28: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 267/entity_revive_marker)
+L 04/04/2016 - 21:55:28: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:55:28: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:55:28: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:55:28: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 21:55:28: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 21:55:28: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 21:55:54: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 267/entity_revive_marker)
+L 04/04/2016 - 21:55:54: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:55:54: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:55:54: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 21:55:54: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 21:55:54: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 21:55:54: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 21:57:27: [SM] Native "SetEntProp" reported: Property "m_bGlowEnabled" not found (entity 265/entity_revive_marker)
+L 04/04/2016 - 21:57:27: [SM] Displaying call stack trace for plugin "ReviveMarkers.smx":
+L 04/04/2016 - 21:57:27: [SM]   [0]  Line 680, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::spawnReviveMarker()
+L 04/04/2016 - 21:57:27: [SM]   [1]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ReviveMarkers.sp::Event_OnPlayerDeath()
+L 04/04/2016 - 22:02:48: Error log file session closed.
+L 04/04/2016 - 22:03:01: SourceMod error session started
+L 04/04/2016 - 22:03:01: Info (map "arena_badlands") (file "errors_20160404.log")
+L 04/04/2016 - 22:03:01: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/04/2016 - 22:03:01: [SM] Invalid token ' ' in #format property on line 59.
+L 04/04/2016 - 22:03:01: [SM] Invalid token ' ' in #format property on line 402.
+L 04/04/2016 - 22:03:01: [SM] Invalid token ' ' in #format property on line 407.
+L 04/04/2016 - 22:03:01: [SM] Invalid token ' ' in #format property on line 407.
+L 04/04/2016 - 22:03:01: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 22:03:01: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 22:03:01: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 22:11:48: Error log file session closed.
+L 04/04/2016 - 22:21:07: SourceMod error session started
+L 04/04/2016 - 22:21:07: Info (map "arena_badlands") (file "errors_20160404.log")
+L 04/04/2016 - 22:21:07: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 04/04/2016 - 22:21:07: [SM] Invalid token ' ' in #format property on line 59.
+L 04/04/2016 - 22:21:07: [SM] Invalid token ' ' in #format property on line 402.
+L 04/04/2016 - 22:21:07: [SM] Invalid token ' ' in #format property on line 407.
+L 04/04/2016 - 22:21:07: [SM] Invalid token ' ' in #format property on line 407.
+L 04/04/2016 - 22:21:07: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 22:21:07: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 22:21:07: [SM] Invalid token ' ' in #format property on line 416.
+L 04/04/2016 - 22:32:59: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:32:59: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:32:59: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:34:48: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:34:48: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:34:48: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:37:07: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:37:07: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:37:07: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:39:22: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:39:22: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:39:22: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:41:02: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:41:02: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:41:02: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:43:58: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:43:58: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:43:58: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:48:51: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:48:51: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:48:51: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:53:18: [SM] Native "IsClientInGame" reported: Client index 0 is invalid
+L 04/04/2016 - 22:53:18: [SM] Displaying call stack trace for plugin "freaks\ff2_1st_set_abilities.ff2":
+L 04/04/2016 - 22:53:18: [SM]   [0]  Line 114, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_1st_set_abilities.sp::OnRoundEnd()
+L 04/04/2016 - 22:53:29: Error log file session closed.

@@ -1,0 +1,439 @@
+L 06/02/2016 - 19:59:51: SourceMod error session started
+L 06/02/2016 - 19:59:51: Info (map "vsh_apg_v2") (file "errors_20160602.log")
+L 06/02/2016 - 19:59:51: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/02/2016 - 19:59:51: [SM] Invalid token ' ' in #format property on line 71.
+L 06/02/2016 - 19:59:51: [SM] Invalid token ' ' in #format property on line 424.
+L 06/02/2016 - 19:59:51: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 19:59:51: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 19:59:51: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 19:59:51: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 19:59:51: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 19:59:52: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/02/2016 - 20:00:07: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/02/2016 - 20:00:07: [SM] Plugin encountered error 25: Call was aborted
+L 06/02/2016 - 20:00:07: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/02/2016 - 20:00:07: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/02/2016 - 20:00:07: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/02/2016 - 20:00:07: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/02/2016 - 20:02:45: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:02:45: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:02:45: [SM]   [0]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:06:38: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:06:38: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:06:38: [SM]   [0]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:07:49: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:07:49: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:07:49: [SM]   [0]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:18:00: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:18:00: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:18:00: [SM]   [0]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:29:51: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 20:32:38: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:32:38: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:32:38: [SM]   [0]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:34:28: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> iItemDefinitionIndex = 199
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 20:34:28: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 20:34:28: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> flValue = 1.600000
+L 06/02/2016 - 20:34:28: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 20:34:28: [TF2ITEMS] >>> flValue = 1.600000
+L 06/02/2016 - 20:34:28: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:34:28: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 20:34:28: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:34:28: [SM]   [0]  Line 363, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 20:34:28: [SM]   [1]  Line 255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 20:34:28: [SM]   [2]  Line 177, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 20:37:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> iItemDefinitionIndex = 199
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 20:37:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 20:37:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> flValue = 1.600000
+L 06/02/2016 - 20:37:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 20:37:05: [TF2ITEMS] >>> flValue = 1.600000
+L 06/02/2016 - 20:37:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:37:05: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 20:37:06: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:37:06: [SM]   [0]  Line 363, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 20:37:06: [SM]   [1]  Line 255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 20:37:06: [SM]   [2]  Line 177, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 20:38:10: Error log file session closed.
+L 06/02/2016 - 20:38:10: SourceMod error session started
+L 06/02/2016 - 20:38:10: Info (map "vsh_apg_v2") (file "errors_20160602.log")
+L 06/02/2016 - 20:38:10: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/02/2016 - 20:38:10: [SM] Invalid token ' ' in #format property on line 71.
+L 06/02/2016 - 20:38:10: [SM] Invalid token ' ' in #format property on line 424.
+L 06/02/2016 - 20:38:10: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 20:38:10: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 20:38:10: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 20:38:10: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 20:38:10: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 20:38:10: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/02/2016 - 20:38:16: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/02/2016 - 20:38:16: [SM] Plugin encountered error 25: Call was aborted
+L 06/02/2016 - 20:38:16: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/02/2016 - 20:38:16: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/02/2016 - 20:38:16: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/02/2016 - 20:38:16: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/02/2016 - 20:38:31: Error log file session closed.
+L 06/02/2016 - 20:38:31: SourceMod error session started
+L 06/02/2016 - 20:38:31: Info (map "vsh_2fortdesk_v8") (file "errors_20160602.log")
+L 06/02/2016 - 20:38:31: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/02/2016 - 20:38:31: [SM] Invalid token ' ' in #format property on line 71.
+L 06/02/2016 - 20:38:31: [SM] Invalid token ' ' in #format property on line 424.
+L 06/02/2016 - 20:38:31: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 20:38:31: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 20:38:31: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 20:38:31: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 20:38:31: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 20:38:31: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/02/2016 - 20:38:36: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/02/2016 - 20:38:36: [SM] Plugin encountered error 25: Call was aborted
+L 06/02/2016 - 20:38:36: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/02/2016 - 20:38:36: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/02/2016 - 20:38:36: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/02/2016 - 20:38:36: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/02/2016 - 20:40:29: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 20:42:48: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:42:49: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:42:49: [SM]   [0]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:44:42: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> iItemDefinitionIndex = 199
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 20:44:42: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 20:44:42: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> flValue = 1.600000
+L 06/02/2016 - 20:44:42: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 20:44:42: [TF2ITEMS] >>> flValue = 1.600000
+L 06/02/2016 - 20:44:42: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:44:42: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 20:44:42: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:44:42: [SM]   [0]  Line 363, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 20:44:42: [SM]   [1]  Line 255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 20:44:42: [SM]   [2]  Line 177, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 20:47:43: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:47:43: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:47:43: [SM]   [0]  Line 186, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:48:02: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 20:49:48: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:49:48: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:49:48: [SM]   [0]  Line 186, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 20:52:11: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> iItemDefinitionIndex = 10
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 20:52:11: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 20:52:11: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 20:52:11: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 20:52:11: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 20:52:11: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 20:52:11: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 20:52:11: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:52:11: [SM]   [0]  Line 364, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 20:52:11: [SM]   [1]  Line 256, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 20:52:11: [SM]   [2]  Line 177, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 20:59:48: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 20:59:48: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 20:59:48: [SM]   [0]  Line 186, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 21:06:17: [SM] Native "KillTimer" reported: Invalid timer handle 65040191 (error 1)
+L 06/02/2016 - 21:06:17: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/02/2016 - 21:06:17: [SM]   [0]  Line 3272, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/02/2016 - 21:06:17: [SM]   [1]  Line 2768, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 06/02/2016 - 21:07:06: [SM] Native "KillTimer" reported: Invalid timer handle 65040191 (error 3)
+L 06/02/2016 - 21:07:06: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/02/2016 - 21:07:06: [SM]   [0]  Line 3272, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/02/2016 - 21:07:06: [SM]   [1]  Line 2768, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 06/02/2016 - 21:09:24: [SM] Native "ReadPackCell" reported: DataPack operation is out of bounds.
+L 06/02/2016 - 21:09:24: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 21:09:24: [SM]   [0]  Line 196, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 21:12:25: [SM] Native "TF2_RespawnPlayer" reported: Client index 0 is not valid
+L 06/02/2016 - 21:12:25: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 21:12:25: [SM]   [0]  Line 204, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 21:12:44: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 21:14:10: Error log file session closed.
+L 06/02/2016 - 21:14:10: SourceMod error session started
+L 06/02/2016 - 21:14:10: Info (map "vsh_2fortdesk_v8") (file "errors_20160602.log")
+L 06/02/2016 - 21:14:10: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/02/2016 - 21:14:10: [SM] Invalid token ' ' in #format property on line 71.
+L 06/02/2016 - 21:14:10: [SM] Invalid token ' ' in #format property on line 424.
+L 06/02/2016 - 21:14:10: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:14:10: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:14:10: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:14:10: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:14:10: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:14:10: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/02/2016 - 21:14:16: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/02/2016 - 21:14:16: [SM] Plugin encountered error 25: Call was aborted
+L 06/02/2016 - 21:14:16: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/02/2016 - 21:14:16: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/02/2016 - 21:14:16: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/02/2016 - 21:14:16: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/02/2016 - 21:14:48: Error log file session closed.
+L 06/02/2016 - 21:14:48: SourceMod error session started
+L 06/02/2016 - 21:14:48: Info (map "vsh_minegay_b3") (file "errors_20160602.log")
+L 06/02/2016 - 21:14:48: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/02/2016 - 21:14:48: [SM] Invalid token ' ' in #format property on line 71.
+L 06/02/2016 - 21:14:48: [SM] Invalid token ' ' in #format property on line 424.
+L 06/02/2016 - 21:14:48: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:14:48: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:14:48: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:14:48: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:14:48: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:14:48: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/02/2016 - 21:14:53: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/02/2016 - 21:14:53: [SM] Plugin encountered error 25: Call was aborted
+L 06/02/2016 - 21:14:53: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/02/2016 - 21:14:53: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/02/2016 - 21:14:53: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/02/2016 - 21:14:53: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/02/2016 - 21:22:14: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 21:29:31: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> iItemDefinitionIndex = 10
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 21:29:31: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 21:29:31: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:29:31: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 21:29:31: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:29:31: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:29:31: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 21:29:31: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 21:29:31: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 21:29:31: [SM]   [1]  Line 273, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 21:29:31: [SM]   [2]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 21:33:06: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 21:38:00: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> iItemDefinitionIndex = 12
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 21:38:00: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 21:38:00: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:38:00: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 21:38:00: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:38:00: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:38:00: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 21:38:00: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 21:38:00: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 21:38:00: [SM]   [1]  Line 304, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 21:38:00: [SM]   [2]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 21:41:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> iItemDefinitionIndex = 10
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 21:41:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 21:41:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:41:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 21:41:05: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:41:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:41:05: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 21:41:05: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 21:41:05: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 21:41:05: [SM]   [1]  Line 273, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 21:41:05: [SM]   [2]  Line 207, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 21:45:47: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> iItemDefinitionIndex = 11
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 21:45:47: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 21:45:47: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:45:47: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 21:45:47: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:45:47: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:45:47: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 21:45:47: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 21:45:47: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 21:45:47: [SM]   [1]  Line 297, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 21:45:47: [SM]   [2]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 21:51:54: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> iItemDefinitionIndex = 11
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 21:51:54: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 21:51:54: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:51:54: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 21:51:54: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 21:51:54: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 21:51:54: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 21:51:54: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 21:51:54: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 21:51:54: [SM]   [1]  Line 297, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 21:51:54: [SM]   [2]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 21:52:20: Error log file session closed.
+L 06/02/2016 - 21:52:20: SourceMod error session started
+L 06/02/2016 - 21:52:20: Info (map "vsh_minegay_b3") (file "errors_20160602.log")
+L 06/02/2016 - 21:52:20: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/02/2016 - 21:52:20: [SM] Invalid token ' ' in #format property on line 71.
+L 06/02/2016 - 21:52:20: [SM] Invalid token ' ' in #format property on line 424.
+L 06/02/2016 - 21:52:20: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:52:20: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:52:20: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:52:20: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:52:20: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:52:20: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/02/2016 - 21:52:26: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/02/2016 - 21:52:26: [SM] Plugin encountered error 25: Call was aborted
+L 06/02/2016 - 21:52:26: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/02/2016 - 21:52:26: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/02/2016 - 21:52:26: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/02/2016 - 21:52:26: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/02/2016 - 21:52:44: Error log file session closed.
+L 06/02/2016 - 21:52:44: SourceMod error session started
+L 06/02/2016 - 21:52:44: Info (map "vsh_remains_of_king_b1") (file "errors_20160602.log")
+L 06/02/2016 - 21:52:44: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/02/2016 - 21:52:44: [SM] Invalid token ' ' in #format property on line 71.
+L 06/02/2016 - 21:52:44: [SM] Invalid token ' ' in #format property on line 424.
+L 06/02/2016 - 21:52:44: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:52:44: [SM] Invalid token ' ' in #format property on line 429.
+L 06/02/2016 - 21:52:44: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:52:44: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:52:44: [SM] Invalid token ' ' in #format property on line 438.
+L 06/02/2016 - 21:52:44: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/02/2016 - 21:52:49: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/02/2016 - 21:52:49: [SM] Plugin encountered error 25: Call was aborted
+L 06/02/2016 - 21:52:49: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/02/2016 - 21:52:49: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/02/2016 - 21:52:49: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/02/2016 - 21:52:49: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/02/2016 - 22:00:50: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 22:03:27: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/02/2016 - 22:14:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> iItemDefinitionIndex = 11
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 22:14:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 22:14:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:14:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 22:14:18: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:14:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:14:18: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 22:14:18: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 22:14:18: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 22:14:18: [SM]   [1]  Line 297, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 22:14:18: [SM]   [2]  Line 207, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 22:19:04: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:19:04: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 22:19:04: [TF2ITEMS] >>> iItemDefinitionIndex = 10
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 22:19:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 22:19:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:19:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 22:19:05: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:19:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:19:05: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 22:19:05: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 22:19:05: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 22:19:05: [SM]   [1]  Line 273, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 22:19:05: [SM]   [2]  Line 185, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/02/2016 - 22:23:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> iItemDefinitionIndex = 11
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 22:23:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 22:23:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:23:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 22:23:05: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:23:05: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:23:05: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 22:23:05: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 22:23:05: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 22:23:05: [SM]   [1]  Line 297, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 22:23:05: [SM]   [2]  Line 207, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 22:26:23: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 06/02/2016 - 22:26:23: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 06/02/2016 - 22:26:23: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 06/02/2016 - 22:26:23: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!
+L 06/02/2016 - 22:33:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> szClassname = tf_weapon_shotgun
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> iItemDefinitionIndex = 10
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> iEntityLevel = 0
+L 06/02/2016 - 22:33:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> flValue = 3.000000
+L 06/02/2016 - 22:33:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> iAttributeDefinitionIndex = 97
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:33:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> iAttributeDefinitionIndex = 6
+L 06/02/2016 - 22:33:18: [TF2ITEMS] >>> flValue = 0.400000
+L 06/02/2016 - 22:33:18: [TF2ITEMS] ---------------------------------------
+L 06/02/2016 - 22:33:19: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/02/2016 - 22:33:19: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/02/2016 - 22:33:19: [SM]   [0]  Line 381, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::SpawnWeapon()
+L 06/02/2016 - 22:33:19: [SM]   [1]  Line 273, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::GiveLastManWeapon()
+L 06/02/2016 - 22:33:19: [SM]   [2]  Line 207, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::LastManCheck()
+L 06/02/2016 - 22:33:43: Error log file session closed.

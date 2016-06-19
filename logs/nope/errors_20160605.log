@@ -1,0 +1,88 @@
+L 06/05/2016 - 00:10:42: SourceMod error session started
+L 06/05/2016 - 00:10:42: Info (map "vsh_apg_v2") (file "errors_20160605.log")
+L 06/05/2016 - 00:10:42: [SM] Native "KillTimer" reported: Invalid timer handle 3ac3017a (error 3)
+L 06/05/2016 - 00:10:42: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/05/2016 - 00:10:42: [SM]   [0]  Line 3274, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/05/2016 - 00:10:42: [SM]   [1]  Line 9714, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::Native_StopMusic()
+L 06/05/2016 - 00:10:42: [SM] Native "FF2_StopMusic" reported: Error encountered while processing a dynamic native
+L 06/05/2016 - 00:10:42: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/05/2016 - 00:10:42: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/05/2016 - 00:10:42: [SM] Native "KillTimer" reported: Invalid timer handle 3ac3017a (error 1)
+L 06/05/2016 - 00:10:42: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/05/2016 - 00:10:42: [SM]   [0]  Line 3274, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/05/2016 - 00:10:43: [SM]   [1]  Line 2770, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 06/05/2016 - 00:11:02: [SM] Native "KillTimer" reported: Invalid timer handle 3ac3017a (error 3)
+L 06/05/2016 - 00:11:02: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/05/2016 - 00:11:02: [SM]   [0]  Line 1736, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::DisableFF2()
+L 06/05/2016 - 00:11:02: [SM]   [1]  Line 1616, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnMapEnd()
+L 06/05/2016 - 00:11:03: Error log file session closed.
+L 06/05/2016 - 00:11:03: SourceMod error session started
+L 06/05/2016 - 00:11:03: Info (map "vsh_snowflakes_b1") (file "errors_20160605.log")
+L 06/05/2016 - 00:11:03: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/05/2016 - 00:11:03: [SM] Invalid token ' ' in #format property on line 71.
+L 06/05/2016 - 00:11:03: [SM] Invalid token ' ' in #format property on line 424.
+L 06/05/2016 - 00:11:03: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 00:11:03: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 00:11:03: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 00:11:03: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 00:11:03: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 00:11:03: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/05/2016 - 00:11:10: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/05/2016 - 00:11:10: [SM] Plugin encountered error 25: Call was aborted
+L 06/05/2016 - 00:11:10: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/05/2016 - 00:11:10: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/05/2016 - 00:11:10: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/05/2016 - 00:11:10: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/05/2016 - 00:22:43: Error log file session closed.
+L 06/05/2016 - 20:05:28: SourceMod error session started
+L 06/05/2016 - 20:05:28: Info (map "vsh_apg_v2") (file "errors_20160605.log")
+L 06/05/2016 - 20:05:28: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/05/2016 - 20:05:28: [SM] Invalid token ' ' in #format property on line 71.
+L 06/05/2016 - 20:05:28: [SM] Invalid token ' ' in #format property on line 424.
+L 06/05/2016 - 20:05:28: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 20:05:28: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 20:05:28: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:05:28: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:05:28: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:05:29: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/05/2016 - 20:05:45: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/05/2016 - 20:05:45: [SM] Plugin encountered error 25: Call was aborted
+L 06/05/2016 - 20:05:45: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/05/2016 - 20:05:45: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/05/2016 - 20:05:45: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/05/2016 - 20:05:45: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/05/2016 - 20:12:06: SourceMod error session started
+L 06/05/2016 - 20:12:06: Info (map "vsh_apg_v2") (file "errors_20160605.log")
+L 06/05/2016 - 20:12:06: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/05/2016 - 20:12:06: [SM] Invalid token ' ' in #format property on line 71.
+L 06/05/2016 - 20:12:06: [SM] Invalid token ' ' in #format property on line 424.
+L 06/05/2016 - 20:12:06: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 20:12:06: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 20:12:06: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:12:06: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:12:06: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:12:06: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/05/2016 - 20:12:19: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/05/2016 - 20:12:19: [SM] Plugin encountered error 25: Call was aborted
+L 06/05/2016 - 20:12:19: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/05/2016 - 20:12:19: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/05/2016 - 20:12:19: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/05/2016 - 20:12:19: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/05/2016 - 20:21:15: SourceMod error session started
+L 06/05/2016 - 20:21:15: Info (map "vsh_apg_v2") (file "errors_20160605.log")
+L 06/05/2016 - 20:21:15: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/05/2016 - 20:21:15: [SM] Invalid token ' ' in #format property on line 71.
+L 06/05/2016 - 20:21:15: [SM] Invalid token ' ' in #format property on line 424.
+L 06/05/2016 - 20:21:15: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 20:21:15: [SM] Invalid token ' ' in #format property on line 429.
+L 06/05/2016 - 20:21:15: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:21:15: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:21:15: [SM] Invalid token ' ' in #format property on line 438.
+L 06/05/2016 - 20:21:15: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/05/2016 - 20:21:28: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/05/2016 - 20:21:28: [SM] Plugin encountered error 25: Call was aborted
+L 06/05/2016 - 20:21:28: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/05/2016 - 20:21:28: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/05/2016 - 20:21:28: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/05/2016 - 20:21:28: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/05/2016 - 20:43:54: [freaks\ff2_1st_set_abilities.ff2] [FF2] Cannot give ammo to weapon tf_weapon_bottle (boss )-check your config!

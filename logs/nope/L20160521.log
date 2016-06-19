@@ -1,0 +1,118 @@
+L 05/21/2016 - 20:28:24: SourceMod log file session started (file "L20160521.log") (Version "1.7.3-dev+5298")
+L 05/21/2016 - 20:28:24: -------- Mapchange to vsh_apg_v2 --------
+L 05/21/2016 - 20:28:24: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/21/2016 - 20:28:26: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 20:28:26: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 20:28:26: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 20:28:26: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 20:28:26: [custompart.smx] Debug for CustomPart
+L 05/21/2016 - 20:28:26: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/21/2016 - 20:28:41: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 20:28:41: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 20:28:41: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 20:28:41: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 20:31:30: -------- Mapchange to vsh_fuiji --------
+L 05/21/2016 - 20:31:36: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 20:31:36: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 20:31:36: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 20:31:36: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 20:33:03: [boss_selection.smx] -1
+L 05/21/2016 - 20:33:39: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/21/2016 - 20:35:13: [boss_selection.smx] -1
+L 05/21/2016 - 20:37:46: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/21/2016 - 20:40:30: [boss_selection.smx] -1
+L 05/21/2016 - 20:42:36: [boss_selection.smx] -1
+L 05/21/2016 - 20:43:10: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_rooftops_of_peril_v5c"
+L 05/21/2016 - 20:43:13: [SM] Changed map to "vsh_rooftops_of_peril_v5c"
+L 05/21/2016 - 20:43:14: -------- Mapchange to vsh_rooftops_of_peril_v5c --------
+L 05/21/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 20:43:20: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 20:43:27: [boss_selection.smx] -1
+L 05/21/2016 - 20:46:48: [boss_selection.smx] -1
+L 05/21/2016 - 20:47:25: [boss_selection.smx] -1
+L 05/21/2016 - 20:49:04: [boss_selection.smx] -1
+L 05/21/2016 - 20:57:33: [boss_selection.smx] 
+L 05/21/2016 - 20:58:22: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_waterbasin_b2"
+L 05/21/2016 - 20:58:25: [SM] Changed map to "vsh_waterbasin_b2"
+L 05/21/2016 - 20:58:25: -------- Mapchange to vsh_waterbasin_b2 --------
+L 05/21/2016 - 20:58:30: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 20:58:30: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 20:58:30: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 20:58:30: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 20:58:36: [boss_selection.smx] -1
+L 05/21/2016 - 20:58:36: [boss_selection.smx] -1
+L 05/21/2016 - 21:01:20: [boss_selection.smx] -1
+L 05/21/2016 - 21:01:45: [boss_selection.smx] -1
+L 05/21/2016 - 21:03:00: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/21/2016 - 21:03:46: [boss_selection.smx] 
+L 05/21/2016 - 21:07:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "One-Man Cheeseburger Apocalypse<15><BOT><>"
+L 05/21/2016 - 21:07:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Delicious Cake<16><BOT><>"
+L 05/21/2016 - 21:07:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "I LIVE!<17><BOT><>"
+L 05/21/2016 - 21:10:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "One-Man Cheeseburger Apocalypse<15><BOT><>"
+L 05/21/2016 - 21:10:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Delicious Cake<16><BOT><>"
+L 05/21/2016 - 21:10:37: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "I LIVE!<17><BOT><>"
+L 05/21/2016 - 21:20:06: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_pruvia_v5"
+L 05/21/2016 - 21:20:09: [SM] Changed map to "vsh_pruvia_v5"
+L 05/21/2016 - 21:20:10: -------- Mapchange to vsh_pruvia_v5 --------
+L 05/21/2016 - 21:20:15: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 21:20:15: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 21:20:15: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 21:20:15: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 21:20:23: [boss_selection.smx] -1
+L 05/21/2016 - 21:25:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "trigger_hurt<19><BOT><>"
+L 05/21/2016 - 21:25:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Divide by Zero<20><BOT><>"
+L 05/21/2016 - 21:25:01: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "MoreGun<21><BOT><>"
+L 05/21/2016 - 21:31:46: [boss_selection.smx] -1
+L 05/21/2016 - 21:32:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/21/2016 - 21:32:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "trigger_hurt<19><BOT><>"
+L 05/21/2016 - 21:32:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Divide by Zero<20><BOT><>"
+L 05/21/2016 - 21:32:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "MoreGun<21><BOT><>"
+L 05/21/2016 - 21:32:38: [boss_selection.smx] -1
+L 05/21/2016 - 21:34:55: [boss_selection.smx] -1
+L 05/21/2016 - 21:35:25: [boss_selection.smx] -1
+L 05/21/2016 - 21:47:20: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_mountain_pb2"
+L 05/21/2016 - 21:47:23: [SM] Changed map to "vsh_mountain_pb2"
+L 05/21/2016 - 21:47:24: -------- Mapchange to vsh_mountain_pb2 --------
+L 05/21/2016 - 21:47:29: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 21:47:29: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 21:47:29: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 21:47:29: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 21:47:36: [boss_selection.smx] -1
+L 05/21/2016 - 21:49:59: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_fuiji"
+L 05/21/2016 - 21:50:02: [SM] Changed map to "vsh_fuiji"
+L 05/21/2016 - 21:50:02: -------- Mapchange to vsh_fuiji --------
+L 05/21/2016 - 21:50:07: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 21:50:07: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 21:50:07: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 21:50:07: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 21:50:12: [boss_selection.smx] -1
+L 05/21/2016 - 21:50:12: [boss_selection.smx] -1
+L 05/21/2016 - 21:50:14: [boss_selection.smx] -1
+L 05/21/2016 - 21:50:15: [boss_selection.smx] -1
+L 05/21/2016 - 21:51:11: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_treasure_room_v3"
+L 05/21/2016 - 21:51:14: [SM] Changed map to "vsh_treasure_room_v3"
+L 05/21/2016 - 21:51:15: -------- Mapchange to vsh_treasure_room_v3 --------
+L 05/21/2016 - 21:51:20: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 21:51:20: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 21:51:20: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 21:51:20: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 21:51:26: [boss_selection.smx] -1
+L 05/21/2016 - 21:53:58: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_remains_of_king_b1"
+L 05/21/2016 - 21:54:01: [SM] Changed map to "vsh_remains_of_king_b1"
+L 05/21/2016 - 21:54:02: -------- Mapchange to vsh_remains_of_king_b1 --------
+L 05/21/2016 - 21:54:06: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 21:54:06: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 21:54:06: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 21:54:06: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 21:54:13: [boss_selection.smx] -1
+L 05/21/2016 - 21:58:04: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_reservoir_v2_fix"
+L 05/21/2016 - 21:58:07: [SM] Changed map to "vsh_reservoir_v2_fix"
+L 05/21/2016 - 21:58:07: -------- Mapchange to vsh_reservoir_v2_fix --------
+L 05/21/2016 - 21:58:12: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/21/2016 - 21:58:12: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/21/2016 - 21:58:12: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/21/2016 - 21:58:12: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/21/2016 - 21:58:19: [boss_selection.smx] -1
+L 05/21/2016 - 21:59:22: Log file closed.

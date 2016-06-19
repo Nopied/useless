@@ -1,0 +1,386 @@
+L 06/19/2016 - 00:09:28: SourceMod error session started
+L 06/19/2016 - 00:09:28: Info (map "vsh_manncohq_v14") (file "errors_20160619.log")
+L 06/19/2016 - 00:09:28: Error log file session closed.
+L 06/19/2016 - 15:42:51: SourceMod error session started
+L 06/19/2016 - 15:42:51: Info (map "vsh_apg_v2") (file "errors_20160619.log")
+L 06/19/2016 - 15:42:51: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 15:42:51: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 15:42:51: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 15:42:51: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:42:51: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:42:51: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:42:51: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:42:51: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:42:51: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 15:43:07: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 15:43:07: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 15:43:07: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 15:43:07: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 15:43:07: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 15:43:07: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 15:44:03: Error log file session closed.
+L 06/19/2016 - 15:44:14: SourceMod error session started
+L 06/19/2016 - 15:44:14: Info (map "vsh_apg_v2") (file "errors_20160619.log")
+L 06/19/2016 - 15:44:14: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 15:44:14: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 15:44:14: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 15:44:14: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:44:14: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:44:14: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:44:14: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:44:14: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:44:14: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 15:44:26: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 15:44:26: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 15:44:26: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 15:44:26: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 15:44:26: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 15:44:26: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> szClassname = saxxy
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iItemDefinitionIndex = 939
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iEntityQuality = 0
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iEntityLevel = 101
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iAttributeDefinitionIndex = 68
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> flValue = 2.000000
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> flValue = 3.100000
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/19/2016 - 15:48:29: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 15:48:29: [SM]   [0]  Line 8159, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 06/19/2016 - 15:48:29: [SM]   [1]  Line 3685, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 06/19/2016 - 15:48:29: [SM]   [2]  Line 3871, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> szClassname = saxxy
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iItemDefinitionIndex = 939
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iEntityQuality = 2
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iEntityLevel = 101
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iAttributeDefinitionIndex = 68
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> flValue = 2.000000
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> flValue = 3.100000
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/19/2016 - 15:48:29: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 15:48:29: [SM]   [0]  Line 8159, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 06/19/2016 - 15:48:29: [SM]   [1]  Line 3685, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 06/19/2016 - 15:48:29: [SM]   [2]  Line 3871, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> szClassname = saxxy
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iItemDefinitionIndex = 939
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iEntityQuality = 8
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iEntityLevel = 101
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iAttributeDefinitionIndex = 68
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> flValue = 2.000000
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/19/2016 - 15:48:29: [TF2ITEMS] >>> flValue = 3.100000
+L 06/19/2016 - 15:48:29: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:29: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/19/2016 - 15:48:29: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 15:48:29: [SM]   [0]  Line 8159, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 06/19/2016 - 15:48:29: [SM]   [1]  Line 3685, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 06/19/2016 - 15:48:29: [SM]   [2]  Line 3871, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 06/19/2016 - 15:48:30: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> szClassname = saxxy
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> iItemDefinitionIndex = 939
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> iEntityQuality = 5
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> iEntityLevel = 101
+L 06/19/2016 - 15:48:30: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> iAttributeDefinitionIndex = 68
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> flValue = 2.000000
+L 06/19/2016 - 15:48:30: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> iAttributeDefinitionIndex = 2
+L 06/19/2016 - 15:48:30: [TF2ITEMS] >>> flValue = 3.100000
+L 06/19/2016 - 15:48:30: [TF2ITEMS] ---------------------------------------
+L 06/19/2016 - 15:48:30: [SM] Native "TF2Items_GiveNamedItem" reported: Item is NULL. File a bug report if you are sure you set all the data correctly. (Try the FORCE_GENERATION flag.)
+L 06/19/2016 - 15:48:30: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 15:48:30: [SM]   [0]  Line 8159, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::SpawnWeapon()
+L 06/19/2016 - 15:48:30: [SM]   [1]  Line 3685, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::EquipBoss()
+L 06/19/2016 - 15:48:30: [SM]   [2]  Line 3871, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::MakeBoss()
+L 06/19/2016 - 15:51:05: Error log file session closed.
+L 06/19/2016 - 15:51:19: SourceMod error session started
+L 06/19/2016 - 15:51:19: Info (map "vsh_apg_v2") (file "errors_20160619.log")
+L 06/19/2016 - 15:51:19: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 15:51:19: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 15:51:19: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 15:51:19: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:51:19: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:51:19: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:51:19: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:51:19: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:51:19: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 15:51:32: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 15:51:32: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 15:51:32: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 15:51:32: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 15:51:32: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 15:51:32: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 15:54:19: Error log file session closed.
+L 06/19/2016 - 15:54:19: SourceMod error session started
+L 06/19/2016 - 15:54:19: Info (map "vsh_apg_v2") (file "errors_20160619.log")
+L 06/19/2016 - 15:54:19: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 15:54:19: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 15:54:19: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 15:54:19: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:54:19: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:54:19: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:54:19: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:54:19: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:54:19: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 15:54:25: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 15:54:25: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 15:54:25: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 15:54:25: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 15:54:25: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 15:54:25: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 15:55:11: Error log file session closed.
+L 06/19/2016 - 15:55:11: SourceMod error session started
+L 06/19/2016 - 15:55:11: Info (map "vsh_apg_v2") (file "errors_20160619.log")
+L 06/19/2016 - 15:55:11: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 15:55:11: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 15:55:11: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 15:55:11: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:55:11: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 15:55:11: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:55:11: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:55:11: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 15:55:12: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 15:55:16: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 15:55:16: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 15:55:16: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 15:55:16: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 15:55:16: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 15:55:16: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 16:02:01: [SM] Native "ReadPackCell" reported: Invalid data pack handle c870156 (error 3)
+L 06/19/2016 - 16:02:01: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 16:02:01: [SM]   [0]  Line 343, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/19/2016 - 16:02:18: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/19/2016 - 16:13:49: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 156/tf_zombie)
+L 06/19/2016 - 16:13:49: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:49: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:49: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:13:51: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 168/tf_zombie)
+L 06/19/2016 - 16:13:51: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:51: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:51: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:13:53: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 151/tf_zombie)
+L 06/19/2016 - 16:13:53: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:53: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:53: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:13:54: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 174/tf_zombie)
+L 06/19/2016 - 16:13:54: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:54: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:54: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:13:55: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 181/tf_zombie)
+L 06/19/2016 - 16:13:55: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:55: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:55: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:13:58: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 199/tf_zombie)
+L 06/19/2016 - 16:13:58: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:58: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:58: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:13:59: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 208/tf_zombie)
+L 06/19/2016 - 16:13:59: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:59: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:59: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:13:59: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 224/tf_zombie)
+L 06/19/2016 - 16:13:59: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:13:59: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:13:59: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:15:31: [SM] Native "ReadPackCell" reported: Invalid data pack handle 1bab01d4 (error 1)
+L 06/19/2016 - 16:15:31: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 16:15:31: [SM]   [0]  Line 343, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/19/2016 - 16:17:43: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 208/tf_zombie)
+L 06/19/2016 - 16:17:43: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:17:43: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:17:43: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:17:56: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 183/tf_zombie)
+L 06/19/2016 - 16:17:56: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:17:56: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:17:56: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:06: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 210/tf_zombie)
+L 06/19/2016 - 16:18:06: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:06: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:06: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:07: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 221/tf_zombie)
+L 06/19/2016 - 16:18:07: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:07: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:07: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:08: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 226/tf_zombie)
+L 06/19/2016 - 16:18:08: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:08: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:08: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:08: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 207/tf_zombie)
+L 06/19/2016 - 16:18:08: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:08: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:08: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:09: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 230/tf_zombie)
+L 06/19/2016 - 16:18:09: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:09: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:09: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:10: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 236/tf_zombie)
+L 06/19/2016 - 16:18:10: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:10: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:10: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:11: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 169/tf_zombie)
+L 06/19/2016 - 16:18:11: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:11: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:11: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:12: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 234/tf_zombie)
+L 06/19/2016 - 16:18:12: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:12: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:12: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:13: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 243/tf_zombie)
+L 06/19/2016 - 16:18:13: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:13: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:13: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:14: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 233/tf_zombie)
+L 06/19/2016 - 16:18:14: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:14: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:14: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:15: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 254/tf_zombie)
+L 06/19/2016 - 16:18:15: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:15: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:15: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:18:29: [SM] Native "SetEntProp" reported: Property "m_takedamage" not found (entity 265/tf_zombie)
+L 06/19/2016 - 16:18:29: [SM] Displaying call stack trace for plugin "freaks\ff2_skeleton.ff2":
+L 06/19/2016 - 16:18:29: [SM]   [0]  Line 75, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::SpawnSkeleton()
+L 06/19/2016 - 16:18:29: [SM]   [1]  Line 29, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_skeleton.sp::OnPlayerDeath()
+L 06/19/2016 - 16:32:39: Error log file session closed.
+L 06/19/2016 - 19:04:39: SourceMod error session started
+L 06/19/2016 - 19:04:39: Info (map "vsh_apg_v2") (file "errors_20160619.log")
+L 06/19/2016 - 19:04:39: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 19:04:39: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 19:04:39: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 19:04:39: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 19:04:39: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 19:04:39: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 19:04:39: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 19:04:39: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 19:04:39: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 19:04:56: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 19:04:56: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 19:04:56: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 19:04:56: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 19:04:56: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 19:04:56: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 19:14:20: [SM] Native "ReadPackCell" reported: Invalid data pack handle 8da0149 (error 3)
+L 06/19/2016 - 19:14:20: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 19:14:20: [SM]   [0]  Line 343, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/19/2016 - 19:22:05: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/19/2016 - 19:34:43: [SM] Native "ReadPackCell" reported: Invalid data pack handle 22a90146 (error 3)
+L 06/19/2016 - 19:34:43: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 19:34:43: [SM]   [0]  Line 343, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/19/2016 - 19:45:56: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/19/2016 - 20:02:47: Error log file session closed.
+L 06/19/2016 - 20:02:48: SourceMod error session started
+L 06/19/2016 - 20:02:48: Info (map "vsh_snowflakes_b1") (file "errors_20160619.log")
+L 06/19/2016 - 20:02:48: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 20:02:48: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 20:02:48: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 20:02:48: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 20:02:48: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 20:02:48: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:02:48: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:02:48: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:02:49: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 20:02:57: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 20:02:57: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 20:02:57: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 20:02:57: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 20:02:57: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 20:02:57: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 20:20:43: [SM] Native "ReadPackCell" reported: Invalid data pack handle 5ce10140 (error 3)
+L 06/19/2016 - 20:20:43: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 20:20:43: [SM]   [0]  Line 333, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::BeLastMan()
+L 06/19/2016 - 20:39:24: Error log file session closed.
+L 06/19/2016 - 20:39:24: SourceMod error session started
+L 06/19/2016 - 20:39:24: Info (map "vsh_manncohq_v14") (file "errors_20160619.log")
+L 06/19/2016 - 20:39:24: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 20:39:24: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 20:39:24: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 20:39:24: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 20:39:24: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 20:39:24: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:39:24: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:39:24: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:39:24: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 20:39:29: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 20:39:29: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 20:39:29: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 20:39:29: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 20:39:29: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 20:39:29: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 20:53:34: Error log file session closed.
+L 06/19/2016 - 20:53:34: SourceMod error session started
+L 06/19/2016 - 20:53:34: Info (map "vsh_apg_v2") (file "errors_20160619.log")
+L 06/19/2016 - 20:53:34: [SM] Warning(s) encountered in translation file "freak_fortress_2.phrases.txt"
+L 06/19/2016 - 20:53:34: [SM] Invalid token ' ' in #format property on line 71.
+L 06/19/2016 - 20:53:34: [SM] Invalid token ' ' in #format property on line 424.
+L 06/19/2016 - 20:53:34: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 20:53:34: [SM] Invalid token ' ' in #format property on line 429.
+L 06/19/2016 - 20:53:34: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:53:34: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:53:34: [SM] Invalid token ' ' in #format property on line 438.
+L 06/19/2016 - 20:53:34: [SM] Unable to load plugin "rockthevote.smx": Could not find required plugin "mapchooser"
+L 06/19/2016 - 20:53:39: [nextmap.smx] FATAL: Cannot load map cycle. Nextmap not loaded.
+L 06/19/2016 - 20:53:39: [SM] Plugin encountered error 25: Call was aborted
+L 06/19/2016 - 20:53:39: [SM] Native "SetFailState" reported: Mapcycle Not Found
+L 06/19/2016 - 20:53:39: [SM] Displaying call stack trace for plugin "nextmap.smx":
+L 06/19/2016 - 20:53:39: [SM]   [0]  Line 139, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::FindAndSetNextMap()
+L 06/19/2016 - 20:53:39: [SM]   [1]  Line 109, D:\builds\build-sourcemod-msvc12\windows-1.7\build\plugins\nextmap.sp::OnConfigsExecuted()
+L 06/19/2016 - 20:54:10: [freak_fortress_2.smx] [FF2 Bosses] Character spyper is missing file 'sound/vo/taunts/spy_taunt_rps_lose_11.mp3' in section 'sound_stabbed'!
+L 06/19/2016 - 21:20:01: [SM] Native "KillTimer" reported: Invalid timer handle a45701af (error 3)
+L 06/19/2016 - 21:20:01: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:20:01: [SM]   [0]  Line 3255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/19/2016 - 21:20:01: [SM]   [1]  Line 3231, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StartMusic()
+L 06/19/2016 - 21:20:01: [SM]   [2]  Line 9711, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::Native_StartMusic()
+L 06/19/2016 - 21:20:01: [SM] Native "FF2_StartMusic" reported: Error encountered while processing a dynamic native
+L 06/19/2016 - 21:20:01: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 21:20:01: [SM]   [0]  Line 318, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/19/2016 - 21:20:25: [SM] Native "KillTimer" reported: Invalid timer handle a45701af (error 3)
+L 06/19/2016 - 21:20:25: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:20:25: [SM]   [0]  Line 3255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/19/2016 - 21:20:25: [SM]   [1]  Line 2856, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 06/19/2016 - 21:20:52: [SM] Native "KillTimer" reported: Invalid timer handle a43301c4 (error 1)
+L 06/19/2016 - 21:20:52: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:20:52: [SM]   [0]  Line 3203, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::Timer_PrepareBGM()
+L 06/19/2016 - 21:27:26: [SM] Native "KillTimer" reported: Invalid timer handle a45701af (error 1)
+L 06/19/2016 - 21:27:26: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:27:26: [SM]   [0]  Line 3255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/19/2016 - 21:27:26: [SM]   [1]  Line 3231, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StartMusic()
+L 06/19/2016 - 21:27:26: [SM]   [2]  Line 9711, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::Native_StartMusic()
+L 06/19/2016 - 21:27:27: [SM] Native "FF2_StartMusic" reported: Error encountered while processing a dynamic native
+L 06/19/2016 - 21:27:27: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 21:27:27: [SM]   [0]  Line 318, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/19/2016 - 21:27:41: [SM] Native "KillTimer" reported: Invalid timer handle a45701af (error 3)
+L 06/19/2016 - 21:27:41: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:27:41: [SM]   [0]  Line 3255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/19/2016 - 21:27:41: [SM]   [1]  Line 2856, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 06/19/2016 - 21:28:08: [SM] Native "KillTimer" reported: Invalid timer handle a43301c4 (error 3)
+L 06/19/2016 - 21:28:08: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:28:08: [SM]   [0]  Line 3203, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::Timer_PrepareBGM()
+L 06/19/2016 - 21:36:29: [SM] Native "KillTimer" reported: Invalid timer handle a45701af (error 3)
+L 06/19/2016 - 21:36:29: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:36:29: [SM]   [0]  Line 3255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/19/2016 - 21:36:29: [SM]   [1]  Line 3231, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StartMusic()
+L 06/19/2016 - 21:36:29: [SM]   [2]  Line 9711, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::Native_StartMusic()
+L 06/19/2016 - 21:36:29: [SM] Native "FF2_StartMusic" reported: Error encountered while processing a dynamic native
+L 06/19/2016 - 21:36:29: [SM] Displaying call stack trace for plugin "ff2_deathmatch.smx":
+L 06/19/2016 - 21:36:29: [SM]   [0]  Line 318, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\ff2_deathmatch.sp::OnPlayerDeath()
+L 06/19/2016 - 21:38:23: [SM] Native "KillTimer" reported: Invalid timer handle a45701af (error 3)
+L 06/19/2016 - 21:38:23: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:38:23: [SM]   [0]  Line 3255, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::StopMusic()
+L 06/19/2016 - 21:38:23: [SM]   [1]  Line 2856, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnRoundEnd()
+L 06/19/2016 - 21:38:43: [SM] Native "KillTimer" reported: Invalid timer handle a45701af (error 3)
+L 06/19/2016 - 21:38:43: [SM] Displaying call stack trace for plugin "freak_fortress_2.smx":
+L 06/19/2016 - 21:38:43: [SM]   [0]  Line 1816, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::DisableFF2()
+L 06/19/2016 - 21:38:43: [SM]   [1]  Line 1696, C:\ff2_ver2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\freak_fortress_2.sp::OnMapEnd()
+L 06/19/2016 - 21:38:44: Error log file session closed.

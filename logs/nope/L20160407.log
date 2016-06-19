@@ -1,0 +1,232 @@
+L 04/07/2016 - 20:24:26: SourceMod log file session started (file "L20160407.log") (Version "1.7.3-dev+5298")
+L 04/07/2016 - 20:24:26: -------- Mapchange to arena_badlands --------
+L 04/07/2016 - 20:24:26: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/07/2016 - 20:24:28: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/07/2016 - 20:24:28: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/07/2016 - 20:24:28: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/07/2016 - 20:24:28: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/07/2016 - 20:24:28: [custompart.smx] Debug for CustomPart
+L 04/07/2016 - 20:24:28: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/07/2016 - 20:24:40: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/07/2016 - 20:24:40: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/07/2016 - 20:24:40: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/07/2016 - 20:24:40: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/07/2016 - 20:28:23: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:30:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:31:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 20:32:02: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:34:59: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:35:04: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:35:29: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:37:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:37:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 20:39:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<12><[U:1:171130010]><>"
+L 04/07/2016 - 20:41:03: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:41:03: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<12><[U:1:171130010]><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 20:42:36: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<12><[U:1:171130010]><>"
+L 04/07/2016 - 20:46:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:46:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:46:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:46:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:50:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<12><[U:1:171130010]><>"
+L 04/07/2016 - 20:50:30: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 1234 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:53:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:53:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 20:53:19: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<12><[U:1:171130010]><>"
+L 04/07/2016 - 20:53:46: [Boss Selection.smx] 선택한 보스 이름: Freddy Krueger
+L 04/07/2016 - 20:53:52: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 20:54:02: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 1234556 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 20:56:20: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<12><[U:1:171130010]><>"
+L 04/07/2016 - 20:57:03: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" console command (cmdline "removecond 82")
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 21:01:54: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 21:02:19: [SM] Changed map to "koth_nucleus"
+L 04/07/2016 - 21:02:20: -------- Mapchange to koth_nucleus --------
+L 04/07/2016 - 21:02:27: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/07/2016 - 21:02:27: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/07/2016 - 21:02:27: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/07/2016 - 21:02:27: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/07/2016 - 21:07:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:07:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "SMELLY UNFORTUNATE<14><BOT><>"
+L 04/07/2016 - 21:07:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Administrator<15><BOT><>"
+L 04/07/2016 - 21:07:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mentlegen<16><BOT><>"
+L 04/07/2016 - 21:07:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Ribs Grow Back<18><BOT><>"
+L 04/07/2016 - 21:07:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "It's Filthy in There!<19><BOT><>"
+L 04/07/2016 - 21:07:51: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mega Baboon<20><BOT><>"
+L 04/07/2016 - 21:09:36: [Boss Selection.smx] 선택한 보스 이름: Ninja Spy
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "SMELLY UNFORTUNATE<14><BOT><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Administrator<15><BOT><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mentlegen<16><BOT><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Archimedes!<17><BOT><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Ribs Grow Back<18><BOT><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "It's Filthy in There!<19><BOT><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mega Baboon<20><BOT><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<13><[U:1:171130010]><>"
+L 04/07/2016 - 21:09:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Kill Me<21><BOT><>"
+L 04/07/2016 - 21:10:04: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 12345 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "SMELLY UNFORTUNATE<14><BOT><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Administrator<15><BOT><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mentlegen<16><BOT><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Archimedes!<17><BOT><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Ribs Grow Back<18><BOT><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "It's Filthy in There!<19><BOT><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mega Baboon<20><BOT><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<13><[U:1:171130010]><>"
+L 04/07/2016 - 21:10:09: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Kill Me<21><BOT><>"
+L 04/07/2016 - 21:12:25: [basechat.smx] "Nopied◎<2><[U:1:103205717]><>" triggered sm_say (text 헤이?)
+L 04/07/2016 - 21:13:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:13:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 21:13:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "티벳여우<13><[U:1:171130010]><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "SMELLY UNFORTUNATE<14><BOT><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Administrator<15><BOT><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mentlegen<16><BOT><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Archimedes!<17><BOT><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Ribs Grow Back<18><BOT><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "It's Filthy in There!<19><BOT><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mega Baboon<20><BOT><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 21:14:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Kill Me<21><BOT><>"
+L 04/07/2016 - 21:15:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Administrator<15><BOT><>"
+L 04/07/2016 - 21:15:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mentlegen<16><BOT><>"
+L 04/07/2016 - 21:15:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Archimedes!<17><BOT><>"
+L 04/07/2016 - 21:15:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Ribs Grow Back<18><BOT><>"
+L 04/07/2016 - 21:15:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Mega Baboon<20><BOT><>"
+L 04/07/2016 - 21:15:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<10><[U:1:159644927]><>"
+L 04/07/2016 - 21:15:42: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Kill Me<21><BOT><>"
+L 04/07/2016 - 21:15:50: Log file closed.
+L 04/07/2016 - 21:20:48: SourceMod log file session started (file "L20160407.log") (Version "1.7.3-dev+5298")
+L 04/07/2016 - 21:20:48: -------- Mapchange to arena_badlands --------
+L 04/07/2016 - 21:20:48: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/07/2016 - 21:20:49: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/07/2016 - 21:20:49: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/07/2016 - 21:20:49: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/07/2016 - 21:20:49: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/07/2016 - 21:20:49: [custompart.smx] Debug for CustomPart
+L 04/07/2016 - 21:20:49: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/07/2016 - 21:20:59: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/07/2016 - 21:20:59: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/07/2016 - 21:20:59: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/07/2016 - 21:20:59: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/07/2016 - 21:23:02: [ff2_deathmatch.smx] FF2 NOT ENABLED!!!!
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 21:24:27: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot08<10><BOT><>"
+L 04/07/2016 - 21:28:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 21:28:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 21:28:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 21:28:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 21:28:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 21:28:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 21:28:31: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 21:28:31: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot08<10><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 21:31:44: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot08<10><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot01<3><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot02<4><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot03<5><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot04<6><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot05<7><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot06<8><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot07<9><BOT><>"
+L 04/07/2016 - 21:35:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Bot08<10><BOT><>"
+L 04/07/2016 - 21:40:25: Log file closed.
+L 04/07/2016 - 22:04:31: SourceMod log file session started (file "L20160407.log") (Version "1.7.3-dev+5298")
+L 04/07/2016 - 22:04:31: -------- Mapchange to arena_badlands --------
+L 04/07/2016 - 22:04:31: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/07/2016 - 22:04:32: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/07/2016 - 22:04:32: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/07/2016 - 22:04:32: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/07/2016 - 22:04:32: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/07/2016 - 22:04:32: [custompart.smx] Debug for CustomPart
+L 04/07/2016 - 22:04:32: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/07/2016 - 22:04:43: [Boss Selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/07/2016 - 22:04:43: [Boss Selection.smx] [FF2boss] Added chat command: boss
+L 04/07/2016 - 22:04:43: [Boss Selection.smx] [FF2boss] Added chat command: 보스
+L 04/07/2016 - 22:04:43: [Boss Selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/07/2016 - 22:11:30: Log file closed.

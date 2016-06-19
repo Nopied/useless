@@ -1,0 +1,108 @@
+L 05/22/2016 - 13:25:10: SourceMod log file session started (file "L20160522.log") (Version "1.7.3-dev+5298")
+L 05/22/2016 - 13:25:10: -------- Mapchange to vsh_apg_v2 --------
+L 05/22/2016 - 13:25:10: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/22/2016 - 13:25:12: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 13:25:12: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 13:25:12: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 13:25:12: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 13:25:12: [custompart.smx] Debug for CustomPart
+L 05/22/2016 - 13:25:12: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/22/2016 - 13:25:25: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 13:25:25: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 13:25:25: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 13:25:25: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 13:27:02: [boss_selection.smx] -1
+L 05/22/2016 - 13:37:39: [boss_selection.smx] -1
+L 05/22/2016 - 13:37:53: [freak_fortress_2.smx] "Nopied◎<4><[U:1:103205717]><>" added 123 queue points to "Nopied◎<4><[U:1:103205717]><>"
+L 05/22/2016 - 13:41:57: Log file closed.
+L 05/22/2016 - 14:48:18: SourceMod log file session started (file "L20160522.log") (Version "1.7.3-dev+5298")
+L 05/22/2016 - 14:48:18: -------- Mapchange to vsh_apg_v2 --------
+L 05/22/2016 - 14:48:18: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/22/2016 - 14:48:20: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 14:48:20: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 14:48:20: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 14:48:20: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 14:48:20: [custompart.smx] Debug for CustomPart
+L 05/22/2016 - 14:48:20: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/22/2016 - 14:48:32: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 14:48:32: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 14:48:32: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 14:48:32: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 14:49:42: [boss_selection.smx] -1
+L 05/22/2016 - 14:50:01: [boss_selection.smx] -1
+L 05/22/2016 - 14:50:16: [boss_selection.smx] -1
+L 05/22/2016 - 14:50:45: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 05/22/2016 - 14:52:30: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "나는 브로니다 -_-<4><[U:1:150941697]><>" (damage "1")
+L 05/22/2016 - 14:56:55: [boss_selection.smx] -1
+L 05/22/2016 - 15:00:07: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/22/2016 - 15:04:35: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a FireBomb on "♪(*´∀｀)(작다)<3><[U:1:209760731]><>"
+L 05/22/2016 - 15:04:35: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a FireBomb on "MAGGOTS!<7><[U:1:295769887]><>"
+L 05/22/2016 - 15:04:47: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a FireBomb on "♪(*´∀｀)(작다)<3><[U:1:209760731]><>"
+L 05/22/2016 - 15:13:56: [boss_selection.smx] 
+L 05/22/2016 - 15:15:45: [boss_selection.smx] 
+L 05/22/2016 - 15:22:10: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/22/2016 - 15:25:14: [boss_selection.smx] 
+L 05/22/2016 - 15:26:15: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_rockslide_2"
+L 05/22/2016 - 15:26:18: [SM] Changed map to "vsh_rockslide_2"
+L 05/22/2016 - 15:26:20: -------- Mapchange to vsh_rockslide_2 --------
+L 05/22/2016 - 15:26:26: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 15:26:26: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 15:26:26: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 15:26:26: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 15:26:32: [boss_selection.smx] -1
+L 05/22/2016 - 15:26:33: [boss_selection.smx] -1
+L 05/22/2016 - 15:26:40: [boss_selection.smx] -1
+L 05/22/2016 - 15:27:03: [boss_selection.smx] -1
+L 05/22/2016 - 15:28:22: [boss_selection.smx] -1
+L 05/22/2016 - 15:32:21: [boss_selection.smx] -1
+L 05/22/2016 - 15:32:56: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 05/22/2016 - 15:33:10: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/22/2016 - 15:36:33: [boss_selection.smx] 
+L 05/22/2016 - 15:41:07: [boss_selection.smx] -1
+L 05/22/2016 - 15:43:41: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/22/2016 - 15:43:45: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" removed a TimeBomb on "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/22/2016 - 15:43:48: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/22/2016 - 15:43:49: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" removed a TimeBomb on "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/22/2016 - 15:43:56: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/22/2016 - 15:44:01: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" removed a TimeBomb on "나는 브로니다 -_-<4><[U:1:150941697]><>"
+L 05/22/2016 - 15:44:35: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 05/22/2016 - 15:45:20: [boss_selection.smx] -1
+L 05/22/2016 - 16:02:46: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_snowflakes_b1"
+L 05/22/2016 - 16:02:49: [SM] Changed map to "vsh_snowflakes_b1"
+L 05/22/2016 - 16:02:50: -------- Mapchange to vsh_snowflakes_b1 --------
+L 05/22/2016 - 16:02:55: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 16:02:55: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 16:02:55: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 16:02:55: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 16:03:00: [boss_selection.smx] -1
+L 05/22/2016 - 16:03:01: [boss_selection.smx] -1
+L 05/22/2016 - 16:03:06: [boss_selection.smx] -1
+L 05/22/2016 - 16:03:22: [boss_selection.smx] -1
+L 05/22/2016 - 16:17:37: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/22/2016 - 16:19:05: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/22/2016 - 16:19:16: Log file closed.
+L 05/22/2016 - 19:40:11: SourceMod log file session started (file "L20160522.log") (Version "1.7.3-dev+5298")
+L 05/22/2016 - 19:40:11: -------- Mapchange to vsh_apg_v2 --------
+L 05/22/2016 - 19:40:11: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/22/2016 - 19:40:13: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 19:40:13: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 19:40:13: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 19:40:13: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 19:40:13: [custompart.smx] Debug for CustomPart
+L 05/22/2016 - 19:40:13: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/22/2016 - 19:40:28: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/22/2016 - 19:40:28: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/22/2016 - 19:40:28: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/22/2016 - 19:40:28: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/22/2016 - 19:41:08: [boss_selection.smx] -1
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Hat-Wearing MAN<13><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Numnutz<14><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The G-Man<15><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Combine<16><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Pow!<17><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "THEM<18><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "10001011101<19><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ZAWMBEEZ<20><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "TAAAAANK!<21><BOT><>"
+L 05/22/2016 - 19:43:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Black Mesa<22><BOT><>"
+L 05/22/2016 - 20:02:59: Log file closed.

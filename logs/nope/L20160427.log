@@ -1,0 +1,358 @@
+L 04/27/2016 - 21:06:59: SourceMod log file session started (file "L20160427.log") (Version "1.7.3-dev+5298")
+L 04/27/2016 - 21:06:59: -------- Mapchange to vsh_apg_v2 --------
+L 04/27/2016 - 21:06:59: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/27/2016 - 21:07:01: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/27/2016 - 21:07:01: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 04/27/2016 - 21:07:01: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 04/27/2016 - 21:07:01: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/27/2016 - 21:07:01: [custompart.smx] Debug for CustomPart
+L 04/27/2016 - 21:07:01: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/27/2016 - 21:07:15: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/27/2016 - 21:07:15: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 04/27/2016 - 21:07:15: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 04/27/2016 - 21:07:15: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/27/2016 - 21:13:26: Log file closed.
+L 04/27/2016 - 21:44:55: SourceMod log file session started (file "L20160427.log") (Version "1.7.3-dev+5298")
+L 04/27/2016 - 21:44:55: -------- Mapchange to vsh_apg_v2 --------
+L 04/27/2016 - 21:44:55: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 04/27/2016 - 21:44:56: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/27/2016 - 21:44:56: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 04/27/2016 - 21:44:56: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 04/27/2016 - 21:44:56: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/27/2016 - 21:44:56: [custompart.smx] Debug for CustomPart
+L 04/27/2016 - 21:44:56: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.9 Beta (build manual)===
+L 04/27/2016 - 21:45:07: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/27/2016 - 21:45:07: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 04/27/2016 - 21:45:07: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 04/27/2016 - 21:45:07: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/27/2016 - 21:45:19: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:45:25: [boss_selection.smx] 
+L 04/27/2016 - 21:46:07: [boss_selection.smx] 
+L 04/27/2016 - 21:47:10: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:47:10: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:47:28: [boss_selection.smx] 
+L 04/27/2016 - 21:47:46: [boss_selection.smx] 
+L 04/27/2016 - 21:47:57: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/27/2016 - 21:47:59: [boss_selection.smx] 
+L 04/27/2016 - 21:48:12: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:48:22: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!(작다)<6><[U:1:209760731]><>"
+L 04/27/2016 - 21:48:25: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:48:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/27/2016 - 21:48:37: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:50:46: [boss_selection.smx] 이 클라이언트는 20의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:50:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:50:58: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:52:27: [boss_selection.smx] 이 클라이언트는 20의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:52:27: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:52:39: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:54:51: [boss_selection.smx] 이 클라이언트는 20의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:54:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:55:03: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 21:58:50: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 21:59:02: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:00:16: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:00:16: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:00:16: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:00:16: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:00:16: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:00:16: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:00:16: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:00:24: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/27/2016 - 22:00:28: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:01:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:02:00: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:05:24: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:08:12: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Herr Doktor<7><BOT><>"
+L 04/27/2016 - 22:08:13: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Gentlemanne of Leisure<8><BOT><>"
+L 04/27/2016 - 22:08:13: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Companion Cube<9><BOT><>"
+L 04/27/2016 - 22:08:14: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Target Practice<10><BOT><>"
+L 04/27/2016 - 22:08:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "One-Man Cheeseburger Apocalypse<11><BOT><>"
+L 04/27/2016 - 22:08:16: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Crowbar<12><BOT><>"
+L 04/27/2016 - 22:08:17: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Delicious Cake<13><BOT><>"
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:08:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:09:03: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:10:35: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Herr Doktor<7><BOT><>"
+L 04/27/2016 - 22:10:37: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Gentlemanne of Leisure<8><BOT><>"
+L 04/27/2016 - 22:10:37: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Companion Cube<9><BOT><>"
+L 04/27/2016 - 22:10:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Target Practice<10><BOT><>"
+L 04/27/2016 - 22:10:38: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "One-Man Cheeseburger Apocalypse<11><BOT><>"
+L 04/27/2016 - 22:10:39: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Delicious Cake<13><BOT><>"
+L 04/27/2016 - 22:10:41: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Crowbar<12><BOT><>"
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:44: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:10:56: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:04: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:12:16: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:12:34: [boss_selection.smx] 
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:07: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:15:17: [boss_selection.smx] 
+L 04/27/2016 - 22:15:19: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:16:41: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Delicious Cake<13><BOT><>"
+L 04/27/2016 - 22:16:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:16:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:16:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:16:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:16:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:16:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:16:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:16:57: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:17:46: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Herr Doktor<7><BOT><>"
+L 04/27/2016 - 22:17:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Gentlemanne of Leisure<8><BOT><>"
+L 04/27/2016 - 22:17:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Companion Cube<9><BOT><>"
+L 04/27/2016 - 22:17:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Target Practice<10><BOT><>"
+L 04/27/2016 - 22:17:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "One-Man Cheeseburger Apocalypse<11><BOT><>"
+L 04/27/2016 - 22:17:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Crowbar<12><BOT><>"
+L 04/27/2016 - 22:17:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Delicious Cake<13><BOT><>"
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:12: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:18:24: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:40: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:19:52: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:29: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:21:51: [SM] Changed map to "koth_nucleus"
+L 04/27/2016 - 22:21:53: -------- Mapchange to koth_nucleus --------
+L 04/27/2016 - 22:21:59: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/27/2016 - 22:21:59: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 04/27/2016 - 22:21:59: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 04/27/2016 - 22:21:59: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/27/2016 - 22:22:00: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:22:06: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:07: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:08: [boss_selection.smx] 0
+L 04/27/2016 - 22:22:13: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:16: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:24: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "arena_badlands"
+L 04/27/2016 - 22:22:27: [SM] Changed map to "arena_badlands"
+L 04/27/2016 - 22:22:29: -------- Mapchange to arena_badlands --------
+L 04/27/2016 - 22:22:34: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 04/27/2016 - 22:22:34: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 04/27/2016 - 22:22:34: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 04/27/2016 - 22:22:34: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 04/27/2016 - 22:22:34: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:22:40: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:41: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:43: [boss_selection.smx] 0
+L 04/27/2016 - 22:22:45: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:47: [boss_selection.smx] -1
+L 04/27/2016 - 22:22:48: [boss_selection.smx] -1
+L 04/27/2016 - 22:23:35: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:23:45: [boss_selection.smx] -1
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:24:59: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:25:11: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:26:52: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:27:04: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:26: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:29:38: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:41: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:31:53: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:15: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:36:27: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:38:15: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/27/2016 - 22:38:18: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:38:18: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:38:18: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:38:18: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:38:18: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:38:18: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:38:19: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:38:30: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:39:56: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:39:56: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:39:56: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:39:56: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:39:56: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:39:56: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:39:56: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:40:08: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:40:22: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<31><BOT><>"
+L 04/27/2016 - 22:40:25: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:40:25: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:40:25: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:40:25: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:40:25: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:40:25: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:40:37: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:42:35: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:42:35: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:42:35: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:42:35: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:42:35: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:42:35: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:42:35: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:42:47: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:46:02: [boss_selection.smx] 
+L 04/27/2016 - 22:46:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:46:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:46:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:46:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:46:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:46:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:46:38: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:46:50: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:48:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<32><[U:1:159644927]><>"
+L 04/27/2016 - 22:48:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Freakin' Unbelievable<25><BOT><>"
+L 04/27/2016 - 22:48:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Administrator<26><BOT><>"
+L 04/27/2016 - 22:48:47: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Archimedes!<27><BOT><>"
+L 04/27/2016 - 22:48:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "It's Filthy in There!<28><BOT><>"
+L 04/27/2016 - 22:48:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Kill Me<29><BOT><>"
+L 04/27/2016 - 22:48:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "CryBaby<30><BOT><>"
+L 04/27/2016 - 22:48:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<31><BOT><>"
+L 04/27/2016 - 22:48:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:48:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:48:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:48:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:48:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:48:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:48:51: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:49:03: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:49:11: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/27/2016 - 22:50:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:50:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:50:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:50:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:50:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:50:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:50:48: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:00: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "[F]dwgwjw1024[PFBT]<32><[U:1:159644927]><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "GO mediseun<4><[U:1:61271689]><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Jen蒼い炎のジェンシア<5><[U:1:59912970]><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "나는 브로니다!(작다)<6><[U:1:209760731]><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Freakin' Unbelievable<25><BOT><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "The Administrator<26><BOT><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Archimedes!<27><BOT><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "It's Filthy in There!<28><BOT><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Kill Me<29><BOT><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "CryBaby<30><BOT><>"
+L 04/27/2016 - 22:51:34: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "ThatGuy<31><BOT><>"
+L 04/27/2016 - 22:51:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:37: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:51:41: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 04/27/2016 - 22:51:49: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:55:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:55:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:55:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:55:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:55:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:55:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:55:46: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:55:58: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 22:57:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:57:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:57:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:57:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:57:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:57:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:57:13: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 22:57:25: [fuckingloser.smx] 라운드 시작.
+L 04/27/2016 - 23:03:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 23:03:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 23:03:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 23:03:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 23:03:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 23:03:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 23:03:45: [boss_selection.smx] 이 클라이언트는 0의 대기포인트를 저장해놓은 상태.
+L 04/27/2016 - 23:04:07: Log file closed.

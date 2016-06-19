@@ -1,0 +1,66 @@
+L 05/23/2016 - 20:59:45: SourceMod log file session started (file "L20160523.log") (Version "1.7.3-dev+5298")
+L 05/23/2016 - 20:59:45: -------- Mapchange to vsh_apg_v2 --------
+L 05/23/2016 - 20:59:46: [TF2ITEMS] "GiveNamedItem" offset = 472
+L 05/23/2016 - 20:59:48: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/23/2016 - 20:59:48: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/23/2016 - 20:59:48: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/23/2016 - 20:59:48: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/23/2016 - 20:59:48: [custompart.smx] Debug for CustomPart
+L 05/23/2016 - 20:59:48: [freak_fortress_2.smx] ===Freak Fortress 2 Initializing-v1.10.10 Beta===
+L 05/23/2016 - 21:00:03: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/23/2016 - 21:00:03: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/23/2016 - 21:00:03: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/23/2016 - 21:00:03: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/23/2016 - 21:00:23: [boss_selection.smx] -1
+L 05/23/2016 - 21:00:49: [boss_selection.smx] -1
+L 05/23/2016 - 21:01:36: [boss_selection.smx] -1
+L 05/23/2016 - 21:02:18: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/23/2016 - 21:10:14: [boss_selection.smx] -1
+L 05/23/2016 - 21:11:13: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "MAGGOTS!<4><[U:1:295769887]><>"
+L 05/23/2016 - 21:24:37: [boss_selection.smx] -1
+L 05/23/2016 - 21:26:19: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/23/2016 - 21:31:38: [boss_selection.smx] 
+L 05/23/2016 - 21:35:45: [boss_selection.smx] -1
+L 05/23/2016 - 21:36:19: [basecommands.smx] "Nopied◎<2><[U:1:103205717]><>" changed map to "vsh_streets_v3"
+L 05/23/2016 - 21:36:22: [SM] Changed map to "vsh_streets_v3"
+L 05/23/2016 - 21:36:23: -------- Mapchange to vsh_streets_v3 --------
+L 05/23/2016 - 21:36:29: [boss_selection.smx] [FF2boss] Added chat command: ff2boss
+L 05/23/2016 - 21:36:29: [boss_selection.smx] [FF2boss] Added chat command: boss
+L 05/23/2016 - 21:36:29: [boss_selection.smx] [FF2boss] Added chat command: 보스
+L 05/23/2016 - 21:36:29: [boss_selection.smx] [FF2boss] Added chat command: 보스선택
+L 05/23/2016 - 21:36:36: [boss_selection.smx] -1
+L 05/23/2016 - 21:39:39: [boss_selection.smx] -1
+L 05/23/2016 - 21:39:58: [boss_selection.smx] -1
+L 05/23/2016 - 21:41:44: [boss_selection.smx] -1
+L 05/23/2016 - 21:41:52: [freak_fortress_2.smx] "Nopied◎<2><[U:1:103205717]><>" added 123 queue points to "Nopied◎<2><[U:1:103205717]><>"
+L 05/23/2016 - 21:42:05: [boss_selection.smx] -1
+L 05/23/2016 - 21:43:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "sakldkzldxjep<10><[U:1:159644927]><>" (damage "99")
+L 05/23/2016 - 21:43:52: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slapped "sakldkzldxjep<10><[U:1:159644927]><>" (damage "99")
+L 05/23/2016 - 21:45:12: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a FreezeBomb on "sakldkzldxjep<10><[U:1:159644927]><>"
+L 05/23/2016 - 21:45:19: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" removed a FreezeBomb on "sakldkzldxjep<10><[U:1:159644927]><>"
+L 05/23/2016 - 21:45:38: [boss_selection.smx] -1
+L 05/23/2016 - 21:46:10: [boss_selection.smx] -1
+L 05/23/2016 - 21:52:52: [freaks\halloween_2014.ff2] Selected 2 by Key: special_greyalien
+L 05/23/2016 - 21:54:36: [boss_selection.smx] -1
+L 05/23/2016 - 22:05:02: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" slayed "Nopied◎<2><[U:1:103205717]><>"
+L 05/23/2016 - 22:08:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "sakldkzldxjep<10><[U:1:159644927]><>" to "dllpkeepksdxl")
+L 05/23/2016 - 22:08:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "dllpkeepksdxl<10><[U:1:159644927]><>" to "kdkllddsxkxxp")
+L 05/23/2016 - 22:08:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "kdkllddsxkxxp<10><[U:1:159644927]><>" to "lkxsxlxllsxlx")
+L 05/23/2016 - 22:08:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "lkxsxlxllsxlx<10><[U:1:159644927]><>" to "xxxxxlxxxlxlx")
+L 05/23/2016 - 22:08:48: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxxlxxxlxlx<10><[U:1:159644927]><>" to "lxxxxllxxxxxx")
+L 05/23/2016 - 22:08:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "lxxxxllxxxxxx<10><[U:1:159644927]><>" to "xxxxlxxxxlxxx")
+L 05/23/2016 - 22:08:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxlxxxxlxxx<10><[U:1:159644927]><>" to "xxxxxlllxxxxx")
+L 05/23/2016 - 22:08:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxxlllxxxxx<10><[U:1:159644927]><>" to "xlxxxxxxlllxx")
+L 05/23/2016 - 22:08:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xlxxxxxxlllxx<10><[U:1:159644927]><>" to "lxxxxxlxxxxxx")
+L 05/23/2016 - 22:08:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "lxxxxxlxxxxxx<10><[U:1:159644927]><>" to "xxxxxxxxxxxxx")
+L 05/23/2016 - 22:08:49: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxxxxxxxxxx<10><[U:1:159644927]><>" to "xxxxxxxxxxxxx")
+L 05/23/2016 - 22:08:50: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxxxxxxxxxx<10><[U:1:159644927]><>" to "xxxxxxxxxxxxx")
+L 05/23/2016 - 22:08:50: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxxxxxxxxxx<10><[U:1:159644927]><>" to "xxxxxxxxxxxxx")
+L 05/23/2016 - 22:08:50: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxxxxxxxxxx<10><[U:1:159644927]><>" to "xxxxxxxxxxxxx")
+L 05/23/2016 - 22:08:50: [playercommands.smx] "Nopied◎<2><[U:1:103205717]><>" renamed "xxxxxxxxxxxxx<10><[U:1:159644927]><>" to "xxxxxxxxxxxxx")
+L 05/23/2016 - 22:09:35: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" set a TimeBomb on "GO mediseun (자연산)<11><[U:1:61271689]><>"
+L 05/23/2016 - 22:09:39: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" froze "xxxxxxxxxxxxx<10><[U:1:159644927]><>"
+L 05/23/2016 - 22:09:41: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" froze "GO mediseun (자연산)<11><[U:1:61271689]><>"
+L 05/23/2016 - 22:09:42: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" froze "xxxxxxxxxxxxx<10><[U:1:159644927]><>"
+L 05/23/2016 - 22:09:43: [funcommands.smx] "Nopied◎<2><[U:1:103205717]><>" froze "GO mediseun (자연산)<11><[U:1:61271689]><>"
+L 05/23/2016 - 22:13:46: Log file closed.
