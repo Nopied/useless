@@ -77,7 +77,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
     for(int client=1; client<=MaxClients; client++)
     {
-        if(IsLastMan[client] || IsBoss(client)) // Lastmax and bosses.
+        if(IsLastMan[client] || IsBoss(client)) // Lastman and bosses.
         {
             IsLastMan[client]=false;
 
@@ -162,10 +162,15 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         }
         else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
         {
+            float velocity[3];
+            GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
+            velocity[2]+=200.0;
+            TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
+
             int explosion=CreateEntityByName("env_explosion");
 
             DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
-      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 200, 4);
+      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
       			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
       			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
       			DispatchSpawn(explosion);
