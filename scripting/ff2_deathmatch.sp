@@ -54,24 +54,9 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
     if(FF2_GetRoundState() == 1 && IsLastManStanding && !IsLastMan[client])
     {
-        // Debug("Spawn %N", client);
         CreateTimer(0.1, BeLastMan);
     }
 }
-/*
-public Action OnRoundStart(Handle event, const char[] name, bool dont)
-{
-    IsLastManStanding=false;
-    CreateTimer(10.4, SetUp);
-
-    // FF2_SetServerFlags(FF2_GetServerFlags()|~FF2SERVERFLAG_ISLASTMAN|~FF2SERVERFLAG_UNCHANGE_BGM_USER|~FF2SERVERFLAG_UNCHANGE_BGM_SERVER);
-}
-
-public Action SetUp(Handle timer)
-{
-    CreateTimer(1.0, RoundTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
-}
-*/
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
@@ -164,7 +149,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             float velocity[3];
             GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
-            velocity[2]+=200.0;
+            velocity[2]+=2500.0;
             TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
 
             int explosion=CreateEntityByName("env_explosion");
@@ -183,6 +168,9 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             TF2_IgnitePlayer(victim, attacker);
         }
+
+        if(damagetype & DMG_BULLET)
+          damagetype|=DMG_PREVENT_PHYSICS_FORCE;
     }
     return Plugin_Continue;
 }
@@ -270,7 +258,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         for(int i; i<bossCount; i++)
         {
             int boss=FF2_GetBossIndex(bosses[i]);
-            int newhealth=10000/bossCount;
+            int newhealth=5000/bossCount;
 
             if(FF2_GetBossHealth(boss) < newhealth){
                 FF2_SetBossMaxHealth(boss, newhealth);
@@ -330,7 +318,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 public Action BeLastMan(Handle timer)
 {
     FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
-    if(!LastManData)
+    if(!LastManData || !IsPackReadable(LastManData, 4))
     {
       Debug("LastManData is invalid! what!?!?");
       return Plugin_Continue;
