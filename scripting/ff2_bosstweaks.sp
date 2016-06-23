@@ -17,14 +17,14 @@ new Float:g_fClientCurrentScale[MAXPLAYERS+1] = {1.0, ... };
 
 public Plugin:myinfo = {
 	name = "Freak Fortress 2: Boss Tweaks",
-	author = "jasonfrog, Deathreus (code snippet from 11530), SHADoW NiNE TR3S (code snippet from sarysa)",
+	author = "jasonfrog, Deathreus (code snippet from 11530), SHADoW NiNE TR3S (code snippet from sarysa), Nopied (Added some code for private server)",
 	version = "1.3",
 };
 
 public OnMapStart()
 {
 	new String:sound[38];
-	for (new x = 1 ; x < 18 ; x++) 
+	for (new x = 1 ; x < 18 ; x++)
 	{
 		Format(sound, sizeof(sound), "mvm/player/footsteps/robostep_%s%i.wav", (x < 10) ? "0" : "", x);
 		PrecacheSound(sound, true);
@@ -68,13 +68,13 @@ public Action:FF2_OnAbility2(index,const String:plugin_name[],const String:abili
 public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	g_headscale = 0.0;
-	
+
 	if (FF2_IsFF2Enabled())
 	{
 		g_boss = GetClientOfUserId(FF2_GetBossUserId(0));
-		
+
 		if (g_boss>0)
-		{   			
+		{
 			if (FF2_HasAbility(0, this_plugin_name, "scalemodel"))
 			{
 				new Float:scale = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "scalemodel", 1);	       	 	//scale
@@ -84,14 +84,14 @@ public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroad
 					{
 						scale=(GetURandomFloat()*(1.3-0.7))+0.7;
 					}
-					
+
 					new Float:curPos[3];
 					GetEntPropVector(g_boss, Prop_Data, "m_vecOrigin", curPos);
 					if(IsSpotSafe(g_boss, curPos, scale)) // The purpose of this is to prevent bosses from getting stuck!
 					{
 						SetEntPropFloat(g_boss, Prop_Send, "m_flModelScale", scale);
 						g_fClientCurrentScale[g_boss] = scale;
-				
+
 						if (g_bHitboxAvailable)
 						{
 							UpdatePlayerHitbox(g_boss);
@@ -104,11 +104,11 @@ public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroad
 					}
 				}
 			}
-			
+
 			if (FF2_HasAbility(0,this_plugin_name,"scalehead"))
 			{
 				new Float:scale = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "scalehead", 1);	        	//scale
-				if (scale > 0) 
+				if (scale > 0)
 				{
 					g_headscale = scale;
 				}
@@ -117,17 +117,17 @@ public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroad
 					g_headscale = (GetURandomFloat()*(4.0-0.5))+0.5;
 				}
 			}
-			
+
 			if (FF2_HasAbility(0,this_plugin_name,"footsteps"))
 			{
 				new type = FF2_GetAbilityArgument(0, this_plugin_name, "footsteps", 1);	        			//type
-				if (type > 3 || type < -1) 
+				if (type > 3 || type < -1)
 				{
 					type = 0;
 				}
 				g_footstepsdb= FF2_GetAbilityArgument(0, this_plugin_name, "footsteps", 2);	        	//volume
 				g_footsteps[g_boss] = type;
-				if (type == -1) 
+				if (type == -1)
 				{
 					FF2_GetAbilityArgumentString(g_boss, this_plugin_name, "footsteps", 3, g_rightfoot, PLATFORM_MAX_PATH);
 					FF2_GetAbilityArgumentString(g_boss, this_plugin_name, "footsteps", 4, g_leftfoot, PLATFORM_MAX_PATH);
@@ -135,7 +135,7 @@ public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroad
 					PrecacheSound(g_leftfoot, true);
 				}
 			}
-			
+
 			if (FF2_HasAbility(0,this_plugin_name,"colour"))
 			{
 				new r = FF2_GetAbilityArgument(0, this_plugin_name, "colour", 1);	        			//red (0-255)
@@ -155,7 +155,7 @@ public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroad
 				}
 				SetEntityRenderColor(g_boss, r, g, b, 192);
 			}
-			
+
 			if (FF2_HasAbility(0,this_plugin_name,"alpha"))
 			{
 				new a = FF2_GetAbilityArgument(0, this_plugin_name, "alpha", 1);					//alpha (0-255)
@@ -165,30 +165,39 @@ public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroad
 				}
 				SetEntityRenderColor(g_boss, _, _, _, a);
 			}
-			
+
 			if (FF2_HasAbility(0,this_plugin_name,"gravity"))
 			{
-				new Float:gravity = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "gravity", 1);	        	//gravity (0.1 very low, 8.0 very high, (1.0 normal)) 
+				new Float:gravity = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "gravity", 1);	        	//gravity (0.1 very low, 8.0 very high, (1.0 normal))
 				if (gravity < 0.0)
 				{
 					gravity = 0.0;
 				}
 				SetEntityGravity(g_boss, gravity);
 			}
-			
+
 			if (FF2_HasAbility(0,this_plugin_name,"message"))
 			{
 				new type = FF2_GetAbilityArgument(0, this_plugin_name, "message", 1);	        			//type
 				new delay = FF2_GetAbilityArgument(0, this_plugin_name, "message", 2);	        			//delay
 				new String:message[PLATFORM_MAX_PATH];
 				FF2_GetAbilityArgumentString(g_boss, this_plugin_name,"message", 3, message, PLATFORM_MAX_PATH);	//message
-				
+
 				new Handle:pack = CreateDataPack();
 				CreateDataTimer(float(delay), ShowMessage, pack);
 				WritePackCell(pack, type);
 				WritePackString(pack, message);
 				ResetPack(pack);
-			}			
+			}
+
+			if (FF2_HasAbility(0, this_plugin_name, "fade"))
+			{
+				new Float:fadeMin = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "fade", 1, 54.0);
+				new Float:fadeMax = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "fade", 2, 152.0);
+
+				SetEntPropFloat(g_boss, Prop_Send, "m_fadeMinDist", fadeMin);
+		    SetEntPropFloat(g_boss, Prop_Send, "m_fadeMaxDist", fadeMax);
+			}
 		}
 	}
 }
@@ -221,7 +230,7 @@ public Action:SoundHook(clients[64], &numClients, String:sound[PLATFORM_MAX_PATH
 	if (volume == 0.0 || volume == 0.9997) return Plugin_Continue;
 	if (!IsValidClient(Ent)) return Plugin_Continue;
 	new client = Ent;
-	
+
 	switch (g_footsteps[client])
 	{
 		case 0:
@@ -248,7 +257,7 @@ public Action:SoundHook(clients[64], &numClients, String:sound[PLATFORM_MAX_PATH
 					EmitSoundToAll(sound, client);
 				}
 				return Plugin_Changed;
-			}		
+			}
 		}
 		case 1:	//Giant footsteps
 		{
@@ -272,7 +281,7 @@ public Action:SoundHook(clients[64], &numClients, String:sound[PLATFORM_MAX_PATH
 				return Plugin_Changed;
 			}
 		}
-		case 2:	//Robot footsteps		
+		case 2:	//Robot footsteps
 		{
 			StopSound(Ent, SNDCHAN_AUTO, sound);
 			if (strncmp(sound, "player/footsteps/", 17, false) == 0)
@@ -317,7 +326,7 @@ public Action:SoundHook(clients[64], &numClients, String:sound[PLATFORM_MAX_PATH
 				}
 				return Plugin_Changed;
 			}
-		}	
+		}
 	}
 	return Plugin_Continue;
 }
@@ -342,6 +351,8 @@ public Action:Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadca
 		SetEntityRenderColor(g_boss, 255, 255, 255, 255);
 		SetEntityGravity(g_boss, 1.0);
 		UpdatePlayerHitbox(g_boss);
+		SetEntPropFloat(g_boss, Prop_Send, "m_fadeMinDist", 0.0);
+		SetEntPropFloat(g_boss, Prop_Send, "m_fadeMaxDist", 0.0);
 	}
 	g_headscale = 0.0;
 	g_fClientCurrentScale[g_boss] = 1.0;
@@ -418,7 +429,7 @@ bool:Resize_OneTrace(const Float:startPos[3], const Float:endPos[3])
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -433,26 +444,26 @@ bool:Resize_TestResizeOffset(const Float:bossOrigin[3], Float:xOffset, Float:yOf
 	targetOrigin[0] = bossOrigin[0] + xOffset;
 	targetOrigin[1] = bossOrigin[1] + yOffset;
 	targetOrigin[2] = bossOrigin[2];
-	
+
 	if (!(xOffset == 0.0 && yOffset == 0.0))
 		if (!Resize_OneTrace(tmpOrigin, targetOrigin))
 			return false;
-		
+
 	tmpOrigin[0] = targetOrigin[0];
 	tmpOrigin[1] = targetOrigin[1];
 	tmpOrigin[2] = targetOrigin[2] + zOffset;
 
 	if (!Resize_OneTrace(targetOrigin, tmpOrigin))
 		return false;
-		
+
 	targetOrigin[0] = bossOrigin[0];
 	targetOrigin[1] = bossOrigin[1];
 	targetOrigin[2] = bossOrigin[2] + zOffset;
-		
+
 	if (!(xOffset == 0.0 && yOffset == 0.0))
 		if (!Resize_OneTrace(tmpOrigin, targetOrigin))
 			return false;
-		
+
 	return true;
 }
 
@@ -527,7 +538,7 @@ bool:Resize_TestSquare(const Float:bossOrigin[3], Float:xmin, Float:xmax, Float:
 				return false;
 		}
 	}
-		
+
 	return true;
 }
 
@@ -570,8 +581,6 @@ public bool:IsSpotSafe(clientIdx, Float:playerPos[3], Float:sizeMultiplier)
 	if (!Resize_TestSquare(playerPos, mins[0] * 0.75, maxs[0] * 0.75, mins[1] * 0.75, maxs[1] * 0.75, maxs[2])) return false;
 	if (!Resize_TestSquare(playerPos, mins[0] * 0.5, maxs[0] * 0.5, mins[1] * 0.5, maxs[1] * 0.5, maxs[2])) return false;
 	if (!Resize_TestSquare(playerPos, mins[0] * 0.25, maxs[0] * 0.25, mins[1] * 0.25, maxs[1] * 0.25, maxs[2])) return false;
-	
+
 	return true;
 }
-
-

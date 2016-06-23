@@ -82,11 +82,14 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
     }
     if(IsBoss(attacker) || !IsBoss(victim)) return Plugin_Continue;
 
+    bool changed=false;
     if(IsValidEntity(weapon))
     {
         int boss=FF2_GetBossIndex(victim);
         char classname[60];
         float bossPosition[3];
+        
+
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
         GetEntityClassname(weapon, classname, sizeof(classname));
 
@@ -149,7 +152,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             float velocity[3];
             GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
-            velocity[2]+=2500.0;
+            velocity[2]+=900.0;
             TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
 
             int explosion=CreateEntityByName("env_explosion");
@@ -170,9 +173,12 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         }
 
         if(damagetype & DMG_BULLET)
+        {
+          changed=true;
           damagetype|=DMG_PREVENT_PHYSICS_FORCE;
+        }
     }
-    return Plugin_Continue;
+    return changed ? Plugin_Changed : Plugin_Continue;
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -258,7 +264,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         for(int i; i<bossCount; i++)
         {
             int boss=FF2_GetBossIndex(bosses[i]);
-            int newhealth=5000/bossCount;
+            int newhealth=7500/bossCount;
 
             if(FF2_GetBossHealth(boss) < newhealth){
                 FF2_SetBossMaxHealth(boss, newhealth);
@@ -423,8 +429,8 @@ stock void GiveLastManWeapon(int client)
   {
     case TFClass_Scout:
     {
-      SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4");
       SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
       // 2: 피해량 향상
       // 97: 재장전 향상
@@ -449,15 +455,15 @@ stock void GiveLastManWeapon(int client)
     }
     case TFClass_DemoMan:
     {
-      SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 6 ; 0.4 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 6 ; 0.4 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.2 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 1.0");
       // 540:아이랜더 효과로 추정됨..
       //changeMelee=false;
     }
     case TFClass_Medic:
     {
-      SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 17 ; 0.08 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 17 ; 0.08 ; 97 ; 1.3");
       SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 2.0 ; 493 ; 3.0");
       SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 1, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0");
       // 17: 적중 시 우버차지
@@ -467,7 +473,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Heavy:
     {
       SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.3 ; 87 ; 0.6 ; 6 ; 1.1");
-      SpawnWeapon(client, "tf_weapon_shotgun_hwg", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_shotgun_hwg", 15016, 0, 2, "2 ; 2.3 ; 87 ; 0.4 ; 6 ; 0.4");
       SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
       // 87: 미니건 돌리는 속도 증가
       //
@@ -475,8 +481,8 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Pyro:
     {
       SpawnWeapon(client, "tf_weapon_flamethrower", 208, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0");
-      SpawnWeapon(client, "tf_weapon_shotgun_pyro", 15016, 0, 2, "2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 178 ; 0.2 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_shotgun_pyro", 15016, 0, 2, "2 ; 2.2 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 178 ; 0.2 ; 112 ; 1.0");
       //changeMelee=false;
       // 178: 무기 바꾸는 속도 향상
     }
@@ -490,8 +496,8 @@ stock void GiveLastManWeapon(int client)
     }
     case TFClass_Engineer:
     {
-      SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; ; 286 ; 3.5 ; 287 ; 1.5 ; 80 ; 4.0");
+      SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; 286 ; 5.0 ; 287 ; 1.5 ; 80 ; 4.0");
       SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);
@@ -520,7 +526,7 @@ stock void GiveLastManWeapon(int client)
 
 void PrecacheMusic()
 {
-  new String:config[PLATFORM_MAX_PATH];
+  char config[PLATFORM_MAX_PATH];
   BuildPath(Path_SM, config, sizeof(config), "configs/ff2_lastman.cfg");
 
   if(!FileExists(config))
