@@ -88,7 +88,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         int boss=FF2_GetBossIndex(victim);
         char classname[60];
         float bossPosition[3];
-        
+
 
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
         GetEntityClassname(weapon, classname, sizeof(classname));
@@ -490,14 +490,22 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_revolver", 61, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 51 ; 1.0 ; 390 ; 5.0");
       SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 112 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_builder", 735, 0, 2, _);
+      int sapper = SpawnWeapon(client, "tf_weapon_sapper", 735, 0, 2, _);
+
+      SetEntProp(sapper, Prop_Send, "m_iObjectType", 3);
+      SetEntProp(sapper, Prop_Data, "m_iSubType", 3);
+      SetEntProp(sapper, Prop_Send, "m_aBuildableObjectTypes", 0, _, 0);
+      SetEntProp(sapper, Prop_Send, "m_aBuildableObjectTypes", 0, _, 1);
+      SetEntProp(sapper, Prop_Send, "m_aBuildableObjectTypes", 0, _, 2);
+      SetEntProp(sapper, Prop_Send, "m_aBuildableObjectTypes", 1, _, 3);
+
       SpawnWeapon(client, "tf_weapon_invis", 30, 0, 2, _);
       // 51: 헤드샷 판정 가능
     }
     case TFClass_Engineer:
     {
       SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; 286 ; 5.0 ; 287 ; 1.5 ; 80 ; 4.0");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; 286 ; 5.0 ; 287 ; 1.5 ; 80 ; 8.0");
       SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
       SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);

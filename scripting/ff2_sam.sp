@@ -77,6 +77,10 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	int weapon2=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 	if(weapon2 == clientWeapon[client] && IsValidEntity(weapon2))
 	{
+		if(buttons & IN_ATTACK|IN_ATTACK2|IN_ATTACK3|IN_RELOAD)
+		{
+			PrintCenterText(client, "분노로 인해 사용할 수 없습니다!");
+		}
 		SetEntPropFloat(weapon2, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+0.2);
 		SetEntPropFloat(weapon2, Prop_Send, "m_flNextSecondaryAttack", GetGameTime()+0.2);
 		SetEntPropFloat(client, Prop_Send, "m_flNextAttack", GetGameTime()+0.2);
