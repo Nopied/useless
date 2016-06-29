@@ -4161,14 +4161,23 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 	}
 	else if(!StrContains(classname, "tf_weapon_medigun"))  //Mediguns
 	{
-		new Handle:itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.75 ; 11 ; 1.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
-			//10: +75% faster charge rate
-			//11: +50% overheal bonus
-			//144: Quick-fix speed/jump effects
-			//199: Deploys 25% faster
-			//314: Ubercharge lasts 4 seconds longer (aka 50% longer)
-			//499: 메딕 차단막. (아군 공격을 막아서 삭제.)
-			//547: Holsters 25% faster
+		new Handle:itemOverride;
+		switch(iItemDefinitionIndex)
+		{
+			case 35: // 크리츠크리그
+			{
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.05 ; 11 ; 1.2 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
+			}
+			case 411: // 응급조치
+			{
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 2.0 ; 11 ; 1.2 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
+			}
+		  	default:
+		  	{
+			  	itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.5 ; 11 ; 1.2 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
+		  	}
+		}
+
 		if(itemOverride!=INVALID_HANDLE)
 		{
 			item=itemOverride;
