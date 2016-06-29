@@ -4166,16 +4166,16 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		{
 			case 35: // 크리츠크리그
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.05 ; 11 ; 1.2 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
+				itemOverride=PrepareItemHandle(item, _, _, "11 ; 1.35 ; 18 ; 1.0 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
 			}
 			case 411: // 응급조치
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "10 ; 2.0 ; 11 ; 1.2 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 2.2 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75", true);
 			}
-		  	default:
-		  	{
-			  	itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.5 ; 11 ; 1.2 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
-		  	}
+		  default:
+		  {
+			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.3 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0", true);
+		  }
 		}
 
 		if(itemOverride!=INVALID_HANDLE)
