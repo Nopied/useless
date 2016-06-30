@@ -1166,7 +1166,7 @@ public OnPluginStart()
 	HookEvent("post_inventory_application", OnPostInventoryApplication, EventHookMode_Pre);
 	HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre); //  첫라운드 버그가 문제야..
 	HookEvent("rps_taunt_event", OnRPS, EventHookMode_Pre);
-	HookEvent("player_chargedeployed", OnUberDeployed);
+	// HookEvent("player_chargedeployed", OnUberDeployed);
 	HookEvent("player_hurt", OnPlayerHurt);
 	HookEvent("object_destroyed", OnObjectDestroyed, EventHookMode_Pre);
 	HookEvent("object_deflected", OnObjectDeflected, EventHookMode_Pre);
@@ -4589,6 +4589,7 @@ public Action:OnObjectDestroyed(Handle:event, const String:name[], bool:dontBroa
 	return Plugin_Continue;
 }
 
+/*
 public Action:OnUberDeployed(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	new client=GetClientOfUserId(GetEventInt(event, "userid"));
@@ -4618,6 +4619,7 @@ public Action:OnUberDeployed(Handle:event, const String:name[], bool:dontBroadca
 	}
 	return Plugin_Continue;
 }
+*/
 
 public Action:Timer_Uber(Handle:timer, any:medigunid)
 {
