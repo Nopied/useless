@@ -152,7 +152,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             float velocity[3];
             GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
-            velocity[2]+=900.0;
+            velocity[2]+=650.0;
             TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
 
             int explosion=CreateEntityByName("env_explosion");
@@ -172,7 +172,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             TF2_IgnitePlayer(victim, attacker);
         }
 
-        if(damagetype & DMG_BULLET)
+        if(damagetype & DMG_BULLET && !(TF2_GetPlayerClass(victim) == TFClass_Sniper || TF2_GetPlayerClass(victim) == TFClass_Heavy))
         {
           changed=true;
           damagetype|=DMG_PREVENT_PHYSICS_FORCE;
@@ -313,6 +313,13 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
         GiveLastManWeapon(winner);
 
+        SetEntProp(winner, Prop_Data, "m_takedamage", 0);
+        SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
+
+        SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Send, "m_iMaxHealth"));
+        SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
+        CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
+
         FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
@@ -339,6 +346,13 @@ public Action BeLastMan(Handle timer)
     TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
     GiveLastManWeapon(winner);
 
+    SetEntProp(winner, Prop_Data, "m_takedamage", 0);
+    SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
+
+    SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Send, "m_iMaxHealth"));
+    SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
+    CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
+
     if(alive)
     {
         TF2_ChangeClientTeam(client, team);
@@ -350,6 +364,12 @@ public Action BeLastMan(Handle timer)
     }
     CloseLastmanData();
     return Plugin_Continue;
+}
+
+public Action LastManPassive(Handle timer, int client)
+{
+  SetEntProp(client, Prop_Data, "m_takedamage", 2);
+  SetEntProp(client, Prop_Send, "m_CollisionGroup", 5);
 }
 
 public void OnClientDisconnect(int client)
@@ -431,7 +451,7 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4");
       SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 2, "2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 2: 피해량 향상
       // 97: 재장전 향상
       // 6: 발사 속도 향상
@@ -440,14 +460,14 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 390 ; 3.0");
       SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_club", 264, 0, 1, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_club", 264, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 390: 헤드샷 보너스 데미지
     }
     case TFClass_Soldier:
     {
       SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4 ; 97 ; 0.4 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0 ; 521 ; 2.0");
       SpawnWeapon(client, "tf_weapon_shotgun_soldier", 15016, 0, 2, "2 ; 2.0 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_shovel", 416, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_shovel", 416, 0, 2, "2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 103: 투사체 비행속도 향상
       // 135: 로켓점프 피해량 감소
       // 488: 로켓 특화
@@ -456,16 +476,16 @@ stock void GiveLastManWeapon(int client)
     case TFClass_DemoMan:
     {
       SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 6 ; 0.4 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.2 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 6 ; 0.4 ; 97 ; 0.7");
+      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.2 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 1.0 ; 26 ; 150");
       // 540:아이랜더 효과로 추정됨..
       //changeMelee=false;
     }
     case TFClass_Medic:
     {
-      SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 17 ; 0.08 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 2.0 ; 493 ; 3.0");
-      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 1, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 17 ; 0.12 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 4.0");
+      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 2, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0 ; 26 ; 150");
       // 17: 적중 시 우버차지
       // 482: 오버힐 마스터리
       // 493: 힐 마스터리
@@ -474,7 +494,7 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.3 ; 87 ; 0.6 ; 6 ; 1.1");
       SpawnWeapon(client, "tf_weapon_shotgun_hwg", 15016, 0, 2, "2 ; 2.3 ; 87 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 1, "2 ; 4.0 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 2, "2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 87: 미니건 돌리는 속도 증가
       //
     }
@@ -482,14 +502,14 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_flamethrower", 208, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0");
       SpawnWeapon(client, "tf_weapon_shotgun_pyro", 15016, 0, 2, "2 ; 2.2 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 178 ; 0.2 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_fireaxe", 38, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 178 ; 0.2 ; 112 ; 1.0 ; 26 ; 150");
       //changeMelee=false;
       // 178: 무기 바꾸는 속도 향상
     }
     case TFClass_Spy:
     {
       SpawnWeapon(client, "tf_weapon_revolver", 61, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 51 ; 1.0 ; 390 ; 5.0");
-      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 112 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 112 ; 1.0 ; 26 ; 150");
       int sapper = SpawnWeapon(client, "tf_weapon_sapper", 735, 0, 2, _);
 
       SetEntProp(sapper, Prop_Send, "m_iObjectType", 3);
@@ -499,15 +519,15 @@ stock void GiveLastManWeapon(int client)
       SetEntProp(sapper, Prop_Send, "m_aBuildableObjectTypes", 0, _, 2);
       SetEntProp(sapper, Prop_Send, "m_aBuildableObjectTypes", 1, _, 3);
 
-      SpawnWeapon(client, "tf_weapon_invis", 30, 0, 2, _);
+      SpawnWeapon(client, "tf_weapon_invis", 30, 0, 2, "35 ; 1.8");
       // 51: 헤드샷 판정 가능
     }
     case TFClass_Engineer:
     {
       SpawnWeapon(client, "tf_weapon_sentry_revenge", 141, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4 ; 136 ; 1.0");
-      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; 286 ; 5.0 ; 287 ; 1.5 ; 80 ; 8.0");
+      SpawnWeapon(client, "tf_weapon_wrench", 197, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 124 ; 1.0 ; 343 ; 0.2 ; 344 ; 1.3 ; 464 ; 3.0 ; 112 ; 100.0 ; 286 ; 5.0 ; 287 ; 1.5 ; 80 ; 8.0 ; 26 ; 150");
       SpawnWeapon(client, "tf_weapon_laser_pointer", 140, 0, 2, _);
-      SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 2.0");
+      SpawnWeapon(client, "tf_weapon_pda_engineer_build", 25, 0, 2, "351 ; 100.0 ; 344 ; 100.0 ; 345 ; 6.0");
       int pda = SpawnWeapon(client, "tf_weapon_builder", 28, 0, 2, _);
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 1, _, 0);
       SetEntProp(pda, Prop_Send, "m_aBuildableObjectTypes", 1, _, 1);

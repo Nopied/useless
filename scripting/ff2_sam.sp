@@ -25,7 +25,14 @@ public void OnPluginStart2()
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
 	int client=GetClientOfUserId(GetEventInt(event, "userid"));
-	clientWeapon[client]=0;
+
+	if(clientWeapon[client] && IsValidEntity(clientWeapon[client]))
+	{
+		SetEntityRenderMode(clientWeapon[client], RENDER_TRANSCOLOR);
+		SetEntityRenderColor(clientWeapon[client], _, _, _, 255);
+		clientWeapon[client]=0;
+	}
+
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
@@ -54,9 +61,11 @@ void Rage_Sam(int boss)
 			{
 				if(clientWeapon[client] && IsValidEntity(clientWeapon[client]))
 				{
+					SetEntityRenderMode(weapon, RENDER_TRANSCOLOR);
 					SetEntityRenderColor(clientWeapon[client], _, _, _, 255);
 				}
-				SetEntityRenderColor(weapon, 255, 255, 255, 70);
+				SetEntityRenderMode(weapon, RENDER_TRANSCOLOR);
+				SetEntityRenderColor(weapon, 255, 255, 255, 75);
 				clientWeapon[client]=weapon;
 				PrintCenterText(client, "들고 있던 무기를 사용할 수 없게 되었습니다!");
 			}

@@ -3778,7 +3778,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		BossLivesMax[boss]=1;
 	}
 
-	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((760.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
+	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
 	BossDiff[boss]=GetClientDifficultyCookie(client);
 
 	switch(BossDiff[boss])
@@ -4394,7 +4394,7 @@ public Action:CheckItems(Handle:timer, any:userid)
 			case 237:  //Rocket Jumper
 			{
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
-				SpawnWeapon(client, "tf_weapon_rocketlauncher", 237, 1, 0, "114 ; 1 ; 2 ; 2.0 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5");
+				SpawnWeapon(client, "tf_weapon_rocketlauncher", 237, 1, 0, "114 ; 1 ; 2 ; 1.45 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5");
 					//114: Mini-crits targets launched airborne by explosions, grapple hooks or enemy attacks
 				FF2_SetAmmo(client, weapon, 20);
 			}
@@ -4419,7 +4419,7 @@ public Action:CheckItems(Handle:timer, any:userid)
 			case 265:  //Stickybomb Jumper
 			{
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
-				SpawnWeapon(client, "tf_weapon_pipebomblauncher", 265, 1, 0, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0");
+				SpawnWeapon(client, "tf_weapon_pipebomblauncher", 265, 1, 0, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -7.0");
 				FF2_SetAmmo(client, weapon, 24);
 			}
 		}
@@ -5231,9 +5231,18 @@ public Action:ClientTimer(Handle:timer)
 				else if(weapon==GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary))
 				{
 					new healtarget=GetHealingTarget(client, true);
-					if(IsValidClient(healtarget) && TF2_GetPlayerClass(healtarget)==TFClass_Scout)
+					if(IsValidClient(healtarget) && (TF2_GetPlayerClass(healtarget)==TFClass_Scout || index==411)) // 응급조치
 					{
 						TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.3);
+					}
+				}
+
+				if(weapon==GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary) && index==35) // 크리츠
+				{
+					new healtarget=GetHealingTarget(client, true);
+					if(IsValidClient(healtarget))
+					{
+						TF2_AddCondition(healtarget, TFCond_Buffed, 0.3);
 					}
 				}
 			}
