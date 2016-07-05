@@ -3,7 +3,7 @@
 #include <sdktools>
 #include <sdkhooks>
 #include <tf2_stocks>
-#include <colors>
+#include <morecolors>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 #include <tf2items>
@@ -32,8 +32,35 @@ public OnPluginStart2()
 	RegConsoleCmd("ff2dmg", Command_damagetracker, "ff2dmg - Enable/disable the damage tracker.");
 	RegConsoleCmd("haledmg", Command_damagetracker, "haledmg - Enable/disable the damage tracker.");
 
+	AddCommandListener(Listener_Say, "say");
+	AddCommandListener(Listener_Say, "say_team");
+
 	CreateTimer(0.1, Timer_Millisecond);
 	damageHUD = CreateHudSynchronizer();
+}
+
+public Action:Listener_Say(int client, const char[] commands, int argc)
+{
+	if(!IsClientInGame(client))	return Plugin_Continue;
+
+	char chat[150];
+	char command[1][100];
+	bool start=false;
+	GetCmdArgString(chat, sizeof(chat));
+
+	if(strlen(chat)>=2 && (chat[1]=='!' || chat[1]=='/')) start=true;
+	chat[strlen(chat)-1]='\0';
+
+	if(!start) return Plugin_Continue;
+
+	ExplodeString(chat[2], " ", command, 1, 100);
+	if(StrEqual("데미지", command[0], true) ||
+	StrEqual("데미지표시", command[0], true))
+	{
+		DoDamageTracker(client, chat[strlen(command[0])+3]); // 띄어쓰기 때문에 1 추가 그리고 "랑 !를 포함
+		return Plugin_Handled;
+	}
+	return Plugin_Continue;
 }
 
 public Action:Timer_Millisecond(Handle:timer)
@@ -187,6 +214,7 @@ public Action:Command_damagetracker(client, args)
 		PrintToServer("[FF2] The damage tracker cannot be enabled by Console.");
 		return Plugin_Handled;
 	}
+/*
 	if (args == 0)
 	{
 		new String:playersetting[3];
@@ -196,24 +224,45 @@ public Action:Command_damagetracker(client, args)
 		CPrintToChat(client, "혹은 {olive}\"/ff2dmg (슬릇))\"{default}으로 원하는 슬릇을 추가할 수 있습니다.");
 		return Plugin_Handled;
 	}
+*/
 	new String:arg1[64];
-	new newval = 3;
 	GetCmdArgString(arg1, sizeof(arg1));
-	if (StrEqual(arg1,"off",false)) damageTracker[client] = 0;
-	if (StrEqual(arg1,"on",false)) damageTracker[client] = 3;
-	if (StrEqual(arg1,"0",false)) damageTracker[client] = 0;
-	if (StrEqual(arg1,"of",false)) damageTracker[client] = 0;
-	if (!StrEqual(arg1,"off",false) && !StrEqual(arg1,"on",false) && !StrEqual(arg1,"0",false) && !StrEqual(arg1,"of",false))
+	DoDamageTracker(client, arg1);
+
+	return Plugin_Handled;
+}
+
+void DoDamageTracker(int client, const char[] command)
+{
+	if(!strlen(command))
 	{
-		newval = StringToInt(arg1);
+		new String:playersetting[3];
+		if (damageTracker[client] == 0) playersetting = "OFF";
+		if (damageTracker[client] > 0) playersetting = "ON";
+		CPrintToChat(client, "{olive}[FF2]{default} 현재 데미지 표시: {olive}%s{default}.\n{olive}[FF2]{default}{olive}\"!ff2dmg on\"{default} 혹은 {olive}\"!ff2dmg off\"{default}로 수정하실 수 있습니다.", playersetting);
+		CPrintToChat(client, "혹은 {olive}\"/ff2dmg (슬릇))\"{default}으로 원하는 슬릇을 추가할 수 있습니다.");
+		return;
+	}
+	new newval = 3;
+
+	if (StrEqual(command,"off",false)) damageTracker[client] = 0;
+	else if(StrEqual(command,"끄기",false)) damageTracker[client] = 0;
+
+	if (StrEqual(command,"on",false)) damageTracker[client] = 3;
+	else if(StrEqual(command,"켜기",false)) damageTracker[client] = 3;
+
+	if (StrEqual(command,"0",false)) damageTracker[client] = 0;
+	if (StrEqual(command,"of",false)) damageTracker[client] = 0;
+	if (!StrEqual(command,"off",false) && !StrEqual(command,"on",false) && !StrEqual(command,"0",false) && !StrEqual(command,"of",false))
+	{
+		newval = StringToInt(command);
 		new String:newsetting[3];
 		if (newval > 8) newval = 8;
 		if (newval != 0) damageTracker[client] = newval;
-		if (newval != 0 && damageTracker[client] == 0) newsetting = "OFF";
-		if (newval != 0 && damageTracker[client] > 0) newsetting = "ON";
-		CPrintToChat(client, "{olive}[FF2]{default} 데미지 표시: {lightgreen}%s{default}", newsetting);
+		// if (newval != 0 && damageTracker[client] == 0) newsetting = "OFF";
+		// if (newval != 0 && damageTracker[client] > 0) newsetting = "ON";
+		CPrintToChat(client, "{olive}[FF2]{default} 데미지 표시: {lightgreen}%s{default}", damageTracker[client] ? "ON" : "OFF");
 	}
-	return Plugin_Handled;
 }
 
 public OnClientPutInServer(client)

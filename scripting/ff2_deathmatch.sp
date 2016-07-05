@@ -19,6 +19,8 @@ int timeleft;
 Handle MusicKV;
 Handle LastManData;
 
+float NoEnemyTime[MAXPLAYERS+1];
+
 public Plugin:myinfo=
 {
     name="Freak Fortress 2 : Deathmatch Mod",
@@ -56,7 +58,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     {
         CreateTimer(0.1, BeLastMan);
     }
-}
+} //
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
@@ -67,6 +69,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
             IsLastMan[client]=false;
 
             SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+            SDKUnhook(client, SDKHook_PreThinkPost, NoEnemyTimer);
         }
     }
     IsLastManStanding=false;
@@ -171,6 +174,27 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             TF2_IgnitePlayer(victim, attacker);
         }
+        else if(!StrContains(classname, "tf_weapon_shovel") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
+        {
+          damage=((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.08)/3.0;
+          damagetype|=DMG_CRIT;
+
+          EmitSoundToClient(victim, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
+          EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
+          EmitSoundToClient(victim, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
+          EmitSoundToClient(attacker, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
+
+          Handle BossKV=FF2_GetSpecialKV(boss);
+          char playerName[64];
+          char bossName[64];
+
+          GetClientName(attacker, playerName, sizeof(playerName));
+          KvRewind(BossKV);
+          KvGetString(BossKV, "name", bossName, sizeof(bossName), "ERROR NAME");
+
+          CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "지면 마켓가든", bossName, RoundFloat(damage*(255.0/85.0)));
+          return Plugin_Changed; //
+        }
 
         if(damagetype & DMG_BULLET && !(TF2_GetPlayerClass(victim) == TFClass_Sniper || TF2_GetPlayerClass(victim) == TFClass_Heavy))
         {
@@ -259,7 +283,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         );
         CPrintToChatAll("%N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
         winner);
-        // PrintCenterTextAll("%N", winner);
+        PrintCenterTextAll("%N님이 보스와 최후의 결전을 치루게 됩니다!", winner);
 
         for(int i; i<bossCount; i++)
         {
@@ -277,7 +301,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         IsLastMan[winner]=true;
+        NoEnemyTime[winner]=GetGameTime()+10.0;
         SDKHook(winner, SDKHook_OnTakeDamage, OnTakeDamage);
+        SDKHook(winner, SDKHook_PreThinkPost, NoEnemyTimer);
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
@@ -311,12 +337,13 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         TF2_RespawnPlayer(winner);
         TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
         TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
+        TF2_AddCondition(winner, TFCond_SpeedBuffAlly, 10.0);
         GiveLastManWeapon(winner);
 
         SetEntProp(winner, Prop_Data, "m_takedamage", 0);
         SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
 
-        SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Send, "m_iMaxHealth"));
+        SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
         SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
         CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
 
@@ -326,6 +353,30 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         return Plugin_Continue;
     }
     return Plugin_Continue;
+}
+
+public void NoEnemyTimer(int client)
+{
+  if(NoEnemyTime[client]>GetGameTime() && IsClientInGame(client) && IsPlayerAlive(client))
+  {
+    for(int target=1; target<=MaxClients; target++)
+    {
+      if(IsClientInGame(target) && IsPlayerAlive(target) && IsBossTeam(target))
+      {
+        float pos[3];
+        float enemyPos[3];
+
+        GetEntPropVector(client, Prop_Send, "m_vecOrigin", pos);
+        GetEntPropVector(target, Prop_Send, "m_vecOrigin", enemyPos);
+
+        if(GetVectorDistance(pos, enemyPos) <= 150.0)
+        {
+          PushClientsApart(target, client);
+          PrintCenterText(target, "라스트맨이 현재 무적상태이므로 잠시 동안 가까이 갈 수 없습니다.");
+        }
+      }
+    }
+  }
 }
 
 public Action BeLastMan(Handle timer)
@@ -344,12 +395,13 @@ public Action BeLastMan(Handle timer)
     TF2_RespawnPlayer(winner);
     TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
     TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
+    TF2_AddCondition(winner, TFCond_SpeedBuffAlly, 10.0);
     GiveLastManWeapon(winner);
 
     SetEntProp(winner, Prop_Data, "m_takedamage", 0);
     SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
 
-    SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Send, "m_iMaxHealth"));
+    SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
     SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
     CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
 
@@ -681,4 +733,28 @@ stock bool IsBoss(int client)
 stock bool IsBossTeam(int client)
 {
     return FF2_GetBossTeam() == GetClientTeam(client);
+}
+
+stock PushClientsApart(int iClient1, int iClient2) // Copied from Chdata's Fixed Friendly Fire
+{
+    // SetEntProp(iClient1, Prop_Send, "m_CollisionGroup", 2);     // No collision with players and certain projectiles
+    // SetEntProp(iClient2, Prop_Send, "m_CollisionGroup", 2);
+
+    float vVel[3];
+
+    float vOrigin1[3];
+    float vOrigin2[3];
+
+    GetEntPropVector(iClient1, Prop_Send, "m_vecOrigin", vOrigin1);
+    GetEntPropVector(iClient2, Prop_Send, "m_vecOrigin", vOrigin2);
+
+    MakeVectorFromPoints(vOrigin1, vOrigin2, vVel);
+    NormalizeVector(vVel, vVel);
+    ScaleVector(vVel, -250.0);               // Set to 15.0 for a black hole effect
+
+    vVel[1] += 0.1;                         // This is just a safeguard for sm_tele
+    vVel[2] = 0.0;                          // Negate upwards push. += 280.0; for extra upwards push (can have sort of a fan/vent effect)
+
+    new iBaseVelocityOffset = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
+    SetEntDataVector(iClient1, iBaseVelocityOffset, vVel, true);
 }

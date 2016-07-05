@@ -27,14 +27,26 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
   if(FF2_HasAbility(boss, this_plugin_name, "wolf_deflecter"))
   {
 		int client=GetClientOfUserId(GetEventInt(event, "userid"));
+		float abilityTime=FF2_GetAbilityDuration(boss);
 		/*
 		FF2_SetBossCharge(boss, 0, FF2_GetBossCharge(boss, 0)+(GetEventFloat(event, "damage")*100.0/float(FF2_GetBossRageDamage(boss))));
 		if(FF2_GetBossCharge(boss, 0) > 100.0)
 			FF2_SetBossCharge(boss, 0, 100.0);
 		*/
-		SetEntPropFloat(client, Prop_Send, "m_flRageMeter", GetEntPropFloat(client, Prop_Send, "m_flRageMeter")+37.5);
-		FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss)+3.0);
+		SetEntPropFloat(client, Prop_Send, "m_flRageMeter", GetEntPropFloat(client, Prop_Send, "m_flRageMeter")+28.5);
+		if(abilityTime<70.0)
+			FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss)+3.0);
+		else
+			FF2_SetAbilityDuration(boss, 70.0);
   }
+}
+
+public Action FF2_OnBossAbilityTime(int boss, char[] abilityName, float &abilityDuration, float &abilityCooldown)
+{
+	if(abilityDuration <= 0.0 && FF2_HasAbility(boss, this_plugin_name, "wolf_deflecter"))
+	{
+		SetEntPropFloat(GetClientOfUserId(FF2_GetBossUserId(boss)), Prop_Send, "m_flRageMeter", 0.0);
+	}
 }
 
 public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abilityName, int status)
