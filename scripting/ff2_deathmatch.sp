@@ -15,6 +15,7 @@ bool IsLastMan[MAXPLAYERS+1];
 int top[3];
 int BGMCount;
 float timeleft;
+int noticed;
 
 Handle MusicKV;
 Handle LastManData;
@@ -255,30 +256,30 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             continue;
         }
 
-    	for (int z = 1; z <= GetMaxClients(); z++)
-    	{
-    		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[0]))
-    		{
-                top[0] = z;
-    			topDamage[0] = FF2_GetClientDamage(z);
-    		}
-    	}
-    	for (int z = 1; z <= GetMaxClients(); z++)
-    	{
-    		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[1]) && z != top[0])
-    		{
-                top[1] = z;
-    			topDamage[1] = FF2_GetClientDamage(z);
-    		}
-    	}
-    	for (int z = 1; z <= GetMaxClients(); z++)
-    	{
-    		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[2]) && z != top[1] && z != top[0])
-    		{
-                top[2] = z;
-    			topDamage[2] = FF2_GetClientDamage(z);
-    		}
-    	}
+      	for (int z = 1; z <= GetMaxClients(); z++)
+      	{
+      	  if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[0]))
+    		  {
+            top[0] = z;
+            topDamage[0] = FF2_GetClientDamage(z);
+    	    }
+        }
+      	for (int z = 1; z <= GetMaxClients(); z++)
+      	{
+      		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[1]) && z != top[0])
+      		{
+            top[1] = z;
+      			topDamage[1] = FF2_GetClientDamage(z);
+      		}
+      	}
+      	for (int z = 1; z <= GetMaxClients(); z++)
+      	{
+      		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[2]) && z != top[1] && z != top[0])
+      		{
+            top[2] = z;
+      			topDamage[2] = FF2_GetClientDamage(z);
+      		}
+      	}
 
         for(int i; i<3; i++)
         {
@@ -332,7 +333,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         SDKHook(winner, SDKHook_PreThinkPost, NoEnemyTimer);
         timeleft=120.0;
 
-        if(DrawGameTimer==INVALID_HANDLE)
+        if(!DrawGameTimer)
             DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
@@ -395,83 +396,97 @@ public Action OnTimer(Handle timer)
     timeleft-=0.1;
     char timeDisplay[6];
 
-	if(RoundFloat(timeleft)/60>9)
-	{
-		IntToString(time/60, timeDisplay, sizeof(timeDisplay));
-	}
-	else
-	{
-		Format(timeDisplay, sizeof(timeDisplay), "0%i", RoundFloat(timeleft)/60);
-	}
+  	if(RoundFloat(timeleft)/60>9)
+  	{
+  		IntToString(RoundFloat(timeleft)/60, timeDisplay, sizeof(timeDisplay));
+  	}
+  	else
+  	{
+  		Format(timeDisplay, sizeof(timeDisplay), "0%i", RoundFloat(timeleft)/60);
+  	}
 
-	if(RoundFloat(timeleft)%60>9)
-	{
-		Format(timeDisplay, sizeof(timeDisplay), "%s:%i", timeDisplay, RoundFloat(timeleft)%60);
-	}
-	else
-	{
-		Format(timeDisplay, sizeof(timeDisplay), "%s:0%i", timeDisplay, RoundFloat(timeleft)%60);
-	}
+  	if(RoundFloat(timeleft)%60>9)
+  	{
+  		Format(timeDisplay, sizeof(timeDisplay), "%s:%i", timeDisplay, RoundFloat(timeleft)%60);
+  	}
+  	else
+  	{
+  		Format(timeDisplay, sizeof(timeDisplay), "%s:0%i", timeDisplay, RoundFloat(timeleft)%60);
+  	}
 
     if(timeleft<60.0)
     {
-        Format(timeDisplay, sizeof(timeDisplay), "%.1f초", timeDisplay, timeleft));
+      Format(timeDisplay, sizeof(timeDisplay), "%.1f", timeleft);
     }
 
-	SetHudTextParams(-1.0, 0.17, 0.15, 255, 255, 255, 255);
-	for(new client; client<=MaxClients; client++)
-	{
-		if(IsValidClient(client))
-		{
-			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
-		}
-	}
+  	SetHudTextParams(-1.0, 0.17, 0.12, 255, 255, 255, 255);
+  	for(new client; client<=MaxClients; client++)
+  	{
+  		if(IsValidClient(client))
+  		{
+  			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
+  		}
+  	}
 
     switch(RoundFloat(timeleft))
-	{
-		case 300:
-		{
-            // if(IsSoundPrecached())
-			EmitSoundToAll("vo/announcer_ends_5min.mp3");
-		}
-		case 120:
-		{
-			EmitSoundToAll("vo/announcer_ends_2min.mp3");
-		}
-		case 60:
-		{
-			EmitSoundToAll("vo/announcer_ends_60sec.mp3");
-		}
-		case 30:
-		{
-			EmitSoundToAll("vo/announcer_ends_30sec.mp3");
-		}
-		case 10:
-		{
-			EmitSoundToAll("vo/announcer_ends_10sec.mp3");
-		}
-		case 1, 2, 3, 4, 5:
-		{
-			decl String:sound[PLATFORM_MAX_PATH];
-			Format(sound, PLATFORM_MAX_PATH, "vo/announcer_ends_%isec.mp3", time);
-			EmitSoundToAll(sound);
-		}
-		case 0:
-		{
-            DrawGameTimer=INVALID_HANDLE;
+  	{
+  		case 300:
+  		{
+        if(noticed != RoundFloat(timeleft))
+  			   EmitSoundToAll("vo/announcer_ends_5min.mp3");
+        noticed=RoundFloat(timeleft);
+  		}
+  		case 120:
+  		{
+        if(noticed != RoundFloat(timeleft))
+  			   EmitSoundToAll("vo/announcer_ends_2min.mp3");
+        noticed=RoundFloat(timeleft);
+  		}
+  		case 60:
+  		{
+        if(noticed != RoundFloat(timeleft))
+  			   EmitSoundToAll("vo/announcer_ends_60sec.mp3");
+        noticed=RoundFloat(timeleft);
+  		}
+  		case 30:
+  		{
+        if(noticed != RoundFloat(timeleft))
+  			   EmitSoundToAll("vo/announcer_ends_30sec.mp3");
+        noticed=RoundFloat(timeleft);
+  		}
+  		case 10:
+  		{
+        if(noticed != RoundFloat(timeleft))
+          EmitSoundToAll("vo/announcer_ends_10sec.mp3");
+        noticed=RoundFloat(timeleft);
+  		}
+  		case 1, 2, 3, 4, 5:
+  		{
+        if(noticed != RoundFloat(timeleft))
+        {
+    			decl String:sound[PLATFORM_MAX_PATH];
+    			Format(sound, PLATFORM_MAX_PATH, "vo/announcer_ends_%isec.mp3", RoundFloat(timeleft));
+    			EmitSoundToAll(sound);
+        }
+        noticed=RoundFloat(timeleft);
+  		}
+  		case 0:
+  		{
+        DrawGameTimer=INVALID_HANDLE;
 
-            if(IsLastManStanding)
-            {
-                CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
-                ForceTeamWin(FF2_GetBossTeam());
-                return Plugin_Stop;
-            }
-
+        if(IsLastManStanding)
+        {
             CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
             ForceTeamWin(FF2_GetBossTeam());
-            // TODO: 다른 서든데스.
-			return Plugin_Stop;
-		}
+            return Plugin_Stop;
+        }
+
+        CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
+        ForceTeamWin(FF2_GetBossTeam());
+        // TODO: 다른 서든데스.
+  			return Plugin_Stop;
+  		}
+    }
     return Plugin_Continue;
 }
 
@@ -879,7 +894,9 @@ stock PushClientsApart(int iClient1, int iClient2) // Copied from Chdata's Fixed
     SetEntDataVector(iClient1, iBaseVelocityOffset, vVel, true);
 }
 
-stock ForceTeamWin(int team)
+// Copied from FF2
+
+stock void ForceTeamWin(int team)
 {
 	new entity=FindEntityByClassname2(-1, "team_control_point_master");
 	if(!IsValidEntity(entity))
@@ -890,4 +907,13 @@ stock ForceTeamWin(int team)
 	}
 	SetVariantInt(team);
 	AcceptEntityInput(entity, "SetWinner");
+}
+
+stock int FindEntityByClassname2(startEnt, const char[] classname)
+{
+	while(startEnt>-1 && !IsValidEntity(startEnt))
+	{
+		startEnt--;
+	}
+	return FindEntityByClassname(startEnt, classname);
 }
