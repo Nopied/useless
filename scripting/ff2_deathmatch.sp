@@ -14,10 +14,11 @@ bool IsLastMan[MAXPLAYERS+1];
 
 int top[4];
 int BGMCount;
-int timeleft;
+float timeleft;
 
 Handle MusicKV;
 Handle LastManData;
+Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 
 float NoEnemyTime[MAXPLAYERS+1];
 
@@ -33,7 +34,7 @@ public void OnPluginStart()
 {
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
-    // HookEvent("arena_round_start", OnRoundStart, EventHookMode_Pre);
+    HookEvent("teamplay_round_start", OnRoundStart, EventHookMode_Pre);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
     // TODO: pass 커맨드 구현.
 
@@ -50,6 +51,25 @@ public void OnMapStart()
   PrecacheMusic();
 }
 
+public Action OnRoundStart(Handle event, const char[] name, bool dont)
+{
+    CreateTimer(10.4, RoundStarted, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action RoundStarted(Handle timer)
+{
+    if(FF2_GetRoundState() != 1) return Plugin_Continue;
+
+    if(CheckAlivePlayers() <= 2){ // TODO: 커스터마이즈
+        CPrintToChatAll("{olive}[FF2]{default} {green}최소 %d명{default}이 있어야 타이머가 작동됩니다.", 2);
+        return Plugin_Continue;
+    }
+
+    timeleft=float(CheckAlivePlayers()*15)+60.0;
+    DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+    return Plugin_Continue;
+}
+
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
     int client=GetClientOfUserId(GetEventInt(event, "userid"));
@@ -58,7 +78,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     {
         CreateTimer(0.1, BeLastMan);
     }
-} //
+}
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
@@ -73,6 +93,11 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
         }
     }
     IsLastManStanding=false;
+    if(DrawGameTimer!=INVALID_HANDLE) // What?
+    {
+        KillTimer(DrawGameTimer);
+        DrawGameTimer=INVALID_HANDLE;
+    }
     return Plugin_Continue;
 }
 
@@ -161,14 +186,14 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             int explosion=CreateEntityByName("env_explosion");
 
             DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
-      			SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
-      			SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
-      			SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
-      			DispatchSpawn(explosion);
+      		SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
+      		SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
+      		SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
+      		DispatchSpawn(explosion);
 
-      			TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
-      			AcceptEntityInput(explosion, "Explode");
-      			AcceptEntityInput(explosion, "kill");
+      		TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
+      		AcceptEntityInput(explosion, "Explode");
+      		AcceptEntityInput(explosion, "kill");
         }
         else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Pyro)
         {
@@ -231,20 +256,20 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
           if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
       		{
-            top[3]=top[2];
+                top[3]=top[2];
       			top[2]=top[1];
       			top[1]=top[0];
       			top[0]=client;
       		}
       		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[1]))
       		{
-            top[3]=top[2];
+                top[3]=top[2];
       			top[2]=top[1];
       			top[1]=client;
       		}
       		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[2]))
       		{
-            top[3]=top[2];
+                top[3]=top[2];
       			top[2]=client;
       		}
           else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[3]))
@@ -304,6 +329,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         NoEnemyTime[winner]=GetGameTime()+10.0;
         SDKHook(winner, SDKHook_OnTakeDamage, OnTakeDamage);
         SDKHook(winner, SDKHook_PreThinkPost, NoEnemyTimer);
+        timeleft=120.0;
+
+        if(DrawGameTimer==INVALID_HANDLE)
+            DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
@@ -352,6 +381,96 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         FF2_LoadMusicData(MusicKV);
         return Plugin_Continue;
     }
+    return Plugin_Continue;
+}
+
+public Action OnTimer(Handle timer)
+{
+    if(FF2_GetRoundState() != 1 || timeleft < 0.0)
+    {
+        return Plugin_Stop;
+    }
+    Handle timeleftHUD=CreateHudSynchronizer();
+    timeleft-=0.1;
+    char timeDisplay[6];
+
+	if(RoundFloat(timeleft)/60>9)
+	{
+		IntToString(time/60, timeDisplay, sizeof(timeDisplay));
+	}
+	else
+	{
+		Format(timeDisplay, sizeof(timeDisplay), "0%i", RoundFloat(timeleft)/60);
+	}
+
+	if(RoundFloat(timeleft)%60>9)
+	{
+		Format(timeDisplay, sizeof(timeDisplay), "%s:%i", timeDisplay, RoundFloat(timeleft)%60);
+	}
+	else
+	{
+		Format(timeDisplay, sizeof(timeDisplay), "%s:0%i", timeDisplay, RoundFloat(timeleft)%60);
+	}
+
+    if(timeleft<60.0)
+    {
+        Format(timeDisplay, sizeof(timeDisplay), "%.1f초", timeDisplay, timeleft));
+    }
+
+	SetHudTextParams(-1.0, 0.17, 0.15, 255, 255, 255, 255);
+	for(new client; client<=MaxClients; client++)
+	{
+		if(IsValidClient(client))
+		{
+			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
+		}
+	}
+
+    switch(RoundFloat(timeleft))
+	{
+		case 300:
+		{
+            // if(IsSoundPrecached())
+			EmitSoundToAll("vo/announcer_ends_5min.mp3");
+		}
+		case 120:
+		{
+			EmitSoundToAll("vo/announcer_ends_2min.mp3");
+		}
+		case 60:
+		{
+			EmitSoundToAll("vo/announcer_ends_60sec.mp3");
+		}
+		case 30:
+		{
+			EmitSoundToAll("vo/announcer_ends_30sec.mp3");
+		}
+		case 10:
+		{
+			EmitSoundToAll("vo/announcer_ends_10sec.mp3");
+		}
+		case 1, 2, 3, 4, 5:
+		{
+			decl String:sound[PLATFORM_MAX_PATH];
+			Format(sound, PLATFORM_MAX_PATH, "vo/announcer_ends_%isec.mp3", time);
+			EmitSoundToAll(sound);
+		}
+		case 0:
+		{
+            DrawGameTimer=INVALID_HANDLE;
+
+            if(IsLastManStanding)
+            {
+                CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
+                ForceTeamWin(FF2_GetBossTeam());
+                return Plugin_Stop;
+            }
+
+            CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
+            ForceTeamWin(FF2_GetBossTeam());
+            // TODO: 다른 서든데스.
+			return Plugin_Stop;
+		}
     return Plugin_Continue;
 }
 
@@ -750,11 +869,24 @@ stock PushClientsApart(int iClient1, int iClient2) // Copied from Chdata's Fixed
 
     MakeVectorFromPoints(vOrigin1, vOrigin2, vVel);
     NormalizeVector(vVel, vVel);
-    ScaleVector(vVel, -250.0);               // Set to 15.0 for a black hole effect
+    ScaleVector(vVel, -300.0);               // Set to 15.0 for a black hole effect
 
     vVel[1] += 0.1;                         // This is just a safeguard for sm_tele
     vVel[2] = 0.0;                          // Negate upwards push. += 280.0; for extra upwards push (can have sort of a fan/vent effect)
 
     new iBaseVelocityOffset = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
     SetEntDataVector(iClient1, iBaseVelocityOffset, vVel, true);
+}
+
+stock ForceTeamWin(int team)
+{
+	new entity=FindEntityByClassname2(-1, "team_control_point_master");
+	if(!IsValidEntity(entity))
+	{
+		entity=CreateEntityByName("team_control_point_master");
+		DispatchSpawn(entity);
+		AcceptEntityInput(entity, "Enable");
+	}
+	SetVariantInt(team);
+	AcceptEntityInput(entity, "SetWinner");
 }
