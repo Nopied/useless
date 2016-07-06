@@ -12,7 +12,7 @@
 bool IsLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 
-int top[4];
+int top[3];
 int BGMCount;
 float timeleft;
 
@@ -239,7 +239,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     {
         IsLastManStanding=true;
         int bosses[MAXPLAYERS+1];
-        int topDamage[4];
+        int topDamage[3];
         int totalDamage;
         int bossCount;
 
@@ -253,34 +253,35 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
           }
           else if(IsBossTeam(client)) // FF2_GetClientDamage(client)<=0 ||
             continue;
-
-          if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[0]))
-      		{
-                top[3]=top[2];
-      			top[2]=top[1];
-      			top[1]=top[0];
-      			top[0]=client;
-      		}
-      		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[1]))
-      		{
-                top[3]=top[2];
-      			top[2]=top[1];
-      			top[1]=client;
-      		}
-      		else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[2]))
-      		{
-                top[3]=top[2];
-      			top[2]=client;
-      		}
-          else if(FF2_GetClientDamage(client)>=FF2_GetClientDamage(top[3]))
-      		{
-      			top[3]=client;
-      		}
         }
+
+    	for (int z = 1; z <= GetMaxClients(); z++)
+    	{
+    		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[0]))
+    		{
+                top[0] = z;
+    			topDamage[0] = FF2_GetClientDamage(z);
+    		}
+    	}
+    	for (int z = 1; z <= GetMaxClients(); z++)
+    	{
+    		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[1]) && z != top[0])
+    		{
+                top[1] = z;
+    			topDamage[1] = FF2_GetClientDamage(z);
+    		}
+    	}
+    	for (int z = 1; z <= GetMaxClients(); z++)
+    	{
+    		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[2]) && z != top[1] && z != top[0])
+    		{
+                top[2] = z;
+    			topDamage[2] = FF2_GetClientDamage(z);
+    		}
+    	}
 
         for(int i; i<3; i++)
         {
-            topDamage[i]=FF2_GetClientDamage(top[i]);
             totalDamage+=topDamage[i];
         }
 
@@ -302,9 +303,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         CPrintToChatAll("{olive}[FF2]{default} 확률: %N - %.2f%% | %N - %.2f%% | %N - %.2f%%",
-        top[0], float(FF2_GetClientDamage(top[0]))/float(totalDamage)*100.0,
-        top[1], float(FF2_GetClientDamage(top[1]))/float(totalDamage)*100.0,
-        top[2], float(FF2_GetClientDamage(top[2]))/float(totalDamage)*100.0
+        top[0], float(topDamage[0])/float(totalDamage)*100.0,
+        top[1], float(topDamage[1])/float(totalDamage)*100.0,
+        top[2], float(topDamage[2])/float(totalDamage)*100.0
         );
         CPrintToChatAll("%N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
         winner);
