@@ -328,7 +328,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         IsLastMan[winner]=true;
-        NoEnemyTime[winner]=GetGameTime()+10.0;
+        NoEnemyTime[winner]=GetGameTime()+12.0;
         SDKHook(winner, SDKHook_OnTakeDamage, OnTakeDamage);
         SDKHook(winner, SDKHook_PreThinkPost, NoEnemyTimer);
         timeleft=120.0;
@@ -374,8 +374,8 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         SetEntProp(winner, Prop_Data, "m_takedamage", 0);
         SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
 
-        SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
-        SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
+        // SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
+        // SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
         CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
 
         FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
@@ -419,7 +419,7 @@ public Action OnTimer(Handle timer)
       Format(timeDisplay, sizeof(timeDisplay), "%.1f", timeleft);
     }
 
-  	SetHudTextParams(-1.0, 0.17, 0.12, 255, 255, 255, 255);
+  	SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
   	for(new client; client<=MaxClients; client++)
   	{
   		if(IsValidClient(client))
@@ -432,59 +432,59 @@ public Action OnTimer(Handle timer)
   	{
   		case 300:
   		{
-        if(noticed != RoundFloat(timeleft))
-  			   EmitSoundToAll("vo/announcer_ends_5min.mp3");
-        noticed=RoundFloat(timeleft);
+            if(noticed != RoundFloat(timeleft))
+      			   EmitSoundToAll("vo/announcer_ends_5min.mp3");
+            noticed=RoundFloat(timeleft);
   		}
   		case 120:
   		{
-        if(noticed != RoundFloat(timeleft))
-  			   EmitSoundToAll("vo/announcer_ends_2min.mp3");
-        noticed=RoundFloat(timeleft);
+            if(noticed != RoundFloat(timeleft))
+      			   EmitSoundToAll("vo/announcer_ends_2min.mp3");
+            noticed=RoundFloat(timeleft);
   		}
   		case 60:
   		{
-        if(noticed != RoundFloat(timeleft))
-  			   EmitSoundToAll("vo/announcer_ends_60sec.mp3");
-        noticed=RoundFloat(timeleft);
+            if(noticed != RoundFloat(timeleft))
+      			   EmitSoundToAll("vo/announcer_ends_60sec.mp3");
+            noticed=RoundFloat(timeleft);
   		}
   		case 30:
   		{
-        if(noticed != RoundFloat(timeleft))
-  			   EmitSoundToAll("vo/announcer_ends_30sec.mp3");
-        noticed=RoundFloat(timeleft);
-  		}
+            if(noticed != RoundFloat(timeleft))
+      			   EmitSoundToAll("vo/announcer_ends_30sec.mp3");
+            noticed=RoundFloat(timeleft);
+      	}
   		case 10:
   		{
-        if(noticed != RoundFloat(timeleft))
-          EmitSoundToAll("vo/announcer_ends_10sec.mp3");
-        noticed=RoundFloat(timeleft);
+            if(noticed != RoundFloat(timeleft))
+              EmitSoundToAll("vo/announcer_ends_10sec.mp3");
+            noticed=RoundFloat(timeleft);
   		}
   		case 1, 2, 3, 4, 5:
   		{
-        if(noticed != RoundFloat(timeleft))
-        {
-    			decl String:sound[PLATFORM_MAX_PATH];
-    			Format(sound, PLATFORM_MAX_PATH, "vo/announcer_ends_%isec.mp3", RoundFloat(timeleft));
-    			EmitSoundToAll(sound);
-        }
-        noticed=RoundFloat(timeleft);
+            if(noticed != RoundFloat(timeleft))
+            {
+        			decl String:sound[PLATFORM_MAX_PATH];
+        			Format(sound, PLATFORM_MAX_PATH, "vo/announcer_ends_%isec.mp3", RoundFloat(timeleft));
+        			EmitSoundToAll(sound);
+            }
+            noticed=RoundFloat(timeleft);
   		}
   		case 0:
   		{
-        DrawGameTimer=INVALID_HANDLE;
+            DrawGameTimer=INVALID_HANDLE;
 
-        if(IsLastManStanding)
-        {
+            if(IsLastManStanding)
+            {
+                CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
+                ForceTeamWin(FF2_GetBossTeam());
+                return Plugin_Stop;
+            }
+
             CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
             ForceTeamWin(FF2_GetBossTeam());
-            return Plugin_Stop;
-        }
-
-        CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
-        ForceTeamWin(FF2_GetBossTeam());
-        // TODO: 다른 서든데스.
-  			return Plugin_Stop;
+            // TODO: 다른 서든데스.
+      		return Plugin_Stop;
   		}
     }
     return Plugin_Continue;
@@ -504,10 +504,10 @@ public void NoEnemyTimer(int client)
         GetEntPropVector(client, Prop_Send, "m_vecOrigin", pos);
         GetEntPropVector(target, Prop_Send, "m_vecOrigin", enemyPos);
 
-        if(GetVectorDistance(pos, enemyPos) <= 150.0)
+        if(GetVectorDistance(pos, enemyPos) <= 250.0)
         {
           PushClientsApart(target, client);
-          PrintCenterText(target, "라스트맨이 현재 무적상태이므로 잠시 동안 가까이 갈 수 없습니다.");
+          PrintCenterText(target, "라스트맨에게 잠시만 시간을 주세요!");
         }
       }
     }
@@ -517,7 +517,7 @@ public void NoEnemyTimer(int client)
 public Action BeLastMan(Handle timer)
 {
     FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
-    if(!LastManData || !IsPackReadable(LastManData, 4))
+    if(!LastManData || !IsPackReadable(LastManData, 0))
     {
       Debug("LastManData is invalid! what!?!?");
       return Plugin_Continue;
@@ -536,8 +536,8 @@ public Action BeLastMan(Handle timer)
     SetEntProp(winner, Prop_Data, "m_takedamage", 0);
     SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
 
-    SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
-    SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
+    // SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
+    // SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
     CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
 
     if(alive)
