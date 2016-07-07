@@ -486,7 +486,9 @@ public Action OnTimer(Handle timer)
             // TODO: 다른 서든데스.
       		return Plugin_Stop;
   		}
+
     }
+    CloseHandle(timeleftHUD);
     return Plugin_Continue;
 }
 
