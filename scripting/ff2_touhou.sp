@@ -14,9 +14,8 @@
 int BeamSprite, HaloSprite;
 
 float clientRageBeamTime[MAXPLAYERS+1];
-Handle clientRageTimer[MAXPLAYERS+1];
-
-float endPos[3];
+float clientRageBeamWarmTime[MAXPLAYERS+1];
+Handle clientRageTimer[MAXPLAYERS+1]=INVALID_HANDLE;
 
 public Plugin myinfo=
 {
@@ -29,13 +28,17 @@ public Plugin myinfo=
 public void OnPluginStart2()
 {
   BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+  HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 }
 
 public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abilityName, int status)
 {
   if(!strcmp(abilityName, "laser_attack"))
   {
+    if(!BeamSprite || !HaloSprite){
+      BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
+      HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+    }
     Rage_Beam(boss);
   }
 }
@@ -45,7 +48,10 @@ Rage_Beam(int boss)
   int client=GetClientOfUserId(FF2_GetBossUserId(boss));
 
   clientRageBeamTime[client]=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 1, 10.0);
-  Debug("분노 사용함. laser_attack");
+  clientRageBeamWarmTime[client]=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 2, 1.5);
+
+  SetEntityMoveType(client, MOVETYPE_NONE);
+  TF2_AddCondition(client, TFCond_Ubercharged, clientRageBeamTime[client]+clientRageBeamWarmTime[client]);
 
   clientRageTimer[client]=CreateTimer(0.1, OnBeam, client, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 }
@@ -55,51 +61,62 @@ public Action OnBeam(Handle timer, int client)
   if(!IsClientInGame(client) || !IsPlayerAlive(client) || clientRageBeamTime[client]<=0.0)
   {
     clientRageBeamTime[client]=0.0;
+    clientRageBeamWarmTime[client]=0.0;
+    SetEntityMoveType(client, MOVETYPE_WALK);
     clientRageTimer[client]=INVALID_HANDLE;
     return Plugin_Stop;
   }
 
-  // CreateBeam(client);
+  if(clientRageBeamWarmTime[client]>0.0)
+  {
+    clientRageBeamWarmTime[client]-=0.1;
+    return Plugin_Continue;
+  }
+  else
+    clientRageBeamTime[client]-=0.1;
 
-  clientRageBeamTime[client]-=0.1;
   float clientPos[3];
-  float clientEyeAngles[3];
-  float spawnPoint[3];
+  float end_pos[3];
 
   GetClientEyePosition(client, clientPos);
-  GetClientEyeAngles(client, clientEyeAngles);
-  // Debug("남은 시간: %.1f", clientRageBeamTime[client]);
+  GetEyeEndPos(client, 0.0, end_pos);
 
-  Handle trace;
-  trace = TR_TraceRayFilterEx(clientPos, clientEyeAngles, _, RayType_Infinite, TraceWallsOnly);
-  // trace = TR_TraceRayFilterEx(eyePosition, eyeAngles, MASK_ALL, RayType_Infinite, TraceWallsOnly);
-  // bool playerHit = TR_GetHitGroup(trace) > 0; // group 0 is "generic" which I hope includes nothing. 1=head 2=chest 3=stomach 4=leftarm 5=rightarm 6=leftleg 7=rightleg (shareddefs.h)
-  TR_GetEndPosition(spawnPoint, trace);
-  CloseHandle(trace);
   clientPos[0]-=2.3;
   clientPos[2]-=5.0;
-  // Debug("pos[1]: %.1f, pos[2]: %.1f, pos[3]: %.1f", spawnPoint[0], spawnPoint[1], spawnPoint[2]);
 
-  TE_SetupBeamPoints(clientPos, spawnPoint, BeamSprite, HaloSprite, 0, 50, 0.1, 6.0, 25.0, 0, 64.0, {255, 0, 0, 255}, 40);
+  TE_SetupBeamPoints(clientPos, end_pos, BeamSprite, HaloSprite, 0, 50, 0.1, 6.0, 25.0, 0, 64.0, {255, 0, 0, 255}, 40);
   TE_SendToAll();
+  //TODO: 빔 색 커스터마이즈
 
   for(int target=1; target<=MaxClients; target++)
   {
     if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(target) != FF2_GetBossTeam())
     {
-      continue;
+      float targetPos[3];
+      float targetEndPos[3];
+
+      GetClientEyePosition(target, targetPos);
+      GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+
+      if(GetVectorDistance(targetPos, targetEndPos) <= 40.0 && !TF2_IsPlayerInCondition(target, TFCond_Ubercharged))
+      {
+        SDKHooks_TakeDamage(target, client, client, 12.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
+        //TODO: 불 설정 커스터마이즈
+      }
     }
   }
   return Plugin_Continue;
 }
 
+/*
 public bool TraceWallsOnly(entity, contentsMask)
 {
 	return false;
 }
+*/
 
-/*
-public void GetEyeEndPos(int client, float max_distance)
+
+public void GetEyeEndPos(int client, float max_distance, float endPos[3])
 {
 	if(IsClientInGame(client))
 	{
@@ -115,11 +132,11 @@ public void GetEyeEndPos(int client, float max_distance)
 			ScaleVector(PlayerAimVector,max_distance);
 		}
 		else{
-			ScaleVector(PlayerAimVector,56756.0);
-			AddVectors(PlayerEyePos,PlayerAimVector,endPos);
+			ScaleVector(PlayerAimVector,3000.0);
 		}
+    AddVectors(PlayerEyePos,PlayerAimVector,endPos);
 	}
 }
-*/
+
 
 // stock int CreateBeam(int client, )

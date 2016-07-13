@@ -179,22 +179,25 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         }
         else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
         {
+          if(!TF2_IsPlayerInCondition(victim, TFCond_MegaHeal) && !(GetEntityFlags(victim) & FL_ONGROUND))
+          {
             float velocity[3];
             GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
             velocity[2]+=650.0;
             TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
+          }
 
-            int explosion=CreateEntityByName("env_explosion");
+          int explosion=CreateEntityByName("env_explosion");
 
-            DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
-      		SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
-      		SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
-      		SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
-      		DispatchSpawn(explosion);
+          DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
+          SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
+          SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
+        	SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
+          DispatchSpawn(explosion);
 
-      		TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
-      		AcceptEntityInput(explosion, "Explode");
-      		AcceptEntityInput(explosion, "kill");
+          TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
+          AcceptEntityInput(explosion, "Explode");
+          AcceptEntityInput(explosion, "kill");
         }
         else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Pyro)
         {
@@ -481,10 +484,12 @@ public Action OnTimer(Handle timer)
                 return Plugin_Stop;
             }
 
-            CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
-            ForceTeamWin(FF2_GetBossTeam());
+            int loser=GetLowestDamagePlayer();
+            timeleft=30.0;
+            ForcePlayerSuicide(loser);
+            CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님이 {olive}데미지가 가장 낮아{default} 사망합니다.", loser);
             // TODO: 다른 서든데스.
-      		return Plugin_Stop;
+      		  return Plugin_Continue;
   		}
 
     }
@@ -918,4 +923,28 @@ stock int FindEntityByClassname2(startEnt, const char[] classname)
 		startEnt--;
 	}
 	return FindEntityByClassname(startEnt, classname);
+}
+
+stock int GetLowestDamagePlayer() //
+{
+  int targetCount=0;
+  int targetList[MAXPLAYERS+1];
+  int lowestTarget;
+  bool enableTargetList=false;
+
+  for (int z = 1; z <= GetMaxClients(); z++)
+  {
+    if (IsClientInGame(z) && FF2_GetClientDamage(z) <= (lowestTarget==0 ? 50000 : FF2_GetClientDamage(lowestTarget)))
+    {
+      if(lowestTarget && FF2_GetClientDamage(z) == FF2_GetClientDamage(lowestTarget)){
+        enableTargetList=true;
+        targetList[targetCount++]=z;
+        continue;
+      }
+
+      lowestTarget=z;
+    }
+  }
+
+  return enableTargetList ? targetList[GetRandomInt(0, targetCount-1)] : lowestTarget;
 }
