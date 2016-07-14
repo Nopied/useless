@@ -259,27 +259,27 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             continue;
         }
 
-      	for (int z = 1; z <= GetMaxClients(); z++)
+      	for (int z = 1; z <= MaxClients; z++)
       	{
       	  if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[0]))
-    		  {
+          {
             top[0] = z;
             topDamage[0] = FF2_GetClientDamage(z);
-    	    }
+    	  }
         }
-      	for (int z = 1; z <= GetMaxClients(); z++)
+      	for (int z = 1; z <= MaxClients; z++)
       	{
       		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[1]) && z != top[0])
       		{
-            top[1] = z;
+                top[1] = z;
       			topDamage[1] = FF2_GetClientDamage(z);
       		}
       	}
-      	for (int z = 1; z <= GetMaxClients(); z++)
+      	for (int z = 1; z <= MaxClients; z++)
       	{
       		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[2]) && z != top[1] && z != top[0])
       		{
-            top[2] = z;
+                top[2] = z;
       			topDamage[2] = FF2_GetClientDamage(z);
       		}
       	}
@@ -934,7 +934,7 @@ stock int GetLowestDamagePlayer() //
 
   for (int z = 1; z <= GetMaxClients(); z++)
   {
-    if (IsClientInGame(z) && FF2_GetClientDamage(z) <= (lowestTarget==0 ? 50000 : FF2_GetClientDamage(lowestTarget)))
+    if (IsClientInGame(z) && GetClientTeam(z) != FF2_GetBossTeam() && FF2_GetClientDamage(z) <= (lowestTarget==0 ? 50000 : FF2_GetClientDamage(lowestTarget)))
     {
       if(lowestTarget && FF2_GetClientDamage(z) == FF2_GetClientDamage(lowestTarget)){
         enableTargetList=true;
