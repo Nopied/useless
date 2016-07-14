@@ -54,14 +54,14 @@ public void OnMapStart()
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
-    CreateTimer(10.4, RoundStarted, _, TIMER_FLAG_NO_MAPCHANGE);
+    CreateTimer(15.4, RoundStarted, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action RoundStarted(Handle timer)
 {
     if(FF2_GetRoundState() != 1) return Plugin_Continue;
 
-    if(CheckAlivePlayers() <= 2){ // TODO: 커스터마이즈
+    if(CheckAlivePlayers() < 2){ // TODO: 커스터마이즈
         CPrintToChatAll("{olive}[FF2]{default} {green}최소 %d명{default}이 있어야 타이머가 작동됩니다.", 2);
         return Plugin_Continue;
     }
@@ -93,7 +93,9 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
             SDKUnhook(client, SDKHook_PreThinkPost, NoEnemyTimer);
         }
     }
+
     IsLastManStanding=false;
+    timeleft=0.0;
     if(DrawGameTimer!=INVALID_HANDLE) // What?
     {
         KillTimer(DrawGameTimer);
@@ -271,7 +273,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       	{
       		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[1]) && z != top[0])
       		{
-                top[1] = z;
+            top[1] = z;
       			topDamage[1] = FF2_GetClientDamage(z);
       		}
       	}
@@ -279,7 +281,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       	{
       		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[2]) && z != top[1] && z != top[0])
       		{
-                top[2] = z;
+            top[2] = z;
       			topDamage[2] = FF2_GetClientDamage(z);
       		}
       	}
@@ -336,7 +338,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         SDKHook(winner, SDKHook_PreThinkPost, NoEnemyTimer);
         timeleft=120.0;
 
-        if(!DrawGameTimer)
+        if(timeleft<=0.0)
             DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
@@ -934,7 +936,7 @@ stock int GetLowestDamagePlayer() //
 
   for (int z = 1; z <= GetMaxClients(); z++)
   {
-    if (IsClientInGame(z) && GetClientTeam(z) != FF2_GetBossTeam() && FF2_GetClientDamage(z) <= (lowestTarget==0 ? 50000 : FF2_GetClientDamage(lowestTarget)))
+    if (IsClientInGame(z) && IsPlayerAlive(z) && GetClientTeam(z) != FF2_GetBossTeam() && FF2_GetClientDamage(z) <= (lowestTarget==0 ? 50000 : FF2_GetClientDamage(lowestTarget)))
     {
       if(lowestTarget && FF2_GetClientDamage(z) == FF2_GetClientDamage(lowestTarget)){
         enableTargetList=true;
