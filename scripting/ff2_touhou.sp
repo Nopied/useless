@@ -13,11 +13,14 @@ arg9: 번개 효과 모델(?) 경로 (arg7이랑은 다른 부분입니다.)
 arg10: 레이저에 불 효과?
 arg11: 레이저 범위
 arg12: 건물 데미지 보너스
+arg13: 플레이어 피격 사운드
+arg14: 관통시 소환될 파티클 이름
+arg15: 파티클의 유지시간
 
-arg15:Red (레이저 색상)(0 - 255)
-arg16:Green (레이저 색상)(0 - 255)
-arg17:Blue (레이저 색상)(0 - 255)
-arg18: 레이저 투명도(완전 투명: 0 - 완전 잘 보임: 255)
+arg20:Red (레이저 색상)(0 - 255)
+arg21:Green (레이저 색상)(0 - 255)
+arg22:Blue (레이저 색상)(0 - 255)
+arg23: 레이저 투명도(완전 투명: 0 - 완전 잘 보임: 255)
 
 필독: arg7과 arg9는 미적용시 기본 모델로 바뀝니다.
 */
@@ -27,7 +30,6 @@ arg18: 레이저 투명도(완전 투명: 0 - 완전 잘 보임: 255)
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 #include <sdkhooks>
-// 이유없이 선언한게 현재 있긴 하지만, 추후엔 분명히 쓰일 것임.
 
 int BeamSprite[MAXPLAYERS+1], HaloSprite[MAXPLAYERS+1];
 
@@ -112,6 +114,7 @@ public Action OnBeam(Handle timer, int client)
   }
 
   int boss=FF2_GetBossIndex(client);
+  char path[PLATFORM_MAX_PATH];
 
   if(FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 5, 1))
     EarthQuakeEffect(client);
@@ -121,7 +124,6 @@ public Action OnBeam(Handle timer, int client)
     return Plugin_Continue;
   }
   else if(clientRageBeamWarmTime[client]<=0.0 && clientRageBeamWarmTime[client] != -1.0){
-    char path[PLATFORM_MAX_PATH];
     FF2_GetAbilityArgumentString(boss, this_plugin_name, "laser_attack", 8, path, sizeof(path));
     EmitSoundToAll(path);
 
@@ -131,27 +133,50 @@ public Action OnBeam(Handle timer, int client)
   clientRageBeamTime[client]-=0.1;
 
   float clientPos[3];
+  float clientEyeAngles[3];
   float end_pos[3];
   float damage=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 4, 12.0);
   float range=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 11, 50.0);
   int rgba[4];
 
-  rgba[0]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 15, 0);
-  rgba[1]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 16, 255);
-  rgba[2]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 17, 0);
-  rgba[3]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 18, 255);
+  rgba[0]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 20, 0);
+  rgba[1]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 21, 255);
+  rgba[2]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 22, 0);
+  rgba[3]=FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 23, 255);
 
   GetClientEyePosition(client, clientPos);
+  GetClientEyeAngles(client, clientEyeAngles);
   GetEyeEndPos(client, 0.0, end_pos);
 
-  clientPos[2]-=13.0;
+  clientPos[2]-=15.0;
 
   TE_SetupBeamPoints(clientPos, end_pos, BeamSprite[client], HaloSprite[client], 10, 50, 0.1, 6.0, 25.0, 0, 64.0, rgba, 40);
   TE_SendToAll();
-  //TODO: 빔 색 커스터마이즈
+
+  /*
+    파티클 구문
+  */
+  float particlePos[3];
+  float particleTime=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 15, 0.12);
+  FF2_GetAbilityArgumentString(boss, this_plugin_name, "laser_attack", 14, path, sizeof(path));
+  Handle trace;
+
+  trace = TR_TraceRayFilterEx(clientPos, clientEyeAngles, MASK_ALL, RayType_Infinite, TraceAnything);
+  TR_GetEndPosition(particlePos, trace);
+
+  if(path[0] == '\0')
+      while(!TR_PointOutsideWorld(particlePos))
+      {
+          CreateTimer(particleTime, RemoveEntity, EntIndexToEntRef(AttachParticle(client, path, particlePos)), TIMER_FLAG_NO_MAPCHANGE);
+          CreateTimer(particleTime, RemoveEntity, EntIndexToEntRef(AttachParticle(client, path, particlePos, false)), TIMER_FLAG_NO_MAPCHANGE);
+
+          trace = TR_TraceRayFilterEx(particlePos, clientEyeAngles, MASK_ALL, RayType_Infinite, TraceAnything);
+          TR_GetEndPosition(particlePos, trace);
+      }
 
   float targetPos[3];
   float targetEndPos[3];
+  FF2_GetAbilityArgumentString(boss, this_plugin_name, "laser_attack", 13, path, sizeof(path));
 
   for(int target=1; target<=MaxClients; target++)
   {
@@ -164,6 +189,11 @@ public Action OnBeam(Handle timer, int client)
       {
         SDKHooks_TakeDamage(target, client, client, damage, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
 
+        if(path[0] != '\0'){
+            EmitSoundToAll(path, target, _, _, _, _, _, target, targetPos);
+            EmitSoundToAll(path, target, _, _, _, _, _, target, targetPos);
+        }
+
         if(FF2_GetAbilityArgument(boss, this_plugin_name, "laser_attack", 10, 1))
             TF2_IgnitePlayer(target, client);
       }
@@ -171,17 +201,6 @@ public Action OnBeam(Handle timer, int client)
   }
 
   int ent = -1;
-
-  while((ent = FindEntityByClassname(ent, "obj_dispenser")) != -1)  // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
-  {
-    GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
-    GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
-
-    if(GetVectorDistance(targetPos, targetEndPos) <= range)
-    {
-      SDKHooks_TakeDamage(ent, client, client, damage*FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 12, 1.5), DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
-    }
-  }
 
   while((ent = FindEntityByClassname(ent, "obj_sentrygun")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
   {
@@ -194,7 +213,7 @@ public Action OnBeam(Handle timer, int client)
     }
   }
 
-  while((ent = FindEntityByClassname(ent, "obj_teleporter")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+  while((ent = FindEntityByClassname(ent, "obj_dispenser")) != -1)  // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
   {
     GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
     GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
@@ -206,8 +225,32 @@ public Action OnBeam(Handle timer, int client)
   }
 
 
+  while((ent = FindEntityByClassname(ent, "obj_teleporter")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+  {
+    GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+    GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+
+    if(GetVectorDistance(targetPos, targetEndPos) <= range)
+    {
+      SDKHooks_TakeDamage(ent, client, client, damage*FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 12, 1.5), DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
+    }
+  }
 
   return Plugin_Continue;
+}
+
+public Action RemoveEntity(Handle timer, int entid)
+{
+	int entity=EntRefToEntIndex(entid);
+	if(IsValidEntity(entity) && entity>MaxClients)
+	{
+		AcceptEntityInput(entity, "Kill");
+	}
+}
+
+public void TraceAnything(int entity, int contentsMask)
+{
+    return true;
 }
 
 public void GetEyeEndPos(int client, float max_distance, float endPos[3])
@@ -228,7 +271,7 @@ public void GetEyeEndPos(int client, float max_distance, float endPos[3])
 		else{
 			ScaleVector(PlayerAimVector,3000.0);
 		}
-    AddVectors(PlayerEyePos,PlayerAimVector,endPos);
+        AddVectors(PlayerEyePos,PlayerAimVector,endPos);
 	}
 }
 
@@ -241,4 +284,30 @@ void EarthQuakeEffect(int client)
 
     flags = GetCommandFlags("shake") | (FCVAR_CHEAT);
     SetCommandFlags("shake", flags);
+}
+
+public int AttachParticle(int entity, char[] particleType, float position[3], bool attach=true)
+{
+	int particle=CreateEntityByName("info_particle_system");
+
+	char targetName[128];
+	GetEntPropVector(entity, Prop_Send, "m_vecOrigin", position);
+	TeleportEntity(particle, position, NULL_VECTOR, NULL_VECTOR);
+
+	Format(targetName, sizeof(targetName), "target%i", entity);
+	DispatchKeyValue(entity, "targetname", targetName);
+
+	DispatchKeyValue(particle, "targetname", "tf2particle");
+	DispatchKeyValue(particle, "parentname", targetName);
+	DispatchKeyValue(particle, "effect_name", particleType);
+	DispatchSpawn(particle);
+	SetVariantString(targetName);
+	if(attach)
+	{
+		AcceptEntityInput(particle, "SetParent", particle, particle, 0);
+		SetEntPropEnt(particle, Prop_Send, "m_hOwnerEntity", entity);
+	}
+	ActivateEntity(particle);
+	AcceptEntityInput(particle, "start");
+	return particle;
 }

@@ -100,6 +100,11 @@ new String:currentBGM[MAXPLAYERS+1][PLATFORM_MAX_PATH];
 new FF2flags[MAXPLAYERS+1];
 new FF2ServerFlag;
 
+new DPSTick;
+new Float:PlayerDamageDPS[MAXPLAYERS+1][5];
+new HighestDPSClient;
+new Float:HighestDPS;
+
 new MainBoss;
 new Boss[MAXPLAYERS+1];
 new BossDiff[MAXPLAYERS+1];
@@ -118,7 +123,7 @@ new Float:BossCharge[MAXPLAYERS+1][8];
 new Stabbed[MAXPLAYERS+1];
 new Marketed[MAXPLAYERS+1];
 new Float:KSpreeTimer[MAXPLAYERS+1];
-new Float:playerDPS=0.0;
+// new Float:playerDPS=0.0;
 new KSpreeCount[MAXPLAYERS+1];
 new Float:GlowTimer[MAXPLAYERS+1];
 new shortname[MAXPLAYERS+1];
@@ -2555,6 +2560,10 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 		Damage[client]=0;
 		uberTarget[client]=-1;
 		emitRageSound[client]=true;
+		for(new loop=0; loop<5; loop++)
+		{
+		  PlayerDamageDPS[client][loop]=0.0;
+		}
 		if(IsValidClient(client) && GetClientTeam(client)>_:TFTeam_Spectator)
 		{
 			playing++;
@@ -2813,9 +2822,9 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
  	// mp_friendlyfire
 	SetConVarBool(FindConVar("mp_friendlyfire"), true, _, false);
 
-	playerDPS=0.0;
 	DEVmode=false;
 	FF2ServerFlag=0;
+	DPSTick=0;
 
 	CheckedFirstRound=true;
 	executed=false;
@@ -2919,6 +2928,7 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 
 	new top[3];
 	Damage[0]=0;
+
 	for(new client=1; client<=MaxClients; client++)
 	{
 		if(!IsValidClient(client) || Damage[client]<=0 || IsBoss(client))
@@ -2974,11 +2984,11 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 			//TODO:  Clear HUD text here
 			if(IsBoss(client))
 			{
-				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], (bossWin ? "boss_win" : "boss_lose"));
+				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n%t\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], (bossWin ? "boss_win" : "boss_lose"), "notice_DPS", HighestDPSClient, HighestDPS);
 			}
 			else
 			{
-				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n\n%t\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], "damage_fx", Damage[client], "scores", RoundFloat(Damage[client]/600.0));
+				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], "notice_DPS", HighestDPSClient, HighestDPS);
 			}
 		}
 	}
@@ -5135,6 +5145,8 @@ public Action:ClientTimer(Handle:timer)
 
 	decl String:classname[32];
 	new TFCond:cond;
+	DPSTick++;
+
 	for(new client=1; client<=MaxClients; client++)
 	{
 		if(IsValidClient(client) && !IsBoss(client) && !(FF2flags[client] & FF2FLAG_CLASSTIMERDISABLED))
@@ -5147,7 +5159,7 @@ public Action:ClientTimer(Handle:timer)
 				{
 					if(!IsBoss(observer) && observer!=client)
 					{
-						FF2_ShowSyncHudText(client, rageHUD, "데미지: %d - %N님의 데미지: %d (DPS: %.1f)", Damage[client], observer, Damage[observer], (Damage[observer]*1.0)/playerDPS);
+						FF2_ShowSyncHudText(client, rageHUD, "데미지: %d - %N님의 데미지: %d (DPS: %.1f)", Damage[client], observer, Damage[observer], GetPlayerDPS(observer));
 					}
 					else if(IsBoss(observer) && observer!=client)
 					{
@@ -5202,7 +5214,7 @@ public Action:ClientTimer(Handle:timer)
 				// 	FF2_ShowSyncHudText(client, rageHUD, "데미지: %d (DPS: %.1f)", Damage[client], (Damage[client]*1.0)/playerDPS);
 				continue;
 			}
-			FF2_ShowSyncHudText(client, rageHUD, "데미지: %d (DPS: %.1f)", Damage[client], float(Damage[client])/playerDPS);
+			FF2_ShowSyncHudText(client, rageHUD, "데미지: %d (DPS: %.1f)", Damage[client], GetPlayerDPS(client));
 
 			new TFClassType:class=TF2_GetPlayerClass(client);
 			new weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
@@ -5427,8 +5439,6 @@ public Action:ClientTimer(Handle:timer)
 			}
 		}
 	}
-
-	playerDPS+=0.2;
 	return Plugin_Continue;
 }
 
@@ -9937,6 +9947,12 @@ public OnTakeDamagePost(client, attacker, inflictor, Float:damage, damagetype)
 	if(Enabled && IsBoss(client))
 	{
 		UpdateHealthBar();
+		PlayerDamageDPS[attacker][DPSTick[attacker]]+=damage;
+
+		if(GetPlayerDPS(attacker) > HighestDPS){
+			HighestDPSClient=attacker;
+			HighestDPS=GetPlayerDPS(attacker);
+		}
 	}
 }
 
@@ -10104,6 +10120,19 @@ CloseLoadMusicTimer()
 		CloseHandle(LoadedMusicData);
 		LoadedMusicData=INVALID_HANDLE;
 	}
+}
+
+float GetPlayerDPS(int client)
+{
+	if(!IsValidClient(client) || !IsBoss(client)) return 0.0;
+
+	float damage;
+	for(new loop=0; loop<5; loop++)
+	{
+		damage+=PlayerDamageDPS[loop];
+	}
+
+	return damage/5.0;
 }
 
 #include <freak_fortress_2_vsh_feedback>
