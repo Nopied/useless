@@ -14,8 +14,8 @@ arg10: 레이저에 불 효과?
 arg11: 레이저 범위
 arg12: 건물 데미지 보너스
 arg13: 플레이어 피격 사운드
-arg14: 관통시 소환될 파티클 이름
-arg15: 파티클의 유지시간
+arg14: 레이저 최소 크기(넓이?) (기본 0.1)
+arg15: 레이저 최대 크기(넓이?) (기본 6.0)
 
 arg20:Red (레이저 색상)(0 - 255)
 arg21:Green (레이저 색상)(0 - 255)
@@ -23,6 +23,8 @@ arg22:Blue (레이저 색상)(0 - 255)
 arg23: 레이저 투명도(완전 투명: 0 - 완전 잘 보임: 255)
 
 필독: arg7과 arg9는 미적용시 기본 모델로 바뀝니다.
+필독: 사용하려는 사운드는 모두 다운로드와 캐시를 콘픽에서 하셔야 합니다!
+필독: 레이저가 너무 클 경우 보스 본인은 레이저가 안보일 수도 있어요!
 */
 #include <sourcemod>
 #include <tf2>
@@ -32,6 +34,7 @@ arg23: 레이저 투명도(완전 투명: 0 - 완전 잘 보임: 255)
 #include <sdkhooks>
 
 int BeamSprite[MAXPLAYERS+1], HaloSprite[MAXPLAYERS+1];
+// bool canSpawnParticle;
 
 float clientRageBeamTime[MAXPLAYERS+1];
 float clientRageBeamWarmTime[MAXPLAYERS+1];
@@ -148,31 +151,45 @@ public Action OnBeam(Handle timer, int client)
   GetClientEyeAngles(client, clientEyeAngles);
   GetEyeEndPos(client, 0.0, end_pos);
 
-  clientPos[2]-=15.0;
+  clientPos[2]-=28.0;
+  clientPos[1]-=14.0;
+  clientPos[0]-=17.0;
 
-  TE_SetupBeamPoints(clientPos, end_pos, BeamSprite[client], HaloSprite[client], 10, 50, 0.1, 6.0, 25.0, 0, 64.0, rgba, 40);
+  TE_SetupBeamPoints(clientPos, end_pos, BeamSprite[client], HaloSprite[client], 10, 50, FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 14, 0.1)
+  , FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 15, 6.0)
+  , 25.0, 0, 64.0, rgba, 40);
   TE_SendToAll();
 
-  /*
-    파티클 구문
-  */
+/*
+    // 파티클 구문
+
   float particlePos[3];
   float particleTime=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "laser_attack", 15, 0.12);
+  canSpawnParticle=true;
   FF2_GetAbilityArgumentString(boss, this_plugin_name, "laser_attack", 14, path, sizeof(path));
-  Handle trace;
 
-  trace = TR_TraceRayFilterEx(clientPos, clientEyeAngles, MASK_ALL, RayType_Infinite, TraceAnything);
-  TR_GetEndPosition(particlePos, trace);
+  if(path[0] != '\0')
+  {
+      Handle trace;
+      trace = TR_TraceRayFilterEx(clientPos, clientEyeAngles, MASK_ALL, RayType_Infinite, TraceAnything);
+      TR_GetEndPosition(particlePos, trace);
 
-  if(path[0] == '\0')
       while(!TR_PointOutsideWorld(particlePos))
       {
-          CreateTimer(particleTime, RemoveEntity, EntIndexToEntRef(AttachParticle(client, path, particlePos)), TIMER_FLAG_NO_MAPCHANGE);
-          CreateTimer(particleTime, RemoveEntity, EntIndexToEntRef(AttachParticle(client, path, particlePos, false)), TIMER_FLAG_NO_MAPCHANGE);
+          Handle trace2;
+          if(canSpawnParticle &&)
+          {
+            CreateTimer(particleTime, RemoveEntity, AttachParticle(client, path, particlePos), TIMER_FLAG_NO_MAPCHANGE);
+            canSpawnParticle=false;
+          }
+          // CreateTimer(particleTime, RemoveEntity, AttachParticle(client, path, particlePos, false), TIMER_FLAG_NO_MAPCHANGE);
 
-          trace = TR_TraceRayFilterEx(particlePos, clientEyeAngles, MASK_ALL, RayType_Infinite, TraceAnything);
-          TR_GetEndPosition(particlePos, trace);
+          trace2 = TR_TraceRayFilterEx(particlePos, clientEyeAngles, MASK_ALL, RayType_Infinite, TraceAnything);
+          TR_GetEndPosition(particlePos, trace2);
+          CloseHandle(trace2);
       }
+  }
+*/
 
   float targetPos[3];
   float targetEndPos[3];
@@ -187,7 +204,7 @@ public Action OnBeam(Handle timer, int client)
 
       if(GetVectorDistance(targetPos, targetEndPos) <= range && !TF2_IsPlayerInCondition(target, TFCond_Ubercharged))
       {
-        SDKHooks_TakeDamage(target, client, client, damage, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
+        SDKHooks_TakeDamage(target, client, client, damage, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM, -1, _, targetEndPos);
 
         if(path[0] != '\0'){
             EmitSoundToAll(path, target, _, _, _, _, _, target, targetPos);
@@ -239,16 +256,16 @@ public Action OnBeam(Handle timer, int client)
   return Plugin_Continue;
 }
 
-public Action RemoveEntity(Handle timer, int entid)
+public Action RemoveEntity(Handle timer, int entity)
 {
-	int entity=EntRefToEntIndex(entid);
 	if(IsValidEntity(entity) && entity>MaxClients)
 	{
 		AcceptEntityInput(entity, "Kill");
+    RemoveEdict(entity);
 	}
 }
 
-public void TraceAnything(int entity, int contentsMask)
+public bool TraceAnything(int entity, int contentsMask)
 {
     return true;
 }
@@ -286,7 +303,8 @@ void EarthQuakeEffect(int client)
     SetCommandFlags("shake", flags);
 }
 
-public int AttachParticle(int entity, char[] particleType, float position[3], bool attach=true)
+/*
+int AttachParticle(int entity, char[] particleType, float position[3], bool attach=true)
 {
 	int particle=CreateEntityByName("info_particle_system");
 
@@ -311,3 +329,4 @@ public int AttachParticle(int entity, char[] particleType, float position[3], bo
 	AcceptEntityInput(particle, "start");
 	return particle;
 }
+*/

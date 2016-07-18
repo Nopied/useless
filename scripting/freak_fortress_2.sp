@@ -101,7 +101,7 @@ new FF2flags[MAXPLAYERS+1];
 new FF2ServerFlag;
 
 new DPSTick;
-new Float:PlayerDamageDPS[MAXPLAYERS+1][5];
+new Float:PlayerDamageDPS[MAXPLAYERS+1][15];
 new HighestDPSClient;
 new Float:HighestDPS;
 
@@ -2555,12 +2555,14 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 	}
 
 	playing=0;
+	HighestDPS=0.0;
+	HighestDPSClient=0;
 	for(new client=1; client<=MaxClients; client++)
 	{
 		Damage[client]=0;
 		uberTarget[client]=-1;
 		emitRageSound[client]=true;
-		for(new loop=0; loop<5; loop++)
+		for(new loop=0; loop<sizeof(PlayerDamageDPS[]); loop++)
 		{
 		  PlayerDamageDPS[client][loop]=0.0;
 		}
@@ -2975,6 +2977,9 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 	SetHudTextParams(-1.0, 0.3, 10.0, 255, 255, 255, 255);
 	PrintCenterTextAll("");
 
+	new String:temp[10];
+	Format(temp, sizeof(temp), "%.1f", HighestDPS);
+
 	new String:text[128];  //Do not decl this
 	for(new client; client<=MaxClients; client++)
 	{
@@ -2984,11 +2989,11 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 			//TODO:  Clear HUD text here
 			if(IsBoss(client))
 			{
-				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n%t\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], (bossWin ? "boss_win" : "boss_lose"), "notice_DPS", HighestDPSClient, HighestDPS);
+				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n%t\n\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], (bossWin ? "boss_win" : "boss_lose"), "notice_DPS", HighestDPSClient, temp);
 			}
 			else
 			{
-				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], "notice_DPS", HighestDPSClient, HighestDPS);
+				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], "notice_DPS", HighestDPSClient, temp);
 			}
 		}
 	}
@@ -5145,12 +5150,24 @@ public Action:ClientTimer(Handle:timer)
 
 	decl String:classname[32];
 	new TFCond:cond;
+
 	DPSTick++;
+	if(sizeof(PlayerDamageDPS[])-1<DPSTick)
+	{
+		DPSTick=0;
+	}
 
 	for(new client=1; client<=MaxClients; client++)
 	{
 		if(IsValidClient(client) && !IsBoss(client) && !(FF2flags[client] & FF2FLAG_CLASSTIMERDISABLED))
 		{
+			/*
+			PlayerDamageDPS[client][DPSTick]-=10.0;
+			if(PlayerDamageDPS[client][DPSTick]<0.0)
+				PlayerDamageDPS[client][DPSTick]=0.0;
+			*/
+			PlayerDamageDPS[client][DPSTick]=0.0;
+
 			SetHudTextParams(-1.0, 0.88, 0.35, 90, 255, 90, 255, 0, 0.35, 0.0, 0.1);
 			if(!IsPlayerAlive(client))
 			{
@@ -6689,13 +6706,13 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 				{
 					bIsTelefrag=true;
 				}
-				////////////////
+				/////////////////
 				if(GetClientButtons(client) & IN_DUCK && GetEntityFlags(client) & FL_ONGROUND)
 				{
 					Change=true;
 					damagetype|=DMG_PREVENT_PHYSICS_FORCE;
 				}
-				///////////////
+				////////////////
 
 				new index;
 				decl String:classname[64];
@@ -7091,6 +7108,22 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					{
 						SetEntPropFloat(attacker, Prop_Send, "m_flCloakMeter", 100.0);  //Full cloak
 						TF2_AddCondition(attacker, TFCond_SpeedBuffAlly, 3.0);  //Speed boost
+					}
+					else if(index == 4 ||
+					index == 194 ||
+					index == 665 ||
+					index == 727 ||
+					index == 794 ||
+					index == 803 ||
+					index == 883 ||
+					index == 892 ||
+					index == 901 ||
+					index == 910 ||
+					index == 959 ||
+					index == 968 ||
+					index == 1071)
+					{
+						damage+=500.0/3.0;
 					}
 
 					if(GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary)==525)  //Diamondback
@@ -9947,7 +9980,8 @@ public OnTakeDamagePost(client, attacker, inflictor, Float:damage, damagetype)
 	if(Enabled && IsBoss(client))
 	{
 		UpdateHealthBar();
-		PlayerDamageDPS[attacker][DPSTick[attacker]]+=damage;
+		PlayerDamageDPS[attacker][DPSTick-1 < 0 ? sizeof(PlayerDamageDPS[])-1 : DPSTick-1]+= damagetype & DMG_CRIT ? damage*3.0 : damage;
+		// Debug("attacker: %N, DPSTick: %d, damage: %.1f", attacker, DPSTick, damage);
 
 		if(GetPlayerDPS(attacker) > HighestDPS){
 			HighestDPSClient=attacker;
@@ -10124,15 +10158,15 @@ CloseLoadMusicTimer()
 
 float GetPlayerDPS(int client)
 {
-	if(!IsValidClient(client) || !IsBoss(client)) return 0.0;
+	if(!IsValidClient(client) || IsBoss(client)) return 0.0;
 
 	float damage;
-	for(new loop=0; loop<5; loop++)
+	for(new loop=0; loop<sizeof(PlayerDamageDPS[]); loop++)
 	{
-		damage+=PlayerDamageDPS[loop];
+		damage+=PlayerDamageDPS[client][loop];
 	}
 
-	return damage/5.0;
+	return damage/float(sizeof(PlayerDamageDPS[]));
 }
 
 #include <freak_fortress_2_vsh_feedback>

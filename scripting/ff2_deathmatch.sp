@@ -8,6 +8,7 @@
 #include <morecolors>
 #include <freak_fortress_2>
 #tryinclude <POTRY>
+// player_recent_teleport_red
 
 bool IsLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
@@ -22,6 +23,7 @@ Handle LastManData;
 Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 
 float NoEnemyTime[MAXPLAYERS+1];
+float TeleportTime[MAXPLAYERS+1];
 
 public Plugin:myinfo=
 {
@@ -92,6 +94,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
             SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
             SDKUnhook(client, SDKHook_PreThinkPost, NoEnemyTimer);
         }
+        TeleportTime[client]=0.0;
     }
 
     IsLastManStanding=false;
@@ -391,6 +394,63 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     return Plugin_Continue;
 }
 
+public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+{
+  if(!IsLastManStanding || !IsLastMan[client] || !IsPlayerAlive(client) ) return Plugin_Continue;
+
+  if(buttons & IN_ATTACK2 && IsWeaponSlotActive(client, 1)) // && GetPlayerWeaponSlot(client, 2) == GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"))
+  {
+    if(TF2_GetPlayerClass(client) != TFClass_Engineer)
+      return Plugin_Continue;
+    if(TeleportTime[client]>GetGameTime())
+    {
+      CPrintToChat(client, "{olive}[FF2]{default} 휴대용 텔레포터의 대기시간이 남아있습니다. (남은 시간: %.1f)", TeleportTime[client]-GetGameTime());
+      return Plugin_Continue;
+    }
+
+    int metal=GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
+    if(metal < 200) // TODO: 커스터마이즈
+    {
+      CPrintToChat(client, "{olive}[FF2]{default} 최소 {red}%d{default}의 금속이 필요합니다.", 200);
+      return Plugin_Continue;
+    }
+    float end_pos[3];
+    float clientPos[3];
+    float clientEyeAngles[3];
+    Handle trace;
+    GetClientEyePosition(client, clientPos);
+
+    TeleportTime[client]=GetGameTime()+5.0;
+    SetEntProp(client, Prop_Send, "m_iAmmo", metal-200, _, 3);
+    GetEyeEndPos(client, 1500.0, end_pos);
+
+    trace = TR_TraceRayFilterEx(clientPos, end_pos, MASK_ALL, RayType_EndPoint, TraceAnything);
+    TR_GetEndPosition(end_pos, trace);
+
+    TeleportEntity(client, end_pos, NULL_VECTOR, NULL_VECTOR);
+
+    CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님의 휴대용 텔레포터!", client);
+
+    CreateTimer(2.0, RemoveEntity, AttachParticle(client, "teleported_red", clientPos), TIMER_FLAG_NO_MAPCHANGE);
+    CreateTimer(2.0, RemoveEntity, AttachParticle(client, "teleported_red", clientPos, false), TIMER_FLAG_NO_MAPCHANGE);
+  }
+}
+
+public bool TraceAnything(int entity, int contentsMask)
+{
+    return false;
+}
+
+public Action RemoveEntity(Handle timer, int entity)
+{
+	if(IsValidEntity(entity) && entity>MaxClients)
+	{
+		AcceptEntityInput(entity, "Kill");
+    RemoveEdict(entity);
+	}
+}
+
+
 public Action OnTimer(Handle timer)
 {
     if(FF2_GetRoundState() != 1 || timeleft < 0.0)
@@ -646,7 +706,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Scout:
     {
       SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 1.5 ; 97 ; 0.5 ; 6 ; 0.5");
       SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 2, "2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 2: 피해량 향상
       // 97: 재장전 향상
@@ -680,15 +740,16 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Medic:
     {
       SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 17 ; 0.12 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 4.0");
-      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 2, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0 ; 26 ; 150");
+      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0");
+      SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 2, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0 ; 26 ; 150 ; 107 ; 1.10");
       // 17: 적중 시 우버차지
       // 482: 오버힐 마스터리
       // 493: 힐 마스터리
+      // 107: 이동속도
     }
     case TFClass_Heavy:
     {
-      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.3 ; 87 ; 0.6 ; 6 ; 1.1");
+      SpawnWeapon(client, "tf_weapon_minigun", 202, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.8 ; 87 ; 0.3 ; 6 ; 1.1");
       SpawnWeapon(client, "tf_weapon_shotgun_hwg", 15016, 0, 2, "2 ; 2.3 ; 87 ; 0.4 ; 6 ; 0.4");
       SpawnWeapon(client, "tf_weapon_fists", 1071, 0, 2, "2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 87: 미니건 돌리는 속도 증가
@@ -705,7 +766,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Spy:
     {
       SpawnWeapon(client, "tf_weapon_revolver", 61, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 51 ; 1.0 ; 390 ; 5.0");
-      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 112 ; 1.0 ; 26 ; 150");
+      SpawnWeapon(client, "tf_weapon_knife", 194, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.0 ; 112 ; 1.0 ; 26 ; 150 ; 107 ; 1.10");
       int sapper = SpawnWeapon(client, "tf_weapon_sapper", 735, 0, 2, _);
 
       SetEntProp(sapper, Prop_Send, "m_iObjectType", 3);
@@ -949,4 +1010,59 @@ stock int GetLowestDamagePlayer() //
   }
 
   return enableTargetList ? targetList[GetRandomInt(0, targetCount-1)] : lowestTarget;
+}
+
+public void GetEyeEndPos(int client, float max_distance, float endPos[3])
+{
+	if(IsClientInGame(client))
+	{
+		if(max_distance<0.0)
+			max_distance=0.0;
+		float PlayerEyePos[3];
+		float PlayerAimAngles[3];
+		GetClientEyePosition(client,PlayerEyePos);
+		GetClientEyeAngles(client,PlayerAimAngles);
+		float PlayerAimVector[3];
+		GetAngleVectors(PlayerAimAngles,PlayerAimVector,NULL_VECTOR,NULL_VECTOR);
+		if(max_distance>0.0){
+			ScaleVector(PlayerAimVector,max_distance);
+		}
+		else{
+			ScaleVector(PlayerAimVector,3000.0);
+		}
+        AddVectors(PlayerEyePos,PlayerAimVector,endPos);
+	}
+}
+
+int AttachParticle(int entity, char[] particleType, float position[3], bool attach=true)
+{
+	int particle=CreateEntityByName("info_particle_system");
+
+	char targetName[128];
+	GetEntPropVector(entity, Prop_Send, "m_vecOrigin", position);
+	TeleportEntity(particle, position, NULL_VECTOR, NULL_VECTOR);
+
+	Format(targetName, sizeof(targetName), "target%i", entity);
+	DispatchKeyValue(entity, "targetname", targetName);
+
+	DispatchKeyValue(particle, "targetname", "tf2particle");
+	DispatchKeyValue(particle, "parentname", targetName);
+	DispatchKeyValue(particle, "effect_name", particleType);
+	DispatchSpawn(particle);
+	SetVariantString(targetName);
+	if(attach)
+	{
+		AcceptEntityInput(particle, "SetParent", particle, particle, 0);
+		SetEntPropEnt(particle, Prop_Send, "m_hOwnerEntity", entity);
+	}
+	ActivateEntity(particle);
+	AcceptEntityInput(particle, "start");
+	return particle;
+}
+
+bool IsWeaponSlotActive(int iClient, int iSlot)
+{
+    int hActive = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
+    int hWeapon = GetPlayerWeaponSlot(iClient, iSlot);
+    return (hWeapon == hActive);
 }

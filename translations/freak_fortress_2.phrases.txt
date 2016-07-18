@@ -1,0 +1,497 @@
+"Phrases"
+{
+	"needmoreplayers"
+	{
+		"en"	"Freak Fortress 2의 구동을 위한 인원이 필요합니다."
+	}
+	"type_ff2_to_open_menu"
+	{
+		"en"	"명령어 {olive}/ff2{default}로 메뉴를 확인하실 수 있습니다."
+	}
+	"potry_announce_1"
+	{
+		"en"	"베타 기간 중에는 그 무엇도 정상 작동을 보장하지 않습니다."
+	}
+	"potry_announce_2"
+	{
+		"en"	"명렁어 {yellow}/halemode{default}: 보스 난이도를 설정하실 수 있습니다!"
+	}
+	"potry_announce_3"
+	{
+		"en"	"명령어 {yellow}/개그 ''할 말''{default}: 하고 싶은 말을 개그로 정합니다."
+	}
+	"potry_announce_4"
+	{
+		"en"	"명령어 {yellow}!데미지(켜기/끄기){default}: 현재 데미지 랭크를 확인하실 수 있습니다.\n{yellow}!데미지 (숫자){default}는 그 숫자만큼의 슬릇을 볼 수 있음."
+	}
+	"nextmap_ff2"
+	{
+		"#format" "{1:s}"
+		"en"	"{olive}{1}{default}의 게임모드: {olive}Freak Fortress 2{default}"
+	}
+	"wait_hp"
+	{
+		"#format" "{1:i},{2:s}"
+		"en"  "최근에 HP를 확인하셨습니다. {1}초 후에 다시 시도해주세요. (최근에 확인한 HP: {2})"
+	}
+	"notice_DPS"
+	{
+		"#format" "{1:N}, {2:s}"
+		"en"	"최다 DPS: {1} - {2}"
+	}
+	"damage"
+	{
+		"#format" "{1:i}"
+		"en"	"{1} 데미지를 입혔습니다."
+	}
+	"point_enable"
+	{
+		"#format" "{1:i}"
+		"en"  "{1}명이 남았으므로 점령 지점이 활성화됩니다!"
+	}
+	"top_3"
+	{
+		"en"	"= 데미지 순위 ="
+	}
+	"uber-charge"
+	{
+		"en"	"우버차지"
+	}
+	"Boss Lives Left"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"라이프: {1} / {2}"
+	}
+	"do_rage"
+	{
+		"en"	"메딕을 불러 \"분노\"를 사용하세요!"
+	}
+	"rage_meter"
+	{
+		"#format" "{1:i},{2:d},{3:d}"
+		"en"	"분노: {1}%% ({2} / {3})"
+	}
+	"rage_meter_DEVmode"
+	{
+		"en"	"개발자 모드(∞)"
+	}
+	"rage_meter_duration"
+	{
+		"#format"	"{1:s}, {2:s}"
+		"en"	"{1}: {2}"
+	}
+	"rage_meter_cooldown_easy"
+	{
+		"#format"	"{1:s}"
+		"en"	"분노 쿨타임: {1}"
+	}
+	"super_duper_jump"
+	{
+		"en"	"강한 슈퍼 점프가 준비됬습니다!"
+	}
+	"teleport_status"
+	{
+		"#format" "{1:i}"
+		"en"	"텔레포트: {1}%%"
+	}
+	"jump_status"
+	{
+		"#format" "{1:i}"
+		"en"	"슈퍼점프: {1}%%"
+	}
+	"teleport_status_2"
+	{
+		"#format" "{1:i}"
+		"en"	"{1}초 후에 텔레포트를 할 수 있습니다."
+	}
+	"jump_status_2"
+	{
+		"#format" "{1:i}"
+		"en"	"{1}초 후에 슈퍼점프를 할 수 있습니다."
+	}
+	"help_scout"
+	{
+		"en"	"The Crit-a-Cola grants crits instead of minicrits.\nThe Fan O' War removes 5%% rage on hit.\nPistols gain minicrits.\nThe Candy Cane drops a health pack on hit.\nThe BFB heals 10HP on hit, -3HP/second."
+	}
+	"help_soldier"
+	{
+		"en"	"The Battalion's Backup fills its meter when hit. Damage is heavily reduced to nearby players while active.\nThe Half-Zatoichi heals 35HP on hit, overheals to +25, and honorbound is removed on hit.\nBoots reduce fall damage and Mantreads create greater rocketjumps.\nAll guns minicrit Boss in midair (Direct Hit gets crits), and the Reserve Shooter has faster weapon switch and a small damage buff."
+	}
+	"help_pyro"
+	{
+		"en"	"Postal Pummeler and skins uses stats of Fire Axe.\nThe Flare Gun is replaced by the Mega Detonator.\nAirblasting the boss builds rage and lengthens the boss's uber."
+	}
+	"help_demo"
+	{
+		"en"	"The shields block one hit from the Boss.\nEyelander/reskins gain heads on hit.\nThe Half-Zatoichi heals 35HP on hit and can overheal to +25.  Honorbound is removed on hit."
+	}
+	"help_heavy"
+	{
+		"en"	"Natascha and the KGB are replaced with the\nMinigun and Fists, respectively.\nThe Gloves of Running are quite quick but cause you to lose more health.\nThe Holiday Punch gives you instant weapon switch."
+	}
+	"help_eggineer"
+	{
+		"en"	"All maps have only small ammo packs.\nThe Frontier Justice gains crits only while your sentry is targetting Boss."
+	}
+	"help_medic"
+	{
+		"en"	"Charge: Kritz+Uber. Charge starts at 40 percent.\nCharge lasts for 150 percent after activation.\nSyringe Gun: on hit: +5%% ubercharge, has Overdose's speed effect.\nCrossbow: Always crits, +150%% damage, +10%% uber on hit."
+	}
+	"help_sniper"
+	{
+		"en"	"All your weapons have critical hits.\nJarate removes 8%% rage.\nDarwin's Danger Shield gives you +50HP.  Razorback blocks a hit from the boss.\nCozy Camper gives you a modified SMG.\nDefault Sniper Rifle causes Boss to glow. Glow time scales with charge."
+	}
+	"help_spie"
+	{
+		"en"	"Backstab does about 10 percent of Boss's max health.\nCloak and Dagger replaced with normal watch.\nAll revolvers minicrit.\nYour Eternal Reward/Wanga Prick backstabs disguise you instantly.\nKunai backstabs will give you a health bonus.\nBig Earner gives you full cloak on backstab."
+	}
+	"help_melee"
+	{
+		"en"	"All melee weapons (except the Spy knives) deal critical hits.\nUse /ff2 menu to disable this notifications."
+	}
+	"thequeue"
+	{
+		"en"	"보스 대기열"
+	}
+	"menu_1"
+	{
+		"en"	"Freak Fortress 2 패널"
+	}
+	"menu_2"
+	{
+		"en"	"보스의 HP를 확인 (/ff2hp)"
+	}
+	"menu_3"
+	{
+		"en"	"Help about FF2 (/ff2help)."  //ff2help doesn't exist in the code, so...
+	}
+	"menu_4"
+	{
+		"en"	"업데이트 소식 (/ff2new)."
+	}
+	"menu_5"
+	{
+		"en"	"보스 대기열 보기"
+	}
+	"menu_6"
+	{
+		"en"	"나가기"
+	}
+	"whatsnew"
+	{
+		"#format" "{1:s},{2:s}"
+		"en"	"업데이트 소식 v{1} ({2})"
+	}
+	"help_mode"
+	{
+		"en"	"===Freak Fortress 2===\n한 명(또는 다수)가 강력한 보스가 됩니다.\n각 팀은 서로를 무찔러야 합니다!"
+	}
+	"older"
+	{
+		"en"	"이전"
+	}
+	"noolder"
+	{
+		"en"	"이전 버전이 없습니다."
+	}
+	"newer"
+	{
+		"en"	"다음"
+	}
+	"nonewer"
+	{
+		"en"	"다음 버전이 없습니다."
+	}
+	"menu_7"
+	{
+		"en"	"FF2에서 변경되는 병과 사항 (/ff2classinfo)"
+	}
+	"damage_fx"
+	{
+		"#format" "{1:i}"
+		"en"	"{1} 데미지를 입혔습니다."
+	}
+	"scores"
+	{
+		"#format" "{1:i}"
+		"en"	"{1} 포인트를 흭득하셨습니다."
+	}
+	"boss_win"
+	{
+		"en"	"축하드립니다! 라운드에서 승리하셨어요!"
+	}
+	"boss_lose"
+	{
+		"en"	"저런, 지셨군요! 하지만 언제나 다음 기회란게 있습니다."
+	}
+	"ff2_start"
+	{
+		"#format" "{1:N},{2:s},{3:i},{4:s},{5:s}"
+		"en"	"{1}님의 {2}\n HP: {3}{4}\n{5}"
+	}
+	"ff2_start_chat"
+	{
+		"#format" "{1:N},{2:s},{3:i},{4:s}"
+		"en"	"{1}님의 {2}\n HP: {3}{4}"
+	}
+	"ff2_start_team"
+	{
+		"#format"	"{1:N},{2:s},{3:i},{4:s}"
+		"en"	"{1}님의 팀! {2}\n 합산한 HP: {3}\n{4}"
+	}
+	"ff2_hp"
+	{
+		"#format" "{1:s},{2:i},{3:i},{4:s},{5:s}"
+		"en"	"{1}의 HP: {2} / {3}{4} (난이도: {5})"
+	}
+	"ff2_alive"
+	{
+		"#format" "{1:s},{2:N},{3:i},{4:i},{5:s}"
+		"en"	"{1} ({2}) won with {3} out of {4}{5} hp left."
+	}
+	"select_charset"
+	{
+		"en"    "캐릭터 패키지를 골라주세요."
+	}
+	"your_points"
+	{
+		"#format" "{1:i}"
+		"en"    "대기열 포인트: {1}."
+	}
+	"add_points"
+	{
+		"#format" "{1:i}"
+		"en"    "{1} 대기열 포인트를 흭득하셨습니다."
+	}
+	"to0"
+	{
+		"en"	"0으로 초기화"
+	}
+	"to0_title"
+	{
+		"en"	"정말 대기열 포인트를 0으로 초기화하시겠습니까?"
+	}
+	"to0_title_admin"
+	{
+		"#format" "{1:N}"
+		"en"	"{1}님의 대기열 포인트를 0으로 초기화하시겠습니까?"
+	}
+	"to0_done"
+	{
+		"en"	"당신의 대기열 포인트는 이제 {olive}0{default} 입니다."
+	}
+	"to0_done_admin"
+	{
+		"#format" "{1:N}"
+		"en"	"{olive}{1}{default}님의 대기열 포인트를 {olive}0{default}으로 초기화했습니다."
+	}
+	"to0_done_by_admin"
+	{
+		"#format" "{1:N}"
+		"en"	"{olive}{1}{default}님이 당신의 대기열 포인트를 {olive}0{default}으로 초기화했습니다."
+	}
+	"to0_near"
+	{
+		"en"	"곧 보스로 플레이합니다. {olive}/ff2next{default}로 순서를 확인해주세요."
+	}
+	"arena_round"
+	{
+		"#format"	"{1:i}"
+		"en"		"플레이어를 기다리고 있습니다.  FF2는 {1} 라운드 후에 시작됩니다."
+	}
+	"used_weighdown"  //Deprecated-translation removed in default_abilities.sp
+	{
+		"en"	"You have used weighdown!"
+	}
+	"ff2_music"
+	{
+		"#format" "{1:s}"
+		"en"	"보스 BGM: {1}"
+	}
+	"ff2_voice"
+	{
+		"#format" "{1:s}"
+		"en"	"FF2 대사/효과음: {1}."
+	}
+	"ff2_voice2"
+	{
+		"en"	"다른 소리는 여전히 들릴겁니다.. 꽤 조용하겠지만요."
+	}
+	"menu_8"
+	{
+		"en"	"보스 BGM 설정 (/ff2music)"
+	}
+	"menu_9"
+	{
+		"en"	"보스 대사/효과음 설정 (/ff2voice)"
+	}
+	"menu_9a"
+	{
+		"en"	"FF2에서의 병과 변경사항 보기"
+	}
+	"ff2_classinfo"
+	{
+		"#format" "{1:s}"
+		"en"	"라운드 시작마다 보스 설명 보기: {1}"
+	}
+	"ff2_last_update"
+	{
+		"#format" "{1:s},{2:s}"
+		"en"	"뭐가 v{olive}{1}{default} ({olive}{2}{default})에서 새로워졌을까요? {olive}/ff2new{default}로 확인하실 수 있습니다."
+	}
+	"charge_status"
+	{
+		"#format" "{1:i}"
+		"en"	"Charge is {1} percent ready. When at 100 percent let go of the charge button."
+	}
+	"nextmap_charset"
+	{
+		"#format" "{1:s},{2:s}"
+		"en"	"다음 맵({1})에서는 {2}로 플레이하게 됩니다.."
+	}
+	"ff2_buttons_reload"
+	{
+		"en"	"재장전 버튼으로 능력을 사용하세요!"
+	}
+	"ff2_buttons_rmb"
+	{
+		"en"	"마우스 우클릭으로 능력을 사용하세요!"
+	}
+	"ff2_lives_left"
+	{
+		"#format" "{1:s},{2:i}"
+		"en"	"{1}(이)가 라이프를 잃었습니다! 아직 {2}개 남았습니다!"
+	}
+	"ff2_life_left"
+	{
+		"#format" "{1:s}"
+		"en"	"{1}(이)가 라이프를 잃었습니다! 이제 마지막 라이프입니다!"
+	}
+	"Boss Suicide Denied"
+	{
+		"en"	"본 서버에서는 보스의 자살을 허용하지 않습니다."
+	}
+	"Boss Suicide Pre-round"
+	{
+		"en"	"라운드 시작 전에 자살을 할 수 없습니다."
+	}
+	"Boss Disconnected"
+	{
+		"#format" "{1:N},{2:N}"
+		"en"	"{1}님이 보스 플레이 전에 퇴장하셨습니다! 이제 {2}님이 보스입니다!"
+	}
+	"Replace Disconnected Boss"
+	{
+		"en"	"서프라이즈! 이제 당신이 보스입니다!"
+	}
+	"Backstab"
+	{
+		"en"	"보스를 백스탭하셨습니다!"
+	}
+	"Backstabbed"
+	{
+		"en"	"백스탭 당하셨습니다!"
+	}
+	"Market Gardener"
+	{
+		"en"	"보스를 마켓가든으로 타격하셨습니다!"
+	}
+	"Market Gardened"
+	{
+		"en"	"마켓가든에 맞았습니다!"
+	}
+	"Someone_do"
+	{
+		"#format"	"{1:s},{2:s},{3:s},{4:d}"
+		"en"	"{red}{1}{default}님이 {orangered}{2}{default}으로 {blue}{3}{default}에게 {yellowgreen}{4} 데미지{default}를 입혔습니다!"
+	}
+	"Detonations Left"
+	{
+		"#format"	"{1:i}"
+		"en"		"{1}개 남았습니다."
+	}
+	"ff2_goomba_user"
+	{
+		"en"	"보스를 굼바하셨습니다!"
+	}
+	"ff2_goomba_boss"
+	{
+		"en"	"굼바에 당하셨습니다!"
+	}
+//	"ff2_client_timer_observer_nolife"
+//	{
+//		"#format"	"{1:d}, {2:d}, {3:d}, {4:d}, {5:d}, {6:d}"
+//		"en"	"HP: {1} / {2} | 분노: {3} / {4} %% ({5} / {6})  "
+//	}
+//	"ff2_client_timer_observer_lifes"
+//	{
+//		"#format"	"{1:d}, {2:d}, {3:d}, {4:d}, {5:d}, {6:d}, {7:d}"
+//		"en"	"HP: {1} / {2} × {3} | 분노: {4} / {5} %% ({6} / {7})"
+//	}
+	"ff2_client_timer_observer_nolife"
+	{
+		"#format"	"{1:d}, {2:d}"
+		"en"	"HP: {1} / {2}"
+	}
+	"ff2_client_timer_observer_lifes"
+	{
+		"#format"	"{1:d}, {2:d}, {3:d}"
+		"en"	"HP: {1} / {2} x{3}"
+	}
+	"ff2_can_not_rage"
+	{
+		"en"	"지금 분노를 사용하실 수 없습니다!"
+	}
+	"observer_rage_meter"
+	{
+		"#format"		"{1:d}, {2:d}, {3:d}, {4:d}"
+		"en"	"분노: {1} / {2} ({3} / {4})"
+	}
+	"ff2_slienced"
+	{
+		"#format"	"{1:d}"
+		"en"	"해당 보스는 약 {1}초 동안 분노가 차단됩니다!"
+	}
+	"ff2_notallow_rage"
+	{
+		"en"	"분노 차단됨!"
+	}
+	"Ullapool"
+	{
+		"en"	"울라풀 막대로 때렸습니다!"
+	}
+	"Ullapooled"
+	{
+		"en"	"울라풀 막대로 맞았습니다!"
+	}
+	"oneperson_rage"
+	{
+		"#format"	"{1:s}"
+		"en"	"{blue}{1}{default}의 {red}1인 분노!{default}\n(해당 보스의 분노 쿨타임이 2배가 됩니다!)"
+	}
+	"difficulty_normal"
+	{
+		"en"	"보통: 가장 기본적인 난이도."
+	}
+	"difficulty_hard"
+	{
+		"en"	"어려움: 체력 20%% 감소"
+	}
+	"difficulty_veryhard"
+	{
+		"en"	"매우 어려움: 체력 30%% 감소, 분노 생성률 20%% 감소"
+	}
+	"difficulty_tryhard"
+	{
+		"en"	"너무 어려움: 체력 40%% 감소, 분노 생성률 40%% 감소"
+	}
+	"difficulty_nothuman"
+	{
+		"en"	"불지옥: 체력 50%% 감소, 분노 생성을 아예 \"차단\"함."
+	}
+	"ff2_set_difficulty"
+	{
+		"#format"	"{1:s}"
+		"en"	"난이도를 {green}{1}{default}로 선택하셨습니다"
+	}
+}
