@@ -10,11 +10,11 @@
 
 #pragma newdecls required
 
-#define VERSION_NUMBER "1.00"
+#define VERSION_NUMBER "1.03"
 
 public Plugin myinfo = {
 	name = "Freak Fortress 2: Fog Effects",
-	description = "Fog Effects",
+	description = "フォグ効果",
 	author = "Koishi",
 	version = VERSION_NUMBER,
 };
@@ -32,6 +32,7 @@ public void OnPluginStart2()
 	
 	HookEvent("arena_win_panel", Event_RoundEnd);
 	HookEvent("teamplay_round_win", Event_RoundEnd); // for non-arena maps
+	
 	if(FF2_GetRoundState()==1)
 	{
 		HookAbilities();
@@ -45,7 +46,7 @@ public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 
 public void Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 {
-	EndFog();
+	CreateTimer(0.1, RemoveEntity, EntIndexToEntRef(envFog), TIMER_FLAG_NO_MAPCHANGE);
 	for(int client=MaxClients;client;client--)
 	{
 		if(client<=0||client>MaxClients||!IsClientInGame(client))
@@ -56,9 +57,10 @@ public void Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 		if(fogDuration[client]!=INACTIVE)
 		{
 			fogDuration[client]=INACTIVE;
-			SDKUnhook(client, SDKHook_Think, FogTimer);
+			SDKUnhook(client, SDKHook_PreThinkPost, FogTimer);
 		}			
 	}
+	envFog=-1;
 }
 
 public void HookAbilities()
@@ -69,6 +71,9 @@ public void HookAbilities()
 		{
 			continue;
 		}
+		
+		SetVariantString("");
+		AcceptEntityInput(client, "SetFogController");
 		
 		fogDuration[client]=INACTIVE;
 		AMSOnly[client]=false;
@@ -181,9 +186,10 @@ public void FogTimer(int client)
 {
 	if(GetGameTime()>=fogDuration[client])
 	{
-		EndFog();
+		CreateTimer(0.1, RemoveEntity, EntIndexToEntRef(envFog), TIMER_FLAG_NO_MAPCHANGE);
 		fogDuration[client]=INACTIVE;
-		SDKUnhook(client, SDKHook_Think, FogTimer);
+		SDKUnhook(client, SDKHook_PreThinkPost, FogTimer);
+		envFog=-1;
 	}
 }
 
@@ -197,7 +203,7 @@ int StartFog(int fogblend, int fogcolor[3], int fogcolor2[3], float fogstart=64.
 	}
 	else
 	{
-		AcceptEntityInput(iFog, "Kill");
+		CreateTimer(0.1, RemoveEntity, EntIndexToEntRef(iFog), TIMER_FLAG_NO_MAPCHANGE);
 		iFog = CreateEntityByName("env_fog_controller");
 	}
 
@@ -223,11 +229,10 @@ int StartFog(int fogblend, int fogcolor[3], int fogcolor2[3], float fogstart=64.
 	return iFog;
 }
 
-void EndFog()
+public Action RemoveEntity(Handle timer, any entid)
 {
-	if(IsValidEntity(envFog))
-	{
-		AcceptEntityInput(envFog, "Kill");
-	}
-	envFog=-1;
+	int entity = EntRefToEntIndex(entid);
+	if (IsValidEdict(entity) && entity > MaxClients)
+		AcceptEntityInput(entity, "Kill");
+	entid=-1;
 }

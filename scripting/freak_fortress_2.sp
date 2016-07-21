@@ -1103,7 +1103,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 
 	PreAbility=CreateGlobalForward("FF2_PreAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell, Param_CellByRef);  //Boss, plugin name, ability name, slot, enabled
 	OnAbility=CreateGlobalForward("FF2_OnAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell);  //Boss, plugin name, ability name, status
-	OnMusic=CreateGlobalForward("FF2_OnMusic", ET_Hook, Param_String, Param_FloatByRef, Param_String, Param_String, Param_Cell, Param_Cell, Param_Cell);
+	OnMusic=CreateGlobalForward("FF2_OnMusic", ET_Hook, Param_String, Param_FloatByRef, Param_FloatByRef, Param_String, Param_String, Param_Cell, Param_Cell, Param_Cell);
 	OnTriggerHurt=CreateGlobalForward("FF2_OnTriggerHurt", ET_Hook, Param_Cell, Param_Cell, Param_FloatByRef);
 	OnSpecialSelected=CreateGlobalForward("FF2_OnSpecialSelected", ET_Hook, Param_Cell, Param_CellByRef, Param_String, Param_Cell);  //Boss, character index, character name, preset
 	OnAddQueuePoints=CreateGlobalForward("FF2_OnAddQueuePoints", ET_Hook, Param_Array);
@@ -3343,6 +3343,8 @@ PlayBGM(client)
 		Format(name, sizeof(name), "name%i", index);
 		KvGetString(musicKv, name, name, sizeof(name));
 		KvGetString(musicKv, music, music, sizeof(music));
+		Format(music, 10, "volume%i", index);
+		new Float:volume=KvGetFloat(musicKv, music, 1.0);
 		decl String:temp[PLATFORM_MAX_PATH];
 
 		if(!(FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_SERVER))
@@ -3353,6 +3355,7 @@ PlayBGM(client)
 			strcopy(temp, sizeof(temp), music);
 			Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
 			Call_PushFloatRef(time);
+			Call_PushFloatRef(volume);
 			Call_PushStringEx(artist, sizeof(artist), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
 			Call_PushStringEx(name, sizeof(name), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
 			Call_PushCell(notice2);
@@ -3382,7 +3385,7 @@ PlayBGM(client)
 
 				if(!IsSoundPrecached(music))
 					PrecacheSound(music);
-				EmitSoundToClient(client, music);
+				EmitSoundToClient(client, music, _, _, _, _, volume);
 				if(time>1)
 				{
 					MusicTimer[client]=CreateTimer(time, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);

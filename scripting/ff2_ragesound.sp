@@ -24,7 +24,7 @@ public Action:FF2_OnAbility2(iBoss, const String:pluginName[], const String:abil
 		decl String:sBuffer[PLATFORM_MAX_PATH*5];
 		FF2_GetAbilityArgumentString(iBoss, pluginName, abilityName, 1, sBuffer, sizeof(sBuffer));
 		ExplodeString(sBuffer, " ; ", sRageSound, 5, PLATFORM_MAX_PATH);
-		
+
 		new iCount = 0;
 		for (new i = 0; i < 5; i++)
 		{
@@ -33,13 +33,13 @@ public Action:FF2_OnAbility2(iBoss, const String:pluginName[], const String:abil
 				PrecacheSound(sRageSound[i]);
 				iCount++;
 			}
-			
+
 			if (iCount == 0)
 				return Plugin_Continue;
 		}
-		
+
 		new iRand = GetRandomInt(0, iCount-1);
-		EmitSoundToAll(sRageSound[iRand]);
+		EmitSoundToAll(sRageSound[iRand], _, _, _, _, FF2_GetAbilityArgumentFloat(iBoss, pluginName, abilityName, 2, 1.2));
 	}
 	return Plugin_Continue;
 }

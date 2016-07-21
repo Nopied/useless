@@ -33,7 +33,7 @@ arg23: 레이저 투명도(완전 투명: 0 - 완전 잘 보임: 255)
 #include <freak_fortress_2_subplugin>
 #include <sdkhooks>
 
-int BeamSprite[MAXPLAYERS+1], HaloSprite[MAXPLAYERS+1];
+int BeamSprite[MAXPLAYERS+1], HaloSprite[MAXPLAYERS+1], GlowSprite[MAXPLAYERS+1];
 // bool canSpawnParticle;
 
 float clientRageBeamTime[MAXPLAYERS+1];

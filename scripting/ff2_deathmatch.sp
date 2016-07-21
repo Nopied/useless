@@ -414,11 +414,25 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
       CPrintToChat(client, "{olive}[FF2]{default} 최소 {red}%d{default}의 금속이 필요합니다.", 200);
       return Plugin_Continue;
     }
+
+    float clientPos[3];
+    GetClientEyePosition(client, clientPos);
     if(TryTeleport(client))
     {
-      CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님의 휴대용 텔레포터!", client);
       CreateTimer(2.0, RemoveEntity, AttachParticle(client, "teleported_red"), TIMER_FLAG_NO_MAPCHANGE);
       CreateTimer(2.0, RemoveEntity, AttachParticle(client, "teleported_red", false), TIMER_FLAG_NO_MAPCHANGE);
+
+      if(!IsPlayerStuck(client))
+      {
+         CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님의 휴대용 텔레포터!", client);
+         SetEntProp(client, Prop_Send, "m_iAmmo", metal-200, _, 3);
+         TeleportTime[client]=GetGameTime()+5.0;
+      }
+      else
+      {
+          PrintCenterText("지정한 위치가 끼는 자리에 있어 작동되지 않았습니다.");
+          TeleportEntity(client, clientPos, NULL_VECTOR, NULL_VECTOR);
+      }
     }
   }
 
@@ -1341,4 +1355,19 @@ bool Resize_OneTrace(const float startPos[3], const float endPos[3])
 	}
 
 	return true;
+}
+
+//Copied from Chdata's Fixed Friendly Fire
+stock bool IsPlayerStuck(int ent)
+{
+    float vecMin[3];
+	float vecMax[3];
+	float vecOrigin[3];
+
+    GetEntPropVector(ent, Prop_Send, "m_vecMins", vecMin);
+    GetEntPropVector(ent, Prop_Send, "m_vecMaxs", vecMax);
+    GetEntPropVector(ent, Prop_Send, "m_vecOrigin", vecOrigin);
+
+    TR_TraceHullFilter(vecOrigin, vecOrigin, vecMin, vecMax, MASK_SOLID, TraceRayPlayerOnly, ent);
+    return (TR_DidHit());
 }
