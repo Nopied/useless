@@ -3261,20 +3261,13 @@ StopMusic(client=0, bool:permanent=false)
 				StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 				StopSound(client, SNDCHAN_AUTO, currentBGM[client]);
 			}
-
 			if(MusicTimer[client]!=INVALID_HANDLE)
 			{
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
-			else if(MusicTimer[client])
-			{
-				Debug("NOT INVALID_HANDLE!!!");
-				KillTimer(MusicTimer[client]);
-				MusicTimer[client]=INVALID_HANDLE;
-			}
-			if(!StrEqual(currentBGM[client], "ff2_stop_music"))
-				strcopy(currentBGM[client], PLATFORM_MAX_PATH, !permanent ? "" : "ff2_stop_music");
+			//if(!StrEqual(currentBGM[client], "ff2_stop_music"))
+			strcopy(currentBGM[client], PLATFORM_MAX_PATH, !permanent ? "" : "ff2_stop_music");
 		}
 	}
 	else
@@ -3287,13 +3280,6 @@ StopMusic(client=0, bool:permanent=false)
 			KillTimer(MusicTimer[client]);
 			MusicTimer[client]=INVALID_HANDLE;
 		}
-		else if(MusicTimer[client])
-		{
-			Debug("NOT INVALID_HANDLE!!!");
-			KillTimer(MusicTimer[client]);
-			MusicTimer[client]=INVALID_HANDLE;
-		}
-
 		if(!StrEqual(currentBGM[client], "ff2_stop_music"))
 			strcopy(currentBGM[client], PLATFORM_MAX_PATH, !permanent ? "" : "ff2_stop_music");
 	}
@@ -5015,25 +5001,29 @@ stock SetArenaCapEnableTime(Float:time)
 
 public OnClientPutInServer(client)
 {
-	SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-	SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
-
-	FF2flags[client]=0;
-	Damage[client]=0;
-	uberTarget[client]=-1;
-	Marketed[client]=0;
-	GoombaCount[client]=0;
-	Stabbed[client]=0;
-
-	if(AreClientCookiesCached(client))
+	if(Enabled)
 	{
-		new String:buffer[24];
-		GetClientCookie(client, FF2Cookies, buffer, sizeof(buffer));
-		if(!buffer[0])
+		SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+		SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
+
+		FF2flags[client]=0;
+		Damage[client]=0;
+		uberTarget[client]=-1;
+		Marketed[client]=0;
+		GoombaCount[client]=0;
+		Stabbed[client]=0;
+
+		if(AreClientCookiesCached(client))
 		{
-			SetClientCookie(client, FF2Cookies, "0 1 1 1 1 3 3");
-			//Queue points | music exception | voice exception | class info | DIFFICULTY | UNUSED | UNUSED
+			new String:buffer[24];
+			GetClientCookie(client, FF2Cookies, buffer, sizeof(buffer));
+			if(!buffer[0])
+			{
+				SetClientCookie(client, FF2Cookies, "0 1 1 1 1 3 3");
+				//Queue points | music exception | voice exception | class info | DIFFICULTY | UNUSED | UNUSED
+			}
 		}
+		StartMusic(client);
 	}
 }
 
@@ -8886,8 +8876,7 @@ public MusicTogglePanelH(Handle:menu, MenuAction:action, client, selection)
 				if(!CheckSoundException(client, SOUNDEXCEPT_MUSIC))
 				{
 					SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, true);
-					if(!currentBGM[client][0])
-						CreateTimer(0.0, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+					StartMusic(client);
 					CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==1 ? "끄기" : "켜기");
 				}
 			 }

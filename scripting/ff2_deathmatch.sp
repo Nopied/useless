@@ -641,7 +641,7 @@ public void OnClientDisconnect(int client)
 }
 
 
-public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist[80], char name[100], bool &notice, int client, int selected)
+public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, float &volume, char artist[80], char name[100], bool &notice, int client, int selected)
 {
   if(IsLastManStanding && BGMCount)
   {
@@ -673,6 +673,9 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, char artist
       Format(tempName, sizeof(tempName), "name%i", random);
       KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
       Format(name, sizeof(name), "%s", tempName);
+
+      Format(tempItem, sizeof(tempItem), "volume%i", random);
+      volume=KvGetFloat(MusicKV, tempItem);
 
       return Plugin_Changed;
     }
