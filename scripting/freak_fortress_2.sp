@@ -3323,14 +3323,14 @@ PlayBGM(client)
 
 		Format(music, 10, "time%i", index);
 		new Float:time=KvGetFloat(musicKv, music);
+		Format(music, 10, "volume%i", index);
+		new Float:volume=KvGetFloat(musicKv, music, 1.0);
 		Format(music, 10, "path%i", index);
 		Format(artist, sizeof(artist), "artist%i", index);
 		KvGetString(musicKv, artist, artist, sizeof(artist));
 		Format(name, sizeof(name), "name%i", index);
 		KvGetString(musicKv, name, name, sizeof(name));
 		KvGetString(musicKv, music, music, sizeof(music));
-		Format(music, 10, "volume%i", index);
-		new Float:volume=KvGetFloat(musicKv, music, 1.0);
 		decl String:temp[PLATFORM_MAX_PATH];
 
 		if(!(FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_SERVER))

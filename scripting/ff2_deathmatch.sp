@@ -251,6 +251,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         int topDamage[3];
         int totalDamage;
         int bossCount;
+        top[0]=0;
+        top[1]=0;
+        top[2]=0;
 
         for(int client=1; client<=MaxClients; client++)
         {
@@ -426,11 +429,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
       {
          CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님의 휴대용 텔레포터!", client);
          SetEntProp(client, Prop_Send, "m_iAmmo", metal-200, _, 3);
-         TeleportTime[client]=GetGameTime()+5.0;
+         TeleportTime[client]=GetGameTime()+15.0;
       }
       else
       {
-          PrintCenterText("지정한 위치가 끼는 자리에 있어 작동되지 않았습니다.");
+          PrintCenterText(client, "지정한 위치가 끼는 자리에 있어 작동되지 않았습니다.");
           TeleportEntity(client, clientPos, NULL_VECTOR, NULL_VECTOR);
       }
     }
@@ -675,7 +678,7 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, float &volu
       Format(name, sizeof(name), "%s", tempName);
 
       Format(tempItem, sizeof(tempItem), "volume%i", random);
-      volume=KvGetFloat(MusicKV, tempItem);
+      volume=KvGetFloat(MusicKV, tempItem, 1.0);
 
       return Plugin_Changed;
     }
@@ -1065,7 +1068,7 @@ int AttachParticle(int entity, char[] particleType, bool attach=true)
 	ActivateEntity(particle);
 	AcceptEntityInput(particle, "start");
 	return particle;
-}
+} //
 
 bool IsWeaponSlotActive(int iClient, int iSlot)
 {
@@ -1373,4 +1376,9 @@ stock bool IsPlayerStuck(int ent)
 
     TR_TraceHullFilter(vecOrigin, vecOrigin, vecMin, vecMax, MASK_SOLID, TraceRayPlayerOnly, ent);
     return (TR_DidHit());
+}
+
+public bool TraceRayPlayerOnly(int iEntity, int iMask, any iData)
+{
+    return (IsValidClient(iEntity) && IsValidClient(iData) && iEntity != iData);
 }
