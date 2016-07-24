@@ -389,7 +389,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         // SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
         CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
 
-        FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
+        FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
         return Plugin_Continue;
@@ -591,7 +591,7 @@ public void NoEnemyTimer(int client)
 
 public Action BeLastMan(Handle timer)
 {
-    FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER);
+    FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
     if(!LastManData || !IsPackReadable(LastManData, 0))
     {
       Debug("LastManData is invalid! what!?!?");

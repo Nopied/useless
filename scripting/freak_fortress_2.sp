@@ -6506,7 +6506,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 
 	BossHealth[boss]-=damage;
 	BossCharge[boss][0]+=damage*100.0/BossRageDamage[boss];
-	Damage[attacker]+=damage;
+	if(!(FF2ServerFlag & FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE)) Damage[attacker]+=damage;
 
 	new healers[MAXPLAYERS];
 	new healerCount;
@@ -6765,11 +6765,11 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							{
 								if(index!=230 || BossCharge[boss][0]>90.0)  //Sydney Sleeper
 								{
-									damage*=3.0;
+									damage*=damagecustom & TF_CUSTOM_HEADSHOT ? 3.0 : 2.5;
 								}
 								else
 								{
-									damage*=2.4;
+									damage*=damagecustom & TF_CUSTOM_HEADSHOT ? 2.4 : 2.0;
 								}
 							}
 							return Plugin_Changed;
