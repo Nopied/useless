@@ -14,6 +14,7 @@ bool IsLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 
 int top[3];
+int lastDamage;
 int BGMCount;
 float timeleft;
 int noticed;
@@ -298,6 +299,12 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         int random=GetRandomInt(0, totalDamage);
+        
+        while(lastDamage == random)
+        {
+          random=GetRandomInt(0, totalDamage);
+        }
+        lastDamage=random;
         int winner;
 
         for(int i; i<3; i++) // OH this stupid code..
