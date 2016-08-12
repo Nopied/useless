@@ -272,15 +272,15 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       	{
       	  if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[0]))
           {
-            top[0] = z;
-            topDamage[0] = FF2_GetClientDamage(z);
+              top[0] = z;
+              topDamage[0] = FF2_GetClientDamage(z);
     	  }
         }
       	for (int z = 1; z <= MaxClients; z++)
       	{
       		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[1]) && z != top[0])
       		{
-            top[1] = z;
+                top[1] = z;
       			topDamage[1] = FF2_GetClientDamage(z);
       		}
       	}
@@ -288,7 +288,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       	{
       		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[2]) && z != top[1] && z != top[0])
       		{
-            top[2] = z;
+                top[2] = z;
       			topDamage[2] = FF2_GetClientDamage(z);
       		}
       	}
@@ -299,7 +299,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         int random=GetRandomInt(0, totalDamage);
-        
+
         while(lastDamage == random)
         {
           random=GetRandomInt(0, totalDamage);
@@ -357,6 +357,12 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
             int forWinner=FindAnotherPerson(winner);
+
+            if(!forWinner)
+            {
+                CPrintToChatAll("{olive}[FF2]{default} 보스의");
+                return Plugin_Continue;
+            }
 
             LastManData=CreateDataPack(); // In this? data = winner | forWinner | team | IsAlive
 
@@ -700,7 +706,7 @@ stock int FindAnotherPerson(int Gclient)
 
     for(int client=1; client<=MaxClients; client++)
     {
-        if(IsValidClient(client) && client != Gclient && !IsBoss(client))
+        if(IsClientInGame(client) && client != Gclient && !IsBossTeam(client) && !IsPlayerAlive(client))
         {
             validTarget[count++]=client;
         }
@@ -708,7 +714,7 @@ stock int FindAnotherPerson(int Gclient)
 
     if(!count)
     {
-        return CreateFakeClient("sorry. I can't find target.");
+        return 0;
     }
     return validTarget[GetRandomInt(0, count-1)];
 }
