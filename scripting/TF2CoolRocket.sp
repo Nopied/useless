@@ -19,8 +19,8 @@ public Plugin:myinfo = {
 #include <sdktools>
 #include <tf2>
 #include <tf2_stocks>
-#include "sdkhooks"
-#include "stocklib"
+#include <sdkhooks>
+// #include "stocklib"
 
 //semicolon!!!!
 #pragma semicolon 1
@@ -200,8 +200,8 @@ bool:isValidTarget(entity, targetentref){
 
 }
 
-bool:isTargetTraceable(entity, targetentref){
-
+bool:isTargetTraceable(entity, targetentref)
+{
 	new target = EntRefToEntIndex(targetentref);
 
 	//타겟까지 트레이스가 가능한가
@@ -240,13 +240,15 @@ bool:isTargetTraceable(entity, targetentref){
 
 			targetvalid = true;
 
-		}else{
+		}else
+		{
 
 			targetvalid = false;
 
 		}
 
-	}else{
+	}else
+	{
 
 		//변장을 했고, 변장이 끝났는가?
 		if(!TF2_IsPlayerInCondition(target, TFCond_Disguising) &&TF2_IsPlayerInCondition(target, TFCond_Disguised) && (GetEntProp(target, Prop_Send, "m_nDisguiseTeam") == GetEntProp(entity, Prop_Data, "m_iTeamNum"))){
@@ -262,5 +264,63 @@ bool:isTargetTraceable(entity, targetentref){
 	}
 
 	return traceable && targetvalid;
+
+}
+
+stock bool:isClientConnectedIngameAlive(client){
+
+	if(isClientConnectedIngame(client)){
+
+		if(IsPlayerAlive(client) == true && IsClientObserver(client) == false){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}else{
+
+		return false;
+
+	}
+
+}
+
+stock bool:isClientConnectedIngame(client){
+
+	if(client > 0 && client <= MaxClients){
+
+		if(IsClientInGame(client) == true){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}else{
+
+		return false;
+
+	}
+
+}
+
+public bool:tracerayfilterdefault(entity, mask, any:data){
+
+	if(entity != data){
+
+		return true;
+
+	}else{
+
+		return false;
+
+	}
 
 }

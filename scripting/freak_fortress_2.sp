@@ -101,7 +101,7 @@ new FF2flags[MAXPLAYERS+1];
 new FF2ServerFlag;
 
 new DPSTick;
-new Float:PlayerDamageDPS[MAXPLAYERS+1][15];
+new Float:PlayerDamageDPS[MAXPLAYERS+1][5];
 new HighestDPSClient;
 new Float:HighestDPS;
 
@@ -120,6 +120,7 @@ new Float:BossAbilityCooldownMax[MAXPLAYERS+1];
 new Float:BossAbilityDuration[MAXPLAYERS+1];
 new Float:BossAbilityDurationMax[MAXPLAYERS+1];
 new Float:BossCharge[MAXPLAYERS+1][8];
+new bool:IsBossYou[MAXPLAYERS+1];
 new Stabbed[MAXPLAYERS+1];
 new Marketed[MAXPLAYERS+1];
 new Float:KSpreeTimer[MAXPLAYERS+1];
@@ -2678,6 +2679,7 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 	{
 		BossInfoTimer[boss][0]=INVALID_HANDLE;
 		BossInfoTimer[boss][1]=INVALID_HANDLE;
+		IsBossYou[boss]=false;
 		if(Boss[boss])
 		{
 			CreateTimer(0.3, MakeBoss, boss, TIMER_FLAG_NO_MAPCHANGE);
@@ -3767,12 +3769,13 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		AssignTeam(client, BossTeam);
 	}
 
+	decl String:bossName[64];
+	KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
 
 	BossRageDamage[boss]=KvGetNum(BossKV[Special[boss]], "ragedamage", 1900);
 	if(BossRageDamage[boss]<=0)
 	{
-		decl String:bossName[64];
-		KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
+		// KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
 		PrintToServer("[FF2 Bosses] Warning: Boss %s's rage damage is 0 or below, setting to 1900", bossName);
 		BossRageDamage[boss]=1900;
 	}
@@ -3780,10 +3783,15 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	BossLivesMax[boss]=KvGetNum(BossKV[Special[boss]], "lives", 1);
 	if(BossLivesMax[boss]<=0)
 	{
-		decl String:bossName[64];
-		KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
+		// KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
 		PrintToServer("[FF2 Bosses] Warning: Boss %s has an invalid amount of lives, setting to 1", bossName);
 		BossLivesMax[boss]=1;
+	}
+
+	if(StrEqual(bossName, "You", true) ||
+	StrEqual(bossName, "당신", true))
+	{
+		IsBossYou[boss]=true;
 	}
 
 	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
@@ -3842,6 +3850,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 			FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
 		}
 	}
+	if(IsBossYou[boss]) FF2flags[client]|=FF2FLAG_ALLOW_AMMO_PICKUPS;
 
 	CreateTimer(0.2, MakeModelTimer, boss, TIMER_FLAG_NO_MAPCHANGE);
 	if(!IsVoteInProgress())
@@ -3855,34 +3864,42 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	}
 
 	new entity=-1;
-	while((entity=FindEntityByClassname2(entity, "tf_wear*"))!=-1)
-	{
-		if(IsBoss(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")))
+	if(!IsBossYou[boss])
+	{	
+		while((entity=FindEntityByClassname2(entity, "tf_wear*"))!=-1)
 		{
-			switch(GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex"))
+			if(IsBoss(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")))
 			{
-				case 493, 233, 234, 241, 280, 281, 282, 283, 284, 286, 288, 362, 364, 365, 536, 542, 577, 599, 673, 729, 791, 839, 5607:  //Action slot items				{
+				switch(GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex"))
 				{
-					// NOOOOOOOOP
-				}
-				default:
-				{
-					TF2_RemoveWearable(client, entity);
+					case 493, 233, 234, 241, 280, 281, 282, 283, 284, 286, 288, 362, 364, 365, 536, 542, 577, 599, 673, 729, 791, 839, 5607:  //Action slot items				{
+					{
+						// NOOOOOOOOP
+					}
+					default:
+					{
+						TF2_RemoveWearable(client, entity);
+					}
 				}
 			}
 		}
 	}
 
-	entity=-1;
-	while((entity=FindEntityByClassname2(entity, "tf_powerup_bottle"))!=-1)
+	if(!IsBossYou[boss])
 	{
-		if(IsBoss(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")))
+		entity=-1;
+		while((entity=FindEntityByClassname2(entity, "tf_powerup_bottle"))!=-1)
 		{
-			TF2_RemoveWearable(client, entity);
+			if(IsBoss(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")))
+			{
+				TF2_RemoveWearable(client, entity);
+			}
 		}
 	}
 
-	EquipBoss(boss);
+	if(!IsBossYou[boss])
+		EquipBoss(boss);
+
 	KSpreeCount[boss]=0;
 	BossCharge[boss][0]=0.0;
 
@@ -5159,7 +5176,7 @@ public Action:ClientTimer(Handle:timer)
 			if(PlayerDamageDPS[client][DPSTick]<0.0)
 				PlayerDamageDPS[client][DPSTick]=0.0;
 			*/
-			PlayerDamageDPS[client][DPSTick]=0.0;
+			if(PlayerDamageDPS[client][DPSTick]>0.0) PlayerDamageDPS[client][DPSTick]/=1.5;
 
 			SetHudTextParams(-1.0, 0.88, 0.35, 90, 255, 90, 255, 0, 0.35, 0.0, 0.1);
 			if(!IsPlayerAlive(client))
