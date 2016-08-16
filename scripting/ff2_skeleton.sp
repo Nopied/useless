@@ -43,7 +43,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
-  if(IsValidClient(attacker))
+  if(IsValidClient(attacker) || IsValidEntity(inflictor))
     return Plugin_Handled;
 
   return Plugin_Continue;
