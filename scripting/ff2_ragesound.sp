@@ -39,7 +39,7 @@ public Action:FF2_OnAbility2(iBoss, const String:pluginName[], const String:abil
 		}
 
 		new iRand = GetRandomInt(0, iCount-1);
-		EmitSoundToAll(sRageSound[iRand], _, _, _, _, FF2_GetAbilityArgumentFloat(iBoss, pluginName, abilityName, 2, 1.2));
+		EmitSoundToAll(sRageSound[iRand], _, _, SNDLEVEL_TRAIN, _, 1.0);
 	}
 	return Plugin_Continue;
 }
