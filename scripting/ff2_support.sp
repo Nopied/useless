@@ -19,6 +19,8 @@ public Plugin myinfo=
 bool Sub_SaxtonReflect[MAXPLAYERS+1];
 bool CBS_Abilities[MAXPLAYERS+1];
 
+bool IsEntityCanReflect[MAX_EDICTS];
+
 public void OnPluginStart2()
 {
 	HookEvent("arena_round_start", OnRoundStart);
@@ -28,7 +30,9 @@ public OnEntityCreated(entity, const String:classname[])
 {
 	if (StrContains(classname, "tf_projectile_"))
 		return;
+ 	// SDKHook_SpawnPost
 
+	SDKHook(entity, SDKHook_SpawnPost, OnSpawn);
 	SDKHook(entity, SDKHook_StartTouch, OnStartTouch);
 }
 
@@ -43,6 +47,15 @@ public Action OnStartTouch(int entity, int other)
 
 	SDKHook(entity, SDKHook_Touch, OnTouch);
 	return Plugin_Handled;
+}
+
+public void OnSpawn(int entity)
+{
+	if(CBS_Abilities[GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")])
+	{
+		IsEntityCanReflect[entity]=true;
+	}
+	else IsEntityCanReflect[entity]=false;
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
@@ -60,18 +73,16 @@ void CheckAbilities()
   int client, boss;
   for(client=1; client<=MaxClients; client++)
   {
-    Sub_SaxtonReflect[client]=false;
+	    Sub_SaxtonReflect[client]=false;
 		CBS_Abilities[client]=false;
 
-    if((boss=FF2_GetBossIndex(client)) != -1)
-    {
-      if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
-        Sub_SaxtonReflect[client]=true;
-
-			if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
-	      CBS_Abilities[client]=true;
-
-    }
+	    if((boss=FF2_GetBossIndex(client)) != -1)
+	    {
+	      if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
+	        Sub_SaxtonReflect[client]=true;
+		if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
+		     CBS_Abilities[client]=true;
+		 }
   }
 }
 
@@ -88,15 +99,15 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			int ent;
 			float clientPos[3];
 			float clientEyeAngles[3];
-      float end_pos[3];
-      float targetPos[3];
+			float end_pos[3];
+			float targetPos[3];
 			float targetEndPos[3];
 			float vecrt[3];
 			float angVector[3];
 
 			GetEntPropVector(client, Prop_Send, "m_vecOrigin", clientPos);
 			GetClientEyeAngles(client, clientEyeAngles);
-      GetEyeEndPos(client, 100.0, end_pos);
+			GetEyeEndPos(client, 100.0, end_pos);
 
 			while((ent = FindEntityByClassname(ent, "tf_projectile_*")) != -1)
 			{
@@ -106,7 +117,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				if(GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity") == client)
 				 continue;
 
-			  GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+				GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
 				GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
 
 				if(GetVectorDistance(targetPos, targetEndPos) <= 100.0)
@@ -140,8 +151,8 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					EmitSoundToAll("player/flame_out.wav", ent, _, _, _, _, _, ent, targetPos);
 				}
 			}
-    }
-  }
+		}
+	}
 
   return Plugin_Continue;
 }
@@ -170,6 +181,8 @@ public void GetEyeEndPos(int client, float max_distance, float endPos[3])
 
 public Action OnTouch(int entity, int other)
 {
+	if(!IsEntityCanReflect[entity]) return Plugin_Continue;
+
 	decl Float:vOrigin[3];
 	GetEntPropVector(entity, Prop_Data, "m_vecOrigin", vOrigin);
 
