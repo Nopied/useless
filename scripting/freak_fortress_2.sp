@@ -3832,7 +3832,9 @@ public Action:MakeBoss(Handle:timer, any:boss)
 
 	SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
 	TF2_RemovePlayerDisguise(client);
-	TF2_SetPlayerClass(client, TFClassType:KvGetNum(BossKV[Special[boss]], "class", 1), _, !GetEntProp(client, Prop_Send, "m_iDesiredPlayerClass") ? true : false);
+	
+	if(!IsBossYou[boss])
+		TF2_SetPlayerClass(client, TFClassType:KvGetNum(BossKV[Special[boss]], "class", 1), _, !GetEntProp(client, Prop_Send, "m_iDesiredPlayerClass") ? true : false);
 	SDKHook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);  //Temporary:  Used to prevent boss overheal
 
 	switch(KvGetNum(BossKV[Special[boss]], "pickups", 0))  //Check if the boss is allowed to pickup health/ammo
@@ -3865,7 +3867,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 
 	new entity=-1;
 	if(!IsBossYou[boss])
-	{	
+	{
 		while((entity=FindEntityByClassname2(entity, "tf_wear*"))!=-1)
 		{
 			if(IsBoss(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")))
