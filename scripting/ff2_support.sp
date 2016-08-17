@@ -8,6 +8,9 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
+#define	MAX_EDICT_BITS	11
+#define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
+
 public Plugin myinfo=
 {
 	name="Freak Fortress 2: Support",

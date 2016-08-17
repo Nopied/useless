@@ -274,7 +274,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
           {
               top[0] = z;
               topDamage[0] = FF2_GetClientDamage(z);
-    	  }
+    	    }
         }
       	for (int z = 1; z <= MaxClients; z++)
       	{
@@ -292,6 +292,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       			topDamage[2] = FF2_GetClientDamage(z);
       		}
       	}
+
+        if(top[0]<=0)
+          return Plugin_Continue;
 
         for(int i; i<3; i++)
         {
@@ -360,7 +363,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
             if(!forWinner)
             {
-                CPrintToChatAll("{olive}[FF2]{default} 보스의");
+                CPrintToChatAll("{olive}[FF2]{default} 보스가 그 누구도 라스트맨이 되는 것을 허락하지 않았습니다..");
                 return Plugin_Continue;
             }
 

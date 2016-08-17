@@ -3625,8 +3625,17 @@ public Action:MessageTimer(Handle:timer)
 					strcopy(lives, 2, "");
 				}
 
-				Format(text, sizeof(text), "%s\n%t", text, "ff2_start", Boss[boss], name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
-				Format(textChat, sizeof(textChat), "{olive}[FF2]{default} %t!", "ff2_start_chat", Boss[boss], name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives);
+				if(IsBossYou[boss])
+					Format(text, sizeof(text), "%s\n%t", text, "ff2_start_you", Boss[boss], BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
+				else
+					Format(text, sizeof(text), "%s\n%t", text, "ff2_start", Boss[boss], name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
+
+				if(IsBossYou[boss])
+					Format(textChat, sizeof(textChat), "{olive}[FF2]{default} %t!", "ff2_start_chat_you", Boss[boss], BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives);
+
+				else
+					Format(textChat, sizeof(textChat), "{olive}[FF2]{default} %t!", "ff2_start_chat", Boss[boss], name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives);
+
 				ReplaceString(textChat, sizeof(textChat), "\n", "");  //Get rid of newlines
 				// CPrintToChatAll("%s", textChat);
 				CPrintToChatAll("%s", textChat);
@@ -3832,7 +3841,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 
 	SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
 	TF2_RemovePlayerDisguise(client);
-	
+
 	if(!IsBossYou[boss])
 		TF2_SetPlayerClass(client, TFClassType:KvGetNum(BossKV[Special[boss]], "class", 1), _, !GetEntProp(client, Prop_Send, "m_iDesiredPlayerClass") ? true : false);
 	SDKHook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);  //Temporary:  Used to prevent boss overheal
@@ -4718,8 +4727,26 @@ public Action:Command_GetHP(client)  //TODO: This can rarely show a very large n
 				}
 				new String:diffItem[50];
 				GetDifficultyString(BossDiff[boss], diffItem, sizeof(diffItem));
-				Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
-				CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+				if(IsBossYou[boss])
+				{
+					new String:playerName[50];
+					GetClientName(client, playerName, sizeof(playerName));
+					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+				}
+
+				else
+					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+
+				if(IsBossYou[boss])
+				{
+					new String:playerName[50];
+					GetClientName(client, playerName, sizeof(playerName));
+					CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+
+				}
+				else
+					CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+
 				BossHealthLast[boss]=BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1);
 			}
 		}
@@ -5706,7 +5733,17 @@ public Action:BossTimer(Handle:timer)
 
 					new String:diffItem[50];
 					GetDifficultyString(BossDiff[boss2], diffItem, sizeof(diffItem));
-					Format(message, sizeof(message), "%s\n%t", message, "ff2_hp", name, BossHealth[boss2]-BossHealthMax[boss2]*(BossLives[boss2]-1), BossHealthMax[boss2], bossLives, !IsFakeClient(target) ? diffItem : "BOT");
+
+					if(IsBossYou[boss2])
+					{
+						new String:playerName[50];
+						GetClientName(target, playerName, sizeof(playerName));
+						Format(message, sizeof(message), "%s\n%t", message, "ff2_hp", playerName, BossHealth[boss2]-BossHealthMax[boss2]*(BossLives[boss2]-1), BossHealthMax[boss2], bossLives, !IsFakeClient(target) ? diffItem : "BOT");
+					}
+
+					else
+						Format(message, sizeof(message), "%s\n%t", message, "ff2_hp", name, BossHealth[boss2]-BossHealthMax[boss2]*(BossLives[boss2]-1), BossHealthMax[boss2], bossLives, !IsFakeClient(target) ? diffItem : "BOT");
+
 				}
 			}
 			if(HasCompanions)
