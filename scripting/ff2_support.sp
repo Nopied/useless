@@ -54,9 +54,24 @@ public Action OnStartTouch(int entity, int other)
 
 public void OnSpawn(int entity)
 {
+	// int owner=GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
 	if(CBS_Abilities[GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")])
 	{
+		int observer;
+		float opPos[3];
+		float opAng[3];
+
 		IsEntityCanReflect[entity]=true;
+		GetEntPropVector(entity,Prop_Data,"m_vecOrigin",opPos);
+		GetEntPropVector(entity,Prop_Data, "m_angAbsRotation", opAng);
+		observer = CreateEntityByName("info_observer_point");
+		DispatchKeyValue(observer, "Angles", "90 0 0");
+		DispatchKeyValue(observer, "TeamNum", "0");
+		DispatchKeyValue(observer, "StartDisabled", "0");
+		DispatchSpawn(observer);
+		AcceptEntityInput(observer, "Enable");
+		SetVariantString("!activator");
+		AcceptEntityInput(observer, "SetParent", entity);
 	}
 	else IsEntityCanReflect[entity]=false;
 }
