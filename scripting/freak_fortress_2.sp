@@ -2991,7 +2991,7 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 			//TODO:  Clear HUD text here
 			if(IsBoss(client))
 			{
-				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n%t\n\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], (bossWin ? "boss_win" : "boss_lose"), "notice_DPS", HighestDPSClient, temp);
+				FF2_ShowSyncHudText(client, infoHUD, "%s\n%t\n1) %i-%s\n2) %i-%s\n3) %i-%s\n\n%t\n\n%t", text, "top_3", Damage[top[0]], leaders[0], Damage[top[1]], leaders[1], Damage[top[2]], leaders[2], (bossWin ? "boss_win" : "boss_lose"), "notice_DPS", HighestDPSClient, temp);
 			}
 			else
 			{
@@ -7385,7 +7385,7 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 		KvRewind(BossKV[Special[GetBossIndex(victim)]]);
 		KvGetString(BossKV[Special[GetBossIndex(victim)]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-		CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "굼바 스톰프", bossName, 500); // 굼바 데미지는 굼바 플러그인에서 고정데미지로 정함.
+		CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "굼바 스톰프", bossName, !TF2_IsPlayerInCondition(attacker, TFCond_Buffed) ? 500 : 675); // 굼바 데미지는 굼바 플러그인에서 고정데미지로 정함.
 		return Plugin_Changed;
 	}
 	return Plugin_Continue;

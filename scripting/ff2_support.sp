@@ -23,6 +23,7 @@ bool Sub_SaxtonReflect[MAXPLAYERS+1];
 bool CBS_Abilities[MAXPLAYERS+1];
 
 bool IsEntityCanReflect[MAX_EDICTS];
+int g_nEntityBounce[MAX_EDICTS];
 
 public void OnPluginStart2()
 {
@@ -45,8 +46,8 @@ public Action OnStartTouch(int entity, int other)
 		return Plugin_Continue;
 
 	// Only allow a rocket to bounce x times.
-//	if (g_nBounces[entity] >= g_config_iMaxBounces)
-//		return Plugin_Continue;
+	if (g_nEntityBounce[entity] >= 50)
+		return Plugin_Continue;
 
 	SDKHook(entity, SDKHook_Touch, OnTouch);
 	return Plugin_Handled;
@@ -62,6 +63,7 @@ public void OnSpawn(int entity)
 		float opAng[3];
 
 		IsEntityCanReflect[entity]=true;
+		g_nEntityBounce[entity]=0;
 		GetEntPropVector(entity,Prop_Data,"m_vecOrigin",opPos);
 		GetEntPropVector(entity,Prop_Data, "m_angAbsRotation", opAng);
 		observer = CreateEntityByName("info_observer_point");
@@ -98,8 +100,8 @@ void CheckAbilities()
 	    {
 	      if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
 	        Sub_SaxtonReflect[client]=true;
-		if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
-		     CBS_Abilities[client]=true;
+				if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
+		    	CBS_Abilities[client]=true;
 		 }
   }
 }
@@ -240,6 +242,7 @@ public Action OnTouch(int entity, int other)
 	//PrintToServer("Velocity: [%.2f, %.2f, %.2f] |%.2f| -> [%.2f, %.2f, %.2f] |%.2f|", vVelocity[0], vVelocity[1], vVelocity[2], GetVectorLength(vVelocity), vBounceVec[0], vBounceVec[1], vBounceVec[2], GetVectorLength(vBounceVec));
 
 	TeleportEntity(entity, NULL_VECTOR, vNewAngles, vBounceVec);
+	g_nEntityBounce[entity]++;
 
 	SDKUnhook(entity, SDKHook_Touch, OnTouch);
 	return Plugin_Handled;

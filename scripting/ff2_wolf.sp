@@ -6,6 +6,8 @@
 
 #define SOUND_SHIELD "weapons/medi_shield_deploy.wav"
 
+//int PlayerShield[MAXPLAYERS+1];
+
 public Plugin:myinfo=
 {
 	name="Freak Fortress 2: Wolf's Abilities",
@@ -35,13 +37,20 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 
 
 		*/
+		if(abilityTime<=0.0)
+		{
+			if(GetEntPropFloat(client, Prop_Send, "m_flRageMeter") > 15.0)
+				SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 15.0);
+			return Plugin_Continue;
+		}
 
-		FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss)+3.0 > 70.0 ? 70.0 : FF2_GetAbilityDuration(boss)+3.0);
+		FF2_SetAbilityDuration(boss, abilityTime+3.0 > 70.0 ? 70.0 : abilityTime+3.0);
 
 		SetEntPropFloat(client, Prop_Send, "m_flRageMeter",
-			GetEntPropFloat(client, Prop_Send, "m_flRageMeter") > FF2_GetAbilityDuration(boss)*11.5 ?
-			11.5*70.0 : FF2_GetAbilityDuration(boss)*11.5);
+			GetEntPropFloat(client, Prop_Send, "m_flRageMeter") > abilityTime*11.5 ?
+			11.5*70.0 : abilityTime*11.5);
   }
+	return Plugin_Continue;
 }
 
 /*
@@ -58,11 +67,13 @@ public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abi
 {
   if(!strcmp(abilityName, "wolf_deflecter"))
   {
-    SpawnShield(GetClientOfUserId(FF2_GetBossUserId(boss)));
+		int client=GetClientOfUserId(FF2_GetBossUserId(boss));
+    // PlayerShield[client]=SpawnShield(client);
+		SpawnShield(client);
   }
 }
 
-stock void SpawnShield(int client)
+stock int SpawnShield(int client)
 {
   int shield = CreateEntityByName("entity_medigun_shield");
   if(IsValidEntity(shield))
@@ -77,5 +88,7 @@ stock void SpawnShield(int client)
     DispatchSpawn(shield);
     EmitSoundToClient(client, "weapons/medi_shield_deploy.wav", shield);
     SetEntityModel(shield, "models/props_mvm/mvm_player_shield2.mdl");
+		return shield;
   }
+	return -1;
 }

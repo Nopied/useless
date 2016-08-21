@@ -168,6 +168,7 @@ float SS_CoolDown[MAXPLAYERS+1];					// 1
 
 /* Rage_MLG */
 float MLGRageTime;
+bool enableMLG[MAXPLAYERS+1];
 
 //////////// FF2 inits
 public void OnPluginStart2()
@@ -463,7 +464,7 @@ public Action Event_PlayerHurt(Event hEvent, const char[] strName, bool bDontBro
 	{
 		if(MLGRageTime >= GetEngineTime())
 		{
-			Debug("Headshot..?");
+			// Debug("Headshot..?");
 			iCustom = TF_CUSTOM_HEADSHOT;
 			return Plugin_Changed;
 		}
@@ -751,6 +752,10 @@ public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fl
 		}
 	}
 
+	if(MLGRageTime < GetEngineTime() || !enableMLG[iClient] || !IsPlayerAlive(iClient)) return Plugin_Continue;
+
+	if(iButtons & IN_ATTACK|IN_ATTACK2) AimThink(iClient);
+
 	return Plugin_Continue;
 }
 
@@ -899,6 +904,7 @@ void Rage_MLG(int iClient, const char[] ability_name)
 {
 	int Boss = GetClientOfUserId(FF2_GetBossUserId(iClient));
 	MLGRageTime = GetEngineTime() + FF2_GetAbilityArgumentFloat(iClient, this_plugin_name, ability_name, 1);
+	enableMLG[Boss]=true;
 	SDKHook(Boss, SDKHook_PreThink, AimThink);
 }
 
@@ -1728,7 +1734,10 @@ public void AimThink(iClient)
 	TeleportEntity(iClient, NULL_VECTOR, flCamAngle, NULL_VECTOR);
 
 	if(GetEngineTime() >= MLGRageTime || FF2_GetRoundState() != 1)
+	{
+		enableMLG[iClient]=false;
 		SDKUnhook(iClient, SDKHook_PreThink, AimThink);
+	}
 }
 
 void Abduct(int iClient)
