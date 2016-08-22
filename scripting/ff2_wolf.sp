@@ -53,15 +53,11 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 	return Plugin_Continue;
 }
 
-/*
-public Action FF2_OnBossAbilityTime(int boss, char[] abilityName, float &abilityDuration, float &abilityCooldown)
+public Action FF2_OnRageEnd(int boss)
 {
-	if(abilityDuration <= 0.0 && FF2_HasAbility(boss, this_plugin_name, "wolf_deflecter"))
-	{
-		SetEntPropFloat(GetClientOfUserId(FF2_GetBossUserId(boss)), Prop_Send, "m_flRageMeter", 0.0);
-	}
+	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
+	SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 15.0);
 }
-*/
 
 public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abilityName, int status)
 {

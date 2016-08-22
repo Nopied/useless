@@ -133,6 +133,7 @@ new bool:bossHasReloadAbility[MAXPLAYERS+1];
 new bool:bossHasRightMouseAbility[MAXPLAYERS+1];
 new bool:playingCustomBossBGM[MAXPLAYERS+1];
 new bool:playingCustomBGM[MAXPLAYERS+1];
+new bool:NoticedRageEnd[MAXPLAYERS+1];
 new bool:DEVmode=false;
 new bool:IsFakeKill=false;
 
@@ -168,6 +169,7 @@ new Handle:cvarDebug;
 new Handle:cvarPreroundBossDisconnect;
 
 new Handle:FF2Cookies;
+new Handle:YouSpecial;
 
 new Handle:jumpHUD;
 new Handle:rageHUD;
@@ -1028,6 +1030,7 @@ new Handle:OnLoadCharacterSet;
 new Handle:OnLoseLife;
 new Handle:OnAlivePlayersChanged;
 new Handle:OnAbilityTime;
+new Handle:OnRageEnd;
 
 new bool:bBlockVoice[MAXSPECIALS];
 new Float:BossSpeed[MAXSPECIALS];
@@ -1112,6 +1115,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnLoseLife=CreateGlobalForward("FF2_OnLoseLife", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell);  //Boss, lives left, max lives
 	OnAlivePlayersChanged=CreateGlobalForward("FF2_OnAlivePlayersChanged", ET_Hook, Param_Cell, Param_Cell);  //Players, bosses
 	OnAbilityTime=CreateGlobalForward("FF2_OnBossAbilityTime", ET_Hook, Param_Cell, Param_String, Param_FloatByRef, Param_FloatByRef);
+	OnRageEnd=CreateGlobalForward("FF2_OnRageEnd", ET_Hook, Param_Cell);
 
 	RegPluginLibrary("freak_fortress_2");
 	RegPluginLibrary("POTRY");
@@ -1280,6 +1284,7 @@ public OnPluginStart()
 	AutoExecConfig(true, "FreakFortress2");
 
 	FF2Cookies=RegClientCookie("ff2_cookies_mk2", "", CookieAccess_Protected);
+	YouSpecial=RegClientCookie("ff2_you_special", "", CookieAccess_Protected);
 
 	jumpHUD=CreateHudSynchronizer();
 	rageHUD=CreateHudSynchronizer();
@@ -5656,9 +5661,21 @@ public Action:BossTimer(Handle:timer)
 		if(BossAbilityDuration[boss] > 0.0)
 		{
 			BossAbilityDuration[boss]-=0.2;
+			NoticedRageEnd[boss]=false;
 		}
 		else if(BossAbilityCooldown[boss] > 0.0)
 		{
+			if(!NoticedRageEnd[boss])
+			{
+				NoticedRageEnd[boss]=true;
+
+				if(IsPlayerAlive(client))
+				{
+					Call_StartForward(OnRageEnd);
+					Call_PushCell(boss);
+					Call_Finish();
+				}
+			}
 			BossAbilityCooldown[boss]-=0.2;
 		}
 		SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
@@ -9484,7 +9501,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 	return true;
 }
 
-GetDifficultyString(difficulty, String:diff[], buffer)
+public GetDifficultyString(difficulty, String:diff[], buffer)
 {
 	new String:item[50];
 
@@ -10215,6 +10232,16 @@ float GetPlayerDPS(int client)
 	}
 
 	return damage/float(sizeof(PlayerDamageDPS[]));
+}
+
+public GetYouSpecielString(client, String:cookie[], buffer)
+{
+	GetClientCookie(client, YouSpecial, cookie, buffer);
+}
+
+SetYouSpecialString(client, String:cookie[])
+{
+	SetClientCookie(client, YouSpecial, cookie);
 }
 
 #include <freak_fortress_2_vsh_feedback>
