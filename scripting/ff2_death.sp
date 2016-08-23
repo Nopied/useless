@@ -362,6 +362,12 @@ public void Event_RoundStart(Event hEvent, const char[] strName, bool bDontBroad
 				SDKHook(i, SDKHook_OnTakeDamage, OnTakeDamage);
 		}
 
+		if(FF2_HasAbility(iIndex, this_plugin_name, "rage_mlg"))
+		{
+			for(int i=1; i<=MaxClients; i++)
+				SDKHook(i, SDKHook_OnTakeDamage, OnTakeDamage);
+		}
+
 		if(FF2_HasAbility(iIndex, this_plugin_name, "special_norage"))
 			SDKHook(iBoss, SDKHook_PreThink, NoRage_Think);
 		if(FF2_HasAbility(iIndex, this_plugin_name, "special_noknockback"))
@@ -543,6 +549,19 @@ public Action OnTakeDamage(int iClient, int &iAttacker, int &iInflictor, float &
 		flDamage *= 0.2;
 		return Plugin_Changed;
 	}
+
+	if(enableMLG[iAttacker])
+	{
+		char classname[50];
+		GetEntityClassname(GetEntPropEnt(iAttacker, Prop_Send, "m_hActiveWeapon"), classname, sizeof(classname));
+		if(!StrContains(classname, "tf_weapon_sniperrifle"))
+		{
+			iDamageCustom|=TF_CUSTOM_HEADSHOT;
+			iDamagetype|=DMG_CRIT;
+			return Plugin_Changed;
+		}
+	}
+
 	return Plugin_Continue;
 }
 
@@ -752,9 +771,9 @@ public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fl
 		}
 	}
 
-	if(MLGRageTime < GetEngineTime() || !enableMLG[iClient] || !IsPlayerAlive(iClient)) return Plugin_Continue;
+	// if(MLGRageTime < GetEngineTime() || !enableMLG[iClient] || !IsPlayerAlive(iClient)) return Plugin_Continue;
 
-	if(iButtons & IN_ATTACK|IN_ATTACK2) AimThink(iClient);
+	// if(iButtons & IN_ATTACK|IN_ATTACK2) AimThink(iClient);
 
 	return Plugin_Continue;
 }
