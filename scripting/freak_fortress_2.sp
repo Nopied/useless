@@ -1396,6 +1396,14 @@ public Action:Listener_Say(client, const String:command[], argc)
 	{
 		HelpPanelClass(client);
 	}
+
+	else if(StrEqual("you", chat[2], true) ||
+	StrEqual("너", chat[2], true))
+	{
+		char specialtext[2][100];
+		ExplodeString(chat[2], " ", specialtext, sizeof(specialtext), sizeof(specialtext[]));
+		SetYouSpecialString(client, specialtext[1]);
+	}
 	return handleChat ? Plugin_Handled : Plugin_Continue;
 }
 
@@ -3631,15 +3639,16 @@ public Action:MessageTimer(Handle:timer)
 				}
 
 				if(IsBossYou[boss])
+				{
+					GetYouSpecielString(client, specialApproach, sizeof(specialApproach));
 					Format(text, sizeof(text), "%s\n%t", text, "ff2_start_you", Boss[boss], BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
-				else
-					Format(text, sizeof(text), "%s\n%t", text, "ff2_start", Boss[boss], name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
-
-				if(IsBossYou[boss])
 					Format(textChat, sizeof(textChat), "{olive}[FF2]{default} %t!", "ff2_start_chat_you", Boss[boss], BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives);
-
+				}
 				else
+				{
+					Format(text, sizeof(text), "%s\n%t", text, "ff2_start", Boss[boss], name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
 					Format(textChat, sizeof(textChat), "{olive}[FF2]{default} %t!", "ff2_start_chat", Boss[boss], name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives);
+				}
 
 				ReplaceString(textChat, sizeof(textChat), "\n", "");  //Get rid of newlines
 				// CPrintToChatAll("%s", textChat);
@@ -10242,6 +10251,7 @@ public GetYouSpecielString(client, String:cookie[], buffer)
 SetYouSpecialString(client, String:cookie[])
 {
 	SetClientCookie(client, YouSpecial, cookie);
+	CPrintToChat(client, "{olive}[FF2]{default} {green}%s{default}로 설정되었습니다.", cookie);
 }
 
 #include <freak_fortress_2_vsh_feedback>

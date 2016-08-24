@@ -8,7 +8,7 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
-#define	MAX_EDICT_BITS	11
+#define	MAX_EDICT_BITS	12
 #define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
 
 public Plugin myinfo=
@@ -66,6 +66,7 @@ public void OnSpawn(int entity)
 		g_nEntityBounce[entity]=0;
 		GetEntPropVector(entity,Prop_Data,"m_vecOrigin",opPos);
 		GetEntPropVector(entity,Prop_Data, "m_angAbsRotation", opAng);
+
 		observer = CreateEntityByName("info_observer_point");
 		DispatchKeyValue(observer, "Angles", "90 0 0");
 		DispatchKeyValue(observer, "TeamNum", "0");
@@ -98,11 +99,11 @@ void CheckAbilities()
 
 	    if((boss=FF2_GetBossIndex(client)) != -1)
 	    {
-	      if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
-	        Sub_SaxtonReflect[client]=true;
-				if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
+	      	if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
+	        	Sub_SaxtonReflect[client]=true;
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
 		    	CBS_Abilities[client]=true;
-		 }
+		}
   }
 }
 
@@ -121,7 +122,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			float clientEyeAngles[3];
 			float end_pos[3];
 			float targetPos[3];
-			float targetEndPos[3];
+			// float targetEndPos[3];
 			float vecrt[3];
 			float angVector[3];
 
@@ -138,9 +139,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				 continue;
 
 				GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
-				GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+				// GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
 
-				if(GetVectorDistance(targetPos, targetEndPos) <= 100.0)
+				if(GetVectorDistance(end_pos, targetPos) <= 100.0)
 				{
 					SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
 
