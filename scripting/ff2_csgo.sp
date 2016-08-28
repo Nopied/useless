@@ -15,16 +15,17 @@ public Plugin:myinfo=
 };
 
 bool IsCSGO=false;
+bool PlayerRecoiled[MAXPLAYERS+1];
 
 public void OnPluginStart2()
 {
     HookEvent("arena_round_start", OnRoundStart);
-    HookEvent("player_spawn", OnPlayerSpawn);
+    // HookEvent("player_spawn", OnPlayerSpawn);
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
 {
-  // HookEvent("arena_round_start", OnRoundStart);
+
 }
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
@@ -32,6 +33,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
     CheckAbility();
 }
 
+/*
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
     if(FF2_GetRoundState() != 1 || !IsCSGO)
@@ -40,21 +42,57 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     SDKHook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_FireBulletsPost, OnWeaponFire);
 		return Plugin_Continue;
 }
+*/
 
+
+public void OnGameFrame()
+{
+    if(IsCSGO && FF2_GetRoundState() == 1)
+    {
+        for(int client=1; client<=MaxClients; client++)
+        {
+            if(IsClientInGame(client) && IsPlayerAlive(client))
+            {
+                if(PlayerRecoiled[client] &&
+                    GetEntPropFloat(client, Prop_Send, "m_flNextAttack") <= GetGameTime())
+                {
+                    PlayerRecoiled[client]=false;
+                }
+
+                else if(!PlayerRecoiled[client] &&
+                    GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime())
+                {
+                    PlayerRecoiled[client]=true;
+
+                    float punchAng[3];
+                    GetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
+
+                    punchAng[1]+=GetRandomFloat(-3.0, 3.0);
+                    punchAng[2]+=GetRandomFloat(0.1, 5.0);
+
+                    SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
+                }
+            }
+            else
+            {
+                PlayerRecoiled[client]=false;
+            }
+        }
+    }
+}
+
+/*
 public void OnWeaponFire(int client, int shots, const char[] weaponname)
 {
     float punchAng[3];
     GetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
 
-    punchAng[1]+=GetRandomFloat(-3.0*shots, 3.0*shots);
-    punchAng[2]+=GetRandomFloat(0.1*shots, 5.0*shots);
+    punchAng[1]+=GetRandomFloat(-3.0, 3.0);
+    punchAng[2]+=GetRandomFloat(0.1, 5.0);
 
-		Debug("punchAng[0]: %.1f, punchAng[1]: %.1f, punchAng[2]: %.1f",
-		punchAng[0],
-		punchAng[1],
-		punchAng[2]);
     SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
 }
+*/
 
 void CheckAbility()
 {

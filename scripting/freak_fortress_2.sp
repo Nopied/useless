@@ -3640,7 +3640,7 @@ public Action:MessageTimer(Handle:timer)
 
 				if(IsBossYou[boss])
 				{
-					GetYouSpecielString(client, specialApproach, sizeof(specialApproach));
+					GetYouSpecialString(client, specialApproach, sizeof(specialApproach));
 					Format(text, sizeof(text), "%s\n%t", text, "ff2_start_you", Boss[boss], BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
 					Format(textChat, sizeof(textChat), "{olive}[FF2]{default} %t!", "ff2_start_chat_you", Boss[boss], BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives);
 				}
@@ -10243,7 +10243,7 @@ float GetPlayerDPS(int client)
 	return damage/float(sizeof(PlayerDamageDPS[]));
 }
 
-public GetYouSpecielString(client, String:cookie[], buffer)
+public GetYouSpecialString(client, String:cookie[], buffer)
 {
 	GetClientCookie(client, YouSpecial, cookie, buffer);
 }
