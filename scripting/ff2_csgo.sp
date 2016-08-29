@@ -22,6 +22,11 @@ public void OnPluginStart2()
     HookEvent("player_spawn", OnPlayerSpawn);
 }
 
+public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
+{
+  // HookEvent("arena_round_start", OnRoundStart);
+}
+
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     CheckAbility();
@@ -33,6 +38,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
         return Plugin_Continue;
 
     SDKHook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_FireBulletsPost, OnWeaponFire);
+		return Plugin_Continue;
 }
 
 public void OnWeaponFire(int client, int shots, const char[] weaponname)
@@ -43,7 +49,11 @@ public void OnWeaponFire(int client, int shots, const char[] weaponname)
     punchAng[1]+=GetRandomFloat(-3.0*shots, 3.0*shots);
     punchAng[2]+=GetRandomFloat(0.1*shots, 5.0*shots);
 
-    SetEntPropFloat(client, Prop_Send, "m_vecPunchAngle", punchAng);
+		Debug("punchAng[0]: %.1f, punchAng[1]: %.1f, punchAng[2]: %.1f",
+		punchAng[0],
+		punchAng[1],
+		punchAng[2]);
+    SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
 }
 
 void CheckAbility()
