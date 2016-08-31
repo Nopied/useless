@@ -1,7 +1,0 @@
-L 03/15/2016 - 22:55:56: SourceMod error session started
-L 03/15/2016 - 22:55:56: Info (map "arena_badlands") (file "errors_20160315.log")
-L 03/15/2016 - 22:55:56: [SM] Plugin encountered error 4: Invalid parameter or parameter type
-L 03/15/2016 - 22:55:56: [SM] Native "Format" reported: Language phrase "ff2boss_random_option" not found
-L 03/15/2016 - 22:55:56: [SM] Displaying call stack trace for plugin "Boss Selection EX (2.1).smx":
-L 03/15/2016 - 22:55:56: [SM]   [0]  Line 200, C:\ff2\steamapps\common\Team Fortress 2 Dedicated Server\tf\addons\sourcemod\scripting\Boss Selection EX (2.1).sp::Command_SetMyBoss()
-L 03/15/2016 - 22:58:30: Error log file session closed.
