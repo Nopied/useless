@@ -558,6 +558,7 @@ public Action OnTakeDamage(int iClient, int &iAttacker, int &iInflictor, float &
 		{
 			iDamageCustom|=TF_CUSTOM_HEADSHOT;
 			iDamagetype|=DMG_CRIT;
+			flDamage *= 15.0;
 			return Plugin_Changed;
 		}
 	}
@@ -1733,6 +1734,7 @@ public void JM_Tick(int iClient, int iButtons, float flTime)
 
 public void AimThink(iClient)
 {
+/*
 	int iClosest = GetClosestClient(iClient);
 	if(!IsValidClient(iClosest, true))
 		return;
@@ -1751,6 +1753,10 @@ public void AimThink(iClient)
 
 	ClampAngle(flCamAngle);
 	TeleportEntity(iClient, NULL_VECTOR, flCamAngle, NULL_VECTOR);
+*/
+	PrintCenterText(iClient, "지속시간동안 저격소총으로 맞추면 무조건 헤드샷입니다.");
+
+
 
 	if(GetEngineTime() >= MLGRageTime || FF2_GetRoundState() != 1)
 	{
