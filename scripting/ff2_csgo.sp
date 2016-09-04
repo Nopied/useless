@@ -33,52 +33,33 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
     CheckAbility();
 }
 
-/*
-public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
-    if(FF2_GetRoundState() != 1 || !IsCSGO)
-        return Plugin_Continue;
+  if(IsCSGO && FF2_GetRoundState() == 1 && IsClientInGame(client) && IsPlayerAlive(client) && !IsWeaponSlotActive(client, TFWeaponSlot_Melee))
+  {
+    // int weapon2 = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 
-    SDKHook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_FireBulletsPost, OnWeaponFire);
-		return Plugin_Continue;
-}
-*/
-
-
-public void OnGameFrame()
-{
-    if(IsCSGO && FF2_GetRoundState() == 1)
+    if(!PlayerRecoiled[client] && GetEntPropFloat(client, Prop_Send, "m_flNextAttack") >= GetGameTime())
     {
-        for(int client=1; client<=MaxClients; client++)
-        {
-            if(IsClientInGame(client) && IsPlayerAlive(client))
-            {
-                if(PlayerRecoiled[client] &&
-                    GetEntPropFloat(client, Prop_Send, "m_flNextAttack") <= GetGameTime())
-                {
-                    PlayerRecoiled[client]=false;
-                }
+      if(buttons & IN_ATTACK)
+      {
+        PlayerRecoiled[client]=true;
+        float punchAng[3];
+        GetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
 
-                else if(!PlayerRecoiled[client] &&
-                    GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime())
-                {
-                    PlayerRecoiled[client]=true;
+        punchAng[1]+=GetRandomFloat(-10.0, 10.0);
+        punchAng[2]+=GetRandomFloat(5.0, 25.0);
 
-                    float punchAng[3];
-                    GetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
-
-                    punchAng[1]+=GetRandomFloat(-3.0, 3.0);
-                    punchAng[2]+=GetRandomFloat(0.1, 5.0);
-
-                    SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
-                }
-            }
-            else
-            {
-                PlayerRecoiled[client]=false;
-            }
-        }
+        SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", punchAng);
+      }
     }
+    else if(PlayerRecoiled[client] && GetEntPropFloat(client, Prop_Send, "m_flNextAttack") <= GetGameTime())
+    {
+      PlayerRecoiled[client]=false;
+    }
+    else
+      PlayerRecoiled[client]=false;
+  }
 }
 
 /*
@@ -105,7 +86,7 @@ void CheckAbility()
             IsCSGO=true;
         }
     }
-
+    /*
     for(client=1; client<=MaxClients; client++)
     {
         if(IsClientInGame(client) && IsPlayerAlive(client))
@@ -113,4 +94,12 @@ void CheckAbility()
             SDKHook(client, SDKHook_FireBulletsPost, OnWeaponFire);
         }
     }
+    */
+}
+
+stock bool IsWeaponSlotActive(iClient, iSlot)
+{
+    new hActive = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
+    new hWeapon = GetPlayerWeaponSlot(iClient, iSlot);
+    return (hWeapon == hActive);
 }

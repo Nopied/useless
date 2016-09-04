@@ -125,6 +125,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			// float targetEndPos[3];
 			float vecrt[3];
 			float angVector[3];
+			char classname[60];
 
 			GetEntPropVector(client, Prop_Send, "m_vecOrigin", clientPos);
 			GetClientEyeAngles(client, clientEyeAngles);
@@ -157,6 +158,13 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					{
 						SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
 					} */
+					GetEntityClassname(ent, classname, sizeof(classname));
+					if(StrEqual(classname, "tf_projectile_pipe", true))
+					{
+						SetEntPropEnt(ent, Prop_Send, "m_hThrower", client); // m_hDeflectOwner
+						SetEntPropEnt(ent, Prop_Send, "m_hDeflectOwner", client);
+					}
+
 					SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
 					SetEntProp(ent, Prop_Send, "m_bCritical", 1);
 					SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
