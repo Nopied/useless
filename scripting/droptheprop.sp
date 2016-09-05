@@ -15,7 +15,7 @@ public Plugin myinfo=
 //
 
 bool enabled = false;
-int PropForTeam = 0;
+TFTeam PropForTeam;
 
 Handle cvarPropCount;
 Handle cvarPropVelocity;
@@ -25,30 +25,48 @@ Handle cvarPropGainMaxHp;
 Handle cvarPropBuffCount;
 Handle cvarPropBuffTime;
 
-
 char g_strModelPath[PLATFORM_MAX_PATH];
 
 int g_iEatCount[MAXPLAYERS+1];
+
+
 //
 
 public void OnPluginStart()
 {
   // TODO: NEED CVAR!
-  cvarPropCount = CreateConVar("dp_prop_count", "2", "생성되는 프롭 갯수, 0은 생성을 안함", _, true, 0.0);
+  cvarPropCount = CreateConVar("dp_prop_count", "1", "생성되는 프롭 갯수, 0은 생성을 안함", _, true, 0.0);
   cvarPropVelocity = CreateConVar("dp_prop_velocity", "250.0", "프롭 생성시 흩어지는 최대 속도, 설정한 범위 내로 랜덤으로 속도가 정해집니다.", _, true, 0.0);
-  cvarPropGainMaxHp = CreateConVar("dp_gain_max_hp", "3", "프롭을 얻을 시, 얼마나 최대 HP를 늘릴 것인가?", _, true, 0.0);
-  cvarPropBuffCount = CreateConVar("dp_gain_buff_count", "5", "스피드 버프(정계조치 효과)를 얻기 위한 얻어야 될 프롭 갯수", _, true, 0.0);
-  cvarPropBuffTime =  CreateConVar("dp_gain_buff_time", "3.0", "스피드 버프(정계조치 효과)의 지속 시간", _, true, 0.1);
-  cvarPropForNoBossTeam = CreateConVar("dp_prop_for_team", "0", "0 혹은 1은 제한 없음, 1은 레드팀에게만, 2는 블루팀에게만. (생성도 포함됨.)", _, true, 0.0, true, 2.0);
+  cvarPropGainMaxHp = CreateConVar("dp_gain_max_hp", "10", "프롭을 얻을 시, 얼마나 최대 HP를 늘릴 것인가?", _, true, 0.0);
+  cvarPropBuffCount = CreateConVar("dp_gain_buff_count", "5", "스피드 버프(징계조치 효과)를 얻기 위한 얻어야 될 프롭 갯수", _, true, 0.0);
+  cvarPropBuffTime =  CreateConVar("dp_gain_buff_time", "6.0", "스피드 버프(징계조치 효과)의 지속 시간", _, true, 0.1);
+  cvarPropForNoBossTeam = CreateConVar("dp_prop_for_team", "0", "0 혹은 1은 제한 없음, 2는 레드팀에게만, 3은 블루팀에게만. (생성도 포함됨.)", _, true, 0.0, true, 2.0);
   cvarModelPath = CreateConVar("dp_prop_model_path", "", "이걸 꼭 기재하셔야 프롭을 소환할 수 있습니다.");
 
   HookEvent("player_spawn", OnPlayerSpawn);
   HookEvent("player_death", OnPlayerDeath);
+
+	PrecacheThings();
+}
+
+public Action OnGetMaxHealth(int client, int &maxHealth)
+{
+	if(enabled && IsCorrectTeam(client))
+	{
+		maxHealth = maxHealth+(GetConVarInt(cvarPropGainMaxHp)*g_iEatCount[client]);
+		return Plugin_Changed;
+	}
+	return Plugin_Continue;
 }
 
 public void OnMapStart()
 {
-  PropForTeam = GetConVarInt(cvarPropForNoBossTeam);
+  PrecacheThings();
+}
+
+void PrecacheThings()
+{
+	PropForTeam = view_as<TFTeam>(GetConVarInt(cvarPropForNoBossTeam));
   GetConVarString(cvarModelPath, g_strModelPath, sizeof(g_strModelPath));
 
   if(g_strModelPath[0] != '\0')
@@ -78,7 +96,10 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     return Plugin_Continue;
   }
 
-  g_iEatCount[GetClientOfUserId(GetEventInt(event, "userid"))] = 0;
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+
+  g_iEatCount[client] = 0;
+	SDKHook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);
   return Plugin_Continue;
 }
 
@@ -104,7 +125,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       DispatchSpawn(prop);
 
       float position[3];
-      GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
+    	GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
 
       float velocity[3];
       velocity[0] = GetRandomFloat(GetConVarFloat(cvarPropVelocity)*-0.5, GetConVarFloat(cvarPropVelocity)*0.5);
@@ -112,12 +133,17 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       velocity[2] = GetRandomFloat(GetConVarFloat(cvarPropVelocity)*-0.5, GetConVarFloat(cvarPropVelocity)*0.5);
       NormalizeVector(velocity, velocity);
 
+
       TeleportEntity(prop, position, NULL_VECTOR, velocity);
+			// TeleportEntity(prop, position, NULL_VECTOR, NULL_VECTOR);
 
       SDKHook(prop, SDKHook_StartTouch, OnPickup);
     	SDKHook(prop, SDKHook_Touch, OnPickup);
     }
   }
+
+	g_iEatCount[client] = 0;
+	SDKUnhook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);
   return Plugin_Continue;
 }
 
@@ -126,7 +152,7 @@ public Action OnPickup(int entity, int client) // Copied from FF2
 	if(client <= 0 || client > MaxClients)
 		return Plugin_Handled;
 
-  if(PropForTeam > 1 && !IsCorrectTeam(client))
+  if(!IsCorrectTeam(client))
   {
     return Plugin_Handled;
   }
@@ -134,10 +160,7 @@ public Action OnPickup(int entity, int client) // Copied from FF2
 
   g_iEatCount[client]++;
 
-	SetEntityHealth(client, GetEntProp(client, Prop_Data, "m_iMaxHealth") + GetConVarInt(cvarPropGainMaxHp));
-
   SetEntProp(client, Prop_Send, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth") + GetConVarInt(cvarPropGainMaxHp));
-  SetEntProp(client, Prop_Data, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth") + GetConVarInt(cvarPropGainMaxHp));
 
 	Format(centerMessage, sizeof(centerMessage), "%i개를 얻었습니다!", g_iEatCount[client]);
     //   PrintCenterText(client, "%i개 주웠습니다!");
@@ -167,8 +190,8 @@ public Action OnPickup(int entity, int client) // Copied from FF2
 
 stock bool IsCorrectTeam(int client)
 {
-	if(PropForTeam < 2)
+	if(PropForTeam != TFTeam_Red && PropForTeam != TFTeam_Blue)
 		return true;
 
-  return PropForTeam == GetClientTeam(client);
+  return PropForTeam == TF2_GetClientTeam(client);
 }
