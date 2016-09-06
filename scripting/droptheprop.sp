@@ -37,7 +37,7 @@ public void OnPluginStart()
   // TODO: NEED CVAR!
   cvarPropCount = CreateConVar("dp_prop_count", "1", "생성되는 프롭 갯수, 0은 생성을 안함", _, true, 0.0);
   cvarPropVelocity = CreateConVar("dp_prop_velocity", "250.0", "프롭 생성시 흩어지는 최대 속도, 설정한 범위 내로 랜덤으로 속도가 정해집니다.", _, true, 0.0);
-  cvarPropGainMaxHp = CreateConVar("dp_gain_max_hp", "10", "프롭을 얻을 시, 얼마나 최대 HP를 늘릴 것인가?", _, true, 0.0);
+  cvarPropGainMaxHp = CreateConVar("dp_heal_hp", "60", "프롭을 얻을 시, 얼마나 HP를 회복시킬 것 인가?", _, true, 0.0);
   cvarPropBuffCount = CreateConVar("dp_gain_buff_count", "5", "스피드 버프(징계조치 효과)를 얻기 위한 얻어야 될 프롭 갯수", _, true, 0.0);
   cvarPropBuffTime =  CreateConVar("dp_gain_buff_time", "6.0", "스피드 버프(징계조치 효과)의 지속 시간", _, true, 0.1);
   cvarPropForNoBossTeam = CreateConVar("dp_prop_for_team", "0", "0 혹은 1은 제한 없음, 2는 레드팀에게만, 3은 블루팀에게만. (생성도 포함됨.)", _, true, 0.0, true, 2.0);
@@ -47,16 +47,6 @@ public void OnPluginStart()
   HookEvent("player_death", OnPlayerDeath);
 
 	PrecacheThings();
-}
-
-public Action OnGetMaxHealth(int client, int &maxHealth)
-{
-	if(enabled && IsCorrectTeam(client))
-	{
-		maxHealth = maxHealth+(GetConVarInt(cvarPropGainMaxHp)*g_iEatCount[client]);
-		return Plugin_Changed;
-	}
-	return Plugin_Continue;
 }
 
 public void OnMapStart()
@@ -99,7 +89,6 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 
   g_iEatCount[client] = 0;
-	SDKHook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);
   return Plugin_Continue;
 }
 
@@ -143,7 +132,6 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
   }
 
 	g_iEatCount[client] = 0;
-	SDKUnhook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);
   return Plugin_Continue;
 }
 

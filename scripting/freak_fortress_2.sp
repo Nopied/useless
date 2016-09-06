@@ -406,7 +406,7 @@ static const String:ff2versiondates[][]=
 	"May 3, 2016",  //1.10.9
 	"July 24, 2016",			//1.10.10
 	"August 1, 2016",		//1.10.11
-	"August 3, 2016"		//1.10.12
+	"August 3, 2016",		//1.10.12
 	"September 1, 2016"		//1.10.13
 };
 
