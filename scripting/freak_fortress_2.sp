@@ -36,8 +36,8 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 
 #define MAJOR_REVISION "1"
 #define MINOR_REVISION "10"
-#define STABLE_REVISION "10"
-#define DEV_REVISION "Beta"
+#define STABLE_REVISION "13"
+// #define DEV_REVISION "Beta"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
 	#define PLUGIN_VERSION MAJOR_REVISION..."."...MINOR_REVISION..."."...STABLE_REVISION  //1.10.10
@@ -94,6 +94,7 @@ new shield[MAXPLAYERS+1];
 new detonations[MAXPLAYERS+1];
 new GoombaCount[MAXPLAYERS+1];
 new selectedBGM[MAXPLAYERS+1];
+new bool:playBGM[MAXPLAYERS+1]=true;
 
 new String:currentBGM[MAXPLAYERS+1][PLATFORM_MAX_PATH];
 
@@ -321,7 +322,11 @@ static const String:ff2versiontitles[][]=
 	"1.10.9",
 	"1.10.9",
 	"1.10.9",
-	"1.10.9"
+	"1.10.9",
+	"1.10.10",
+	"1.10.11",
+	"1.10.12",
+	"1.10.13"
 };
 
 static const String:ff2versiondates[][]=
@@ -394,17 +399,45 @@ static const String:ff2versiondates[][]=
 	"November 19, 2015",	//1.10.7
 	"November 19, 2015",	//1.10.7
 	"November 24, 2015",		//1.10.8
-	"May 3, 2016",
-	"May 3, 2016",
-	"May 3, 2016",
-	"May 3, 2016",
-	"May 3, 2016"
+	"May 3, 2016",  //1.10.9
+	"May 3, 2016",  //1.10.9
+	"May 3, 2016", //1.10.9
+	"May 3, 2016", //1.10.9
+	"May 3, 2016",  //1.10.9
+	"July 24, 2016",			//1.10.10
+	"August 1, 2016",		//1.10.11
+	"August 3, 2016"		//1.10.12
+	"September 1, 2016"		//1.10.13
 };
 
 stock FindVersionData(Handle:panel, versionIndex)
 {
 	switch(versionIndex)
 	{
+		case 76:  //1.10.13
+ 		{
+ 			DrawPanelText(panel, "1) Fixed insta-backstab issues (Wliu from tom0034)");
+ 			DrawPanelText(panel, "2) Fixed team-changing exploit (Wliu from Edge_)");
+ 			DrawPanelText(panel, "3) [Server] Fixed an error message logging the wrong values (Wliu)");
+		}
+		case 75:  //1.10.12
+ 		{
+ 			DrawPanelText(panel, "1) Actually fixed BGMs not looping (Wliu from WakaFlocka, again)");
+ 			DrawPanelText(panel, "2) Fixed new clients not respecting the current music state (Wliu from shadow93)");
+ 		}
+		case 74:  //1.10.11
+ 		{
+ 			DrawPanelText(panel, "1) Fixed BGMs not looping (Wliu from WakaFlocka)");
+ 		}
+		case 73:  //1.10.10
+ 		{
+ 			DrawPanelText(panel, "1) Fixed multiple BGM issues in 1.10.9 (Wliu, shadow93, Nopied, WakaFlocka, and others)");
+ 			DrawPanelText(panel, "2) Automatically start BGMs for new clients (Wliu)");
+ 			DrawPanelText(panel, "3) Fixed the top damage dealt sometimes displaying as 0 damage (naydef)");
+ 			DrawPanelText(panel, "4) Added back Shortstop reload penalty to reflect its buff in the Meet Your Match update (Wliu)");
+ 			DrawPanelText(panel, "5) [Server] Fixed an invalid client error in ff2_1st_set_abilities.sp (Wliu)");
+ 			DrawPanelText(panel, "6) [Server] Fixed a GetEntProp error (Wliu from Hemen353)");
+ 		}
 		case 72:  //1.10.9
  		{
  			DrawPanelText(panel, "1) Fixed a critical exploit related to sv_cheats (naydef)");
@@ -3191,24 +3224,16 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 		{
 			if(IsValidClient(client))
 			{
-
-				if(CheckRoundState()==1 && (!currentBGM[client][0] || !StrEqual(currentBGM[client], "ff2_stop_music", false)))
+				// if(CheckRoundState()==1 && (!currentBGM[client][0] || !StrEqual(currentBGM[client], "ff2_stop_music", false)))
+				// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
+				if(playBGM[client])
 				{
 					PlayBGM(client);
 				}
-				else
+				else if(MusicTimer[client]!=INVALID_HANDLE)
 				{
-					if(MusicTimer[client]!=INVALID_HANDLE)
-					{
-						KillTimer(MusicTimer[client]);
-						MusicTimer[client]=INVALID_HANDLE;
-					}
-					else if(MusicTimer[client])
-					{
-						Debug("NOT INVALID_HANDLE!!!");
-						KillTimer(MusicTimer[client]);
-						MusicTimer[client]=INVALID_HANDLE;
-					}
+					KillTimer(MusicTimer[client]);
+					MusicTimer[client]=INVALID_HANDLE;
 				}
 				continue;
 			}
@@ -3218,33 +3243,20 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 				KillTimer(MusicTimer[client]);
 				MusicTimer[client]=INVALID_HANDLE;
 			}
-			else if(MusicTimer[client])
-			{
-				Debug("NOT INVALID_HANDLE!!!");
-				KillTimer(MusicTimer[client]);
-				MusicTimer[client]=INVALID_HANDLE;
-			}
 		}
 	}
 	else
 	{
-		if(CheckRoundState()==1 && (!currentBGM[client][0] || !StrEqual(currentBGM[client], "ff2_stop_music", false)))
+		// if(CheckRoundState()==1 && (!currentBGM[client][0] || !StrEqual(currentBGM[client], "ff2_stop_music", false)))
+		// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
+		if(playBGM[client])
 		{
 			PlayBGM(client);
 		}
-		else
+		else if(MusicTimer[client]!=INVALID_HANDLE)
 		{
-			if(MusicTimer[client]!=INVALID_HANDLE)
-			{
-				KillTimer(MusicTimer[client]);
-				MusicTimer[client]=INVALID_HANDLE;
-			}
-			else if(MusicTimer[client])
-			{
-				Debug("NOT INVALID_HANDLE!!!");
-				KillTimer(MusicTimer[client]);
-				MusicTimer[client]=INVALID_HANDLE;
-			}
+			KillTimer(MusicTimer[client]);
+			MusicTimer[client]=INVALID_HANDLE;
 			return Plugin_Stop;
 		}
 	}
@@ -3256,11 +3268,16 @@ StartMusic(client=0)
 	if(client<=0)  //Start music for all clients
 	{
 		StopMusic();
+		for(new target; target<=MaxClients; target++)
+ 		{
+ 			playBGM[target]=true; //This includes the 0th index
+ 		}
 		CreateTimer(0.0, Timer_PrepareBGM, 0, TIMER_FLAG_NO_MAPCHANGE);
 	}
 	else
 	{
 		StopMusic(client);
+		playBGM[client]=true;
 		CreateTimer(0.0, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 	}
 }
@@ -3269,6 +3286,11 @@ StopMusic(client=0, bool:permanent=false)
 {
 	if(client<=0)  //Stop music for all clients
 	{
+		if(permanent)
+ 		{
+ 			playBGM[0]=false;
+ 		}
+
 		for(client=1; client<=MaxClients; client++)
 		{
 			if(IsValidClient(client))
@@ -3282,7 +3304,12 @@ StopMusic(client=0, bool:permanent=false)
 				MusicTimer[client]=INVALID_HANDLE;
 			}
 			//if(!StrEqual(currentBGM[client], "ff2_stop_music"))
-			strcopy(currentBGM[client], PLATFORM_MAX_PATH, !permanent ? "" : "ff2_stop_music");
+			// strcopy(currentBGM[client], PLATFORM_MAX_PATH, !permanent ? "" : "ff2_stop_music");
+			strcopy(currentBGM[client], PLATFORM_MAX_PATH, "");
+			if(permanent)
+			{
+				playBGM[client]=false;
+			}
 		}
 	}
 	else
@@ -3295,8 +3322,14 @@ StopMusic(client=0, bool:permanent=false)
 			KillTimer(MusicTimer[client]);
 			MusicTimer[client]=INVALID_HANDLE;
 		}
-		if(!StrEqual(currentBGM[client], "ff2_stop_music"))
+/*		if(!StrEqual(currentBGM[client], "ff2_stop_music"))
 			strcopy(currentBGM[client], PLATFORM_MAX_PATH, !permanent ? "" : "ff2_stop_music");
+*/
+		strcopy(currentBGM[client], PLATFORM_MAX_PATH, "");
+		if(permanent)
+		{
+			playBGM[client]=false;
+		}
 	}
 }
 
@@ -5059,32 +5092,41 @@ stock SetArenaCapEnableTime(Float:time)
 	}
 }
 
-public OnClientPutInServer(client)
+public OnClientPostAdminCheck(client) // OnClientPutInServer
 {
+	// TODO: Hook these inside of EnableFF2() or somewhere instead
+	SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+	SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
+
+	FF2flags[client]=0;
+	Damage[client]=0;
+	uberTarget[client]=-1;
+	Marketed[client]=0;
+	GoombaCount[client]=0;
+	Stabbed[client]=0;
+
+	if(AreClientCookiesCached(client))
+	{
+		new String:buffer[24];
+		GetClientCookie(client, FF2Cookies, buffer, sizeof(buffer));
+		if(!buffer[0])
+		{
+			SetClientCookie(client, FF2Cookies, "0 1 1 1 1 3 3");
+			//Queue points | music exception | voice exception | class info | DIFFICULTY | UNUSED | UNUSED
+		}
+	}
+	// StartMusic(client);
+
+	//We use the 0th index here because client indices can change.
+ 	//If this is false that means music is disabled for all clients, so don't play it for new clients either.
 	if(Enabled)
 	{
-		SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-		SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
-
-		FF2flags[client]=0;
-		Damage[client]=0;
-		uberTarget[client]=-1;
-		Marketed[client]=0;
-		GoombaCount[client]=0;
-		Stabbed[client]=0;
-
-		if(AreClientCookiesCached(client))
-		{
-			new String:buffer[24];
-			GetClientCookie(client, FF2Cookies, buffer, sizeof(buffer));
-			if(!buffer[0])
-			{
-				SetClientCookie(client, FF2Cookies, "0 1 1 1 1 3 3");
-				//Queue points | music exception | voice exception | class info | DIFFICULTY | UNUSED | UNUSED
-			}
-		}
-		StartMusic(client);
+	 	if(playBGM[0])
+	 	{
+	 		CreateTimer(0.0, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+	 	}
 	}
+
 }
 
 public OnClientDisconnect(client)
@@ -5115,6 +5157,7 @@ public OnClientDisconnect(client)
 	FF2flags[client]=0;
 	Damage[client]=0;
 	uberTarget[client]=-1;
+	playBGM[client]=true;
 	if(MusicTimer[client]!=INVALID_HANDLE)
 	{
 		KillTimer(MusicTimer[client]);
@@ -5160,9 +5203,9 @@ public Action:OnPostInventoryApplication(Handle:event, const String:name[], bool
 
 	if(!(FF2flags[client] & FF2FLAG_ALLOWSPAWNINBOSSTEAM))
 	{
-		if(CheckRoundState()!=1)
+		if(!(FF2flags[client] & FF2FLAG_HASONGIVED))
 		{
-			if(!(FF2flags[client] & FF2FLAG_HASONGIVED))
+			/*if(!(FF2flags[client] & FF2FLAG_HASONGIVED))
 			{
 				FF2flags[client]|=FF2FLAG_HASONGIVED;
 				RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
@@ -5177,6 +5220,16 @@ public Action:OnPostInventoryApplication(Handle:event, const String:name[], bool
 		{
 			CreateTimer(0.1, CheckItems, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 		}
+			*/
+			FF2flags[client]|=FF2FLAG_HASONGIVED;
+ 			RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
+ 			RemovePlayerTarge(client);
+ 			TF2_RemoveAllWeapons(client);
+ 			TF2_RegeneratePlayer(client);
+ 			CreateTimer(0.1, Timer_RegenPlayer, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+		}
+
+		CreateTimer(0.2, MakeNotBoss, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 	}
 
 	FF2flags[client]&=~(FF2FLAG_UBERREADY|FF2FLAG_ISBUFFED|FF2FLAG_TALKING|FF2FLAG_ALLOWSPAWNINBOSSTEAM|FF2FLAG_USINGABILITY|FF2FLAG_CLASSHELPED|FF2FLAG_CHANGECVAR|FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS|FF2FLAG_NOTALLOW_RAGE);
@@ -6044,10 +6097,35 @@ public Action:OnChangeClass(client, const String:command[], args)
 
 public Action:OnJoinTeam(client, const String:command[], args)
 {
-	if(!Enabled || !args || RoundCount<arenaRounds)
+	if(!Enabled || RoundCount<arenaRounds)
 	{
 		return Plugin_Continue;
 	}
+
+	// autoteam doesn't come with arguments
+ 	if(StrEqual(command, "autoteam", false))
+ 	{
+ 		new team=_:TFTeam_Unassigned, oldTeam=GetClientTeam(client);
+ 		if(IsBoss(client))
+ 		{
+ 			team=BossTeam;
+ 		}
+ 		else
+ 		{
+ 			team=OtherTeam;
+ 		}
+
+ 		if(team!=oldTeam)
+ 		{
+ 			ChangeClientTeam(client, team);
+ 		}
+ 		return Plugin_Handled;
+ 	}
+
+	if(!args)
+ 	{
+ 		return Plugin_Continue;
+ 	}
 
 	new team=_:TFTeam_Unassigned, oldTeam=GetClientTeam(client), String:teamString[10];
 	GetCmdArg(1, teamString, sizeof(teamString));
@@ -8965,7 +9043,7 @@ public MusicTogglePanelH(Handle:menu, MenuAction:action, client, selection)
 	 	 	case 1:
 			{
 					SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, false);
-					StopMusic(client);
+					StopMusic(client, true);
 					CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_music", selection==1 ? "끄기" : "켜기");
 			}
 			case 2:
