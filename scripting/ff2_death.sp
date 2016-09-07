@@ -359,13 +359,19 @@ public void Event_RoundStart(Event hEvent, const char[] strName, bool bDontBroad
 			SS_CoolDown[iBoss] = GetEngineTime() + FF2_GetAbilityArgumentFloat(iIndex, this_plugin_name, "special_spellattack", 1);
 
 			for(int i=1; i<=MaxClients; i++)
-				SDKHook(i, SDKHook_OnTakeDamage, OnTakeDamage);
+			{
+				if(IsClientInGame(i))
+					SDKHook(i, SDKHook_OnTakeDamage, OnTakeDamage);
+			}
 		}
 
 		if(FF2_HasAbility(iIndex, this_plugin_name, "rage_mlg"))
 		{
 			for(int i=1; i<=MaxClients; i++)
-				SDKHook(i, SDKHook_OnTakeDamage, OnTakeDamage);
+			{
+				if(IsClientInGame(i))
+					SDKHook(i, SDKHook_OnTakeDamage, OnTakeDamage);
+			}
 		}
 
 		if(FF2_HasAbility(iIndex, this_plugin_name, "special_norage"))
@@ -376,6 +382,11 @@ public void Event_RoundStart(Event hEvent, const char[] strName, bool bDontBroad
 		SDKHook(iBoss, SDKHook_OnTakeDamage, CheckEnvironmentalDamage);
 		CreateTimer(1.5, Timer_SwitchToSlot, iBoss);	// Delayed to ensure it overrides SpawnWeapon's switch
 	}
+}
+
+public void OnClientPutInServer(int client)
+{
+	SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 }
 
 public void Event_RoundEnd(Event hEvent, const char[] strName, bool bDontBroadcast)
@@ -550,7 +561,7 @@ public Action OnTakeDamage(int iClient, int &iAttacker, int &iInflictor, float &
 		return Plugin_Changed;
 	}
 
-	if(enableMLG[iAttacker])
+	if(enableMLG[iAttacker] || MLGRageTime > GetGameTime())
 	{
 		char classname[50];
 		GetEntityClassname(GetEntPropEnt(iAttacker, Prop_Send, "m_hActiveWeapon"), classname, sizeof(classname));

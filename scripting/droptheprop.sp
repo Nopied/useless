@@ -26,6 +26,7 @@ Handle cvarPropBuffCount;
 Handle cvarPropBuffTime;
 Handle cvarPropMiniCritTime;
 Handle cvarPropUberTime;
+Handle cvarPropCloakTime;
 
 char g_strModelPath[PLATFORM_MAX_PATH];
 
@@ -45,17 +46,23 @@ public void OnPluginStart()
   cvarPropForNoBossTeam = CreateConVar("dp_prop_for_team", "2", "0 혹은 1은 제한 없음, 2는 레드팀에게만, 3은 블루팀에게만. (생성도 포함됨.)", _, true, 0.0, true, 2.0);
   cvarModelPath = CreateConVar("dp_prop_model_path", "", "이걸 꼭 기재하셔야 프롭을 소환할 수 있습니다.");
   cvarPropMiniCritTime = CreateConVar("dp_gain_minicrit_time", "10.0", "미니크리의 지속 시간", _, true, 0.1);
-  cvarPropUberTime = CreateConVar("dp_gain_uber_time", "10.0", "미니크리의 지속 시간", _, true, 0.1);
+  cvarPropUberTime = CreateConVar("dp_gain_uber_time", "10.0", "우버의 지속 시간", _, true, 0.1);
+	cvarPropCloakTime = CreateConVar("dp_gain_cloak_time", "8.0", "은폐 지속시간", _, true, 0.1);
 
   HookEvent("player_spawn", OnPlayerSpawn);
   HookEvent("player_death", OnPlayerDeath);
 
-  PrecacheThings();
+  // PrecacheThings();
 }
 
 public void OnMapStart()
 {
-  PrecacheThings();
+	CreateTimer(5.0, PrecacheTimer);
+}
+
+public Action PrecacheTimer(Handle timer)
+{
+	PrecacheThings();
 }
 
 void PrecacheThings()
@@ -105,7 +112,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     	return Plugin_Continue;
   	}
 
-	bool IsFake = GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER;
+		bool IsFake = false;
+		if(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+			IsFake = true;
 
   	for(int count = 0; count < GetConVarInt(cvarPropCount); count++)
   	{
@@ -116,11 +125,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       		SetEntityMoveType(prop, MOVETYPE_VPHYSICS);
       		SetEntProp(prop, Prop_Send, "m_CollisionGroup", 5);
       		// SetEntProp(prop, Prop_Send, "m_usSolidFlags", 16); // 0x0004
-	  		SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
+					SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
       		DispatchSpawn(prop);
 
       		float position[3];
-	  		GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
+					GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
 
       		float velocity[3];
       		velocity[0] = GetRandomFloat(GetConVarFloat(cvarPropVelocity)*-0.5, GetConVarFloat(cvarPropVelocity)*0.5);
@@ -131,16 +140,16 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       		TeleportEntity(prop, position, NULL_VECTOR, velocity);
 	  		// TeleportEntity(prop, position, NULL_VECTOR, NULL_VECTOR);
 
-			if(IsFake)
-			{
-				SDKHook(prop, SDKHook_Touch, FakePickup);
-      			SDKHook(prop, SDKHook_StartTouch, FakePickup);
-			}
-			else
-			{
-				SDKHook(prop, SDKHook_Touch, OnPickup);
-      			SDKHook(prop, SDKHook_StartTouch, OnPickup);
-			}
+				if(IsFake)
+				{
+					SDKHook(prop, SDKHook_Touch, FakePickup);
+	      	SDKHook(prop, SDKHook_StartTouch, FakePickup);
+				}
+				else
+				{
+					SDKHook(prop, SDKHook_Touch, OnPickup);
+	      	SDKHook(prop, SDKHook_StartTouch, OnPickup);
+				}
     	}
   	}
 
@@ -186,6 +195,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
   	return Plugin_Continue;
 }
 
+/*
 public void OnStuckTest(int entity)
 {
 	if(!IsEntityStuck(entity))
@@ -194,6 +204,7 @@ public void OnStuckTest(int entity)
 		SDKUnhook(entity, SDKHook_PreThinkPost, OnStuckTest);
 	}
 }
+*/
 
 public Action OnPickup(int entity, int client) // Copied from FF2
 {
@@ -203,7 +214,7 @@ public Action OnPickup(int entity, int client) // Copied from FF2
 	if(!IsCorrectTeam(client))
 	{
 		KickEntity(client, entity);
-    	return Plugin_Handled;
+    return Plugin_Handled;
 	}
 
 	char centerMessage[100];
@@ -226,7 +237,7 @@ public Action OnPickup(int entity, int client) // Copied from FF2
 
 	if(remaining - g_iEatCount[client] == 0) // 일정 갯수를 얻었을 경우
 	{
-	    Format(centerMessage, sizeof(centerMessage), "%s\n잠시동안 버프를 받게됩니다!", centerMessage);
+	  Format(centerMessage, sizeof(centerMessage), "%s\n잠시동안 버프를 받게됩니다!", centerMessage);
 		TF2_AddCondition(client, TFCond_Ubercharged, GetConVarFloat(cvarPropUberTime));
 		SetEntProp(client, Prop_Data, "m_takedamage", 0);
 		CreateTimer(GetConVarFloat(cvarPropUberTime), EnableTakeDamage, client, TIMER_FLAG_NO_MAPCHANGE);
@@ -258,13 +269,13 @@ public Action OnSpellPickup(int entity, int client) // Copied from FF2
 	if(!IsCorrectTeam(client))
 	{
 		KickEntity(client, entity);
-    	return Plugin_Handled;
+    return Plugin_Handled;
 	}
 
 	char centerMessage[100];
-
 	// 버프
-	TF2_AddCondition(client, TFCond_, GetConVarFloat(cvarPropBuffTime));
+	TF2_AddCondition(client, TFCond_Stealthed, GetConVarFloat(cvarPropCloakTime));
+	TF2_AddCondition(client, TFCond_StealthedUserBuffFade, GetConVarFloat(cvarPropCloakTime));
 
 	// 메세지
 	Format(centerMessage, sizeof(centerMessage), "특별한 캡슐을 얻었습니다!");
@@ -282,7 +293,7 @@ public Action FakePickup(int entity, int client)
 	if(!IsCorrectTeam(client))
 	{
 		KickEntity(client, entity);
-    	return Plugin_Handled;
+    return Plugin_Handled;
 	}
 
 	AcceptEntityInput(entity, "kill");
@@ -299,13 +310,13 @@ void KickEntity(int client, int entity)
 	GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
 	NormalizeVector(angVector, angVector);
 
-	angVector[0]*=1200.0;
-	angVector[1]*=1200.0;
-	angVector[2]*=1200.0;
+	angVector[0] *= 1200.0;
+	angVector[1] *= 1200.0;
+	angVector[2] *= 1200.0;
 
 	TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, angVector);
-	SetEntProp(entity, Prop_Send, "m_CollisionGroup", 2);
-	SDKHook(entity, SDKHook_PreThinkPost, OnStuckTest);
+	// SetEntProp(entity, Prop_Send, "m_CollisionGroup", 2);
+	// SDKHook(entity, SDKHook_PreThinkPost, OnStuckTest);
 }
 
 stock bool IsCorrectTeam(int client)
@@ -326,4 +337,14 @@ stock bool IsEntityStuck(int entity) // Copied from Chdata's FFF
 
     TR_TraceHullFilter(vecOrigin, vecOrigin, vecMin, vecMax, MASK_SOLID, TraceRayPlayerOnly, entity);
     return (TR_DidHit());
+}
+
+public bool TraceRayPlayerOnly(int ent, int mask, int data)
+{
+    return (IsValidEntity(ent) && IsValidClient(data) && ent != data);
+}
+
+stock bool IsValidClient(int client)
+{
+    return (0<client && client<=MaxClients && IsClientInGame(client));
 }
