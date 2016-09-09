@@ -2199,7 +2199,7 @@ public PrecacheCharacter(characterIndex)
 	while(KvGotoNextKey(BossKV[characterIndex]))
 	{
 		KvGetSectionName(BossKV[characterIndex], section, sizeof(section));
-		if(StrEqual(section, "sound_bgm"))
+		if(StrEqual(section, "sound_bgm") || StrEqual(section, "sound_hell_bgm"))
 		{
 			for(new i=1; ; i++)
 			{
@@ -3270,7 +3270,7 @@ StartMusic(client=0)
 		StopMusic();
 		for(new target; target<=MaxClients; target++)
  		{
- 			playBGM[target]=true; //This includes the 0th index
+ 			playBGM[target]=true; // This includes the 0th index
  		}
 		CreateTimer(0.0, Timer_PrepareBGM, 0, TIMER_FLAG_NO_MAPCHANGE);
 	}
@@ -3336,7 +3336,7 @@ StopMusic(client=0, bool:permanent=false)
 PlayBGM(client)
 {
 	new Handle:musicKv;
-	new bool:selected=playingCustomBossBGM[client] || playingCustomBGM[client];
+	new bool:selected = playingCustomBossBGM[client] || playingCustomBGM[client];
 
 	if(selected && LoadedMusicData)
 		musicKv=CloneHandle(LoadedMusicData);
@@ -3344,7 +3344,7 @@ PlayBGM(client)
 		musicKv=CloneHandle(BossKV[Special[0]]);
 
 	KvRewind(musicKv);
-	if(KvJumpToKey(musicKv, "sound_bgm"))
+	if((!selected && BossDiff[MainBoss] >= 5 && KvJumpToKey(musicKv, "sound_hell_bgm")) || KvJumpToKey(musicKv, "sound_bgm"))
 	{
 		// Debug("key: sound_bgm");
 		decl String:music[PLATFORM_MAX_PATH];
@@ -3362,17 +3362,17 @@ PlayBGM(client)
 
 		if(!client || !selected)
 		{
-			index=GetRandomInt(1, index-1);
+			index = GetRandomInt(1, index-1);
 		}
 		else if(selected)
 		{
-			index=selectedBGM[client];
+			index = selectedBGM[client];
 		}
 
 		Format(music, 10, "time%i", index);
-		new Float:time=KvGetFloat(musicKv, music);
+		new Float:time = KvGetFloat(musicKv, music);
 		Format(music, 10, "volume%i", index);
-		new Float:volume=KvGetFloat(musicKv, music, 1.0);
+		new Float:volume = KvGetFloat(musicKv, music, 1.0);
 		Format(music, 10, "path%i", index);
 		Format(artist, sizeof(artist), "artist%i", index);
 		KvGetString(musicKv, artist, artist, sizeof(artist));
@@ -3422,7 +3422,7 @@ PlayBGM(client)
 				EmitSoundToClient(client, music, _, _, _, _, volume);
 				if(time>1)
 				{
-					MusicTimer[client]=CreateTimer(time, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+					MusicTimer[client] = CreateTimer(time, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 				}
 				if(notice) 	CPrintToChat(client, "{olive}[FF2]{default} Now Playing: {green}%s{default} - {orange}%s{default}", artist, name);
 			}
@@ -5603,7 +5603,11 @@ public Action:BossTimer(Handle:timer)
 		{
 			BossCharge[boss][0]=0.0;
 		}
-		SetEntPropFloat(client, Prop_Data, "m_flMaxspeed", BossSpeed[Special[boss]]+0.7*(100-BossHealth[boss]*100/BossLivesMax[boss]/BossHealthMax[boss]));
+
+		//
+		if(!IsBossYou[boss])
+			SetEntPropFloat(client, Prop_Data, "m_flMaxspeed", BossSpeed[Special[boss]]+0.7*(100-BossHealth[boss]*100/BossLivesMax[boss]/BossHealthMax[boss]));
+		//
 
 		if(BossHealth[boss]<=0 && IsPlayerAlive(client))  //Wat.  TODO:  Investigate
 		{
@@ -6760,7 +6764,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 		foundDmgCustom=true;
 	}
 
-	if((attacker<=0 || client==attacker) && IsBoss(client))
+	if((attacker<=0 || (client==attacker && !IsBossYou[GetBossIndex(attacker)])) && IsBoss(client))
 	{
 		return Plugin_Handled;
 	}
