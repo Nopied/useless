@@ -6764,9 +6764,18 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 		foundDmgCustom=true;
 	}
 
-	if((attacker<=0 || (client==attacker && !IsBossYou[GetBossIndex(attacker)])) && IsBoss(client))
+	if(attacker<=0 || client==attacker)
 	{
-		return Plugin_Handled;
+		if(IsBoss(client))
+		{
+			if(IsBossYou[GetBossIndex(client)] && attacker > 0)
+			{
+				BossHealth[GetBossIndex(client)] -= RoundFloat(damage);
+				return Plugin_Continue;
+			}
+			return Plugin_Handled;
+		}
+		return Plugin_Continue;
 	}
 
 	if(TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
