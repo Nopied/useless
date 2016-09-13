@@ -3228,6 +3228,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 				// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
 				if(playBGM[client])
 				{
+					Debug("!client, PlayBGM()");
 					PlayBGM(client);
 				}
 				else if(MusicTimer[client]!=INVALID_HANDLE)
@@ -3251,6 +3252,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 		// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
 		if(playBGM[client])
 		{
+			Debug("%N, PlayBGM()", client);
 			PlayBGM(client);
 		}
 		else if(MusicTimer[client]!=INVALID_HANDLE)
