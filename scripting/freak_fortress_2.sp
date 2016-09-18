@@ -2735,6 +2735,7 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 
 	CreateTimer(3.5, StartResponseTimer, _, TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(9.1, StartBossTimer, _, TIMER_FLAG_NO_MAPCHANGE);
+	CreateTimer(9.58, ReUpdateBossHealth, _, TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(9.6, MessageTimer, _, TIMER_FLAG_NO_MAPCHANGE);
 
 	for(new entity=MaxClients+1; entity<MAXENTITIES; entity++)
@@ -2759,6 +2760,18 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 	healthcheckused=0;
 	firstBlood=true;
 	return Plugin_Continue;
+}
+
+public Action:ReUpdateBossHealth(Handle timer)
+{
+	new boss;
+	for(new client = 1; client<=MaxClients; client++)
+	{
+		if(IsClientInGame(client) && (boss = GetBossIndex(client)) != -1)
+		{
+			FormulaBossHealth(boss);
+		}
+	}
 }
 
 public Action:Timer_EnableCap(Handle:timer)
@@ -3228,7 +3241,6 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 				// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
 				if(playBGM[client])
 				{
-					Debug("!client, PlayBGM()");
 					PlayBGM(client);
 				}
 				else if(MusicTimer[client]!=INVALID_HANDLE)
@@ -3252,7 +3264,6 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 		// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
 		if(playBGM[client])
 		{
-			Debug("%N, PlayBGM()", client);
 			PlayBGM(client);
 		}
 		else if(MusicTimer[client]!=INVALID_HANDLE)
@@ -3820,6 +3831,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	FireEvent(testDeath);
 	TF2_RespawnPlayer(client);
 	*/
+	// FormulaBossHealth
 
 	KvRewind(BossKV[Special[boss]]);
 	if(GetClientTeam(client)!=BossTeam)
@@ -3837,7 +3849,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		PrintToServer("[FF2 Bosses] Warning: Boss %s's rage damage is 0 or below, setting to 1900", bossName);
 		BossRageDamage[boss]=1900;
 	}
-
+/*
 	BossLivesMax[boss]=KvGetNum(BossKV[Special[boss]], "lives", 1);
 	if(BossLivesMax[boss]<=0)
 	{
@@ -3845,6 +3857,8 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		PrintToServer("[FF2 Bosses] Warning: Boss %s has an invalid amount of lives, setting to 1", bossName);
 		BossLivesMax[boss]=1;
 	}
+*/
+	FormulaBossHealth(boss);
 
 	if(StrEqual(bossName, "You", true) ||
 	StrEqual(bossName, "당신", true))
@@ -3852,7 +3866,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		IsBossYou[boss]=true;
 	}
 
-	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
+	// BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
 	BossDiff[boss]=GetClientDifficultyCookie(client);
 
 	switch(BossDiff[boss])
@@ -3878,12 +3892,12 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		{
 			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
 			// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
-			FF2flags[Boss[boss]]|=FF2FLAG_NOTALLOW_RAGE;
+			FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
 		}
 	}
-	BossLives[boss]=BossLivesMax[boss];
-	BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
-	BossHealthLast[boss]=BossHealth[boss];
+	// BossLives[boss]=BossLivesMax[boss];
+	// BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
+	// BossHealthLast[boss]=BossHealth[boss];
 	KvGetString(BossKV[Special[boss]], "ability_name", BossAbilityName[boss], sizeof(BossAbilityName));
 	BossAbilityCooldownMax[boss]=KvGetFloat(BossKV[Special[boss]], "cooldown", 10.0);
 	BossAbilityDurationMax[boss]=KvGetFloat(BossKV[Special[boss]], "ability_duration", 5.0);
@@ -3910,7 +3924,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 			FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
 		}
 	}
-	if(IsBossYou[boss]) FF2flags[client]|=FF2FLAG_ALLOW_AMMO_PICKUPS;
+	if(IsBossYou[boss]) FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
 
 	CreateTimer(0.2, MakeModelTimer, boss, TIMER_FLAG_NO_MAPCHANGE);
 	if(!IsVoteInProgress())
@@ -6777,7 +6791,6 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 			}
 			return Plugin_Handled;
 		}
-		return Plugin_Continue;
 	}
 
 	if(TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
@@ -10257,6 +10270,27 @@ public HealthbarEnableChanged(Handle:convar, const String:oldValue[], const Stri
 	{
 		SetEntProp(healthBar, Prop_Send, HEALTHBAR_PROPERTY, 0);
 	}
+}
+
+FormulaBossHealth(boss)
+{
+	// new client=Boss[boss];
+
+	KvRewind(BossKV[Special[boss]]);
+
+	BossLivesMax[boss]=KvGetNum(BossKV[Special[boss]], "lives", 1);
+	if(BossLivesMax[boss]<=0)
+	{
+		char bossName[80];
+		KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
+		PrintToServer("[FF2 Bosses] Warning: Boss %s has an invalid amount of lives, setting to 1", bossName);
+		BossLivesMax[boss]=1;
+	}
+
+	BossLives[boss]=BossLivesMax[boss];
+	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
+	BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
+	BossHealthLast[boss]=BossHealth[boss];
 }
 
 UpdateHealthBar()
