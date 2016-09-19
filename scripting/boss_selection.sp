@@ -20,14 +20,14 @@
 int g_iChatCommand;
 
 char Incoming[MAXPLAYERS+1][64];
-char BlasterIncoming[MAXPLAYERS+1][64];
+char BlasterIncoming[MAXPLAYERS+1][64]; // use bossIndex
 char g_strChatCommand[42][50]; // 이 말은 즉슨.. 42개 이상의 커맨드를 등록하면 이 플러그인은 터진다.
 
 Handle g_hBossCookie;
 Handle g_hBossQueue;
 Handle g_hCvarChatCommand;
 
-Handle g_hInfiniteBlasterCookie;
+// Handle g_hInfiniteBlasterCookie;
 // Handle g_hInfiniteBlasterDataPack;
 // Handle g_hCvarLanguage;
 
@@ -76,6 +76,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 		if(IsClientInGame(client) && IsBoss(client) && IsPlayerChargingBlaster(client))
 		{
 			SetBarrierDamaged(client, BlasterIncoming[client], GetBarrierDamaged(client, BlasterIncoming[client]) + RoundFloat(GetGameTime()));
+			Debug("%i", GetBarrierDamaged(client, BlasterIncoming[client]) + RoundFloat(GetGameTime()));
 			if(GetBarrierDamaged(client, BlasterIncoming[client]) >= GetBarrierMaxHealth(BlasterIncoming[client]))
 			{
 				SetClientBossBlast(client, BlasterIncoming[client], true);
@@ -84,6 +85,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 			}
 			else
 			{
+				Debug("%d", GetBarrierDamaged(client, BlasterIncoming[client]));
 				CPrintToChat(client, "{lightblue}[INF-B]{default} {orange}%s{default}의 남은 베리어 HP: %i / %i",
 				BlasterIncoming[client],
 				GetBarrierMaxHealth(BlasterIncoming[client]) - GetBarrierDamaged(client, BlasterIncoming[client])
@@ -368,63 +370,67 @@ public BlasterMenu(Handle menu, MenuAction action, int client, int item)
 
 public void GetBlasterIncomingString(client, char[] bossName, int buffer)
 {
-	g_hInfiniteBlasterCookie = RegClientCookie("INF-B", ".", CookieAccess_Protected);
-	GetClientCookie(client, g_hInfiniteBlasterCookie, bossName, buffer);
+	Handle InfiniteBlasterCookie = RegClientCookie("INF-B", ".", CookieAccess_Protected);
+	GetClientCookie(client, InfiniteBlasterCookie, bossName, buffer);
 }
 
 void AbleInfiniteBlaster(int client, bool enable)
 {
-	g_hInfiniteBlasterCookie = RegClientCookie("INF-B", ".", CookieAccess_Protected);
+	Handle InfiniteBlasterCookie = RegClientCookie("INF-B", ".", CookieAccess_Protected);
 
 	// char CookieV[100];
 
 	if(enable)
 	{
-		SetClientCookie(client, g_hInfiniteBlasterCookie, BlasterIncoming[client]);
+		SetClientCookie(client, InfiniteBlasterCookie, BlasterIncoming[client]);
 	}
 	else
 	{
-		SetClientCookie(client, g_hInfiniteBlasterCookie, "");
+		SetClientCookie(client, InfiniteBlasterCookie, "");
+		// SetBarrierDamaged(client, BlasterIncoming[client], 0);
 	}
 }
 
 bool IsPlayerChargingBlaster(int client)
 {
-	g_hInfiniteBlasterCookie = RegClientCookie("INF-B", ".", CookieAccess_Protected);
+	Handle InfiniteBlasterCookie = RegClientCookie("INF-B", ".", CookieAccess_Protected);
 
 	char temp[30];
-	GetClientCookie(client, g_hInfiniteBlasterCookie, temp, sizeof(temp));
+	GetClientCookie(client, InfiniteBlasterCookie, temp, sizeof(temp));
 
 	return temp[0] != '\0';
 }
 
 void SetClientBossBlast(int client, const char[] bossName, bool enable)
 {
+	int bossIndex = GetBossNameIndex(bossName);
 	char temp[100];
-	Format(temp, sizeof(temp), "blaster_%s", bossName);
-	g_hInfiniteBlasterCookie = RegClientCookie(temp, "sdvx?", CookieAccess_Protected);
+	Format(temp, sizeof(temp), "blaster_%i_%i", bossIndex, GetBossNameLength(bossIndex));
+	Handle InfiniteBlasterCookie = RegClientCookie(temp, "sdvx?", CookieAccess_Protected);
 
 	if(enable)
 	{
-		SetClientCookie(client, g_hInfiniteBlasterCookie, "1");
+		SetClientCookie(client, InfiniteBlasterCookie, "1");
 	}
 	else
 	{
-		SetClientCookie(client, g_hInfiniteBlasterCookie, "0");
-		SetBarrierDamaged(client, bossName, 0);
+		SetClientCookie(client, InfiniteBlasterCookie, "0");
+		// SetBarrierDamaged(client, bossName, 0);
 	}
+
+	SetBarrierDamaged(client, bossName, 0);
 }
 
 int GetBarrierDamaged(int client, const char[] bossName)
 {
-	Handle BossKV = GetBossNameHandle(bossName);
-	if(BossKV != INVALID_HANDLE)
+	int bossIndex = GetBossNameIndex(bossName);
+	if(bossIndex != -1)
 	{
 		char temp[100];
-		Format(temp, sizeof(temp), "blaster_damaged_%s", bossName);
+		Format(temp, sizeof(temp), "blaster_damaged_%i_%i", bossIndex, GetBossNameLength(bossIndex));
 
-		g_hInfiniteBlasterCookie = RegClientCookie(temp, ".", CookieAccess_Protected);
-		GetClientCookie(client, g_hInfiniteBlasterCookie, temp, sizeof(temp));
+		Handle InfiniteBlasterCookie = RegClientCookie(temp, ".", CookieAccess_Protected);
+		GetClientCookie(client, InfiniteBlasterCookie, temp, sizeof(temp));
 
 		return StringToInt(temp);
 	}
@@ -434,16 +440,16 @@ int GetBarrierDamaged(int client, const char[] bossName)
 
 void SetBarrierDamaged(int client, const char[] bossName, int damage)
 {
-	Handle BossKV = GetBossNameHandle(bossName);
-	if(BossKV != INVALID_HANDLE)
+	int bossIndex = GetBossNameIndex(bossName);
+	if(bossIndex != -1)
 	{
 		char temp[100];
-		Format(temp, sizeof(temp), "blaster_damaged_%s", bossName);
+		Format(temp, sizeof(temp), "blaster_damaged_%i_%i", bossIndex, GetBossNameLength(bossIndex));
 
-		g_hInfiniteBlasterCookie = RegClientCookie(temp, ".", CookieAccess_Protected);
+		Handle InfiniteBlasterCookie = RegClientCookie(temp, ".", CookieAccess_Protected);
 
 		Format(temp, sizeof(temp), "%i", damage);
-		SetClientCookie(client, g_hInfiniteBlasterCookie, temp);
+		SetClientCookie(client, InfiniteBlasterCookie, temp);
 	}
 }
 
@@ -474,6 +480,34 @@ Handle GetBossNameHandle(const char[] bossName)
 	}
 
 	return INVALID_HANDLE;
+}
+
+int GetBossNameLength(int bossIndex)
+{
+	Handle BossKV = FF2_GetSpecialKV(bossIndex,true);
+	char spclName[MAX_NAME];
+
+	KvGetString(BossKV, "name", spclName, sizeof(spclName));
+
+	return strlen(spclName);
+}
+
+int GetBossNameIndex(const char[] bossName)
+{
+	Handle BossKV;
+	char spclName[MAX_NAME];
+
+	for (int i = 0; (BossKV=FF2_GetSpecialKV(i,true)); i++)
+	{
+		KvGetString(BossKV, "name", spclName, sizeof(spclName));
+		if(StrEqual(bossName, spclName, true))
+		{
+			KvRewind(BossKV);
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 /*
@@ -514,11 +548,12 @@ stock void CheckBossName(int client, const char[] bossName)
 stock bool IsBossBlasted(int client, const char[] bossName)
 {
 	char temp[100];
-	Format(temp, sizeof(temp), "blaster_%s", bossName);
+	int bossIndex = GetBossNameIndex(bossName);
+	Format(temp, sizeof(temp), "blaster_%i_%i", bossIndex, GetBossNameLength(bossIndex));
 
-	g_hInfiniteBlasterCookie = RegClientCookie(temp, "sdvx?", CookieAccess_Protected);
-	GetClientCookie(client, g_hInfiniteBlasterCookie, temp, sizeof(temp));
-	return StringToInt(temp) == 1;
+	Handle InfiniteBlasterCookie = RegClientCookie(temp, "sdvx?", CookieAccess_Protected);
+	GetClientCookie(client, InfiniteBlasterCookie, temp, sizeof(temp));
+	return StringToInt(temp) == 1 || GetBarrierMaxHealth(bossName) <= 0;
 }
 
 
@@ -588,4 +623,9 @@ stock void SetClientQueueNoneCookie(int client, bool setNone)
 		SetClientCookie(client, g_hBossQueue, CookieV);
 		CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2_queue_restored");
 	}
+}
+
+stock bool IsValidBoss(int bossIndex)
+{
+
 }
