@@ -1151,7 +1151,6 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnRageEnd=CreateGlobalForward("FF2_OnRageEnd", ET_Hook, Param_Cell);
 
 	RegPluginLibrary("freak_fortress_2");
-	RegPluginLibrary("POTRY");
 
 	AskPluginLoad_VSH();
 	#if defined _steamtools_included
@@ -2770,6 +2769,33 @@ public Action:ReUpdateBossHealth(Handle timer)
 		if(IsClientInGame(client) && (boss = GetBossIndex(client)) != -1)
 		{
 			FormulaBossHealth(boss);
+
+			switch(BossDiff[boss])
+			{
+			  case 2: // 하드
+			  {
+					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.2);
+					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.2);
+			  }
+				case 3: // 배리 하드
+				{
+					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.3);
+					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.3);
+					BossRageDamage[boss]+=RoundFloat(float(BossRageDamage[boss])*0.2);
+				}
+				case 4:
+				{
+					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.4);
+					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.4);
+					BossRageDamage[boss]+=RoundFloat(float(BossRageDamage[boss])*0.4);
+				}
+				case 5:
+				{
+					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
+					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
+					FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
+				}
+			}
 		}
 	}
 }
@@ -3867,7 +3893,11 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	}
 
 	// BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
-	BossDiff[boss]=GetClientDifficultyCookie(client);
+	if(FF2Boss_IsPlayerBlasterReady(client))
+		BossDiff[boss]=1;
+
+	else
+		BossDiff[boss]=GetClientDifficultyCookie(client);
 
 	switch(BossDiff[boss])
 	{
@@ -4794,21 +4824,21 @@ public Action:Command_GetHP(client)  //TODO: This can rarely show a very large n
 				{
 					new String:playerName[50];
 					GetClientName(client, playerName, sizeof(playerName));
-					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 				}
 
 				else
-					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 
 				if(IsBossYou[boss])
 				{
 					new String:playerName[50];
 					GetClientName(client, playerName, sizeof(playerName));
-					CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+					CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 
 				}
 				else
-					CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, !IsFakeClient(target) ? diffItem : "BOT");
+					CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 
 				BossHealthLast[boss]=BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1);
 			}
@@ -5837,11 +5867,11 @@ public Action:BossTimer(Handle:timer)
 					{
 						new String:playerName[50];
 						GetClientName(target, playerName, sizeof(playerName));
-						Format(message, sizeof(message), "%s\n%t", message, "ff2_hp", playerName, BossHealth[boss2]-BossHealthMax[boss2]*(BossLives[boss2]-1), BossHealthMax[boss2], bossLives, !IsFakeClient(target) ? diffItem : "BOT");
+						Format(message, sizeof(message), "%s\n%t", message, "ff2_hp", playerName, BossHealth[boss2]-BossHealthMax[boss2]*(BossLives[boss2]-1), BossHealthMax[boss2], bossLives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 					}
 
 					else
-						Format(message, sizeof(message), "%s\n%t", message, "ff2_hp", name, BossHealth[boss2]-BossHealthMax[boss2]*(BossLives[boss2]-1), BossHealthMax[boss2], bossLives, !IsFakeClient(target) ? diffItem : "BOT");
+						Format(message, sizeof(message), "%s\n%t", message, "ff2_hp", name, BossHealth[boss2]-BossHealthMax[boss2]*(BossLives[boss2]-1), BossHealthMax[boss2], bossLives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 
 				}
 			}

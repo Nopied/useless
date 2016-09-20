@@ -19,6 +19,10 @@
 
 int g_iChatCommand;
 
+bool CharingBlaster[MAXPLAYERS+1];
+
+float StartGameTime;
+
 char Incoming[MAXPLAYERS+1][64];
 char BlasterIncoming[MAXPLAYERS+1][64]; // use bossIndex
 char g_strChatCommand[42][50]; // 이 말은 즉슨.. 42개 이상의 커맨드를 등록하면 이 플러그인은 터진다.
@@ -37,6 +41,12 @@ public Plugin:myinfo = {
 	author = "Nopied◎",
 	version = PLUGIN_VERSION,
 };
+
+public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
+{
+	CreateNative("FF2Boss_IsPlayerBlasterReady", Native_IsPlayerBlasterReady);
+	return APLRes_Success;
+}
 
 public void OnPluginStart()
 {
@@ -64,19 +74,77 @@ public void OnPluginStart()
 	LoadTranslations("core.phrases");
 	LoadTranslations("ff2_boss_selection");
 
+	HookEvent("arena_round_start", OnRoundStart, EventHookMode_Post);
 	HookEvent("teamplay_round_win", OnRoundEnd);
+
+	RegPluginLibrary("POTRY");
 
 	ChangeChatCommand();
 }
 
-public Action OnRoundEnd(Handle event, const char[] name, bool dont)
+public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
 	for(int client = 1; client<=MaxClients; client++)
 	{
+		CharingBlaster[client]=false;
+
 		if(IsClientInGame(client) && IsBoss(client) && IsPlayerChargingBlaster(client))
 		{
-			SetBarrierDamaged(client, BlasterIncoming[client], GetBarrierDamaged(client, BlasterIncoming[client]) + RoundFloat(GetGameTime()));
-			Debug("%i", GetBarrierDamaged(client, BlasterIncoming[client]) + RoundFloat(GetGameTime()));
+			int boss = FF2_GetBossIndex(client);
+
+			CPrintToChat(client, "{lightblue}[INF-B]{default} {orange}%s{default}의 배리어를 노리고 있습니다.. (분노 생성률 하락: %i%%)",
+			BlasterIncoming[client]
+			,	RoundFloat(GetBarrierRank(BlasterIncoming[client]) * 100.0) - 100);
+
+			CPrintToChat(client, "{lightblue}[INF-B]{default} {orange}%s{default}의 남은 베리어 HP: %i / %i",
+			BlasterIncoming[client],
+			GetBarrierMaxHealth(BlasterIncoming[client]) - GetBarrierDamaged(client, BlasterIncoming[client])
+			, GetBarrierMaxHealth(BlasterIncoming[client]));
+
+			CharingBlaster[client]=true;
+
+			FF2_SetBossRageDamage(boss, RoundFloat(float(FF2_GetBossRageDamage(boss)) * GetBarrierRank(BlasterIncoming[client])));
+		}
+	}
+
+	StartGameTime = GetGameTime();
+
+	return Plugin_Continue;
+}
+
+public Action OnRoundEnd(Handle event, const char[] name, bool dont)
+{
+	int newbarrierdamage;
+	float roundtime = GetGameTime() - StartGameTime;
+
+	if(GetEventInt(event, "team") != FF2_GetBossTeam())
+	{
+		newbarrierdamage = 300;
+	}
+	else if(roundtime > float(GetClientCount(true)) * 25.0) // 20명 기준 500초
+	{
+		newbarrierdamage = 300;
+	}
+	else if(roundtime < float(GetClientCount(true)) * 15.0) // 20명 기준 300초
+	{
+		newbarrierdamage = 1000;
+	}
+	else
+	{
+		float LTime = float(GetClientCount(true)) * 15.0;
+		float MTime = float(GetClientCount(true)) * 25.0;
+
+		float result = 350 * (((((roundtime - MTime) + (roundtime - LTime)) / 2.0) / (MTime - LTime)) + 1.0);
+
+		newbarrierdamage = RoundFloat(result) + 300;
+	}
+
+	for(int client = 1; client<=MaxClients; client++)
+	{
+		if(IsClientInGame(client) && IsBoss(client) && CharingBlaster[client])
+		{
+			 SetBarrierDamaged(client, BlasterIncoming[client], GetBarrierDamaged(client, BlasterIncoming[client]) + newbarrierdamage);
+
 			if(GetBarrierDamaged(client, BlasterIncoming[client]) >= GetBarrierMaxHealth(BlasterIncoming[client]))
 			{
 				SetClientBossBlast(client, BlasterIncoming[client], true);
@@ -85,7 +153,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 			}
 			else
 			{
-				Debug("%d", GetBarrierDamaged(client, BlasterIncoming[client]));
+				// Debug("%d", GetBarrierDamaged(client, BlasterIncoming[client]));
 				CPrintToChat(client, "{lightblue}[INF-B]{default} {orange}%s{default}의 남은 베리어 HP: %i / %i",
 				BlasterIncoming[client],
 				GetBarrierMaxHealth(BlasterIncoming[client]) - GetBarrierDamaged(client, BlasterIncoming[client])
@@ -242,7 +310,11 @@ public Action Command_SetMyBoss(int client, int args)
 
 	if(IsPlayerChargingBlaster(client))
 	{
-		SetMenuTitle(dMenu, "INFINITE BLASTER IS CHARGING...\n(다른 보스를 선택할 경우 비활성화 됩니다.)");
+		SetMenuTitle(dMenu, "INFINITE BLASTER IS CHARGING...\n현재 배리어(%s) HP: %i / %i\n베리어 랭크: %.1f\n다른 보스를 선택할 경우 비활성화 됩니다.",
+		BlasterIncoming[client],
+		GetBarrierMaxHealth(BlasterIncoming[client]) - GetBarrierDamaged(client, BlasterIncoming[client]),
+		GetBarrierMaxHealth(BlasterIncoming[client]),
+		GetBarrierRank(BlasterIncoming[client]));
 	}
 	else if(StrEqual(CookieV, ""))
 	{
@@ -322,10 +394,11 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 						int barrierMaxhp = GetBarrierMaxHealth(bossName);
 						strcopy(BlasterIncoming[param1], sizeof(BlasterIncoming[]), bossName);
 
-						SetMenuTitle(Nmenu, "INFINITE BLASTER\n-------------------\n선택하신 그 보스(%s)는 선택하기 위해서는\n다른 보스로 활약하여 배리어 HP를 0으로 만들어야 합니다!\n\n도전할 경우 무작위 보스, 무작위 난이도로 싸우게됩니다!\n---------------\n현재 배리어 HP: %i / %i",
+						SetMenuTitle(Nmenu, "INFINITE BLASTER\n-------------------\n선택하신 그 보스(%s)는 선택하기 위해서는\n다른 보스로 활약하여 배리어 HP를 0으로 만들어야 합니다!\n\n도전할 경우 무작위 보스, 무작위 난이도로 싸우게됩니다!\n---------------\n현재 배리어 HP: %i / %i\n배리어 랭크: %.1f",
 						bossName,
 						barrierMaxhp - GetBarrierDamaged(param1, bossName),
-						barrierMaxhp);
+						barrierMaxhp,
+						GetBarrierRank(bossName));
 
 						AddMenuItem(Nmenu, "예", "네, 도전하겠습니다!");
 						AddMenuItem(Nmenu, "아니요", "아니요..");
@@ -353,14 +426,24 @@ public BlasterMenu(Handle menu, MenuAction action, int client, int item)
 			{
 				case 0:
 				{
+					if(IsBoss(client))
+					{
+					  CReplyToCommand(client, "{olive}[FF2]{default} 해당 작업은 {orange}보스 라운드{default}가 끝난 뒤 하실 수 있습니다.");
+						return;
+					}
+
 					SetClientQueueNoneCookie(client, false);
+
+					Incoming[client] = "";
 					SetClientCookie(client, g_hBossCookie, "");
+
 					CPrintToChat(client, "{lightblue}[INF-B]{default} 당신의 다음 보스 라운드에 활성화됩니다. 준비하세요!");
 					AbleInfiniteBlaster(client, true);
 				}
 
 				case 1:
 				{
+					AbleInfiniteBlaster(client, false);
 					CloseHandle(menu);
 				}
 			}
@@ -387,6 +470,7 @@ void AbleInfiniteBlaster(int client, bool enable)
 	else
 	{
 		SetClientCookie(client, InfiniteBlasterCookie, "");
+		BlasterIncoming[client] = "";
 		// SetBarrierDamaged(client, BlasterIncoming[client], 0);
 	}
 }
@@ -462,6 +546,18 @@ int GetBarrierMaxHealth(const char[] bossName)
 	}
 
 	return -1;
+}
+
+float GetBarrierRank(const char[] bossName)
+{
+	Handle BossKV = GetBossNameHandle(bossName);
+	if(BossKV != INVALID_HANDLE)
+	{
+		float barrier_rank = KvGetFloat(BossKV, "barrier_rank", 1.0);
+		return barrier_rank >= 1.0 ? barrier_rank : 1.0;
+	}
+
+	return 1.0;
 }
 
 Handle GetBossNameHandle(const char[] bossName)
@@ -625,7 +721,7 @@ stock void SetClientQueueNoneCookie(int client, bool setNone)
 	}
 }
 
-stock bool IsValidBoss(int bossIndex)
+public Native_IsPlayerBlasterReady(Handle plugin, numParams)
 {
-
+	return CharingBlaster[GetNativeCell(1)];
 }
