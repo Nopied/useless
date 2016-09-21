@@ -1703,6 +1703,7 @@ public OnMapStart()
 		FF2flags[client]=0;
 		Incoming[client]=-1;
 		MusicTimer[client]=INVALID_HANDLE;
+		playBGM[client] = true;
 	}
 
 	for(new specials; specials<MAXSPECIALS; specials++)
