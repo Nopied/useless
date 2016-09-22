@@ -54,7 +54,7 @@ public void OnPluginStart()
   HookEvent("player_death", OnPlayerDeath);
 
   // PrecacheThings();
-	CreateTimer(0.2, PrecacheTimer);
+  CreateTimer(0.2, PrecacheTimer);
 }
 
 public void OnMapStart()
@@ -155,14 +155,14 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 			if(IsFake)
 			{
-					SDKHook(prop, SDKHook_Touch, FakePickup);
-	      	SDKHook(prop, SDKHook_StartTouch, FakePickup);
-					SDKHook(prop, SDKHook_SetTransmit, FakePropTransmit);
+				SDKHook(prop, SDKHook_Touch, FakePickup);
+	      		SDKHook(prop, SDKHook_StartTouch, FakePickup);
+				SDKHook(prop, SDKHook_SetTransmit, FakePropTransmit);
 			}
 			else
 			{
-					SDKHook(prop, SDKHook_Touch, OnPickup);
-	      	SDKHook(prop, SDKHook_StartTouch, OnPickup);
+				SDKHook(prop, SDKHook_Touch, OnPickup);
+	      		SDKHook(prop, SDKHook_StartTouch, OnPickup);
 			}
     	}
   	}
@@ -230,6 +230,10 @@ public Action OnStuckTest(Handle timer, int entity)
 		return Plugin_Stop;
 		// SDKUnhook(entity, SDKHook_PreThinkPost, OnStuckTest);
 	}
+	else
+	{
+		SetEntityMoveType(prop, MOVETYPE_VPHYSICS);
+	}
 
 	CreateTimer(0.02, OnStuckTest, entity);
 	return Plugin_Continue;
@@ -268,9 +272,9 @@ public Action OnPickup(int entity, int client) // Copied from FF2
 	if(remaining - g_iEatCount[client] == 0) // 일정 갯수를 얻었을 경우
 	{
 	  	Format(centerMessage, sizeof(centerMessage), "%s\n잠시동안 버프를 받게됩니다!", centerMessage);
-			TF2_AddCondition(client, TFCond_Ubercharged, GetConVarFloat(cvarPropUberTime));
-			SetEntProp(client, Prop_Data, "m_takedamage", 0);
-			CreateTimer(GetConVarFloat(cvarPropUberTime), EnableTakeDamage, client, TIMER_FLAG_NO_MAPCHANGE);
+		TF2_AddCondition(client, TFCond_Ubercharged, GetConVarFloat(cvarPropUberTime));
+		SetEntProp(client, Prop_Data, "m_takedamage", 0);
+		CreateTimer(GetConVarFloat(cvarPropUberTime), EnableTakeDamage, client, TIMER_FLAG_NO_MAPCHANGE);
 	}
 	else
 	{
