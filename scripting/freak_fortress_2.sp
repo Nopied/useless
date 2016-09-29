@@ -1703,7 +1703,6 @@ public OnMapStart()
 		FF2flags[client]=0;
 		Incoming[client]=-1;
 		MusicTimer[client]=INVALID_HANDLE;
-		playBGM[client] = true;
 	}
 
 	for(new specials; specials<MAXSPECIALS; specials++)
@@ -2770,33 +2769,6 @@ public Action:ReUpdateBossHealth(Handle timer)
 		if(IsClientInGame(client) && (boss = GetBossIndex(client)) != -1)
 		{
 			FormulaBossHealth(boss);
-
-			switch(BossDiff[boss])
-			{
-			  case 2: // 하드
-			  {
-					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.2);
-					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.2);
-			  }
-				case 3: // 배리 하드
-				{
-					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.3);
-					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.3);
-					BossRageDamage[boss]+=RoundFloat(float(BossRageDamage[boss])*0.2);
-				}
-				case 4:
-				{
-					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.4);
-					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.4);
-					BossRageDamage[boss]+=RoundFloat(float(BossRageDamage[boss])*0.4);
-				}
-				case 5:
-				{
-					BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
-					// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
-					FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
-				}
-			}
 		}
 	}
 }
@@ -3894,8 +3866,8 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	}
 
 	// BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
-	if(FF2Boss_IsPlayerBlasterReady(client))
-		BossDiff[boss]=1;
+	 if(FF2Boss_IsPlayerBlasterReady(client))
+		 BossDiff[boss]=1;
 
 	else
 		BossDiff[boss]=GetClientDifficultyCookie(client);
@@ -10303,9 +10275,9 @@ public HealthbarEnableChanged(Handle:convar, const String:oldValue[], const Stri
 	}
 }
 
-FormulaBossHealth(boss)
+FormulaBossHealth(boss, bool:includeHealth=true)
 {
-	// new client=Boss[boss];
+	new client=Boss[boss];
 
 	KvRewind(BossKV[Special[boss]]);
 
@@ -10318,10 +10290,38 @@ FormulaBossHealth(boss)
 		BossLivesMax[boss]=1;
 	}
 
-	BossLives[boss]=BossLivesMax[boss];
 	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
-	BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
 	BossHealthLast[boss]=BossHealth[boss];
+	if(includeHealth)
+	{
+		BossLives[boss]=BossLivesMax[boss];
+		BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
+	}
+
+	if(FF2Boss_IsPlayerBlasterReady(client))
+		BossDiff[boss]=1;
+
+	switch(BossDiff[boss])
+	{
+	  case 2: // 하드
+	  {
+			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.2);
+	  }
+		case 3: // 배리 하드
+		{
+			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.3);
+		}
+		case 4:
+		{
+			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.4);
+		}
+		case 5:
+		{
+			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
+			// FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
+		}
+	}
+
 }
 
 UpdateHealthBar()
