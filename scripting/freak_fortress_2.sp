@@ -200,6 +200,7 @@ new Float:GoombaDamage=0.05;
 new Float:reboundPower=300.0;
 new bool:canBossRTD;
 new bool:HasCompanions;
+new bool:NoticedLastman=false;
 
 new Handle:MusicTimer[MAXPLAYERS+1];
 new Handle:BossInfoTimer[MAXPLAYERS+1][2];
@@ -2603,6 +2604,7 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 	playing=0;
 	HighestDPS=0.0;
 	HighestDPSClient=0;
+	NoticedLastman=false;
 	for(new client=1; client<=MaxClients; client++)
 	{
 		Damage[client]=0;
@@ -6428,9 +6430,10 @@ public Action:CheckAlivePlayers(Handle:timer, int except)
 		if(except)	ForceTeamWin(BossTeam);
 		else CreateTimer(0.05, CheckAlivePlayers, 1);
 	}
-	else if(RedAlivePlayers==1 && BlueAlivePlayers && Boss[0] && !DrawGameTimer)
+	else if(RedAlivePlayers==1 && BlueAlivePlayers && Boss[0] && !DrawGameTimer && !NoticedLastman)
 	{
 		decl String:sound[PLATFORM_MAX_PATH];
+		NoticedLastman=true;
 		if(RandomSound("sound_lastman", sound, sizeof(sound)))
 		{
 			EmitSoundToAll(sound);
@@ -6569,6 +6572,8 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	new boss=GetBossIndex(client);
 	new damage=GetEventInt(event, "damageamount");
 	new custom=GetEventInt(event, "custom");
+	new bool:changeResult=false;
+
 	if(boss==-1 || !Boss[boss] || !IsValidEntity(Boss[boss]) || client==attacker)
 	{
 		return Plugin_Continue;
@@ -6687,8 +6692,19 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		}
 	}
 
-	BossHealth[boss]-=damage;
-	BossCharge[boss][0]+=damage*100.0/BossRageDamage[boss];
+	if(BossHealth[boss] - damage <= 0 && BossDiff[boss] != 1) // TODO: 특정인만 가능하게.
+	{
+		changeResult = true;
+		BossCharge[boss][0] = 100.0;
+
+		FormulaBossHealth(boss, false);
+		CPrintToChatAll("{olive}[FF2]{default} 이보스는 {red}보스 스탠타드 플레이{default}가 활성화된 상태입니다. '{green}보통{defValue}' 난이도로 되돌아가 다시 싸웁니다!");
+	}
+	else
+	{
+		BossHealth[boss]-=damage;
+		BossCharge[boss][0]+=damage*100.0/BossRageDamage[boss];
+	}
 	if(!(FF2ServerFlag & FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE)) Damage[attacker]+=damage;
 
 	new healers[MAXPLAYERS];
@@ -6745,6 +6761,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 						if(CheckedFirstRound)
 						{
 							IsFakeKill=true;
+							changeResult=true;
 							new Handle:hStreak=CreateEvent("player_death", false);
 							SetEventInt(hStreak, "attacker", GetClientUserId(attacker));
 							SetEventInt(hStreak, "userid", GetClientUserId(client));
@@ -6764,7 +6781,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	{
 		BossCharge[boss][0]=100.0;
 	}
-	return Plugin_Continue;
+	return changeResult ? Plugin_Handled : Plugin_Continue;
 }
 
 public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damagetype, &weapon, Float:damageForce[3], Float:damagePosition[3], damagecustom)
@@ -10278,6 +10295,7 @@ public HealthbarEnableChanged(Handle:convar, const String:oldValue[], const Stri
 FormulaBossHealth(boss, bool:includeHealth=true)
 {
 	new client=Boss[boss];
+	int damaged=0;
 
 	KvRewind(BossKV[Special[boss]]);
 
@@ -10290,12 +10308,25 @@ FormulaBossHealth(boss, bool:includeHealth=true)
 		BossLivesMax[boss]=1;
 	}
 
+	if(!includeHealth)
+	{
+		damaged = (BossHealthMax[boss]*BossLivesMax[boss]) - BossHealth[boss];
+	}
+
 	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
 	BossHealthLast[boss]=BossHealth[boss];
-	if(includeHealth)
+	BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
+	BossLives[boss]=BossLivesMax[boss];
+
+	if(!includeHealth)
 	{
-		BossLives[boss]=BossLivesMax[boss];
-		BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
+		BossHealth[boss] -= damaged;
+
+		while(damaged > BossHealthMax[boss])
+		{
+		  damaged -= BossHealthMax[boss];
+		  BossLives[boss]--;
+		}
 	}
 
 	if(FF2Boss_IsPlayerBlasterReady(client))
