@@ -8149,9 +8149,20 @@ stock bool:RandomSoundAbility(const String:sound[], String:file[], length, boss=
 	{
 		return false;  //Found sound, but no sounds inside of it
 	}
-
-	IntToString(match[GetRandomInt(0, matches-1)], key, 4);
+	int randomNum = GetRandomInt(0, matches-1);
+	IntToString(match[randomNum], key, 4);
 	KvGetString(BossKV[Special[boss]], key, file, length);  //Populate file
+
+	Format(key, sizeof(key), "text%i", randomNum);
+	if(KvJumpToKey(BossKV[Special[boss]], key)
+	{
+		for(new client=1; client<=MaxClients; client++)
+		{
+			if(IsClientInGame(client))
+				CreateDialog(client, BossKV[Special[boss]], DialogType_Text);
+		}
+	}
+
 	return true;
 }
 
