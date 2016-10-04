@@ -1210,7 +1210,7 @@ public OnPluginStart()
 	HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre); //  첫라운드 버그가 문제야..
 	HookEvent("rps_taunt_event", OnRPS, EventHookMode_Pre);
 	// HookEvent("player_chargedeployed", OnUberDeployed);
-	HookEvent("player_hurt", OnPlayerHurt);
+	HookEvent("player_hurt", OnPlayerHurt, EventHookMode_Pre);
 	HookEvent("object_destroyed", OnObjectDestroyed, EventHookMode_Pre);
 	HookEvent("object_deflected", OnObjectDeflected, EventHookMode_Pre);
 	HookEvent("deploy_buff_banner", OnDeployBackup);
@@ -1863,7 +1863,7 @@ public DisableFF2()
 	#if defined _steamtools_included
 	if(steamtools)
 	{
-		Steam_SetGameDescription("Team Fortress");
+		Steam_SetGameDescription("POTRY");
 	}
 	#endif
 
@@ -3865,40 +3865,6 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	StrEqual(bossName, "당신", true))
 	{
 		IsBossYou[boss]=true;
-	}
-
-	// BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
-	 if(FF2Boss_IsPlayerBlasterReady(client))
-		 BossDiff[boss]=1;
-
-	else
-		BossDiff[boss]=GetClientDifficultyCookie(client);
-
-	switch(BossDiff[boss])
-	{
-	  case 2: // 하드
-	  {
-			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.2);
-			// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.2);
-	  }
-		case 3: // 배리 하드
-		{
-			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.3);
-			// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.3);
-			BossRageDamage[boss]+=RoundFloat(float(BossRageDamage[boss])*0.2);
-		}
-		case 4:
-		{
-			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.4);
-			// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.4);
-			BossRageDamage[boss]+=RoundFloat(float(BossRageDamage[boss])*0.4);
-		}
-		case 5:
-		{
-			BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
-			// BossHealthMax[boss]-=RoundFloat(float(BossHealthMax[boss])*0.5);
-			FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
-		}
 	}
 	// BossLives[boss]=BossLivesMax[boss];
 	// BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
@@ -6572,7 +6538,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	new boss=GetBossIndex(client);
 	new damage=GetEventInt(event, "damageamount");
 	new custom=GetEventInt(event, "custom");
-	new bool:changeResult=false;
+	// new bool:changeResult=false;
 
 	if(boss==-1 || !Boss[boss] || !IsValidEntity(Boss[boss]) || client==attacker)
 	{
@@ -6597,6 +6563,19 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	{
 		SetEventInt(event, "damageamount", damage);
 	}
+
+	if(BossHealth[boss] - damage <= 0 && BossDiff[boss] != 1) // TODO: 특정인만 가능하게.
+	{
+		// changeResult = true;
+		BossCharge[boss][0] = 100.0;
+		SetEntityHealth(client, 99999999);
+
+		FormulaBossHealth(boss, false);
+		CPrintToChatAll("{olive}[FF2]{default} 이 보스는 {red}보스 스탠타드 플레이{default}가 활성화된 상태입니다. '{green}보통{default}' 난이도로 되돌아가 다시 싸웁니다!");
+		SetEventInt(event, "damageamount", 0);
+		return Plugin_Changed;
+	}
+
 
 	for(new lives=1; lives<BossLives[boss]; lives++)
 	{
@@ -6692,19 +6671,9 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		}
 	}
 
-	if(BossHealth[boss] - damage <= 0 && BossDiff[boss] != 1) // TODO: 특정인만 가능하게.
-	{
-		changeResult = true;
-		BossCharge[boss][0] = 100.0;
+	BossHealth[boss]-=damage;
+	BossCharge[boss][0]+=damage*100.0/BossRageDamage[boss];
 
-		FormulaBossHealth(boss, false);
-		CPrintToChatAll("{olive}[FF2]{default} 이보스는 {red}보스 스탠타드 플레이{default}가 활성화된 상태입니다. '{green}보통{defValue}' 난이도로 되돌아가 다시 싸웁니다!");
-	}
-	else
-	{
-		BossHealth[boss]-=damage;
-		BossCharge[boss][0]+=damage*100.0/BossRageDamage[boss];
-	}
 	if(!(FF2ServerFlag & FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE)) Damage[attacker]+=damage;
 
 	new healers[MAXPLAYERS];
@@ -6761,7 +6730,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 						if(CheckedFirstRound)
 						{
 							IsFakeKill=true;
-							changeResult=true;
+							// changeResult=true;
 							new Handle:hStreak=CreateEvent("player_death", false);
 							SetEventInt(hStreak, "attacker", GetClientUserId(attacker));
 							SetEventInt(hStreak, "userid", GetClientUserId(client));
@@ -6781,7 +6750,8 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	{
 		BossCharge[boss][0]=100.0;
 	}
-	return changeResult ? Plugin_Handled : Plugin_Continue;
+	// return changeResult ? Plugin_Handled : Plugin_Continue;
+	return Plugin_Continue;
 }
 
 public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damagetype, &weapon, Float:damageForce[3], Float:damagePosition[3], damagecustom)
@@ -6914,6 +6884,11 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					damagetype|=DMG_PREVENT_PHYSICS_FORCE;
 				}
 				////////////////
+
+				if(BossHealth[boss] - RoundFloat(damage) <= 0 && BossDiff[boss] != 1)
+				{
+					return Plugin_Handled;
+				}
 
 				new index;
 				decl String:classname[64];
@@ -8108,8 +8083,19 @@ stock bool:RandomSound(const String:sound[], String:file[], length, boss=0)
 		return false;  //Found sound, but no sounds inside of it
 	}
 
-	IntToString(GetRandomInt(1, sounds), key, sizeof(key));
+	int randomNum = GetRandomInt(1, sounds);
+	IntToString(randomNum, key, sizeof(key));
 	KvGetString(BossKV[Special[boss]], key, file, length);  //Populate file
+
+	Format(key, sizeof(key), "text%i", randomNum);
+	if(KvJumpToKey(BossKV[Special[boss]], key))
+	{
+		for(new client=1; client<=MaxClients; client++)
+		{
+			if(IsClientInGame(client) && CheckSoundException(client, SOUNDEXCEPT_VOICE))
+				CreateDialog(client, BossKV[Special[boss]], DialogType_Msg);
+		}
+	}
 	return true;
 }
 
@@ -8154,11 +8140,11 @@ stock bool:RandomSoundAbility(const String:sound[], String:file[], length, boss=
 	KvGetString(BossKV[Special[boss]], key, file, length);  //Populate file
 
 	Format(key, sizeof(key), "text%i", randomNum);
-	if(KvJumpToKey(BossKV[Special[boss]], key)
+	if(KvJumpToKey(BossKV[Special[boss]], key))
 	{
 		for(new client=1; client<=MaxClients; client++)
 		{
-			if(IsClientInGame(client))
+			if(IsClientInGame(client) && CheckSoundException(client, SOUNDEXCEPT_VOICE))
 				CreateDialog(client, BossKV[Special[boss]], DialogType_Text);
 		}
 	}
@@ -10319,26 +10305,8 @@ FormulaBossHealth(boss, bool:includeHealth=true)
 		BossLivesMax[boss]=1;
 	}
 
-	if(!includeHealth)
-	{
-		damaged = (BossHealthMax[boss]*BossLivesMax[boss]) - BossHealth[boss];
-	}
-
 	BossHealthMax[boss]=ParseFormula(boss, "health_formula", "(((960.8+n)*(n-1))^1.0341)+2046", RoundFloat(Pow((760.8+float(playing))*(float(playing)-1.0), 1.0341)+2046.0));
 	BossHealthLast[boss]=BossHealth[boss];
-	BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
-	BossLives[boss]=BossLivesMax[boss];
-
-	if(!includeHealth)
-	{
-		BossHealth[boss] -= damaged;
-
-		while(damaged > BossHealthMax[boss])
-		{
-		  damaged -= BossHealthMax[boss];
-		  BossLives[boss]--;
-		}
-	}
 
 	if(FF2Boss_IsPlayerBlasterReady(client))
 		BossDiff[boss]=1;
@@ -10364,6 +10332,20 @@ FormulaBossHealth(boss, bool:includeHealth=true)
 		}
 	}
 
+	if(!includeHealth)
+	{
+		damaged = (BossHealthMax[boss]*BossLivesMax[boss]) - BossHealth[boss];
+		BossHealth[boss] -= damaged;
+
+		while(damaged > BossHealthMax[boss])
+		{
+		  damaged -= BossHealthMax[boss];
+		  BossLives[boss]--;
+		}
+	}
+
+	BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
+	BossLives[boss]=BossLivesMax[boss];
 }
 
 UpdateHealthBar()

@@ -1,6 +1,7 @@
 #include <sourcemod>
 #include <tf2>
 #include <tf2_stocks>
+#include <sdkhooks>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
@@ -30,6 +31,7 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
   {
 		int client=GetClientOfUserId(GetEventInt(event, "userid"));
 		float abilityTime=FF2_GetAbilityDuration(boss);
+		float damage = GetEventFloat(event, "damage");
 		/*
 		FF2_SetBossCharge(boss, 0, FF2_GetBossCharge(boss, 0)+(GetEventFloat(event, "damage")*100.0/float(FF2_GetBossRageDamage(boss))));
 		if(FF2_GetBossCharge(boss, 0) > 100.0)
@@ -44,11 +46,35 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 			return Plugin_Continue;
 		}
 
-		FF2_SetAbilityDuration(boss, abilityTime+3.0 > 70.0 ? 70.0 : abilityTime+3.0);
-
+		// FF2_SetAbilityDuration(boss, abilityTime+3.0 > 70.0 ? 70.0 : abilityTime+3.0);
+		/*
 		SetEntPropFloat(client, Prop_Send, "m_flRageMeter",
 			GetEntPropFloat(client, Prop_Send, "m_flRageMeter") > abilityTime*11.5 ?
 			11.5*70.0 : abilityTime*11.5);
+		*/
+		float eyePos[3];
+		if(GetPlayerEye(client, eyePos))
+		{
+			for(int target = 1;  target <= MaxClients; target++)
+			{
+			  if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(client) != GetClientTeam(target))
+			  {
+				  float clientPos[3];
+				  GetClientEyePosition(target, clientPos);
+
+				  if(GetVectorDistance(clientPos, eyePos) <= 100.0)
+				  {
+					  SDKHooks_TakeDamage(target,
+						  GetEntPropEnt(target, Prop_Send, "m_hActiveWeapon"),
+						  client,
+						  damage*(-(GetVectorDistance(clientPos, eyePos) - 100.0)*0.01))
+				  }
+
+			  }
+			}
+		}
+		FF2_SetAbilityDuration(boss, abilityTime-3.0);
+
   }
 	return Plugin_Continue;
 }
@@ -146,17 +172,19 @@ public Action OnTouch(int entity, int other)
 
 		int boss = FF2_GetBossIndex(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
 		FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss) - 3.0);
-	}
 
+		return Plugin_Handled;
+	}
+	return Plugin_Continue;
 }
 
 public bool GetPlayerEye(int client, float pos[3])
 {
-	float vAngles[3], float vOrigin[3];
+	float vAngles[3]; float vOrigin[3];
 	GetClientEyePosition(client, vOrigin);
 	GetClientEyeAngles(client, vAngles);
 
-	Handle trace = TR_TraceRayFilterEx(vOrigin, vAngles, MASK_SHOT, RayType_Infinite, TraceEntityFilterPlayer, client);
+	Handle trace = TR_TraceRayFilterEx(vOrigin, vAngles, MASK_SHOT, RayType_Infinite, TraceRayPlayerOnly, client);
 
 	if(TR_DidHit(trace))
 	{
@@ -166,4 +194,14 @@ public bool GetPlayerEye(int client, float pos[3])
 	}
 	CloseHandle(trace);
 	return false;
+}
+
+public bool TraceRayPlayerOnly(int iEntity, int iMask, any iData)
+{
+    return (IsValidClient(iEntity) && IsValidClient(iData) && iEntity != iData);
+}
+
+stock bool IsValidClient(client)
+{
+	return (0 < client && client < MaxClients && IsClientInGame(client));
 }

@@ -206,13 +206,11 @@ public Action Listener_Say(int client, const char[] command, int argc)
 	{
 		if(StrEqual(temp[0], g_strChatCommand[i], true))
 		{
-			/*
 			if(temp[1][0] != '\0')
 			{
-				CheckBossName(client, temp[1]);
 				return Plugin_Continue;
 			}
-			*/
+
 			Command_SetMyBoss(client, 0);
 			return Plugin_Continue;
 		}
@@ -581,11 +579,14 @@ Handle GetBossNameHandle(const char[] bossName)
 int GetBossNameLength(int bossIndex)
 {
 	Handle BossKV = FF2_GetSpecialKV(bossIndex,true);
-	char spclName[MAX_NAME];
-
-	KvGetString(BossKV, "name", spclName, sizeof(spclName));
-
-	return strlen(spclName);
+	if(BossKV != INVALID_HANDLE)
+	{
+		KvRewind(BossKV);
+		char spclName[MAX_NAME];
+		KvGetString(BossKV, "name", spclName, sizeof(spclName));
+		return strlen(spclName);
+	}
+	return 0;
 }
 
 int GetBossNameIndex(const char[] bossName)
