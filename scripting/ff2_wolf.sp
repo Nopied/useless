@@ -131,7 +131,7 @@ public Action OnTouch(int entity, int other)
 	GetEntityClassname(other, classname, sizeof(classname));
 
 	if(GetEntPropEnt(other, Prop_Send, "m_hOwnerEntity") != GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")
-	&& StrContains(classname, "tf_projectile_"))
+	&& !StrContains(classname, "tf_projectile_"))
 	{
 		float RocketPos[3];
   		float RocketAng[3];

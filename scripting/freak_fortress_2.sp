@@ -3859,6 +3859,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		BossLivesMax[boss]=1;
 	}
 */
+	BossDiff[boss] = GetClientDifficultyCookie(client);
 	FormulaBossHealth(boss);
 
 	if(StrEqual(bossName, "You", true) ||
@@ -6568,9 +6569,9 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	{
 		// changeResult = true;
 		BossCharge[boss][0] = 100.0;
+		FormulaBossHealth(boss, false);
 		SetEntityHealth(client, 99999999);
 
-		FormulaBossHealth(boss, false);
 		CPrintToChatAll("{olive}[FF2]{default} 이 보스는 {red}보스 스탠타드 플레이{default}가 활성화된 상태입니다. '{green}보통{default}' 난이도로 되돌아가 다시 싸웁니다!");
 		SetEventInt(event, "damageamount", 0);
 		return Plugin_Changed;
@@ -8090,11 +8091,31 @@ stock bool:RandomSound(const String:sound[], String:file[], length, boss=0)
 	Format(key, sizeof(key), "text%i", randomNum);
 	if(KvJumpToKey(BossKV[Special[boss]], key))
 	{
+		new Handle:kv = CreateKeyValues("text");
+		new String:item[100];
+
+		KvGetString(BossKV[Special[boss]], "title", item, sizeof(item));
+		KvSetString(kv, "title", item);
+		Debug("%s", item);
+
+		KvGetString(BossKV[Special[boss]], "msg", item, sizeof(item));
+		KvSetString(kv, "msg", item);
+
+		KvGetString(BossKV[Special[boss]], "color", item, sizeof(item));
+		KvSetString(kv, "color", item);
+
+		KvGetString(BossKV[Special[boss]], "level", item, sizeof(item), "1");
+		KvSetString(kv, "level", item);
+
+		KvGetString(BossKV[Special[boss]], "time", item, sizeof(item), "15");
+		KvSetString(kv, "time", item);
+
 		for(new client=1; client<=MaxClients; client++)
 		{
 			if(IsClientInGame(client) && CheckSoundException(client, SOUNDEXCEPT_VOICE))
-				CreateDialog(client, BossKV[Special[boss]], DialogType_Msg);
+				CreateDialog(client, kv, DialogType_Text);
 		}
+		CloseHandle(kv);
 	}
 	return true;
 }
@@ -8142,11 +8163,31 @@ stock bool:RandomSoundAbility(const String:sound[], String:file[], length, boss=
 	Format(key, sizeof(key), "text%i", randomNum);
 	if(KvJumpToKey(BossKV[Special[boss]], key))
 	{
+		new Handle:kv = CreateKeyValues("text");
+		new String:item[100];
+
+		KvGetString(BossKV[Special[boss]], "title", item, sizeof(item));
+		KvSetString(kv, "title", item);
+		Debug("%s", item);
+
+		KvGetString(BossKV[Special[boss]], "msg", item, sizeof(item));
+		KvSetString(kv, "msg", item);
+
+		KvGetString(BossKV[Special[boss]], "color", item, sizeof(item));
+		KvSetString(kv, "color", item);
+
+		KvGetString(BossKV[Special[boss]], "level", item, sizeof(item), "1");
+		KvSetString(kv, "level", item);
+
+		KvGetString(BossKV[Special[boss]], "time", item, sizeof(item), "15");
+		KvSetString(kv, "time", item);
+
 		for(new client=1; client<=MaxClients; client++)
 		{
 			if(IsClientInGame(client) && CheckSoundException(client, SOUNDEXCEPT_VOICE))
-				CreateDialog(client, BossKV[Special[boss]], DialogType_Text);
+				CreateDialog(client, kv, DialogType_Text);
 		}
+		CloseHandle(kv);
 	}
 
 	return true;
