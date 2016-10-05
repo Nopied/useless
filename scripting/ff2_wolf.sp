@@ -118,7 +118,7 @@ stock int SpawnShield(int client)
 
 public Action OnStartTouch(int entity, int other)
 {
-	if (other >= 0 || other <= MaxClients)
+	if (other <= MaxClients)
 		return Plugin_Continue;
 
 	SDKHook(entity, SDKHook_Touch, OnTouch);
@@ -129,6 +129,7 @@ public Action OnTouch(int entity, int other)
 {
 	char classname[60];
 	GetEntityClassname(other, classname, sizeof(classname));
+	// Debug(classname);
 
 	if(GetEntPropEnt(other, Prop_Send, "m_hOwnerEntity") != GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")
 	&& !StrContains(classname, "tf_projectile_"))
@@ -139,6 +140,7 @@ public Action OnTouch(int entity, int other)
   		float TargetPos[3];
   		float TargetVec[3];
   		float MiddleVec[3];
+		// Debug("ppp");
 
   		GetPlayerEye(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"), TargetPos);
 

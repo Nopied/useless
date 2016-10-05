@@ -40,12 +40,12 @@ public void OnPluginStart()
   // TODO: NEED CVAR!
   cvarPropCount = CreateConVar("dp_prop_count", "1", "생성되는 프롭 갯수, 0은 생성을 안함", _, true, 0.0);
   cvarPropVelocity = CreateConVar("dp_prop_velocity", "250.0", "프롭 생성시 흩어지는 최대 속도, 설정한 범위 내로 랜덤으로 속도가 정해집니다.", _, true, 0.0);
-  cvarPropGainMaxHp = CreateConVar("dp_heal_hp", "50", "프롭을 얻을 시, 얼마나 HP를 회복시킬 것 인가?", _, true, 0.0);
+  cvarPropGainMaxHp = CreateConVar("dp_heal_hp", "70", "프롭을 얻을 시, 얼마나 HP를 회복시킬 것 인가?", _, true, 0.0);
   cvarPropBuffCount = CreateConVar("dp_gain_buff_count", "5", "버프를 얻기 위한 얻어야 될 프롭 갯수", _, true, 0.0);
   cvarPropBuffTime =  CreateConVar("dp_gain_buff_time", "5.0", "스피드 버프(징계조치 효과)의 지속 시간", _, true, 0.1);
   cvarPropForNoBossTeam = CreateConVar("dp_prop_for_team", "2", "0 혹은 1은 제한 없음, 2는 레드팀에게만, 3은 블루팀에게만. (생성도 포함됨.)", _, true, 0.0, true, 2.0);
   cvarModelPath = CreateConVar("dp_prop_model_path", "", "이걸 꼭 기재하셔야 프롭을 소환할 수 있습니다.");
-  cvarPropMiniCritTime = CreateConVar("dp_gain_minicrit_time", "10.0", "미니크리의 지속 시간", _, true, 0.1);
+  cvarPropMiniCritTime = CreateConVar("dp_gain_minicrit_time", "6.0", "미니크리의 지속 시간", _, true, 0.1);
   cvarPropUberTime = CreateConVar("dp_gain_uber_time", "10.0", "우버의 지속 시간", _, true, 0.1);
   cvarPropCloakTime = CreateConVar("dp_gain_cloak_time", "8.0", "은폐 지속시간", _, true, 0.1);
   cvarSpellModelPath = CreateConVar("dp_spellprop_model_path", "", "특별한 프롭의 모델, 기입하지 않을 경우 일반 프롭과 동일");
@@ -120,7 +120,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 
-  	if(!enabled || !IsCorrectTeam(client))
+  	if(!enabled || !IsCorrectTeam(client) || CheckRoundState() != 1)
   	{
     	return Plugin_Continue;
   	}
@@ -138,11 +138,12 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       		SetEntityMoveType(prop, MOVETYPE_VPHYSICS);
       		SetEntProp(prop, Prop_Send, "m_CollisionGroup", 5);
       		// SetEntProp(prop, Prop_Send, "m_usSolidFlags", 16); // 0x0004
-					SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
+			SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
       		DispatchSpawn(prop);
+			TF2_CreateGlow(prop);
 
       		float position[3];
-					GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
+			GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
 
       		float velocity[3];
       		velocity[0] = GetRandomFloat(GetConVarFloat(cvarPropVelocity)*-0.5, GetConVarFloat(cvarPropVelocity)*0.5);
@@ -179,6 +180,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 			// SetEntProp(prop, Prop_Send, "m_usSolidFlags", 16); // 0x0004
 			SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
 			DispatchSpawn(prop);
+			TF2_CreateGlow(prop);
 
 			float position[3];
 			GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
@@ -232,7 +234,7 @@ public Action OnStuckTest(Handle timer, int entity)
 	}
 	else
 	{
-		SetEntityMoveType(prop, MOVETYPE_VPHYSICS);
+		SetEntityMoveType(entity, MOVETYPE_VPHYSICS);
 	}
 
 	CreateTimer(0.02, OnStuckTest, entity);
@@ -382,4 +384,50 @@ public bool TraceRayPlayerOnly(int ent, int mask, int data)
 stock bool IsValidClient(int client)
 {
     return (0<client && client<=MaxClients && IsClientInGame(client));
+}
+
+int CheckRoundState()
+{
+	switch(GameRules_GetRoundState())
+	{
+		case RoundState_Init, RoundState_Pregame:
+		{
+			return -1;
+		}
+		case RoundState_StartGame, RoundState_Preround:
+		{
+			return 0;
+		}
+		case RoundState_RoundRunning, RoundState_Stalemate:  //Oh Valve.
+		{
+			return 1;
+		}
+		default:
+		{
+			return 2;
+		}
+	}
+	return -1;  //Compiler bug-doesn't recognize 'default' as a valid catch-all
+}
+
+stock int TF2_CreateGlow(int iEnt)
+{
+	char strName[126], strClass[64];
+	GetEntityClassname(iEnt, strClass, sizeof(strClass));
+	Format(strName, sizeof(strName), "%s%i", strClass, iEnt);
+	DispatchKeyValue(iEnt, "targetname", strName);
+
+	char strGlowColor[18];
+	Format(strGlowColor, sizeof(strGlowColor), "%i %i %i %i", GetRandomInt(0, 255), GetRandomInt(0, 255), GetRandomInt(0, 255), GetRandomInt(180, 255));
+
+	int ent = CreateEntityByName("tf_glow");
+	DispatchKeyValue(ent, "targetname", "RainbowGlow");
+	DispatchKeyValue(ent, "target", strName);
+	DispatchKeyValue(ent, "Mode", "0");
+	DispatchKeyValue(ent, "GlowColor", strGlowColor);
+	DispatchSpawn(ent);
+
+	AcceptEntityInput(ent, "Enable");
+
+	return ent;
 }
