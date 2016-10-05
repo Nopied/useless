@@ -10334,7 +10334,7 @@ public HealthbarEnableChanged(Handle:convar, const String:oldValue[], const Stri
 FormulaBossHealth(boss, bool:includeHealth=true)
 {
 	new client=Boss[boss];
-	int damaged=0;
+	int damaged = (BossHealthMax[boss]*BossLivesMax[boss]) - BossHealth[boss];
 
 	KvRewind(BossKV[Special[boss]]);
 
@@ -10379,7 +10379,6 @@ FormulaBossHealth(boss, bool:includeHealth=true)
 
 	if(!includeHealth)
 	{
-		damaged = (BossHealthMax[boss]*BossLivesMax[boss]) - BossHealth[boss];
 		BossHealth[boss] -= damaged;
 
 		while(damaged > BossHealthMax[boss])
