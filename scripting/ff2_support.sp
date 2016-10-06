@@ -7,6 +7,7 @@
 #include <tf2attributes>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
+#include <POTRY>
 
 #define	MAX_EDICT_BITS	12
 #define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
@@ -23,11 +24,27 @@ bool Sub_SaxtonReflect[MAXPLAYERS+1];
 bool CBS_Abilities[MAXPLAYERS+1];
 
 bool IsEntityCanReflect[MAX_EDICTS];
+bool AllLastmanStanding;
 int g_nEntityBounce[MAX_EDICTS];
 
 public void OnPluginStart2()
 {
 	HookEvent("arena_round_start", OnRoundStart);
+	HookEvent("player_spawn", OnPlayerSpawn);
+}
+
+public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+{
+	if(AllLastmanStanding)
+		CreateTimer(0.3, CheckTimer, _, GetClientOfUserId(GetEventInt(event, "userid")));
+}
+
+public Action CheckTimer(Handle timer, int client)
+{
+	if(IsValidClient(client) && IsPlayerAlive(client) && !IsBossTeam(client))
+	{
+		FF2_EnablePlayerLastmanStanding(client);
+	}
 }
 
 public OnEntityCreated(entity, const String:classname[])
@@ -56,7 +73,7 @@ public Action OnStartTouch(int entity, int other)
 public void OnSpawn(int entity)
 {
 	// int owner=GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
-	if(CBS_Abilities[GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")])
+	if(CBS_Abilities[ GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity") > MaxClients ? GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity") : 0 ])
 	{
 		int observer;
 		float opPos[3];
@@ -92,6 +109,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 void CheckAbilities()
 {
   int client, boss;
+  AllLastmanStanding = false;
   for(client=1; client<=MaxClients; client++)
   {
 	    Sub_SaxtonReflect[client]=false;
@@ -100,11 +118,25 @@ void CheckAbilities()
 	    if((boss=FF2_GetBossIndex(client)) != -1)
 	    {
 	      	if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
-	        	Sub_SaxtonReflect[client]=true;
+	        	Sub_SaxtonReflect[client] = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
-		    	CBS_Abilities[client]=true;
+		    	CBS_Abilities[client] = true;
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_lastmanstanding"))
+				AllLastmanStanding = true;
 		}
   }
+
+
+	if(AllLastmanStanding)
+	{
+		for(client=1; client<=MaxClients; client++)
+	    {
+	  	 if(IsClientInGame(client) && IsPlayerAlive(client) && !IsBossTeam(client))
+	    	{
+	    		FF2_EnablePlayerLastmanStanding(client);
+	    	}
+	    }
+	}
 }
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
@@ -158,7 +190,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					{
 						SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
 					} */
-					GetEntityClassname(ent, classname, sizeof(classname));
+					GetEntityClassname(ent, classname, sizeof(classname)); //
 					if(StrEqual(classname, "tf_projectile_pipe", true))
 					{
 						SetEntPropEnt(ent, Prop_Send, "m_hThrower", client); // m_hDeflectOwner
@@ -166,8 +198,12 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					}
 
 					SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
-					SetEntProp(ent, Prop_Send, "m_bCritical", 1);
-					SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
+
+					if(!StrEqual(classname, "tf_projectile_syringe", true))
+					{
+						SetEntProp(ent, Prop_Send, "m_bCritical", 1);
+						SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
+					}
 
 					GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
 					NormalizeVector(angVector, angVector);
@@ -260,4 +296,14 @@ public Action OnTouch(int entity, int other)
 public bool TEF_ExcludeEntity(int entity, int contentsMask, any data)
 {
 	return (entity != data);
+}
+
+stock bool IsBossTeam(int client)
+{
+    return FF2_GetBossTeam() == GetClientTeam(client);
+}
+
+stock bool IsValidClient(int client)
+{
+    return (0<client && client<=MaxClients && IsClientInGame(client));
 }
