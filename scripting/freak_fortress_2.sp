@@ -8088,7 +8088,7 @@ stock bool:RandomSound(const String:sound[], String:file[], length, boss=0)
 	int randomNum = GetRandomInt(1, sounds);
 	IntToString(randomNum, key, sizeof(key));
 	KvGetString(BossKV[Special[boss]], key, file, length);  //Populate file
-
+/*
 	Format(key, sizeof(key), "text%i", randomNum);
 	if(KvJumpToKey(BossKV[Special[boss]], key))
 	{
@@ -8118,6 +8118,7 @@ stock bool:RandomSound(const String:sound[], String:file[], length, boss=0)
 		}
 		CloseHandle(kv);
 	}
+*/
 	return true;
 }
 
@@ -8161,6 +8162,7 @@ stock bool:RandomSoundAbility(const String:sound[], String:file[], length, boss=
 	IntToString(match[randomNum], key, 4);
 	KvGetString(BossKV[Special[boss]], key, file, length);  //Populate file
 
+/*
 	Format(key, sizeof(key), "text%i", randomNum);
 	if(KvJumpToKey(BossKV[Special[boss]], key))
 	{
@@ -8190,7 +8192,7 @@ stock bool:RandomSoundAbility(const String:sound[], String:file[], length, boss=
 		}
 		CloseHandle(kv);
 	}
-
+*/
 	return true;
 }
 

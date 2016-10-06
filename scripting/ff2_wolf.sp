@@ -164,14 +164,17 @@ public Action OnTouch(int entity, int other)
   		NormalizeVector( RocketVec, RocketVec );
 
   		GetVectorAngles( RocketVec, RocketAng );
-  		SetEntPropVector( other, Prop_Data, "m_angRotation", RocketAng );
+  		//SetEntPropVector( other, Prop_Data, "m_angRotation", RocketAng );
 
   		ScaleVector( RocketVec, RocketSpeed );
-  		SetEntPropVector( other, Prop_Data, "m_vecAbsVelocity", RocketVec );
+
+		TeleportEntity(other, NULL_VECTOR, RocketAng, RocketVec);
+  		//SetEntPropVector( other, Prop_Data, "m_vecAbsVelocity", RocketVec );
 
 		SetEntPropEnt(other, Prop_Send, "m_hOwnerEntity", GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
 	    SetEntProp(other, Prop_Send, "m_iTeamNum", GetEntProp(entity, Prop_Send, "m_iTeamNum"));
-
+		SetEntProp(other, Prop_Send, "m_iDeflected", 1);
+		
 		int boss = FF2_GetBossIndex(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
 		FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss) - 3.0);
 
