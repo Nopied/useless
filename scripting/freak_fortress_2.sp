@@ -4765,7 +4765,7 @@ public Action:Command_GetHP(client)  //TODO: This can rarely show a very large n
 				if(IsBossYou[boss])
 				{
 					new String:playerName[50];
-					GetClientName(client, playerName, sizeof(playerName));
+					GetClientName(target, playerName, sizeof(playerName));
 					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 				}
 
@@ -6089,7 +6089,7 @@ public Action:OnChangeClass(client, const String:command[], args)
 
 public Action:OnJoinTeam(client, const String:command[], args)
 {
-	if(!Enabled || RoundCount<arenaRounds)
+	if(!Enabled || RoundCount<arenaRounds || CheckRoundState() != 1)
 	{
 		return Plugin_Continue;
 	}
