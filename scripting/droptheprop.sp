@@ -28,6 +28,7 @@ Handle cvarPropBuffTime;
 Handle cvarPropMiniCritTime;
 Handle cvarPropUberTime;
 Handle cvarPropCloakTime;
+Handle cvarProp
 
 char g_strModelPath[PLATFORM_MAX_PATH];
 char g_strSpellModelPath[PLATFORM_MAX_PATH];
@@ -430,4 +431,21 @@ stock int TF2_CreateGlow(int iEnt)
 	AcceptEntityInput(ent, "Enable");
 
 	return ent;
+}
+
+stock bool CylinderCollision(float cylinderOrigin[3], float colliderOrigin[3], float maxDistance, float zMin, float zMax)
+{
+	if (colliderOrigin[2] < zMin || colliderOrigin[2] > zMax)
+		return false;
+
+	static float tmpVec1[3];
+	tmpVec1[0] = cylinderOrigin[0];
+	tmpVec1[1] = cylinderOrigin[1];
+	tmpVec1[2] = 0.0;
+	static float tmpVec2[3];
+	tmpVec2[0] = colliderOrigin[0];
+	tmpVec2[1] = colliderOrigin[1];
+	tmpVec2[2] = 0.0;
+
+	return GetVectorDistance(tmpVec1, tmpVec2, true) <= maxDistance * maxDistance;
 }
