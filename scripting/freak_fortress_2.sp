@@ -1679,7 +1679,7 @@ public OnConfigsExecuted()
 	tf_dropped_weapon_lifetime=bool:GetConVarInt(FindConVar("tf_dropped_weapon_lifetime"));
 	tf_feign_death_activate_damage_scale=GetConVarFloat(FindConVar("tf_feign_death_activate_damage_scale"));
 	tf_feign_death_damage_scale=GetConVarFloat(FindConVar("tf_feign_death_damage_scale"));
-
+/*
 	if(IsFF2Map() && GetConVarBool(cvarEnabled))
 	{
 		EnableFF2();
@@ -1688,6 +1688,7 @@ public OnConfigsExecuted()
 	{
 		DisableFF2();
 	}
+*/
 }
 
 public OnMapStart()
@@ -1713,6 +1714,15 @@ public OnMapStart()
 			CloseHandle(BossKV[specials]);
 			BossKV[specials]=INVALID_HANDLE;
 		}
+	}
+
+	if(IsFF2Map() && GetConVarBool(cvarEnabled))
+	{
+		EnableFF2();
+	}
+	else
+	{
+		DisableFF2();
 	}
 }
 
