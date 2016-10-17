@@ -23,21 +23,31 @@ public Plugin myinfo=
 };
 
 int g_nEntityMovetype[MAXENTITIES+1];
-// bool RageCooling[MAXPLAYERS+1];
 
 float g_flTimeStop = -1.0;
 float g_flTimeStopCooling = -1.0;
 
+float g_flTimeStopDamage[MAXPLAYERS + 1];
+
 public void OnPluginStart2()
 {
+	HookEvent("player_spawn", OnPlayerSpawn);
+}
 
+public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+{
+	if(g_flTimeStopCooling != -1.0 || g_flTimeStop != -1.0)
+	{
+		SDKUnhook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
+		SDKHook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
+	}
 }
 
 public void OnEntityCreated(int entity, const char[] classname)
 {
 	if(g_flTimeStop != -1.0)
 	{
-		SDKHook(entity, SDKHook_Spawn, OnEntitySpawnOnTimeStop);
+		SDKHook(entity, SDKHook_SpawnPost, OnEntitySpawnOnTimeStop);
 	}
 }
 
@@ -69,7 +79,21 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 void Rage_TimeStop(int boss)
 {
     // float abilityDuration = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 1, 10.0);
-    g_flTimeStopCooling = GetGameTime()+FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 2, 5.0);
+		if(g_flTimeStopCooling <= 0.0)
+		{
+			for(int client = 1; client <= MaxClients; client++)
+			{
+				g_flTimeStopDamage[client] = 0.0;
+
+				if(IsClientInGame(client) && IsPlayerAlive(client))
+				{
+					SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+					SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+				}
+			}
+		}
+		g_flTimeStopCooling = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 2, 5.0);
+
 		SDKHook(GetClientOfUserId(FF2_GetBossUserId(boss)), SDKHook_PreThinkPost, RageTimer);
 
 		char sound[PLATFORM_MAX_PATH];
@@ -97,25 +121,93 @@ public void RageTimer(int client)
 	}
 }
 
+public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
+{
+	if(IsValidClient(client) && IsValidClient(attacker))
+	{
+		if(TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
+			return Plugin_Continue;
+
+		if(g_flTimeStopCooling != -1.0 && IsBoss(client) && client != attacker)
+		{
+				TF2_AddCondition(attacker, TFCond_MarkedForDeath, -1.0);
+				// Debug("%N Marked", client)
+		}
+
+		else if(g_flTimeStop != -1.0 && client != attacker)
+		{
+			g_flTimeStopDamage[client] += damage*0.2;
+			// Debug("%N, g_flTimeStopDamage = %.1f", client, g_flTimeStopDamage[client]);
+			return Plugin_Handled;
+		}
+	}
+
+	return Plugin_Continue;
+}
+
+/*
+	m_bIsPlayerSimulated
+	m_bSimulatedEveryTick
+	m_bAnimatedEveryTick
+	m_bClientSideAnimation
+	m_bClientSideFrameReset
+*/
 void EnableTimeStop(int boss)
 {
 	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
 	float abilityDuration = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 1, 10.0);
-	for(int entity=1; entity<=MAXENTITIES; entity++)
+	char classname[60];
+
+	for(int entity=1; entity <= MAXENTITIES; entity++)
 	{
 			if(entity == client)
 				continue;
 
-			if(IsValidClient(entity) && IsPlayerAlive(entity))
+			if(IsValidClient(entity))
 			{
-					TF2_AddCondition(entity, TFCond_HalloweenKartNoTurn, abilityDuration);
 					SetClientOverlay(entity, "debug/yuv");
+					if(IsPlayerAlive(entity))
+					{
+							TF2_AddCondition(entity, TFCond_HalloweenKartNoTurn, abilityDuration);
+
+							SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 0);
+							SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 0);
+							SetEntProp(entity, Prop_Send, "m_bAnimatedEveryTick", 0);
+							SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 0);
+							SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 1);
+
+							SetEntPropFloat(entity, Prop_Send, "m_flNextAttack", GetGameTime()+10000.0);
+
+							int weapon = GetEntPropEnt(entity, Prop_Send, "m_hActiveWeapon");
+							SetEntProp(weapon, Prop_Send, "m_bIsPlayerSimulated", 0);
+							SetEntProp(weapon, Prop_Send, "m_bAnimatedEveryTick", 0);
+							SetEntProp(weapon, Prop_Send, "m_bSimulatedEveryTick", 0);
+							SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 0);
+							SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 1);
+					}
 			}
 
 			if(IsValidEntity(entity))
 			{
 					g_nEntityMovetype[entity] = view_as<int>(GetEntityMoveType(entity));
 					SetEntityMoveType(entity, MOVETYPE_NONE);
+					GetEntityClassname(entity, classname, sizeof(classname));
+
+					if(!StrContains(classname, "obj_"))
+					{
+						if(TF2_GetObjectType(entity) == TFObject_Dispenser
+						|| TF2_GetObjectType(entity) == TFObject_Teleporter
+						|| TF2_GetObjectType(entity) == TFObject_Sentry)
+						{
+							SetEntProp(entity, Prop_Send, "m_bDisabled", 1);
+
+							SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 0);
+							SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 0);
+							SetEntProp(entity, Prop_Send, "m_bAnimatedEveryTick", 0);
+							SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 0);
+							SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 1);
+						}
+					}
 			}
 	}
 
@@ -131,6 +223,8 @@ void EnableTimeStop(int boss)
 void DisableTimeStop(int boss)
 {
 	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
+	char classname[60];
+
 	for(int entity=1; entity<=MAXENTITIES; entity++)
 	{
 			if(entity == client)
@@ -139,13 +233,64 @@ void DisableTimeStop(int boss)
 			if(IsValidClient(entity))
 			{
 					SetClientOverlay(entity, "");
+					SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 1);
+					SetEntProp(entity, Prop_Send, "m_bAnimatedEveryTick", 1);
+					SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 1);
+					SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 1);
+					SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
+
+					SetEntPropFloat(entity, Prop_Send, "m_flNextAttack", GetGameTime());
+					SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+
+					if(IsPlayerAlive(entity))
+					{
+						int weapon = GetEntPropEnt(entity, Prop_Send, "m_hActiveWeapon");
+						SetEntProp(weapon, Prop_Send, "m_bIsPlayerSimulated", 1);
+						SetEntProp(weapon, Prop_Send, "m_bAnimatedEveryTick", 1);
+						SetEntProp(weapon, Prop_Send, "m_bSimulatedEveryTick", 1);
+						SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 1);
+						SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 0);
+
+						SDKHooks_TakeDamage(entity, client, client, g_flTimeStopDamage[entity], DMG_GENERIC, -1);
+						TF2_RemoveCondition(entity, TFCond_MarkedForDeath);
+					}
+
+					g_flTimeStopDamage[entity] = 0.0;
 			}
 
 			if(IsValidEntity(entity))
 			{
-					SetEntityMoveType(entity, view_as<MoveType>(g_nEntityMovetype[entity]));
+					GetEntityClassname(entity, classname, sizeof(classname));
+					SetEntityMoveType(entity, view_as<MoveType>(m[entity]));
+
+					if(!StrContains(classname, "obj_"))
+					{
+						if(TF2_GetObjectType(entity) == TFObject_Dispenser
+						|| TF2_GetObjectType(entity) == TFObject_Teleporter
+						|| TF2_GetObjectType(entity) == TFObject_Sentry)
+						{
+							SetEntProp(entity, Prop_Send, "m_bDisabled", 0);
+
+							SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 1);
+							SetEntProp(entity, Prop_Send, "m_bAnimatedEveryTick", 1);
+							SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 1);
+							SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 1);
+							SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
+						}
+					}
 			}
+
+			/*
+			TFObject_Dispenser
+			TFObject_Teleporter
+			TFObject_Sentry
+			*/
 	}
+}
+
+stock bool IsBoss(int client)
+{
+	return FF2_GetBossIndex(client) != client;
 }
 
 stock bool IsValidClient(int client)
