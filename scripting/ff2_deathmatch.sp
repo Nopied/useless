@@ -13,6 +13,7 @@
 bool IsLastManStanding=false;
 bool IsFakeLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
+bool AlreadyLastmanSpawned[MAXPLAYERS+1];
 
 int top[3];
 int lastDamage;
@@ -21,7 +22,6 @@ float timeleft;
 int noticed;
 
 Handle MusicKV;
-Handle LastManData;
 Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 
 float NoEnemyTime[MAXPLAYERS+1];
@@ -62,13 +62,6 @@ public void OnMapStart()
   PrecacheMusic();
 }
 
-/*
-public Action OnRoundStart(Handle event, const char[] name, bool dont)
-{
-    CreateTimer(15.4, RoundStarted, _, TIMER_FLAG_NO_MAPCHANGE);
-}
-*/
-
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     if(FF2_GetRoundState() != 1) return Plugin_Continue;
@@ -87,10 +80,19 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
     int client=GetClientOfUserId(GetEventInt(event, "userid"));
 
-    if(FF2_GetRoundState() == 1 && IsLastManStanding && IsLastMan[client])
+    if(FF2_GetRoundState() == 1 && IsLastManStanding && IsLastMan[client] && !AlreadyLastmanSpawned[client])
     {
-        CreateTimer(0.1, BeLastMan);
+        Handle LastManData;
+        CreateDataTimer(0.1, BeLastMan, LastManData);
+
+        WritePackCell(LastManData, 0);
+        WritePackCell(LastManData, client);
+        ResetPack(LastManData);
+
+        Debug("Spawned %N", client);
     }
+
+    return Plugin_Continue;
 }
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
@@ -100,6 +102,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
         if(IsLastMan[client] || IsBoss(client)) // Lastman and bosses.
         {
             IsLastMan[client]=false;
+            AlreadyLastmanSpawned[client] = false;
 
             SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
             SDKUnhook(client, SDKHook_PreThinkPost, NoEnemyTimer);
@@ -209,7 +212,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
           DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
           SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
           SetEntProp(explosion, Prop_Data, "m_iRadiusOverride", 400, 4);
-        	SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
+          SetEntPropEnt(explosion, Prop_Data, "m_hOwnerEntity", attacker);
           DispatchSpawn(explosion);
 
           TeleportEntity(explosion, bossPosition, NULL_VECTOR, NULL_VECTOR);
@@ -220,7 +223,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             TF2_IgnitePlayer(victim, attacker);
         }
-        else if(!StrContains(classname, "tf_weapon_shovel") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
+        else if(!StrContains(classname, "tf_weapon_shovel") && TF2_GetPlayerClass(attacker) == TFClass_Soldier && !TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping))
         {
           damage=((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.08)/3.0;
           damagetype|=DMG_CRIT;
@@ -356,15 +359,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             FF2_SetBossCharge(boss, 0, 0.0);
             FF2_SetBossLives(boss, 1);
             FF2_SetBossMaxLives(boss, 1);
-            // SDKHook(bosses[i], SDKHook_OnTakeDamage, OnTakeDamage);
         }
-/*
-        IsLastMan[winner]=true;
-        NoEnemyTime[winner]=GetGameTime()+12.0;
-        SDKHook(winner, SDKHook_OnTakeDamage, OnTakeDamage);
-        SDKHook(winner, SDKHook_PreThinkPost, NoEnemyTimer);
-*/
+
         EnableLastManStanding(winner);
+
+        FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
         timeleft=120.0;
 
         if(timeleft<=0.0)
@@ -380,8 +379,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
                 return Plugin_Continue;
             }
 
-            LastManData=CreateDataPack(); // In this? data = winner | forWinner | team | IsAlive
+            Handle LastManData; // In this? data = NeedData | winner | forWinner | team | IsAlive
+            CreateDataTimer(0.4, BeLastMan, LastManData);
 
+            WritePackCell(LastManData, 1);
             WritePackCell(LastManData, winner);
             WritePackCell(LastManData, forWinner);
             WritePackCell(LastManData, GetClientTeam(forWinner));
@@ -389,37 +390,33 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             if(IsPlayerAlive(forWinner))
             {
                 WritePackCell(LastManData, 1);
-                CreateTimer(0.4, BeLastMan);
+
                 TF2_AddCondition(forWinner, TFCond_Bonked, 0.4);
             }
             else // Yeah. then it said. Not Alive.
             {
                 WritePackCell(LastManData, 0);
+
                 TF2_ChangeClientTeam(forWinner, TF2_GetClientTeam(winner));
                 TF2_RespawnPlayer(forWinner);
+                Debug("Spawned Dead forWinner %N", forWinner);
             }
             ResetPack(LastManData);
+
+            Debug("Spawned Dead %N", winner);
 
             FF2_StartMusic(); // Call FF2_OnMusic
             FF2_LoadMusicData(MusicKV);
             return Plugin_Continue;
         }
-/*
-        TF2_RespawnPlayer(winner);
-        TF2_AddCondition(winner, TFCond_Ubercharged, 10.0);
-        TF2_AddCondition(winner, TFCond_Stealthed, 10.0);
-        TF2_AddCondition(winner, TFCond_SpeedBuffAlly, 10.0);
-        GiveLastManWeapon(winner);
-*/
 
-        // SetEntProp(winner, Prop_Data, "m_takedamage", 0);
-        // SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
 
-        // SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
-        // SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
-        // CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
+        Handle LastManData;
+        CreateDataTimer(0.4, BeLastMan, LastManData);
 
-        FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
+        WritePackCell(LastManData, 0);
+        WritePackCell(LastManData, winner);
+
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
         return Plugin_Continue;
@@ -446,7 +443,11 @@ void EnableLastManStanding(int client)
     SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
     SDKHook(client, SDKHook_PreThinkPost, NoEnemyTimer);
 
-    TF2_RespawnPlayer(client);
+    if(!AlreadyLastmanSpawned[client])
+        TF2_RespawnPlayer(client);
+
+    AlreadyLastmanSpawned[client] = true;
+
     TF2_AddCondition(client, TFCond_Ubercharged, 10.0);
     TF2_AddCondition(client, TFCond_Stealthed, 10.0);
     TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
@@ -645,54 +646,45 @@ public void NoEnemyTimer(int client)
   }
 }
 
-public Action BeLastMan(Handle timer)
+public Action BeLastMan(Handle timer, Handle LastManData)
 {
-    FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
     if(!LastManData || !IsPackReadable(LastManData, 0))
     {
-      // Debug("LastManData is invalid! what!?!?");
+      Debug("LastManData is invalid! what!?!?");
       return Plugin_Continue;
     }
-    int winner=ReadPackCell(LastManData);
-    int client=ReadPackCell(LastManData);
-    TFTeam team=view_as<TFTeam>(ReadPackCell(LastManData));
-    bool alive=ReadPackCell(LastManData);
 
+    int needData = ReadPackCell(LastManData);
+    int winner = ReadPackCell(LastManData);
+
+    TF2_RespawnPlayer(winner);
     EnableLastManStanding(winner);
 
-    // SetEntProp(winner, Prop_Data, "m_takedamage", 0);
-    // SetEntProp(winner, Prop_Send, "m_CollisionGroup", 1);
-
-    // SetEntProp(winner, Prop_Send, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
-    // SetEntProp(winner, Prop_Data, "m_iHealth", GetEntProp(winner, Prop_Data, "m_iMaxHealth"));
-    // CreateTimer(10.0, LastManPassive, winner, TIMER_FLAG_NO_MAPCHANGE);
-
-    if(alive)
+    if(needData > 0)
     {
-        TF2_ChangeClientTeam(client, team);
+        int client = ReadPackCell(LastManData);
+        TFTeam team = view_as<TFTeam>(ReadPackCell(LastManData));
+        bool alive = ReadPackCell(LastManData);
+
+        if(alive)
+        {
+            TF2_ChangeClientTeam(client, team);
+        }
+        else
+        {
+            TF2_ChangeClientTeam(client, TFTeam_Spectator);
+            TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
+        }
     }
-    else
-    {
-        TF2_ChangeClientTeam(client, TFTeam_Spectator);
-        TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
-    }
-    CloseLastmanData();
     return Plugin_Continue;
 }
-
-/*
-public Action LastManPassive(Handle timer, int client)
-{
-  SetEntProp(client, Prop_Data, "m_takedamage", 2);
-  SetEntProp(client, Prop_Send, "m_CollisionGroup", 5);
-}
-*/
 
 public void OnClientDisconnect(int client)
 {
     if(IsLastMan[client] || IsBoss(client))
     {
-        IsLastMan[client]=false;
+        IsLastMan[client] = false;
+        AlreadyLastmanSpawned[client] = false;
         SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
     }
 }
@@ -962,11 +954,6 @@ stock int SpawnWeapon(int client, char[] name, int index, int level, int quality
 	CloseHandle(weapon);
 	EquipPlayerWeapon(client, entity);
 	return entity;
-}
-
-stock void CloseLastmanData()
-{
-    CloseHandle(LastManData);
 }
 
 stock bool IsValidClient(int client)
