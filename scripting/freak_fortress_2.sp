@@ -3427,6 +3427,7 @@ PlayBGM(client)
 		Format(temp, sizeof(temp), "sound/%s", music);
 		if(FileExists(temp, true))
 		{
+			Debug("Now checking %N's SoundException..", client);
 			if(CheckSoundException(client, SOUNDEXCEPT_MUSIC))
 			{
 				strcopy(currentBGM[client], PLATFORM_MAX_PATH, music);
@@ -5103,7 +5104,6 @@ public OnClientPostAdminCheck(client) // OnClientPutInServer
 			//Queue points | music exception | voice exception | class info | DIFFICULTY | UNUSED | UNUSED
 		}
 	}
-	// StartMusic(client);
 
 	//We use the 0th index here because client indices can change.
  	//If this is false that means music is disabled for all clients, so don't play it for new clients either.
@@ -5148,12 +5148,6 @@ public OnClientDisconnect(client)
 	playBGM[client]=true;
 	if(MusicTimer[client]!=INVALID_HANDLE)
 	{
-		KillTimer(MusicTimer[client]);
-		MusicTimer[client]=INVALID_HANDLE;
-	}
-	else if(MusicTimer[client])
-	{
-		Debug("NOT INVALID_HANDLE!!!");
 		KillTimer(MusicTimer[client]);
 		MusicTimer[client]=INVALID_HANDLE;
 	}

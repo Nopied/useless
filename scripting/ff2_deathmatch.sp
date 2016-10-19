@@ -89,13 +89,8 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
         WritePackCell(LastManData, client);
         ResetPack(LastManData);
 
-        Debug("Spawned %N", client);
+        // Debug("Spawned %N", client);
     }
-    else
-    {
-        AlreadyLastmanSpawned[client] = false;
-    }
-
     return Plugin_Continue;
 }
 
@@ -265,7 +260,8 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
     if(!IsLastManStanding && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
-        // IsLastManStanding=true;
+        IsLastManStanding=true;
+
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
         int totalDamage;
@@ -365,13 +361,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             FF2_SetBossMaxLives(boss, 1);
         }
 
-        // EnableLastManStanding(winner);
-
         if(timeleft<=0.0)
             DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 
         FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
-        timeleft=120.0;        
+        timeleft=120.0;
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
@@ -403,27 +397,15 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
                 TF2_ChangeClientTeam(forWinner, TF2_GetClientTeam(winner));
                 TF2_RespawnPlayer(forWinner);
-                Debug("Spawned Dead forWinner %N", forWinner);
             }
             ResetPack(LastManData);
-
-            Debug("Spawned Dead %N", winner);
 
             FF2_StartMusic(); // Call FF2_OnMusic
             FF2_LoadMusicData(MusicKV);
             return Plugin_Continue;
         }
 
-/*
-        Handle LastManData;
-        CreateDataTimer(0.4, BeLastMan, LastManData);
-
-        WritePackCell(LastManData, 0);
-        WritePackCell(LastManData, winner);
-
-        ResetPack(LastManData);
-*/
-        EnableLastManStanding(winner);
+       EnableLastManStanding(winner, true);
 
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
@@ -432,7 +414,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     return Plugin_Continue;
 }
 
-void EnableLastManStanding(int client)
+void EnableLastManStanding(int client, bool spawnPlayer = false)
 {
     for(int target=1; target <=  MaxClients; target++)
     {
@@ -451,10 +433,11 @@ void EnableLastManStanding(int client)
     SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
     SDKHook(client, SDKHook_PreThinkPost, NoEnemyTimer);
 
-    if(!AlreadyLastmanSpawned[client])
+    if(!AlreadyLastmanSpawned[client] && spawnPlayer)
+    {
+        AlreadyLastmanSpawned[client] = true;
         TF2_RespawnPlayer(client);
-
-    AlreadyLastmanSpawned[client] = true;
+    }
 
     TF2_AddCondition(client, TFCond_Ubercharged, 10.0);
     TF2_AddCondition(client, TFCond_Stealthed, 10.0);
@@ -666,7 +649,7 @@ public Action BeLastMan(Handle timer, Handle LastManData)
     int winner = ReadPackCell(LastManData);
 
     TF2_RespawnPlayer(winner);
-    EnableLastManStanding(winner);
+    EnableLastManStanding(winner, false);
 
     if(needData > 0)
     {
@@ -1436,5 +1419,5 @@ public Native_EnablePlayerLastmanStanding(Handle plugin, numParams)
 {
     int client =  GetNativeCell(1);
     IsFakeLastManStanding = true;
-    EnableLastManStanding(client);
+    EnableLastManStanding(client, false);
 }
