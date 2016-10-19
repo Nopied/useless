@@ -91,6 +91,10 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
         Debug("Spawned %N", client);
     }
+    else
+    {
+        AlreadyLastmanSpawned[client] = false;
+    }
 
     return Plugin_Continue;
 }
@@ -361,13 +365,13 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             FF2_SetBossMaxLives(boss, 1);
         }
 
-        EnableLastManStanding(winner);
-
-        FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
-        timeleft=120.0;
+        // EnableLastManStanding(winner);
 
         if(timeleft<=0.0)
             DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+
+        FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
+        timeleft=120.0;        
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
@@ -410,12 +414,16 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             return Plugin_Continue;
         }
 
-
+/*
         Handle LastManData;
         CreateDataTimer(0.4, BeLastMan, LastManData);
 
         WritePackCell(LastManData, 0);
         WritePackCell(LastManData, winner);
+
+        ResetPack(LastManData);
+*/
+        EnableLastManStanding(winner);
 
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
