@@ -36,11 +36,11 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 
 #define MAJOR_REVISION "1"
 #define MINOR_REVISION "10"
-#define STABLE_REVISION "13"
+#define STABLE_REVISION "14"
 // #define DEV_REVISION "Beta"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
-	#define PLUGIN_VERSION MAJOR_REVISION..."."...MINOR_REVISION..."."...STABLE_REVISION  //1.10.10
+	#define PLUGIN_VERSION MAJOR_REVISION..."."...MINOR_REVISION..."."...STABLE_REVISION  //1.10.14
 #else
 	#define PLUGIN_VERSION MAJOR_REVISION..."."...MINOR_REVISION..."."...STABLE_REVISION..." "...DEV_REVISION
 #endif
@@ -327,7 +327,8 @@ static const String:ff2versiontitles[][]=
 	"1.10.10",
 	"1.10.11",
 	"1.10.12",
-	"1.10.13"
+	"1.10.13",
+	"1.10.14"
 };
 
 static const String:ff2versiondates[][]=
@@ -408,13 +409,20 @@ static const String:ff2versiondates[][]=
 	"July 24, 2016",			//1.10.10
 	"August 1, 2016",		//1.10.11
 	"August 3, 2016",		//1.10.12
-	"September 1, 2016"		//1.10.13
+	"September 1, 2016",		//1.10.13
+	"October 21, 2016"		//1.10.14
 };
 
 stock FindVersionData(Handle:panel, versionIndex)
 {
 	switch(versionIndex)
 	{
+		case 77:  //1.10.14
+ 		{
+ 			DrawPanelText(panel, "1) Fixed minions occasionally spawning on the wrong team (Wliu from various)");
+ 			DrawPanelText(panel, "2) Fixed ff2_start_music at the start of the round causing music to overlap (naydef)");
+ 			DrawPanelText(panel, "3) Fixed new clients not hearing music in certain circumstances (naydef)");
+ 		}
 		case 76:  //1.10.13
  		{
  			DrawPanelText(panel, "1) Fixed insta-backstab issues (Wliu from tom0034)");
@@ -3242,6 +3250,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 				// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
 				if(playBGM[client])
 				{
+					StopMusic(client);
 					PlayBGM(client);
 				}
 				else if(MusicTimer[client]!=INVALID_HANDLE)
@@ -3265,6 +3274,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 		// if(CheckRoundState()==1 && playBGM[client] && !currentBGM[client][0])
 		if(playBGM[client])
 		{
+			StopMusic(client);
 			PlayBGM(client);
 		}
 		else if(MusicTimer[client]!=INVALID_HANDLE)
@@ -5107,9 +5117,10 @@ public OnClientPostAdminCheck(client) // OnClientPutInServer
 
 	//We use the 0th index here because client indices can change.
  	//If this is false that means music is disabled for all clients, so don't play it for new clients either.
-	if(Enabled)
+	if(playBGM[0])
 	{
-	 	if(playBGM[0])
+		playBGM[client]=true;
+	 	if(Enabled)
 	 	{
 	 		CreateTimer(0.0, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 	 	}
@@ -5145,7 +5156,7 @@ public OnClientDisconnect(client)
 	FF2flags[client]=0;
 	Damage[client]=0;
 	uberTarget[client]=-1;
-	playBGM[client]=true;
+	playBGM[client]=false; // This is reset accordingly in OnClientPostAdminCheck
 	if(MusicTimer[client]!=INVALID_HANDLE)
 	{
 		KillTimer(MusicTimer[client]);
