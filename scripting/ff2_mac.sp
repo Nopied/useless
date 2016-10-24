@@ -50,7 +50,7 @@ void PrepareLaser(int boss)
         {
             TF2_CreateGlow(client, target);
         }
-
+        PlayerTickDamage[client][target] = 0.0;
     }
 
     SDKUnhook(client, SDKHook_PreThinkPost, OnPlayerThink);
@@ -61,6 +61,8 @@ public void OnPlayerThink(int client)
 {
     // 보스 시야에 든 플레이어는 PlayerTickDamage에 데미지 축적됨.
     // 그 플레이어의 HP와 틱 데미지를 가산하여 윤곽선 표시 (체력비례로 초록 -> 빨강)
+
+    int index;
 
     if(!IsPlayerCharging[client]
         || GetGameTime() >= PlayerDuration[client]
@@ -89,25 +91,51 @@ public void OnPlayerThink(int client)
 
     for(int target = 1; target <= MaxClients; target++)
     {
-        if(target != client && IsClientInGame(target) && IsPlayerAlive(target)
-    && IsValidEntity((index = TF2_HasGlow(client, target)))
-        )
+        if(target != client && IsClientInGame(target) && IsPlayerAlive(target))
         {
-            int colors[4] = {0, 0, 0, 255};
-            int remainingHp =
+            // TODO
+
+
+            if(IsValidEntity((index = TF2_HasGlow(client, target))))
+            {
+                int colors[4] = {0, 0, 0, 255};
+
+                float remaining = - (PlayerTickDamage[client][target] - float(GetEntProp(target, Prop_Send, "m_iMaxHealth")));
+                // 0 = 빨강, PlayerTickDamage가 m_iMaxHealth보다 낮을 경우 초록색
+
+                if(remaining < 0.0) // 즉사
+                {
+                    colors[0] = 255;
+                }
+                else if(float(GetEntProp(target, Prop_Send, "m_iMaxHealth")) == remaining) // 노 데미지
+                {
+                    colors[1] = 255;
+                }
+                else
+                {
+                    float div = remaining / float(GetEntProp(target, Prop_Send, "m_iMaxHealth"));
+
+                    if(div > 0.5)
+                    {
+                        colors[0] = RoundFloat(255.0 * div);
+                        colors[1] = 255;
+                    }
+                    else
+                    {
+                        colors[0] = 255;
+                        colors[1] = RoundFloat(255.0 * div);
+                    }
+                }
+            }
         }
 
     }
-
+/*
     if(GetClientButtons(client) & IN_ATTACK)
     {
 
     }
-}
-
-public Action FF2_OnRageEnd(int boss)
-{
-
+*/
 }
 
 stock bool IsValidClient(int client)
