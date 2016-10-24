@@ -100,20 +100,20 @@ public void OnPlayerThink(int client)
             {
                 int colors[4] = {0, 0, 0, 255};
 
-                float remaining = - (PlayerTickDamage[client][target] - float(GetEntProp(target, Prop_Send, "m_iMaxHealth")));
+                float remaining = - (PlayerTickDamage[client][target] - float(GetEntProp(target, Prop_Data, "m_iMaxHealth")));
                 // 0 = 빨강, PlayerTickDamage가 m_iMaxHealth보다 낮을 경우 초록색
 
                 if(remaining < 0.0) // 즉사
                 {
                     colors[0] = 255;
                 }
-                else if(float(GetEntProp(target, Prop_Send, "m_iMaxHealth")) == remaining) // 노 데미지
+                else if(float(GetEntProp(target, Prop_Data, "m_iMaxHealth")) == remaining) // 노 데미지
                 {
                     colors[1] = 255;
                 }
                 else
                 {
-                    float div = remaining / float(GetEntProp(target, Prop_Send, "m_iMaxHealth"));
+                    float div = remaining / float(GetEntProp(target, Prop_Data, "m_iMaxHealth"));
 
                     if(div > 0.5)
                     {
