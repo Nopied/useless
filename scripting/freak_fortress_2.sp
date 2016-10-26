@@ -3437,7 +3437,7 @@ PlayBGM(client)
 		Format(temp, sizeof(temp), "sound/%s", music);
 		if(FileExists(temp, true))
 		{
-			Debug("Now checking %N's SoundException..", client);
+			// Debug("Now checking %N's SoundException..", client);
 			if(CheckSoundException(client, SOUNDEXCEPT_MUSIC))
 			{
 				strcopy(currentBGM[client], PLATFORM_MAX_PATH, music);
@@ -6570,7 +6570,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		SetEventInt(event, "damageamount", damage);
 	}
 
-	if(BossHealth[boss] - damage <= 0 && BossDiff[boss] != 1) // TODO: 특정인만 가능하게.
+	if(BossHealth[boss] - damage <= 0 && BossDiff[boss] > 1) // TODO: 특정인만 가능하게.
 	{
 		// changeResult = true;
 		BossCharge[boss][0] = 100.0;

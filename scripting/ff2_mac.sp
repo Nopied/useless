@@ -80,6 +80,7 @@ public void OnPlayerThink(int client)
             {
                 AcceptEntityInput(index, "Kill");
             }
+            PlayerTickDamage[client][target] = 0.0;
 
         }
 
@@ -89,12 +90,28 @@ public void OnPlayerThink(int client)
     }
     ////////////////////////////////////////////////////////////////////
 
+    int boss = FF2_GetBossIndex(client);
+    int buttons = GetClientButtons(client);
+    float clientPos[3], targetPos[3];
+    float damage = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_mac_laser", 2, 0.2);
+    GetClientEyePosition(client, clientPos);
+
     for(int target = 1; target <= MaxClients; target++)
     {
         if(target != client && IsClientInGame(target) && IsPlayerAlive(target))
         {
-            // TODO
+            GetClientEyePosition(target, targetPos);
+            if(CanHit(client, clientPos, targetPos))
+            {
+                PlayerTickDamage[client][target] += damage;
+                if(buttons & IN_ATTACK) // FIXME: 이떄 외에는 발동되지 않음. 또한 디버깅 필요.
+                {
+                    IsPlayerCharging[client] = false;
 
+                    SDKHooks_TakeDamage(target, client, client, PlayerTickDamage[client][target], DMG_GENERIC, -1);
+                    continue;
+                }
+            }
 
             if(IsValidEntity((index = TF2_HasGlow(client, target))))
             {
@@ -130,12 +147,21 @@ public void OnPlayerThink(int client)
         }
 
     }
-/*
-    if(GetClientButtons(client) & IN_ATTACK)
-    {
+}
 
+bool CanHit(int client, float clientPos[3], int targetPos[3])
+{
+    TR_TraceRayFilter(clientPos, targetPos, MASK_SOLID, RayType_EndPoint, TraceRayWithOutPlayer, client);
+    return TR_DidHit();
+}
+
+public bool TraceRayWithOutPlayer(int entity, int contentsMask, any data)
+{
+    if(IsValidClient(entity))
+    {
+        return false;
     }
-*/
+    return true; //
 }
 
 stock bool IsValidClient(int client)
