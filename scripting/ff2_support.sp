@@ -72,8 +72,8 @@ public Action OnStartTouch(int entity, int other)
 
 public void OnSpawn(int entity)
 {
-	// int owner=GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
-	if(CBS_Abilities[ GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity") > MaxClients ? GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity") : 0 ])
+	int owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
+	if(CBS_Abilities[ owner > MaxClients || owner <= 0 ? 0 : owner ])
 	{
 		int observer;
 		float opPos[3];

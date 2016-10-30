@@ -705,18 +705,17 @@ stock void SetClientQueueNoneCookie(int client, bool setNone)
 
 	if(setNone)
 	{
-		Format(CookieV, sizeof(CookieV), "%i", FF2_GetQueuePoints(client));
+		Format(CookieV, sizeof(CookieV), "%d", FF2_GetQueuePoints(client));
 		SetClientCookie(client, g_hBossQueue, CookieV);
 		FF2_SetQueuePoints(client, -1);
 	}
 	else
 	{
-		GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
-		int queuepoints=StringToInt(CookieV);
-		if(queuepoints==-1) return;
+		int queuepoints = GetClientQueueCookie(client);
+		if(queuepoints == -1) return;
 
 		FF2_SetQueuePoints(client, queuepoints);
-		IntToString(-1, CookieV, sizeof(CookieV));
+		Format(CookieV, sizeof(CookieV), "%d", -1);
 		SetClientCookie(client, g_hBossQueue, CookieV);
 		CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2_queue_restored");
 	}
