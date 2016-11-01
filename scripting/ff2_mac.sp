@@ -97,7 +97,7 @@ public void OnPlayerThink(int client)
     int boss = FF2_GetBossIndex(client);
     bool prepareAttack = (GetClientButtons(client) & IN_ATTACK) ? true : false;
     float clientPos[3], targetPos[3];
-    float damage = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_mac_laser", 2, 0.2);
+    float damage = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_mac_laser", 2, 0.5); // = 106.7
     GetClientEyePosition(client, clientPos);
 
     for(int target = 1; target <= MaxClients; target++)
