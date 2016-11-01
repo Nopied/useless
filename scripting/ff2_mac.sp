@@ -169,11 +169,14 @@ bool CanHit(int client, float clientPos[3], float targetPos[3])
 
 public bool TraceRayWithOutPlayer(int entity, int contentsMask, any data)
 {
+    /*
     if(IsValidClient(entity) && entity != data)
     {
         return true;
     }
     return false;
+    */
+    return entity != data;
 }
 
 stock bool IsValidClient(int client)

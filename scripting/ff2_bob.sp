@@ -66,6 +66,7 @@ public void OnProjectileSpawn(int entity)
             SetEntityMoveType(sentry, MOVETYPE_FLYGRAVITY);
             SetEntityGravity(sentry, 10.0);
             SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | FL_DONTTOUCH | ~FL_WORLDBRUSH);
+            UpdateEntityHitbox(sentry, 2.0);// TODO: 커스터마이즈
 
             TeleportEntity(sentry, origin, angles, angVector);
         }
@@ -77,25 +78,21 @@ public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abi
 
 }
 
-/*
+stock void UpdateEntityHitbox(const int client, const float fScale)
+{
+    static const Float:vecTF2PlayerMin[3] = { -24.5, -24.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 24.5,  24.5, 83.0 };
 
-    stock UpdatePlayerHitbox(const client, const Float:fScale)
-    {
-        static const Float:vecTF2PlayerMin[3] = { -24.5, -24.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 24.5,  24.5, 83.0 };
+    decl Float:vecScaledPlayerMin[3], Float:vecScaledPlayerMax[3];
 
-        decl Float:vecScaledPlayerMin[3], Float:vecScaledPlayerMax[3];
+    vecScaledPlayerMin = vecTF2PlayerMin;
+    vecScaledPlayerMax = vecTF2PlayerMax;
 
-        vecScaledPlayerMin = vecTF2PlayerMin;
-        vecScaledPlayerMax = vecTF2PlayerMax;
+    ScaleVector(vecScaledPlayerMin, fScale);
+    ScaleVector(vecScaledPlayerMax, fScale);
 
-        ScaleVector(vecScaledPlayerMin, fScale);
-        ScaleVector(vecScaledPlayerMax, fScale);
-
-        SetEntPropVector(client, Prop_Send, "m_vecSpecifiedSurroundingMins", vecScaledPlayerMin);
-        SetEntPropVector(client, Prop_Send, "m_vecSpecifiedSurroundingMaxs", vecScaledPlayerMax);
-    }
-
-*/
+    SetEntPropVector(client, Prop_Send, "m_vecSpecifiedSurroundingMins", vecScaledPlayerMin);
+    SetEntPropVector(client, Prop_Send, "m_vecSpecifiedSurroundingMaxs", vecScaledPlayerMax);
+}
 
 void CheckAbility()
 {
