@@ -369,6 +369,13 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 				}
 				case 1:
 				{
+
+					if(IsBoss(param1))
+					{
+					  	CReplyToCommand(param1, "{olive}[FF2]{default} 해당 작업은 {orange}보스 라운드{default}가 끝난 뒤 하실 수 있습니다.");
+						return;
+					}
+
 					SetClientQueueNoneCookie(param1, true);
 					AbleInfiniteBlaster(param1, false);
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_none");
@@ -426,7 +433,7 @@ public BlasterMenu(Handle menu, MenuAction action, int client, int item)
 				{
 					if(IsBoss(client))
 					{
-					  CReplyToCommand(client, "{olive}[FF2]{default} 해당 작업은 {orange}보스 라운드{default}가 끝난 뒤 하실 수 있습니다.");
+					  	CReplyToCommand(client, "{olive}[FF2]{default} 해당 작업은 {orange}보스 라운드{default}가 끝난 뒤 하실 수 있습니다.");
 						return;
 					}
 

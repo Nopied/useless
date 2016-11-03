@@ -57,16 +57,18 @@ public void OnProjectileSpawn(int entity)
 
             origin[2] += 25.0;
 
-            angVector[0]*=800.0;	// Test this,
-    		angVector[1]*=800.0;
+            angVector[0]*=1000.0;	// Test this,
+    		angVector[1]*=1000.0;
     		// angVector[2]*=800.0;
-            angVector[2] = -15.0;
+            angVector[2]*=1000.0;
 
             int sentry = TF2_BuildSentry(client, origin, angles, 3, _, _, _, 8);
             SetEntityMoveType(sentry, MOVETYPE_FLYGRAVITY);
-            SetEntityGravity(sentry, 10.0);
-            SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | FL_DONTTOUCH | ~FL_WORLDBRUSH);
-            UpdateEntityHitbox(sentry, 2.0);// TODO: 커스터마이즈
+            // SetEntityMoveType(sentry, MOVETYPE_FLY);
+            // SetEntityGravity(sentry, 0.0);
+            // SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | FL_DONTTOUCH | ~FL_WORLDBRUSH);
+            // SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | ~FL_WORLDBRUSH);
+            UpdateEntityHitbox(sentry, 3.0);// TODO: 커스터마이즈
 
             TeleportEntity(sentry, origin, angles, angVector);
         }
