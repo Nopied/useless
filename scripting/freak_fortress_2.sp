@@ -168,6 +168,8 @@ new Handle:cvarGoombaRebound;
 new Handle:cvarBossRTD;
 new Handle:cvarDebug;
 new Handle:cvarPreroundBossDisconnect;
+new Handle:cvarStunTime;
+new Handle:cvarStunRange;
 
 new Handle:FF2Cookies;
 new Handle:YouSpecial;
@@ -1205,6 +1207,8 @@ public OnPluginStart()
 	cvarGoombaRebound=CreateConVar("ff2_goomba_jump", "300.0", "How high players should rebound after goomba stomping the boss (requires Goomba Stomp)", _, true, 0.0);
 	cvarBossRTD=CreateConVar("ff2_boss_rtd", "0", "Can the boss use rtd? 0 to disallow boss, 1 to allow boss (requires RTD)", _, true, 0.0, true, 1.0);
 	cvarDebug=CreateConVar("ff2_debug", "0", "0-Disable FF2 debug output, 1-Enable debugging (not recommended)", _, true, 0.0, true, 1.0);
+	cvarStunTime=CreateConVar("ff2_stun_time", "야구공 스턴 시간", "7.0", _, true, 0.0);
+	cvarStunRange=CreateConVar("ff2_stun_range", "야구공 최대 스턴을 위한 체공 시간", "2.0", _, true, 0.0);
 
 	//The following are used in various subplugins
 	CreateConVar("ff2_oldjump", "0", "Use old Saxton Hale jump equations", _, true, 0.0, true, 1.0);
@@ -1218,6 +1222,7 @@ public OnPluginStart()
 	HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre); //  첫라운드 버그가 문제야..
 	HookEvent("rps_taunt_event", OnRPS, EventHookMode_Pre);
 	// HookEvent("player_chargedeployed", OnUberDeployed);
+	// HookEvent("throwable_hit", CheckPlayerStun, EventHookMode_Pre);
 	HookEvent("player_hurt", OnPlayerHurt, EventHookMode_Pre);
 	HookEvent("object_destroyed", OnObjectDestroyed, EventHookMode_Pre);
 	HookEvent("object_deflected", OnObjectDeflected, EventHookMode_Pre);
@@ -6761,6 +6766,46 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	return Plugin_Continue;
 }
 
+
+public void CheckPlayerStun(Handle:datapack)
+{
+	if(!Enabled || !CheckRoundState())
+	{
+		return;
+	}
+
+	ResetPack(datapack);
+
+	int attacker = ReadPackCell(datapack);
+	int entIndex = ReadPackCell(datapack);
+	int victim = ReadPackCell(datapack);
+
+	CloseHandle(datapack);
+
+	if(!IsValidEntity(entIndex))
+		return;
+
+	TF2_RemoveCondition(victim, TFCond_Dazed);
+
+	float simTime = GetEntPropFloat(entIndex, Prop_Send, "m_flAnimTime");
+	Debug("%.1f", simTime);
+	float duration = GetConVarFloat(cvarStunRange);
+
+	float realDuration = GetConVarFloat(cvarStunTime) * (simTime / duration);
+
+	if(realDuration > duration)
+		realDuration = duration;
+
+	bool bigbonk = (simTime / duration) >= 1.0;
+
+	int flags = bigbonk ?  TF_STUNFLAGS_BIGBONK : TF_STUNFLAGS_SMALLBONK;
+
+	TF2_StunPlayer(victim, realDuration, 0.1, flags, attacker);
+
+	return;
+}
+
+
 public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damagetype, &weapon, Float:damageForce[3], Float:damagePosition[3], damagecustom)
 {
 	if(!Enabled || !IsValidEntity(attacker))
@@ -6964,6 +7009,27 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							}
 							return Plugin_Changed;
 						}
+					}
+				}
+
+				if(IsValidEntity(inflictor))
+				{
+					new String:inflictorClassname[64];
+					GetEntityClassname(inflictor, inflictorClassname, sizeof(inflictorClassname));
+
+					if(!StrContains(inflictorClassname, "tf_projectile_stun_ball"))
+					{
+						new Handle:datapack = CreateDataPack();
+						// attacker, entindex, victim
+
+						WritePackCell(datapack, attacker);
+						WritePackCell(datapack, inflictor);
+						WritePackCell(datapack, client);
+
+						// ResetPack(datapack);
+
+						RequestFrame(CheckPlayerStun, CloneHandle(datapack));
+						CloseHandle(datapack);
 					}
 				}
 

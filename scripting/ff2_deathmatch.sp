@@ -7,10 +7,10 @@
 #include <tf2attributes>
 #include <morecolors>
 #include <freak_fortress_2>
-// #tryinclude <POTRY>
+#include <POTRY>
 // player_recent_teleport_red
 
-bool IsLastManStanding=false;
+// bool IsLastManStanding=false;
 bool IsFakeLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 bool AlreadyLastmanSpawned[MAXPLAYERS+1];
@@ -27,6 +27,20 @@ Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 float NoEnemyTime[MAXPLAYERS+1];
 float TeleportTime[MAXPLAYERS+1];
 
+int suddendeathDamege;
+
+/*
+enum GameMode
+{
+    Game_None = 0,
+    Game_SuddenDeath,
+    Game_LastManStanding,
+    Game_AttackAndDefense
+};
+*/
+
+GameMode CurrentGame;
+
 public Plugin:myinfo=
 {
     name="Freak Fortress 2 : Deathmatch Mod",
@@ -38,6 +52,11 @@ public Plugin:myinfo=
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
 {
 	CreateNative("FF2_EnablePlayerLastmanStanding", Native_EnablePlayerLastmanStanding);
+    CreateNative("FF2_GetGameState", Native_GetGameState);
+    CreateNative("FF2_SetGameState", Native_SetGameState);
+    CreateNative("FF2_GetTimeLeft", Native_GetTimeLeft);
+    CreateNative("FF2_SetTimeLeft", Native_SetTimeLeft);
+
 	return APLRes_Success;
 }
 
@@ -80,7 +99,10 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
     int client=GetClientOfUserId(GetEventInt(event, "userid"));
 
-    if(FF2_GetRoundState() == 1 && IsLastManStanding && IsLastMan[client] && !AlreadyLastmanSpawned[client])
+    if(FF2_GetRoundState() == 1
+    && GetGameState() == Game_LastManStanding
+    && IsLastMan[client]
+    && !AlreadyLastmanSpawned[client])
     {
         Handle LastManData;
         CreateDataTimer(0.1, BeLastMan, LastManData);
@@ -109,8 +131,9 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
         TeleportTime[client]=0.0;
     }
 
-    IsLastManStanding=false;
+    SetGameState(Game_None);
     IsFakeLastManStanding=false;
+    suddendeathDamege = 0;
 
     timeleft=0.0;
     if(DrawGameTimer!=INVALID_HANDLE) // What?
@@ -123,7 +146,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 
 public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
-    if(!IsLastManStanding || FF2_GetRoundState() != 1)
+    if(GetGameState() != Game_LastManStanding || FF2_GetRoundState() != 1)
     {
         SDKUnhook(victim, SDKHook_OnTakeDamage, OnTakeDamage);
         return Plugin_Continue;
@@ -258,9 +281,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     if(FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
 
-    if(!IsLastManStanding && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
+    if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding)
+    && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
-        IsLastManStanding=true;
+        SetGameState(Game_LastManStanding);
 
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
@@ -425,7 +449,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
         }
     }
 
-    IsLastManStanding = true;
+    SetGameState(Game_LastManStanding);
     IsLastMan[client] = true;
     NoEnemyTime[client]=GetGameTime()+12.0;
 
@@ -447,7 +471,9 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
-  if(!IsLastManStanding || !IsLastMan[client] || !IsPlayerAlive(client) ) return Plugin_Continue;
+  if(GetGameState() != Game_LastManStanding
+  || !IsLastMan[client]
+  || !IsPlayerAlive(client) ) return Plugin_Continue;
 
   if(buttons & IN_ATTACK2 && IsWeaponSlotActive(client, 1)) // && GetPlayerWeaponSlot(client, 2) == GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"))
   {
@@ -511,6 +537,7 @@ public Action OnTimer(Handle timer)
     {
         return Plugin_Stop;
     }
+
     Handle timeleftHUD=CreateHudSynchronizer();
     timeleft-=0.1;
     char timeDisplay[6];
@@ -539,13 +566,35 @@ public Action OnTimer(Handle timer)
     }
 
   	SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
-  	for(new client; client<=MaxClients; client++)
+  	for(new client = 1; client <= MaxClients; client++)
   	{
   		if(IsValidClient(client))
   		{
   			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
   		}
   	}
+
+    if(GetGameState() == Game_SuddenDeath)
+    {
+        int boss;
+        int bossCount = 0;
+        int bossList[MAXPLAYERS + 1];
+
+        for(new client = 1; client <= MaxClients; client++)
+        {
+            if(IsClientInGame(client) && IsBoss(client) && IsPlayerAlive(client))
+            {
+                bossList[bossCount++] = client;
+            }
+        }
+
+        for(int loop = 0; loop < bossCount; loop++)
+        {
+            boss = FF2_GetBossIndex(bossList[loop]);
+            if(boss != -1)
+                FF2_SetBossHealth(boss, FF2_GetBossHealth(boss) - (suddendeathDamege / bossCount));
+        }
+    }
 
     switch(RoundFloat(timeleft))
   	{
@@ -593,19 +642,43 @@ public Action OnTimer(Handle timer)
   		{
             DrawGameTimer=INVALID_HANDLE;
 
-            if(IsLastManStanding && !IsFakeLastManStanding)
+            if(GetGameState() == Game_LastManStanding && !IsFakeLastManStanding)
             {
                 CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
                 ForceTeamWin(FF2_GetBossTeam());
                 return Plugin_Stop;
             }
 
-            int loser=GetLowestDamagePlayer();
-            timeleft=30.0;
-            ForcePlayerSuicide(loser);
-            CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님이 {olive}데미지가 가장 낮아{default} 사망합니다.", loser);
-            // TODO: 다른 서든데스.
-      		  return Plugin_Continue;
+            if(GetGameState() == Game_None)
+                SetGameState(Game_SuddenDeath);
+
+            if(GetGameState() == Game_SuddenDeath)
+            {
+                int loser=GetLowestDamagePlayer();
+                suddendeathDamege += FF2_GetClientDamage(loser) / 20;
+                static bool alreadyNotice = false;
+                timeleft=30.0;
+
+                ForcePlayerSuicide(loser);
+                CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님이 {olive}데미지가 가장 낮아{default} 사망합니다.\n({orange}데미지: %i{default})", loser, suddendeathDamege);
+
+                if(!alreadyNotice)
+                {
+                    alreadyNotice = true;
+
+                    CPrintToChatAll("{olive}[FF2]{default} {red}서든데스{default}가 시작되었습니다! \n보스는 사망한 플레이어의 데미지에 비례해 데미지를 입습니다!");
+                    PrintHintTextToAll("서든데스가 시작되었습니다! \n보스는 사망한 플레이어의 데미지에 비례해 데미지를 입습니다!");
+                }
+                return Plugin_Continue;
+            }
+
+            if(GetGameState() == Game_AttackAndDefense)
+            {
+                CPrintToChatAll("{olive}[FF2]{default} 보스가 살아남아 승리합니다.");
+                ForceTeamWin(FF2_GetBossTeam());
+                return Plugin_Stop;
+            }
+      		return Plugin_Continue;
   		}
 
     }
@@ -683,7 +756,7 @@ public void OnClientDisconnect(int client)
 
 public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, float &volume, char artist[80], char name[100], bool &notice, int client, int selected)
 {
-  if(IsLastManStanding && !IsFakeLastManStanding && BGMCount)
+  if(GetGameState() == Game_LastManStanding && !IsFakeLastManStanding && BGMCount)
   {
     int random=GetRandomInt(1, BGMCount);
     char tempItem[35];
@@ -1080,7 +1153,7 @@ int AttachParticle(int entity, char[] particleType, bool attach=true)
 	int particle=CreateEntityByName("info_particle_system");
 
 	char targetName[128];
-  float position[3];
+    float position[3];
 	GetEntPropVector(entity, Prop_Send, "m_vecOrigin", position);
 	TeleportEntity(particle, position, NULL_VECTOR, NULL_VECTOR);
 
@@ -1410,6 +1483,16 @@ stock bool IsPlayerStuck(int ent)
     return (TR_DidHit());
 }
 
+GameMode GetGameState()
+{
+    return CurrentGame;
+}
+
+void SetGameState(GameMode gamemode)
+{
+    CurrentGame = gamemode;
+}
+
 public bool TraceRayPlayerOnly(int iEntity, int iMask, any iData)
 {
     return (IsValidClient(iEntity) && IsValidClient(iData) && iEntity != iData);
@@ -1420,4 +1503,31 @@ public Native_EnablePlayerLastmanStanding(Handle plugin, numParams)
     int client =  GetNativeCell(1);
     IsFakeLastManStanding = true;
     EnableLastManStanding(client, false);
+}
+
+public Native_GetGameState(Handle plugin, numParams)
+{
+    return _:GetGameState();
+}
+
+public Native_SetGameState(Handle plugin, numParams)
+{
+    SetGameState(view_as<GameMode>(GetNativeCell(1));
+}
+
+public Native_GetTimeLeft(Handle plugin, numParams)
+{
+    if(DrawGameTimer != INVALID_HANDLE)
+        return timeleft;
+
+    return _:0.0;
+}
+
+public Native_SetTimeLeft(Handle plugin, numParams)
+{
+    timeleft = GetNativeCell(1);
+    if(DrawGameTimer == INVALID_HANDLE)
+    {
+        DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+    }
 }
