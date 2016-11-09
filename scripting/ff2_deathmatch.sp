@@ -100,7 +100,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     int client=GetClientOfUserId(GetEventInt(event, "userid"));
 
     if(FF2_GetRoundState() == 1
-    && GetGameState() == Game_LastManStanding
+    && (GetGameState() == Game_LastManStanding || IsFakeLastManStanding)
     && IsLastMan[client]
     && !AlreadyLastmanSpawned[client])
     {
@@ -118,11 +118,11 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
-    for(int client=1; client<=MaxClients; client++)
+    for(int client = 1; client <= MaxClients; client++)
     {
         if(IsLastMan[client] || IsBoss(client)) // Lastman and bosses.
         {
-            IsLastMan[client]=false;
+            IsLastMan[client] = false;
             AlreadyLastmanSpawned[client] = false;
 
             SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
@@ -132,34 +132,57 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
     }
 
     SetGameState(Game_None);
-    IsFakeLastManStanding=false;
+
+    IsFakeLastManStanding = false;
     suddendeathDamege = 0;
 
     timeleft=0.0;
-    if(DrawGameTimer!=INVALID_HANDLE) // What?
+    if(DrawGameTimer != INVALID_HANDLE) // What?
     {
         KillTimer(DrawGameTimer);
-        DrawGameTimer=INVALID_HANDLE;
+        DrawGameTimer = INVALID_HANDLE;
     }
     return Plugin_Continue;
 }
 
 public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
-    if(GetGameState() != Game_LastManStanding || FF2_GetRoundState() != 1)
+    if((GetGameState() != Game_LastManStanding && GetGameState() != Game_AttackAndDefense && !IsFakeLastManStanding) || FF2_GetRoundState() != 1)
     {
         SDKUnhook(victim, SDKHook_OnTakeDamage, OnTakeDamage);
         return Plugin_Continue;
     }
-    if(IsBoss(attacker) || !IsBoss(victim)) return Plugin_Continue;
 
-    bool changed=false;
-    if(IsValidEntity(weapon))
+    if(IsBoss(victim)) return Plugin_Continue;
+
+    char classname[60];
+
+    if(!IsBossTeam(victim) && GetGameState() == Game_AttackAndDefense)
+    {
+        if(GetEntityClassname(attacker, classname, sizeof(classname)) && !strcmp(classname, "trigger_hurt", false))
+            return Plugin_Continue;
+
+        float realDamage = damage;
+        if(damagetype & DMG_CRIT)
+            realDamage *= 3.0;
+
+        if(GetEntProp(victim, Prop_Send, "m_iHealth") - RoundFloat(realDamage) < 0)
+        {
+            TF2_RegeneratePlayer(victim);
+
+            TF2_AddCondition(victim, TFCond_Ubercharged, 10.0);
+            TF2_AddCondition(victim, TFCond_Stealthed, 10.0);
+            TF2_AddCondition(victim, TFCond_SpeedBuffAlly, 10.0);
+            
+            return Plugin_Handled;
+        }
+    }
+
+    bool changed = false;
+    if(IsLastMan[client] && IsValidEntity(weapon))
     {
         int boss=FF2_GetBossIndex(victim);
-        char classname[60];
         float bossPosition[3];
-
 
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
         GetEntityClassname(weapon, classname, sizeof(classname));
@@ -173,6 +196,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
             EmitSoundToClient(victim, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
             EmitSoundToClient(attacker, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
+
             SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+2.0);
             SetEntPropFloat(attacker, Prop_Send, "m_flNextAttack", GetGameTime()+2.0);
             SetEntPropFloat(attacker, Prop_Send, "m_flStealthNextChangeTime", GetGameTime()+2.0);
@@ -273,12 +297,14 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
           damagetype|=DMG_PREVENT_PHYSICS_FORCE;
         }
     }
+
     return changed ? Plugin_Changed : Plugin_Continue;
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-    if(FF2_GetRoundState() != 1 || IsBossTeam(GetClientOfUserId(GetEventInt(event, "userid"))) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+    int client = GetClientOfUserId(GetEventInt(event, "userid"));
+    if(FF2_GetRoundState() != 1 || IsBossTeam(client) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
 
     if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding)
@@ -294,15 +320,15 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         top[1]=0;
         top[2]=0;
 
-        for(int client=1; client<=MaxClients; client++)
+        for(int target = 1; target <= MaxClients; target++)
         {
-          if(!IsValidClient(client)) // for bossCount.
+          if(!IsValidClient(target)) // for bossCount.
       			continue;
-          else if(IsBoss(client) && IsPlayerAlive(client)){
-            bosses[bossCount++]=client;
+          else if(IsBoss(target) && IsPlayerAlive(target)){
+            bosses[bossCount++]=target;
             continue;
           }
-          else if(IsBossTeam(client)) // FF2_GetClientDamage(client)<=0 ||
+          else if(IsBossTeam(target)) // FF2_GetClientDamage(client)<=0 ||
             continue;
         }
 
@@ -390,6 +416,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
         timeleft=120.0;
+        SetGameState(Game_LastManStanding);
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
@@ -429,18 +456,20 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             return Plugin_Continue;
         }
 
-       EnableLastManStanding(winner, true);
+        EnableLastManStanding(winner, true);
 
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
         return Plugin_Continue;
     }
+
+
     return Plugin_Continue;
 }
 
 void EnableLastManStanding(int client, bool spawnPlayer = false)
 {
-    for(int target=1; target <=  MaxClients; target++)
+    for(int target=1; target <= MaxClients; target++)
     {
         if(IsClientInGame(target) && IsBoss(target))
         {
@@ -449,7 +478,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
         }
     }
 
-    SetGameState(Game_LastManStanding);
+    // SetGameState(Game_LastManStanding);
     IsLastMan[client] = true;
     NoEnemyTime[client]=GetGameTime()+12.0;
 
@@ -642,7 +671,7 @@ public Action OnTimer(Handle timer)
   		{
             DrawGameTimer=INVALID_HANDLE;
 
-            if(GetGameState() == Game_LastManStanding && !IsFakeLastManStanding)
+            if(GetGameState() == Game_LastManStanding)
             {
                 CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 보스가 승리합니다.");
                 ForceTeamWin(FF2_GetBossTeam());
@@ -937,12 +966,13 @@ void PrecacheMusic()
   {
     return;
   }
-  if(MusicKV==INVALID_HANDLE)
+  if(MusicKV == INVALID_HANDLE)
   {
-    BGMCount=0;
-    MusicKV=CreateKeyValues("lastmanstanding");
+    BGMCount = 0;
+    MusicKV = CreateKeyValues("lastmanstanding");
     FileToKeyValues(MusicKV, config);
     KvRewind(MusicKV);
+
     if(!KvJumpToKey(MusicKV, "sound_bgm"))
     {
       LogMessage("No BGM found!");

@@ -3400,41 +3400,57 @@ PlayBGM(client)
 
 		Format(music, 10, "time%i", index);
 		new Float:time = KvGetFloat(musicKv, music);
+		new Float:time2 = time;
+
 		Format(music, 10, "volume%i", index);
 		new Float:volume = KvGetFloat(musicKv, music, 1.0);
-		Format(music, 10, "path%i", index);
+		new Float:volume2 = volume;
+
+		new String:artist2[80];
 		Format(artist, sizeof(artist), "artist%i", index);
+		KvGetString(musicKv, artist, artist2, sizeof(artist2));
 		KvGetString(musicKv, artist, artist, sizeof(artist));
+
+
+		new String:name2[100];
 		Format(name, sizeof(name), "name%i", index);
+		KvGetString(musicKv, name, name2, sizeof(name2));
 		KvGetString(musicKv, name, name, sizeof(name));
+
+		Format(music, 10, "path%i", index);
 		KvGetString(musicKv, music, music, sizeof(music));
 		decl String:temp[PLATFORM_MAX_PATH];
 
-		if(!(FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_SERVER))
+		new Action:action;
+		Call_StartForward(OnMusic);
+		new bool:notice2 = notice;
+		strcopy(temp, sizeof(temp), music);
+		Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+		Call_PushFloatRef(time2);
+		Call_PushFloatRef(volume2);
+		Call_PushStringEx(artist2, sizeof(artist2), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+		Call_PushStringEx(name2, sizeof(name2), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+		Call_PushCell(notice2);
+		Call_PushCell(client);
+		Call_PushCell(selected ? 1 : 0);
+		Call_Finish(action);
+
+		switch(action)
 		{
-			new Action:action;
-			Call_StartForward(OnMusic);
-			new bool:notice2=notice;
-			strcopy(temp, sizeof(temp), music);
-			Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-			Call_PushFloatRef(time);
-			Call_PushFloatRef(volume);
-			Call_PushStringEx(artist, sizeof(artist), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-			Call_PushStringEx(name, sizeof(name), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-			Call_PushCell(notice2);
-			Call_PushCell(client);
-			Call_PushCell(selected ? 1 : 0);
-			Call_Finish(action);
-			switch(action)
+			case Plugin_Stop, Plugin_Handled:
 			{
-				case Plugin_Stop, Plugin_Handled:
-				{
-					return;
-				}
-				case Plugin_Changed:
+				return;
+			}
+			case Plugin_Changed:
+			{
+				if(!(FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_SERVER))
 				{
 					strcopy(music, sizeof(music), temp);
-					notice=notice2;
+					strcopy(artist, sizeof(artist), artist2);
+					strcopy(name, sizeof(name), name2);
+					notice = notice2;
+					time = time2;
+					volume = volume2;
 				}
 			}
 		}
