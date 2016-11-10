@@ -14,6 +14,7 @@
 bool IsFakeLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 bool AlreadyLastmanSpawned[MAXPLAYERS+1];
+bool IsSnowStorm[MAXPLAYERS+1];
 
 int top[3];
 int lastDamage;
@@ -170,16 +171,20 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             TF2_RegeneratePlayer(victim);
 
-            TF2_AddCondition(victim, TFCond_Ubercharged, 10.0);
-            TF2_AddCondition(victim, TFCond_Stealthed, 10.0);
-            TF2_AddCondition(victim, TFCond_SpeedBuffAlly, 10.0);
-            
+            TF2_AddCondition(victim, TFCond_Ubercharged, 20.0);
+            TF2_AddCondition(victim, TFCond_Stealthed, 20.0);
+            TF2_AddCondition(victim, TFCond_SpeedBuffAlly, 20.0);
+
+            SetEntPropFloat(victim, Prop_Send, "m_flNextAttack", GetGameTime() + 20.0);
+
+            PrintCenterText(victim, "죽을 정도의 치명적인 피해를 받아 20초 동안 행동불능 상태가 됩니다. \n보스에게서 떨어지세요!");
+
             return Plugin_Handled;
         }
     }
 
     bool changed = false;
-    if(IsLastMan[client] && IsValidEntity(weapon))
+    if(IsLastMan[attacker] && IsValidEntity(weapon))
     {
         int boss=FF2_GetBossIndex(victim);
         float bossPosition[3];
@@ -307,6 +312,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     if(FF2_GetRoundState() != 1 || IsBossTeam(client) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
 
+    IsLastMan[client] = false;
+    AlreadyLastmanSpawned[client] = false;
+
     if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding)
     && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
@@ -397,6 +405,29 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         winner);
         PrintCenterTextAll("%N님이 보스와 최후의 결전을 치루게 됩니다!", winner);
 
+        int particle = AttachParticle(winner, "env_snow_stormfront_001");
+
+        if(IsValidEntity(particle))
+        {
+            int flags = GetEdictFlags(particle);
+            char test[60];
+            for(int i = 0;  i < 9; i++)
+            {
+              Format(test, sizeof(test), "%s %i", test, flags & (1<<i) ? i : 0);
+            }
+            Debug(test);
+            SetEdictFlags(particle, GetEdictFlags(particle) | ~FL_EDICT_ALWAYS);
+            SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
+        }
+
+        particle = AttachParticle(winner, "env_snow_stormfront_mist");
+
+        if(IsValidEntity(particle))
+        {
+            SetEdictFlags(particle, GetEdictFlags(particle) | ~FL_EDICT_ALWAYS);
+            SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
+        }
+
         for(int i; i<bossCount; i++)
         {
             int boss=FF2_GetBossIndex(bosses[i]);
@@ -463,6 +494,23 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         return Plugin_Continue;
     }
 
+
+    return Plugin_Continue;
+}
+
+public Action SnowStormTransmit(int entity, int client)
+{
+    // SetEdictFlags(entity, FL_EDICT_FREE);
+    int owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
+    if(IsClientInGame(owner))
+    {
+        float position[3];
+        GetEntPropVector(owner, Prop_Send, "m_vecOrigin", position);
+	    TeleportEntity(entity, position, NULL_VECTOR, NULL_VECTOR);
+    }
+    
+    if(!IsSnowStorm[client])
+        return Plugin_Handled;
 
     return Plugin_Continue;
 }
@@ -785,44 +833,48 @@ public void OnClientDisconnect(int client)
 
 public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, float &volume, char artist[80], char name[100], bool &notice, int client, int selected)
 {
-  if(GetGameState() == Game_LastManStanding && !IsFakeLastManStanding && BGMCount)
-  {
-    int random=GetRandomInt(1, BGMCount);
-    char tempItem[35];
-    char tempPath[PLATFORM_MAX_PATH];
-    char tempArtist[80];
-    char tempName[100];
+    IsSnowStorm[client] = false;
+    bool Changed = false;
 
-    if(!MusicKV || selected)
+    if(GetGameState() == Game_LastManStanding && BGMCount)
     {
-      // Debug("MusicKV: %s, selected: %s", MusicKV ? "valid" : "Invalid", selected ? "true" : "false");
-      return Plugin_Continue;
-    }
-    KvRewind(MusicKV);
-    if(KvJumpToKey(MusicKV, "sound_bgm"))
-    {
-      Format(tempItem, sizeof(tempItem), "time%i", random);
-      time=KvGetFloat(MusicKV, tempItem);
+        int random=GetRandomInt(1, BGMCount);
+        char tempItem[35];
+        char tempPath[PLATFORM_MAX_PATH];
+        char tempArtist[80];
+        char tempName[100];
 
-      Format(tempPath, sizeof(tempPath), "path%i", random);
-      KvGetString(MusicKV, tempPath, tempPath, sizeof(tempPath));
-      Format(path, sizeof(path), "%s", tempPath);
+        if(MusicKV && !selected)
+        {
+            Changed = true;
 
-      Format(tempArtist, sizeof(tempArtist), "artist%i", random);
-      KvGetString(MusicKV, tempArtist, tempArtist, sizeof(tempArtist));
-      Format(artist, sizeof(artist), "%s", tempArtist);
+            KvRewind(MusicKV);
+            if(KvJumpToKey(MusicKV, "sound_bgm"))
+            {
+              Format(tempItem, sizeof(tempItem), "time%i", random);
+              time = KvGetFloat(MusicKV, tempItem);
 
-      Format(tempName, sizeof(tempName), "name%i", random);
-      KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
-      Format(name, sizeof(name), "%s", tempName);
+              Format(tempPath, sizeof(tempPath), "path%i", random);
+              KvGetString(MusicKV, tempPath, tempPath, sizeof(tempPath));
+              Format(path, sizeof(path), "%s", tempPath);
 
-      Format(tempItem, sizeof(tempItem), "volume%i", random);
-      volume=KvGetFloat(MusicKV, tempItem, 1.0);
+              Format(tempArtist, sizeof(tempArtist), "artist%i", random);
+              KvGetString(MusicKV, tempArtist, tempArtist, sizeof(tempArtist));
+              Format(artist, sizeof(artist), "%s", tempArtist);
 
-      return Plugin_Changed;
-    }
-  }
-  return Plugin_Continue;
+              Format(tempName, sizeof(tempName), "name%i", random);
+              KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
+              Format(name, sizeof(name), "%s", tempName);
+
+              Format(tempItem, sizeof(tempItem), "volume%i", random);
+              volume=KvGetFloat(MusicKV, tempItem, 1.0);
+            }
+        }
+
+        if(StrEqual(name, "snow storm -euphoria-"))
+            IsSnowStorm[client] = true;
+     }
+     return Changed ? Plugin_Changed : Plugin_Continue;
 }
 
 stock int FindAnotherPerson(int Gclient)
@@ -1200,6 +1252,10 @@ int AttachParticle(int entity, char[] particleType, bool attach=true)
 		AcceptEntityInput(particle, "SetParent", particle, particle, 0);
 		SetEntPropEnt(particle, Prop_Send, "m_hOwnerEntity", entity);
 	}
+    else
+    {
+        SetEntPropEnt(particle, Prop_Send, "m_hOwnerEntity", 0);
+    }
 	ActivateEntity(particle);
 	AcceptEntityInput(particle, "start");
 	return particle;
@@ -1542,13 +1598,13 @@ public Native_GetGameState(Handle plugin, numParams)
 
 public Native_SetGameState(Handle plugin, numParams)
 {
-    SetGameState(view_as<GameMode>(GetNativeCell(1));
+    SetGameState(view_as<GameMode>(GetNativeCell(1)));
 }
 
 public Native_GetTimeLeft(Handle plugin, numParams)
 {
     if(DrawGameTimer != INVALID_HANDLE)
-        return timeleft;
+        return _:timeleft;
 
     return _:0.0;
 }
