@@ -73,8 +73,8 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 			  }
 			}
 		}
-		FF2_SetAbilityDuration(boss, abilityTime-3.0);
 
+		FF2_SetAbilityDuration(boss, abilityTime-3.0);
   }
 	return Plugin_Continue;
 }
@@ -174,7 +174,10 @@ public Action OnTouch(int entity, int other)
 		SetEntPropEnt(other, Prop_Send, "m_hOwnerEntity", GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
 	    SetEntProp(other, Prop_Send, "m_iTeamNum", GetEntProp(entity, Prop_Send, "m_iTeamNum"));
 		SetEntProp(other, Prop_Send, "m_iDeflected", 1);
-		
+
+		if(StrEqual(classname, "tf_projectile_pipe"))
+			SetEntProp(other, Prop_Send, "m_bTouched", 0);
+
 		int boss = FF2_GetBossIndex(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
 		FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss) - 3.0);
 

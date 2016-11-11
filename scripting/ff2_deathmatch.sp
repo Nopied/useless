@@ -91,6 +91,17 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
         return Plugin_Continue;
     }
 
+    for(int target=1; target <= MaxClients; target++)
+    {
+        if(IsClientInGame(target))
+        {
+            SDKUnhook(target, SDKHook_OnTakeDamage, OnTakeDamage);
+            SDKHook(target, SDKHook_OnTakeDamage, OnTakeDamage);
+        }
+    }
+
+    // SetGameState(Game_AttackAndDefense);
+
     timeleft=float(CheckAlivePlayers()*15)+60.0;
     DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
     return Plugin_Continue;
@@ -121,14 +132,14 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
     for(int client = 1; client <= MaxClients; client++)
     {
-        if(IsLastMan[client] || IsBoss(client)) // Lastman and bosses.
+        if(IsClientInGame(client)) // Lastman and bosses.
         {
-            IsLastMan[client] = false;
-            AlreadyLastmanSpawned[client] = false;
-
             SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
             SDKUnhook(client, SDKHook_PreThinkPost, NoEnemyTimer);
         }
+
+        IsLastMan[client] = false;
+        AlreadyLastmanSpawned[client] = false;
         TeleportTime[client]=0.0;
     }
 
@@ -405,10 +416,12 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         winner);
         PrintCenterTextAll("%N님이 보스와 최후의 결전을 치루게 됩니다!", winner);
 
+
         int particle = AttachParticle(winner, "env_snow_stormfront_001");
 
         if(IsValidEntity(particle))
         {
+            /*
             int flags = GetEdictFlags(particle);
             char test[60];
             for(int i = 0;  i < 9; i++)
@@ -417,6 +430,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             }
             Debug(test);
             SetEdictFlags(particle, GetEdictFlags(particle) | ~FL_EDICT_ALWAYS);
+            */
             SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
         }
 
@@ -424,9 +438,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         if(IsValidEntity(particle))
         {
-            SetEdictFlags(particle, GetEdictFlags(particle) | ~FL_EDICT_ALWAYS);
+            // SetEdictFlags(particle, GetEdictFlags(particle) | ~FL_EDICT_ALWAYS);
             SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
         }
+
 
         for(int i; i<bossCount; i++)
         {
@@ -508,7 +523,7 @@ public Action SnowStormTransmit(int entity, int client)
         GetEntPropVector(owner, Prop_Send, "m_vecOrigin", position);
 	    TeleportEntity(entity, position, NULL_VECTOR, NULL_VECTOR);
     }
-    
+
     if(!IsSnowStorm[client])
         return Plugin_Handled;
 
@@ -517,18 +532,8 @@ public Action SnowStormTransmit(int entity, int client)
 
 void EnableLastManStanding(int client, bool spawnPlayer = false)
 {
-    for(int target=1; target <= MaxClients; target++)
-    {
-        if(IsClientInGame(target) && IsBoss(target))
-        {
-            SDKUnhook(target, SDKHook_OnTakeDamage, OnTakeDamage);
-            SDKHook(target, SDKHook_OnTakeDamage, OnTakeDamage);
-        }
-    }
-
-    // SetGameState(Game_LastManStanding);
     IsLastMan[client] = true;
-    NoEnemyTime[client]=GetGameTime()+12.0;
+    NoEnemyTime[client] = GetGameTime()+12.0;
 
     SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
     SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
@@ -818,6 +823,15 @@ public Action BeLastMan(Handle timer, Handle LastManData)
         }
     }
     return Plugin_Continue;
+}
+
+public void OnClientPostAdminCheck(int client)
+{
+    if(FF2_GetRoundState() == 1)
+    {
+        SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+        SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+    }
 }
 
 public void OnClientDisconnect(int client)
