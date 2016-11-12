@@ -26,6 +26,7 @@ Handle MusicKV;
 Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 
 float NoEnemyTime[MAXPLAYERS+1];
+float WeaponCannotUseTime[MAXPLAYERS+1];
 float TeleportTime[MAXPLAYERS+1];
 
 int suddendeathDamege;
@@ -91,12 +92,15 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
         return Plugin_Continue;
     }
 
-    for(int target=1; target <= MaxClients; target++)
+    for(int target = 1; target <= MaxClients; target++)
     {
         if(IsClientInGame(target))
         {
-            SDKUnhook(target, SDKHook_OnTakeDamage, OnTakeDamage);
+            // SDKUnhook(target, SDKHook_OnTakeDamage, OnTakeDamage);
             SDKHook(target, SDKHook_OnTakeDamage, OnTakeDamage);
+
+            // SDKUnhook(target, SDKHook_PreThinkPost, StatusTimer);
+            SDKHook(target, SDKHook_PreThinkPost, StatusTimer);
         }
     }
 
@@ -132,10 +136,10 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
     for(int client = 1; client <= MaxClients; client++)
     {
-        if(IsClientInGame(client)) // Lastman and bosses.
+        if(IsClientInGame(client))
         {
             SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-            SDKUnhook(client, SDKHook_PreThinkPost, NoEnemyTimer);
+            SDKUnhook(client, SDKHook_PreThinkPost, StatusTimer);
         }
 
         IsLastMan[client] = false;
@@ -159,13 +163,14 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 
 public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
-    if((GetGameState() != Game_LastManStanding && GetGameState() != Game_AttackAndDefense && !IsFakeLastManStanding) || FF2_GetRoundState() != 1)
+    if((GetGameState() != Game_LastManStanding && GetGameState() != Game_AttackAndDefense && !IsFakeLastManStanding)
+    || FF2_GetRoundState() != 1)
     {
         SDKUnhook(victim, SDKHook_OnTakeDamage, OnTakeDamage);
         return Plugin_Continue;
     }
 
-    if(IsBoss(victim)) return Plugin_Continue;
+    if(IsBossTeam(victim)) return Plugin_Continue;
 
     char classname[60];
 
@@ -186,9 +191,9 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             TF2_AddCondition(victim, TFCond_Stealthed, 20.0);
             TF2_AddCondition(victim, TFCond_SpeedBuffAlly, 20.0);
 
-            SetEntPropFloat(victim, Prop_Send, "m_flNextAttack", GetGameTime() + 20.0);
+            WeaponCannotUseTime[victim] = GetGameTime() + 20.0;
 
-            PrintCenterText(victim, "죽을 정도의 치명적인 피해를 받아 20초 동안 행동불능 상태가 됩니다. \n보스에게서 떨어지세요!");
+            PrintCenterText(victim, "죽을 정도의 치명적인 피해를 받아 20초 동안 행동불능 상태가 됩니다.\n 보스에게서 떨어지세요!");
 
             return Plugin_Handled;
         }
@@ -197,7 +202,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
     bool changed = false;
     if(IsLastMan[attacker] && IsValidEntity(weapon))
     {
-        int boss=FF2_GetBossIndex(victim);
+        int boss = FF2_GetBossIndex(victim);
         float bossPosition[3];
 
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
@@ -205,8 +210,8 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
         if(!StrContains(classname, "tf_weapon_knife") && !(damagecustom & TF_CUSTOM_BACKSTAB))
         {
-            damagetype|=DMG_CRIT;
-            damage=((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.06)/3.0;
+            damagetype |= DMG_CRIT;
+            damage = ((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.06)/3.0;
 
             EmitSoundToClient(victim, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
             EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
@@ -217,8 +222,8 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             SetEntPropFloat(attacker, Prop_Send, "m_flNextAttack", GetGameTime()+2.0);
             SetEntPropFloat(attacker, Prop_Send, "m_flStealthNextChangeTime", GetGameTime()+2.0);
 
-            int viewmodel=GetEntPropEnt(attacker, Prop_Send, "m_hViewModel");
-            if(viewmodel>MaxClients && IsValidEntity(viewmodel) && TF2_GetPlayerClass(attacker)==TFClass_Spy)
+            int viewmodel = GetEntPropEnt(attacker, Prop_Send, "m_hViewModel");
+            if(viewmodel > MaxClients && IsValidEntity(viewmodel) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
             {
                 int melee=GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee);
                 int animation=41;
@@ -535,9 +540,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
     IsLastMan[client] = true;
     NoEnemyTime[client] = GetGameTime()+12.0;
 
-    SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-    SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-    SDKHook(client, SDKHook_PreThinkPost, NoEnemyTimer);
+
 
     if(!AlreadyLastmanSpawned[client] && spawnPlayer)
     {
@@ -768,28 +771,44 @@ public Action OnTimer(Handle timer)
     return Plugin_Continue;
 }
 
-public void NoEnemyTimer(int client)
+public void StatusTimer(int client)
 {
-  if(NoEnemyTime[client]>GetGameTime() && IsClientInGame(client) && IsPlayerAlive(client))
-  {
-    for(int target=1; target<=MaxClients; target++)
+    if(!IsPlayerAlive(client)) return;
+
+    if(NoEnemyTime[client] > GetGameTime())
     {
-      if(IsClientInGame(target) && IsPlayerAlive(target) && IsBossTeam(target))
-      {
-        float pos[3];
-        float enemyPos[3];
-
-        GetEntPropVector(client, Prop_Send, "m_vecOrigin", pos);
-        GetEntPropVector(target, Prop_Send, "m_vecOrigin", enemyPos);
-
-        if(GetVectorDistance(pos, enemyPos) <= 250.0)
+        for(int target = 1; target <= MaxClients; target++)
         {
-          PushClientsApart(target, client);
-          PrintCenterText(target, "라스트맨에게 잠시만 시간을 주세요!");
+            if(IsClientInGame(target) && IsPlayerAlive(target) && IsBossTeam(target))
+            {
+                float pos[3];
+                float enemyPos[3];
+
+                GetEntPropVector(client, Prop_Send, "m_vecOrigin", pos);
+                GetEntPropVector(target, Prop_Send, "m_vecOrigin", enemyPos);
+
+                if(GetVectorDistance(pos, enemyPos) <= 250.0)
+                {
+                    PushClientsApart(target, client);
+                    PrintCenterText(target, "라스트맨에게 잠시만 시간을 주세요!");
+                }
+            }
         }
-      }
     }
-  }
+
+    if(WeaponCannotUseTime[client] > GetGameTime())
+    {
+        int weapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+
+        if(IsValidEntity(weapon))
+        {
+            SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime() + 0.03);
+            SetEntPropFloat(weapon, Prop_Send, "m_flNextSecondaryAttack", GetGameTime() + 0.03);
+            SetEntPropFloat(client, Prop_Send, "m_flNextAttack", GetGameTime() + 0.03);
+        }
+    }
+
+    return;
 }
 
 public Action BeLastMan(Handle timer, Handle LastManData)
@@ -829,8 +848,8 @@ public void OnClientPostAdminCheck(int client)
 {
     if(FF2_GetRoundState() == 1)
     {
-        SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
         SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+        SDKHook(client, SDKHook_PreThinkPost, StatusTimer);
     }
 }
 
@@ -840,7 +859,9 @@ public void OnClientDisconnect(int client)
     {
         IsLastMan[client] = false;
         AlreadyLastmanSpawned[client] = false;
+
         SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+        SDKUnhook(client, SDKHook_PreThinkPost, StatusTimer);
     }
 }
 
@@ -954,7 +975,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Medic:
     {
       SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 17 ; 0.12 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0");
+      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0 ; 231 ; 2 ; 18 ; 1.0");
       SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 2, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0 ; 26 ; 150 ; 107 ; 1.10");
       // 17: 적중 시 우버차지
       // 482: 오버힐 마스터리

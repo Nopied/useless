@@ -4807,7 +4807,7 @@ public Action:Command_GetHP(client)  //TODO: This can rarely show a very large n
 				if(IsBossYou[boss])
 				{
 					new String:playerName[50];
-					GetClientName(client, playerName, sizeof(playerName));
+					GetClientName(target, playerName, sizeof(playerName));
 					CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_hp", playerName, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, FF2Boss_IsPlayerBlasterReady(target) ? "INFINITE BLASTER" : (!IsFakeClient(target) ? diffItem : "BOT"));
 
 				}
@@ -5620,7 +5620,13 @@ public Action:BossTimer(Handle:timer)
 
 		//
 		if(!IsBossYou[boss])
-			SetEntPropFloat(client, Prop_Data, "m_flMaxspeed", BossSpeed[Special[boss]]+0.7*(100-BossHealth[boss]*100/BossLivesMax[boss]/BossHealthMax[boss]));
+		{
+			if(BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1) > BossHealthMax[boss])
+				SetEntPropFloat(client, Prop_Data, "m_flMaxspeed", BossSpeed[Special[boss]]+0.7);
+
+			else
+				SetEntPropFloat(client, Prop_Data, "m_flMaxspeed", BossSpeed[Special[boss]]+0.7*(100-BossHealth[boss]*100/BossLivesMax[boss]/BossHealthMax[boss]));
+		}
 		//
 
 		if(BossHealth[boss]<=0 && IsPlayerAlive(client))  //Wat.  TODO:  Investigate

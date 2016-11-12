@@ -29,14 +29,41 @@ public void OnPluginStart2()
 {
 	HookEvent("arena_round_start", Event_RoundStart);
 	HookEvent("teamplay_round_active", Event_RoundStart); // for non-arena maps
-	
+
 	HookEvent("arena_win_panel", Event_RoundEnd);
 	HookEvent("teamplay_round_win", Event_RoundEnd); // for non-arena maps
-	
+
+	HookEvent("player_spawn", OnPlayerSpawn);
+
 	if(FF2_GetRoundState()==1)
 	{
 		HookAbilities();
 	}
+}
+
+public Action OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
+{
+	int client = (Event.GetInt("userid"));
+	int boss;
+	bool activateFog = false;
+
+	if(!IsValidEntity(envFog)) return Plugin_Continue;
+
+	for(int client = 1; client <= MaxClients; client++)
+	{
+		if(IsClientInGame(client) && (boss = FF2_GetBossIndex(client)) != -1
+		&& FF2_HasAbility(boss, this_plugin_name, "fog_fx"))
+			activateFog = true;
+	}
+
+	if(activateFog)
+		for(int client = 1; client <= MaxClients; client++)
+		{
+			SetVariantString("MyFog");
+			AcceptEntityInput(i, "SetFogController");
+		}
+
+	return Plugin_Continue;
 }
 
 public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
@@ -53,12 +80,12 @@ public void Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 		{
 			continue;
 		}
-		
+
 		if(fogDuration[client]!=INACTIVE)
 		{
 			fogDuration[client]=INACTIVE;
 			SDKUnhook(client, SDKHook_PreThinkPost, FogTimer);
-		}			
+		}
 	}
 	envFog=-1;
 }
@@ -71,13 +98,13 @@ public void HookAbilities()
 		{
 			continue;
 		}
-		
+
 		SetVariantString("");
 		AcceptEntityInput(client, "SetFogController");
-		
+
 		fogDuration[client]=INACTIVE;
 		AMSOnly[client]=false;
-		
+
 		int boss=FF2_GetBossIndex(client);
 		if(boss>=0)
 		{
@@ -103,12 +130,12 @@ public void HookAbilities()
 				float fogend=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "fog_fx", 9, 384.0);
 				// fog density
 				float fogdensity=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "fog_fx", 10, 1.0);
-	
+
 				if(!IsValidEntity(envFog))
 				{
 					envFog = StartFog(FF2_GetAbilityArgument(boss, this_plugin_name, "fog_fx", 1, 0), fogcolor[0], fogcolor[1], fogstart, fogend, fogdensity);
 				}
-				
+
 				for (int i = 1; i <= MaxClients; i++)
 				{
 					if(IsClientInGame(i))
@@ -139,9 +166,9 @@ public bool FOG_CanInvoke(int client)
 public void FOG_Invoke(int client)
 {
 	int fogcolor[3][3];
-	
+
 	int boss=FF2_GetBossIndex(client);
-	
+
 	// fog color
 	fogcolor[0][0]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 2, 255);
 	fogcolor[0][1]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 3, 255);
@@ -161,7 +188,7 @@ public void FOG_Invoke(int client)
 	{
 		envFog = StartFog(FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 1, 0), fogcolor[0], fogcolor[1], fogstart, fogend, fogdensity);
 	}
-	
+
 	if(fogDuration[client]!=INACTIVE)
 	{
 		fogDuration[client]+=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_fog_fx", 11, 5.0);
@@ -171,7 +198,7 @@ public void FOG_Invoke(int client)
 		fogDuration[client]=GetGameTime()+FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_fog_fx", 11, 5.0);
 		SDKHook(client, SDKHook_PreThinkPost, FogTimer);
 	}
-	
+
 	for (int i = 1; i <= MaxClients; i++)
 	{
 		if(IsClientInGame(i))
@@ -196,7 +223,7 @@ public void FogTimer(int client)
 int StartFog(int fogblend, int fogcolor[3], int fogcolor2[3], float fogstart=64.0, float fogend=384.0, float fogdensity=1.0)
 {
 	int iFog = FindEntityByClassname(-1, "env_fog_controller");
-	
+
 	if(!IsValidEntity(iFog))
 	{
 		iFog = CreateEntityByName("env_fog_controller");
@@ -211,7 +238,7 @@ int StartFog(int fogblend, int fogcolor[3], int fogcolor2[3], float fogstart=64.
 	IntToString(fogblend, fogcolors[0], sizeof(fogcolors[]));
 	Format(fogcolors[1], sizeof(fogcolors[]), "%i %i %i", fogcolor[0], fogcolor[1], fogcolor[2]);
 	Format(fogcolors[2], sizeof(fogcolors[]), "%i %i %i", fogcolor2[0], fogcolor2[1], fogcolor2[2]);
-	if(IsValidEntity(iFog)) 
+	if(IsValidEntity(iFog))
 	{
         DispatchKeyValue(iFog, "targetname", "MyFog");
         DispatchKeyValue(iFog, "fogenable", "1");
@@ -223,7 +250,7 @@ int StartFog(int fogblend, int fogcolor[3], int fogcolor2[3], float fogstart=64.
         DispatchKeyValueFloat(iFog, "fogend", fogend);
         DispatchKeyValueFloat(iFog, "fogmaxdensity", fogdensity);
         DispatchSpawn(iFog);
-        
+
         AcceptEntityInput(iFog, "TurnOn");
 	}
 	return iFog;

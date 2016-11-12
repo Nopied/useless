@@ -513,6 +513,7 @@ void SetClientBossBlast(int client, const char[] bossName, bool enable)
 int GetBarrierDamaged(int client, const char[] bossName)
 {
 	int bossIndex = GetBossNameIndex(bossName);
+	// char configName[60];
 	if(bossIndex != -1)
 	{
 		char temp[100];
@@ -570,7 +571,7 @@ Handle GetBossNameHandle(const char[] bossName)
 	Handle BossKV;
 	char spclName[MAX_NAME];
 
-	for (int i = 0; (BossKV=FF2_GetSpecialKV(i,true)); i++)
+	for (int i = 0; (BossKV = FF2_GetSpecialKV(i,true)); i++)
 	{
 		KvGetString(BossKV, "name", spclName, sizeof(spclName));
 		if(StrEqual(bossName, spclName, true))
@@ -590,6 +591,7 @@ int GetBossNameLength(int bossIndex)
 	{
 		KvRewind(BossKV);
 		char spclName[MAX_NAME];
+
 		KvGetString(BossKV, "name", spclName, sizeof(spclName));
 		return strlen(spclName);
 	}
