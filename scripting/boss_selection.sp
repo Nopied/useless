@@ -385,6 +385,13 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 					char bossName[80];
 					GetMenuItem(menu, param2, bossName, sizeof(bossName));
 
+					AbleInfiniteBlaster(param1, false);
+					GetMenuItem(menu, param2, Incoming[param1], sizeof(Incoming[]));
+					SetClientCookie(param1, g_hBossCookie, Incoming[param1]);
+					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_bossselected", Incoming[param1]);
+					SetClientQueueNoneCookie(param1, false);
+
+					/*
 					if(IsBossBlasted(param1, bossName))
 					{
 						AbleInfiniteBlaster(param1, false);
@@ -410,12 +417,13 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 
 						DisplayMenu(Nmenu, param1, 90);
 					}
+					*/
 				}
 			}
 		}
 	}
 }
-
+/*
 public BlasterMenu(Handle menu, MenuAction action, int client, int item)
 {
 	switch(action)
@@ -565,6 +573,7 @@ float GetBarrierRank(const char[] bossName)
 
 	return 1.0;
 }
+*/
 
 Handle GetBossNameHandle(const char[] bossName)
 {

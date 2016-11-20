@@ -6121,7 +6121,7 @@ public Action:OnChangeClass(client, const String:command[], args)
 
 public Action:OnJoinTeam(client, const String:command[], args)
 {
-	if(!Enabled || RoundCount<arenaRounds || CheckRoundState() != 1)
+	if(!Enabled || RoundCount<arenaRounds || CheckRoundState() == -1) // 1.10.15
 	{
 		return Plugin_Continue;
 	}
