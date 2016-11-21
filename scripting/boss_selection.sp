@@ -19,12 +19,12 @@
 
 int g_iChatCommand;
 
-bool CharingBlaster[MAXPLAYERS+1];
+// bool CharingBlaster[MAXPLAYERS+1];
 
 float StartGameTime;
 
 char Incoming[MAXPLAYERS+1][64];
-char BlasterIncoming[MAXPLAYERS+1][64]; // use bossIndex
+// char BlasterIncoming[MAXPLAYERS+1][64]; // use bossIndex
 char g_strChatCommand[42][50]; // 이 말은 즉슨.. 42개 이상의 커맨드를 등록하면 이 플러그인은 터진다.
 
 Handle g_hBossCookie;
@@ -44,7 +44,7 @@ public Plugin:myinfo = {
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
 {
-	CreateNative("FF2Boss_IsPlayerBlasterReady", Native_IsPlayerBlasterReady);
+	// CreateNative("FF2Boss_IsPlayerBlasterReady", Native_IsPlayerBlasterReady);
 	return APLRes_Success;
 }
 
@@ -84,6 +84,7 @@ public void OnPluginStart()
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
+	/*
 	for(int client = 1; client<=MaxClients; client++)
 	{
 		CharingBlaster[client]=false;
@@ -105,6 +106,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 
 			FF2_SetBossRageDamage(boss, RoundFloat(float(FF2_GetBossRageDamage(boss)) * GetBarrierRank(BlasterIncoming[client])));
 		}
+		*/
 	}
 
 	StartGameTime = GetGameTime();
@@ -114,6 +116,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
+	/*
 	int newbarrierdamage;
 	float roundtime = GetGameTime() - StartGameTime;
 
@@ -161,6 +164,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 			}
 		}
 	}
+	*/
 }
 
 public void Cvar_ChatCommand_Changed(ConVar cvar, const char[] oldValue, const char[] newValue)
@@ -265,8 +269,8 @@ public void OnClientPutInServer(client)
 		{
 			GetClientCookie(client, g_hBossCookie, CookieV, sizeof(CookieV));
 			strcopy(Incoming[client], sizeof(Incoming[]), CookieV);
-			GetBlasterIncomingString(client, CookieV, sizeof(CookieV));
-			strcopy(BlasterIncoming[client], sizeof(BlasterIncoming[]), CookieV);
+			// GetBlasterIncomingString(client, CookieV, sizeof(CookieV));
+			// strcopy(BlasterIncoming[client], sizeof(BlasterIncoming[]), CookieV);
 		}
 	}
 }
@@ -305,7 +309,7 @@ public Action Command_SetMyBoss(int client, int args)
 	char s[MAX_NAME];
 
 	Handle dMenu = CreateMenu(Command_SetMyBossH);
-
+/*
 	if(IsPlayerChargingBlaster(client))
 	{
 		SetMenuTitle(dMenu, "INFINITE BLASTER IS CHARGING...\n현재 배리어(%s) HP: %i / %i\n베리어 랭크: %.1f\n다른 보스를 선택할 경우 비활성화 됩니다.",
@@ -314,7 +318,8 @@ public Action Command_SetMyBoss(int client, int args)
 		GetBarrierMaxHealth(BlasterIncoming[client]),
 		GetBarrierRank(BlasterIncoming[client]));
 	}
-	else if(StrEqual(CookieV, ""))
+*/
+	if(StrEqual(CookieV, ""))
 	{
 		Format(s, sizeof(s), "%t", "ff2boss_random_option");
 		SetMenuTitle(dMenu, "%t", "ff2boss_title", s);
@@ -739,7 +744,9 @@ stock void SetClientQueueNoneCookie(int client, bool setNone)
 	}
 }
 
+/*
 public Native_IsPlayerBlasterReady(Handle plugin, numParams)
 {
 	return CharingBlaster[GetNativeCell(1)];
 }
+*/
