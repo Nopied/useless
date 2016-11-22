@@ -115,11 +115,13 @@ new BossHealthLast[MAXPLAYERS+1];
 new BossLives[MAXPLAYERS+1];
 new BossLivesMax[MAXPLAYERS+1];
 new BossRageDamage[MAXPLAYERS+1];
-new String:BossAbilityName[MAXPLAYERS+1][52];
-new Float:BossAbilityCooldown[MAXPLAYERS+1];
-new Float:BossAbilityCooldownMax[MAXPLAYERS+1];
-new Float:BossAbilityDuration[MAXPLAYERS+1];
-new Float:BossAbilityDurationMax[MAXPLAYERS+1];
+new String:BossAbilityName[MAXPLAYERS+1][8][52];
+
+new Float:BossAbilityCooldown[MAXPLAYERS+1][8];
+new Float:BossAbilityCooldownMax[MAXPLAYERS+1][8];
+new Float:BossAbilityDuration[MAXPLAYERS+1][8];
+new Float:BossAbilityDurationMax[MAXPLAYERS+1][8];
+
 new Float:BossCharge[MAXPLAYERS+1][8];
 new bool:IsBossYou[MAXPLAYERS+1];
 new Stabbed[MAXPLAYERS+1];
@@ -1121,6 +1123,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	CreateNative("FF2_GetBossRageDamage", Native_GetBossRageDamage);
 	CreateNative("FF2_SetBossRageDamage", Native_SetBossRageDamage);
 	CreateNative("FF2_GetClientDamage", Native_GetDamage);
+	CreateNative("FF2_SetClientDamage", Native_SetDamage);
 	CreateNative("FF2_GetRoundState", Native_GetRoundState);
 	CreateNative("FF2_GetSpecialKV", Native_GetSpecialKV);
 	CreateNative("FF2_LoadMusicData", Native_LoadMusicData);
@@ -3902,9 +3905,9 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	// BossLives[boss]=BossLivesMax[boss];
 	// BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
 	// BossHealthLast[boss]=BossHealth[boss];
-	KvGetString(BossKV[Special[boss]], "ability_name", BossAbilityName[boss], sizeof(BossAbilityName));
-	BossAbilityCooldownMax[boss]=KvGetFloat(BossKV[Special[boss]], "cooldown", 10.0);
-	BossAbilityDurationMax[boss]=KvGetFloat(BossKV[Special[boss]], "ability_duration", 5.0);
+	KvGetString(BossKV[Special[boss]], "ability_name", BossAbilityName[boss][0], sizeof(BossAbilityName[][]));
+	BossAbilityCooldownMax[boss][0] = KvGetFloat(BossKV[Special[boss]], "cooldown", 10.0);
+	BossAbilityDurationMax[boss][0] = KvGetFloat(BossKV[Special[boss]], "ability_duration", 5.0);
 
 	SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
 	TF2_RemovePlayerDisguise(client);
@@ -5327,16 +5330,12 @@ public Action:ClientTimer(Handle:timer)
 							if(BossAbilityDuration[boss]>0.0)
 							{
 								Format(temp2, sizeof(temp), "%.1f", BossAbilityDuration[boss]);
-								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_duration", BossAbilityName[boss], temp2);
+								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_duration", BossAbilityName[boss][0], temp2);
 							}
 							else if(BossAbilityCooldown[boss]>0.0)
 							{
 								Format(temp2, sizeof(temp), "%.1f", BossAbilityCooldown[boss]);
 								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_cooldown_easy", temp2);
-							}
-							else
-							{
-								Format(temp, sizeof(temp), "%s | ????");
 							}
 						}
 						else
@@ -5662,7 +5661,7 @@ public Action:BossTimer(Handle:timer)
 						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 						Format(temp2, sizeof(temp2), "%.1f", BossAbilityDuration[boss]);
 						SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
-						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss], temp2);
+						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss][0], temp2);
 					}
 					else if(BossAbilityCooldown[boss] > 0.0)
 					{
@@ -6061,11 +6060,11 @@ public Action:OnCallForMedic(client, const String:command[], args)
 			KvRewind(BossKV[Special[boss]]);
 			KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 			CPrintToChatAll("{olive}[FF2]{default} %t", "oneperson_rage", bossName);
-			BossAbilityCooldown[boss]=BossAbilityCooldownMax[boss]*2.0;
+			BossAbilityCooldown[0][boss]=BossAbilityCooldownMax[0][boss]*2.0;
 		}
 		else
 		{
-			BossAbilityCooldown[boss]=BossAbilityCooldownMax[boss];
+			BossAbilityCooldown[0][boss]=BossAbilityCooldownMax[0][boss];
 		}
 		BossAbilityDuration[boss]=BossAbilityDurationMax[boss];
 
@@ -7363,7 +7362,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					if(index==225 || index==574)  //Your Eternal Reward, Wanga Prick
 					{
 						slienced=true;
-						BossAbilityCooldown[boss]+=sliencedTime;
+						BossAbilityCooldown[0][boss] += sliencedTime;
 						CreateTimer(0.3, Timer_DisguiseBackstab, GetClientUserId(attacker), TIMER_FLAG_NO_MAPCHANGE);
 					}
 					else if(index==356)  //Conniver's Kunai
@@ -7417,7 +7416,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
 					CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "백스탭", bossName, RoundFloat(damage*(255.0/85.0)));
-					if(slienced) CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(BossAbilityCooldown[boss]));
+					if(slienced) CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(BossAbilityCooldown[boss][0]));
 					return Plugin_Changed;
 				}
 				else if(bIsTelefrag)
@@ -9745,13 +9744,14 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 		}
 	}
 	new String:temp[80];
-	Format(temp, sizeof(temp), "%s", BossAbilityName[boss]);
-	new Float:temp2=BossAbilityDuration[boss];
-	new Float:temp3=BossAbilityCooldown[boss];
+	Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
+	new Float:temp2=BossAbilityDuration[boss][slot];
+	new Float:temp3=BossAbilityCooldown[boss][slot];
 
 	Call_StartForward(OnAbilityTime);
 	Call_PushCell(boss);
 	Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+	Call_PushCell(slot);
 	Call_PushFloatRef(temp2);
 	Call_PushFloatRef(temp3);
 	Call_Finish(action);
@@ -9762,7 +9762,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 		{
 			BossAbilityDuration[boss]=temp2;
 			BossAbilityCooldown[boss]=temp3;
-			Format(BossAbilityName[boss], sizeof(BossAbilityName[]), "%s", temp);
+			Format(BossAbilityName[boss][slot], sizeof(BossAbilityName[][]), "%s", temp);
 	  }
 		// wat.
 	}
@@ -10068,6 +10068,11 @@ public Native_GetDamage(Handle:plugin, numParams)
 		return 0;
 	}
 	return Damage[client];
+}
+
+public Native_SetDamage(Handle:plugin, numParams)
+{
+	return Damage[GetNativeCell(1)];
 }
 
 public Native_GetFF2flags(Handle:plugin, numParams)
