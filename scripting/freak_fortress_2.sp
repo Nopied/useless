@@ -1077,6 +1077,7 @@ new Handle:OnLoseLife;
 new Handle:OnAlivePlayersChanged;
 new Handle:OnAbilityTime;
 new Handle:OnRageEnd;
+new Handle:OnPlayBoss;
 
 new bool:bBlockVoice[MAXSPECIALS];
 new Float:BossSpeed[MAXSPECIALS];
@@ -1163,6 +1164,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnAlivePlayersChanged=CreateGlobalForward("FF2_OnAlivePlayersChanged", ET_Hook, Param_Cell, Param_Cell);  //Players, bosses
 	OnAbilityTime=CreateGlobalForward("FF2_OnBossAbilityTime", ET_Hook, Param_Cell, Param_String, Param_FloatByRef, Param_FloatByRef);
 	OnRageEnd=CreateGlobalForward("FF2_OnRageEnd", ET_Hook, Param_Cell);
+	OnPlayBoss=CreateGlobalForward("FF2_OnPlayBoss", ET_Hook, Param_Cell); // client, bossindex
 
 	RegPluginLibrary("freak_fortress_2");
 
@@ -3860,6 +3862,12 @@ public Action:MakeBoss(Handle:timer, any:boss)
 			return Plugin_Continue;
 		}
 	}
+
+	Call_StartForward(OnPlayBoss);
+	Call_PushCell(client);
+	Call_PushCell(boss);
+	Call_Finish();
+	
 	/*
 	new Handle:testDeath=CreateEvent("player_death", true);
 	SetEventInt(testDeath, "userid", GetClientUserId(client));
