@@ -2945,9 +2945,11 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 			for(new slot=1; slot<8; slot++)
 			{
 				BossCharge[boss][slot]=0.0;
+				BossAbilityDuration[boss][slot]=0.0;
+				BossAbilityCooldown[boss][slot]=0.0;
+				BossAbilityDurationMax[boss][slot]=0.0;
+				BossAbilityCooldownMax[boss][slot]=0.0;
 			}
-			BossAbilityDuration[boss]=0.0;
-			BossAbilityCooldown[boss]=0.0;
 			bossHasReloadAbility[boss]=false;
 			bossHasRightMouseAbility[boss]=false;
 		}
@@ -3867,7 +3869,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	Call_PushCell(client);
 	Call_PushCell(boss);
 	Call_Finish();
-	
+
 	/*
 	new Handle:testDeath=CreateEvent("player_death", true);
 	SetEventInt(testDeath, "userid", GetClientUserId(client));
@@ -5332,17 +5334,17 @@ public Action:ClientTimer(Handle:timer)
 						{
 							Format(temp, sizeof(temp), "%s | %t", temp, "ff2_notallow_rage");
 						}
-						else if(BossAbilityDuration[boss]>0.0 || BossAbilityCooldown[boss]>0.0)
+						else if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0)
 						{
 							char temp2[25];
-							if(BossAbilityDuration[boss]>0.0)
+							if(BossAbilityDuration[boss][0]>0.0)
 							{
-								Format(temp2, sizeof(temp), "%.1f", BossAbilityDuration[boss]);
+								Format(temp2, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
 								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_duration", BossAbilityName[boss][0], temp2);
 							}
-							else if(BossAbilityCooldown[boss]>0.0)
+							else if(BossAbilityCooldown[boss][0]>0.0)
 							{
-								Format(temp2, sizeof(temp), "%.1f", BossAbilityCooldown[boss]);
+								Format(temp2, sizeof(temp), "%.1f", BossAbilityCooldown[boss][0]);
 								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_cooldown_easy", temp2);
 							}
 						}
@@ -5661,20 +5663,20 @@ public Action:BossTimer(Handle:timer)
 				new String:temp[150];
 				new String:temp3[100];
 
-				if(BossAbilityDuration[boss] > 0.0 || BossAbilityCooldown[boss] > 0.0)
+				if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0)
 				{
 					new String:temp2[30];
-					if(BossAbilityDuration[boss] > 0.0)
+					if(BossAbilityDuration[boss][0] > 0.0)
 					{
 						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
-						Format(temp2, sizeof(temp2), "%.1f", BossAbilityDuration[boss]);
+						Format(temp2, sizeof(temp2), "%.1f", BossAbilityDuration[boss][0]);
 						SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
 						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss][0], temp2);
 					}
-					else if(BossAbilityCooldown[boss] > 0.0)
+					else if(BossAbilityCooldown[boss][0] > 0.0)
 					{
 						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
-						Format(temp2, sizeof(temp2), "%.1f", BossAbilityCooldown[boss]);
+						Format(temp2, sizeof(temp2), "%.1f", BossAbilityCooldown[boss][0]);
 						SetHudTextParams(-1.0, 0.83, 0.15, 255, 255, 255, 255);
 						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_cooldown_easy", temp2);
 					}
@@ -5729,34 +5731,34 @@ public Action:BossTimer(Handle:timer)
 				SetHudTextParams(-1.0, 0.83, 0.15, 255, 255, 255, 255);
 				FF2_ShowSyncHudText(client, rageHUD, "%t", "ff2_notallow_rage");
 			}
-			else if(BossAbilityDuration[boss] > 0.0 || BossAbilityCooldown[boss] > 0.0)
+			else if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0)
 			{
 				char temp[42];
 				new String:temp3[100];
 
-				if(BossAbilityDuration[boss] > 0.0)
+				if(BossAbilityDuration[boss][0] > 0.0)
 				{
 					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
-					Format(temp, sizeof(temp), "%.1f", BossAbilityDuration[boss]);
+					Format(temp, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
 					SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
 					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss], temp);
 				}
-				else if(BossAbilityCooldown[boss] > 0.0)
+				else if(BossAbilityCooldown[boss][0] > 0.0)
 				{
 					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
-					Format(temp, sizeof(temp), "%.1f", BossAbilityCooldown[boss]);
+					Format(temp, sizeof(temp), "%.1f", BossAbilityCooldown[boss][0]);
 					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_cooldown_easy", temp);
 				}
 			}
 			else	FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 		}
 
-		if(BossAbilityDuration[boss] > 0.0)
+		if(BossAbilityDuration[boss][0] > 0.0)
 		{
-			BossAbilityDuration[boss]-=0.2;
+			BossAbilityDuration[boss][0]-=0.2;
 			NoticedRageEnd[boss]=false;
 		}
-		else if(BossAbilityCooldown[boss] > 0.0)
+		else if(BossAbilityCooldown[boss][0] > 0.0)
 		{
 			if(!NoticedRageEnd[boss])
 			{
@@ -5769,7 +5771,7 @@ public Action:BossTimer(Handle:timer)
 					Call_Finish();
 				}
 			}
-			BossAbilityCooldown[boss]-=0.2;
+			BossAbilityCooldown[boss][0]-=0.2;
 		}
 		SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
 		SetClientGlow(client, -0.2);
@@ -5994,7 +5996,7 @@ public Action:OnCallForMedic(client, const String:command[], args)
 
 	if(RoundFloat(BossCharge[boss][0])==100)
 	{
-		if(BossAbilityDuration[boss]>0.0 || BossAbilityCooldown[boss]>0.0 || FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
+		if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0 || FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
 		{
 			CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_can_not_rage");
 			return Plugin_Continue;
@@ -9768,8 +9770,8 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 	{
 		case Plugin_Changed:
 		{
-			BossAbilityDuration[boss]=temp2;
-			BossAbilityCooldown[boss]=temp3;
+			BossAbilityDuration[boss][slot]=temp2;
+			BossAbilityCooldown[boss][slot]=temp3;
 			Format(BossAbilityName[boss][slot], sizeof(BossAbilityName[][]), "%s", temp);
 	  }
 		// wat.
@@ -10080,7 +10082,7 @@ public Native_GetDamage(Handle:plugin, numParams)
 
 public Native_SetDamage(Handle:plugin, numParams)
 {
-	return Damage[GetNativeCell(1)];
+	Damage[GetNativeCell(1)] = GetNativeCell(2);
 }
 
 public Native_GetFF2flags(Handle:plugin, numParams)
@@ -10224,22 +10226,22 @@ public Native_SetServerFlags(Handle:plugin, numParams)
 
 public Native_GetAbilityDuration(Handle:plugin, numParams)
 {
-	return _:BossAbilityDuration[GetNativeCell(1)];
+	return _:BossAbilityDuration[GetNativeCell(1)][GetNativeCell(2)];
 }
 
 public Native_SetAbilityDuration(Handle:plugin, numParams)
 {
-	BossAbilityDuration[GetNativeCell(1)]=GetNativeCell(2);
+	BossAbilityDuration[GetNativeCell(1)][GetNativeCell(3)]=GetNativeCell(2);
 }
 
 public Native_GetAbilityCooldown(Handle:plugin, numParams)
 {
-	return _:BossAbilityCooldown[GetNativeCell(1)];
+	return _:BossAbilityCooldown[GetNativeCell(1)][GetNativeCell(2)];
 }
 
 public Native_SetAbilityCooldown(Handle:plugin, numParams)
 {
-	BossAbilityCooldown[GetNativeCell(1)]=GetNativeCell(2);
+	BossAbilityCooldown[GetNativeCell(1)][GetNativeCell(3)]=GetNativeCell(2);
 }
 
 public Action:VSH_OnIsSaxtonHaleModeEnabled(&result)

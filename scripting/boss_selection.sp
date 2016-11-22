@@ -106,9 +106,8 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 
 			FF2_SetBossRageDamage(boss, RoundFloat(float(FF2_GetBossRageDamage(boss)) * GetBarrierRank(BlasterIncoming[client])));
 		}
-		*/
 	}
-
+	*/
 	StartGameTime = GetGameTime();
 
 	return Plugin_Continue;
@@ -292,7 +291,7 @@ public Action Command_SetMyBoss(int client, int args)
 	char spclName[MAX_NAME];
 	Handle BossKV;
 	char CookieV[MAX_NAME];
-	int queuepoints;
+	// int queuepoints;
 /*
 	if(args)
 	{
@@ -319,16 +318,21 @@ public Action Command_SetMyBoss(int client, int args)
 		GetBarrierRank(BlasterIncoming[client]));
 	}
 */
-	if(StrEqual(CookieV, ""))
+	if(IsPlayerDontPlayBoss(client))
+	{
+		GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
+
+		Format(s, sizeof(s), "보스를 플레이하지 않습니다.\n저장된 대기열 포인트: %d", StringToInt(CookieV));
+		SetMenuTitle(dMenu, s);
+	}
+	else if(StrEqual(CookieV, ""))
 	{
 		Format(s, sizeof(s), "%t", "ff2boss_random_option");
 		SetMenuTitle(dMenu, "%t", "ff2boss_title", s);
 	}
 	else
 	{
-		GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
-		queuepoints=StringToInt(CookieV);
-		Format(s, sizeof(s), queuepoints>=0 ? "%t" : "%s", queuepoints>=0 ? "ff2boss_none_1":Incoming[client]);
+		Format(s, sizeof(s), "%s", Incoming[client]);
 		SetMenuTitle(dMenu, "%t", "ff2boss_title", s);
 	}
 
@@ -368,7 +372,7 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 					Incoming[param1] = "";
 
 					SetClientCookie(param1, g_hBossCookie, Incoming[param1]);
-					AbleInfiniteBlaster(param1, false);
+					// AbleInfiniteBlaster(param1, false);
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_randomboss");
 					SetClientQueueNoneCookie(param1, false);
 				}
@@ -382,7 +386,7 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 					}
 
 					SetClientQueueNoneCookie(param1, true);
-					AbleInfiniteBlaster(param1, false);
+					// AbleInfiniteBlaster(param1, false);
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_none");
 				}
 				default:
@@ -390,7 +394,7 @@ public Command_SetMyBossH(Handle menu, MenuAction action, int param1, int param2
 					char bossName[80];
 					GetMenuItem(menu, param2, bossName, sizeof(bossName));
 
-					AbleInfiniteBlaster(param1, false);
+					// AbleInfiniteBlaster(param1, false);
 					GetMenuItem(menu, param2, Incoming[param1], sizeof(Incoming[]));
 					SetClientCookie(param1, g_hBossCookie, Incoming[param1]);
 					CReplyToCommand(param1, "{olive}[FF2]{default} %t", "ff2boss_bossselected", Incoming[param1]);
@@ -579,7 +583,7 @@ float GetBarrierRank(const char[] bossName)
 	return 1.0;
 }
 */
-
+/*
 Handle GetBossNameHandle(const char[] bossName)
 {
 	Handle BossKV;
@@ -629,6 +633,14 @@ int GetBossNameIndex(const char[] bossName)
 
 	return -1;
 }
+*/
+
+bool IsPlayerDontPlayBoss(int client)
+{
+	char CookieV[12];
+	GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
+	return StringToInt(CookieV) != -1;
+}
 
 /*
 stock void CheckBossName(int client, const char[] bossName)
@@ -664,7 +676,7 @@ stock void CheckBossName(int client, const char[] bossName)
 	}
 	CReplyToCommand(client, "{olive}[FF2]{default} %t", "ff2boss_bossnotfound");
 }
-*/
+
 stock bool IsBossBlasted(int client, const char[] bossName)
 {
 	char temp[100];
@@ -675,7 +687,7 @@ stock bool IsBossBlasted(int client, const char[] bossName)
 	GetClientCookie(client, InfiniteBlasterCookie, temp, sizeof(temp));
 	return StringToInt(temp) == 1 || GetBarrierMaxHealth(bossName) <= 0;
 }
-
+*/
 
 public Action FF2_OnSpecialSelected(boss, &SpecialNum, char[] SpecialName, bool preset)
 {
@@ -688,6 +700,17 @@ public Action FF2_OnSpecialSelected(boss, &SpecialNum, char[] SpecialName, bool 
 		return Plugin_Changed;
 	}
 	return Plugin_Continue;
+}
+
+public Action FF2_OnPlayBoss(int client, int bossIndex)
+{
+	if(IsPlayerDontPlayBoss(client))
+	{
+		CPrintToChat(client, "{olive}[FF2]{default} 저런! 보스를 안하겠다고 설정하셨는데 보스가 되셨군요?");
+		CPrintToChat(client, "이는 달리 보스를 선택할 플레이어가 없어서 생긴 현상이니 플레이어가 생기면 다시 선택해주세요!");
+
+		SetClientQueueNoneCookie(client, false);
+	}
 }
 
 stock bool IsValidClient(client)

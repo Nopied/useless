@@ -75,9 +75,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     EmitSoundToAll(sound);
     CPrintToChatAll("{olive}[FF2]{default} {blue}%s{default}(이)가 {green}%N{default}님을 먹었습니다. (+%dHP)", bossName, victim, healHp);
     if(FF2_GetAbilityDuration(boss) > 0.0)
-		{
-      PainisRage(boss);
-		}
+	{
+      	PainisRage(boss);
+	}
   }
   return Plugin_Continue;
 }

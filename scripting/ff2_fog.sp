@@ -4,7 +4,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
-#include <ff2_ams>
+// #include <ff2_ams>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
@@ -43,24 +43,24 @@ public void OnPluginStart2()
 
 public Action OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 {
-	int client = (Event.GetInt("userid"));
+	// int client = (event.GetInt("userid"));
 	int boss;
 	bool activateFog = false;
 
 	if(!IsValidEntity(envFog)) return Plugin_Continue;
 
-	for(int client = 1; client <= MaxClients; client++)
+	for(int target = 1; target <= MaxClients; target++)
 	{
-		if(IsClientInGame(client) && (boss = FF2_GetBossIndex(client)) != -1
+		if(IsClientInGame(target) && (boss = FF2_GetBossIndex(target)) != -1
 		&& FF2_HasAbility(boss, this_plugin_name, "fog_fx"))
 			activateFog = true;
 	}
 
 	if(activateFog)
-		for(int client = 1; client <= MaxClients; client++)
+		for(int target = 1; target <= MaxClients; target++)
 		{
 			SetVariantString("MyFog");
-			AcceptEntityInput(i, "SetFogController");
+			AcceptEntityInput(target, "SetFogController");
 		}
 
 	return Plugin_Continue;
@@ -111,7 +111,7 @@ public void HookAbilities()
 			if(FF2_HasAbility(boss, this_plugin_name, "rage_fog_fx") && FF2_HasAbility(boss, "ff2_sarysapub3", "ability_management_system"))
 			{
 				AMSOnly[client]=true;
-				AMS_InitSubability(boss, client, this_plugin_name, "rage_fog_fx", "FOG");
+				// AMS_InitSubability(boss, client, this_plugin_name, "rage_fog_fx", "FOG");
 			}
 			if(FF2_HasAbility(boss, this_plugin_name, "fog_fx"))
 			{
