@@ -136,7 +136,7 @@ new bool:bossHasReloadAbility[MAXPLAYERS+1];
 new bool:bossHasRightMouseAbility[MAXPLAYERS+1];
 new bool:playingCustomBossBGM[MAXPLAYERS+1];
 new bool:playingCustomBGM[MAXPLAYERS+1];
-new bool:NoticedRageEnd[MAXPLAYERS+1];
+new bool:NoticedAbilityTimeEnd[MAXPLAYERS+1][8];
 new bool:DEVmode=false;
 new bool:IsFakeKill=false;
 
@@ -1076,7 +1076,7 @@ new Handle:OnLoadCharacterSet;
 new Handle:OnLoseLife;
 new Handle:OnAlivePlayersChanged;
 new Handle:OnAbilityTime;
-new Handle:OnRageEnd;
+new Handle:OnAbilityTimeEnd;
 new Handle:OnPlayBoss;
 
 new bool:bBlockVoice[MAXSPECIALS];
@@ -1163,7 +1163,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnLoseLife=CreateGlobalForward("FF2_OnLoseLife", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell);  //Boss, lives left, max lives
 	OnAlivePlayersChanged=CreateGlobalForward("FF2_OnAlivePlayersChanged", ET_Hook, Param_Cell, Param_Cell);  //Players, bosses
 	OnAbilityTime=CreateGlobalForward("FF2_OnBossAbilityTime", ET_Hook, Param_Cell, Param_String, Param_FloatByRef, Param_FloatByRef);
-	OnRageEnd=CreateGlobalForward("FF2_OnRageEnd", ET_Hook, Param_Cell);
+	OnAbilityTimeEnd=CreateGlobalForward("FF2_OnAbilityTimeEnd", ET_Hook, Param_Cell, Param_Cell);
 	OnPlayBoss=CreateGlobalForward("FF2_OnPlayBoss", ET_Hook, Param_Cell); // client, bossindex
 
 	RegPluginLibrary("freak_fortress_2");
@@ -3916,9 +3916,27 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	// BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
 	// BossHealthLast[boss]=BossHealth[boss];
 	KvGetString(BossKV[Special[boss]], "ability_name", BossAbilityName[boss][0], sizeof(BossAbilityName[][]));
-	BossAbilityCooldownMax[boss][0] = KvGetFloat(BossKV[Special[boss]], "cooldown", 10.0);
-	BossAbilityDurationMax[boss][0] = KvGetFloat(BossKV[Special[boss]], "ability_duration", 5.0);
 
+	for(int slot=0; slot<8; slot++)
+	{
+	 	char durationItem[20];
+		char cooltimeItem[20];
+
+		if(slot == 0)
+		{
+			Format(durationItem, sizeof(durationItem), "ability_duration");
+			Format(cooltimeItem, sizeof(cooltimeItem), "cooldown");
+		}
+		else
+		{
+			Format(durationItem, sizeof(durationItem), "ability_duration_slot%i", slot);
+			Format(cooltimeItem, sizeof(cooltimeItem), "cooldown_slot%i", slot);
+		}
+
+		BossAbilityDurationMax[boss][slot] = KvGetFloat(BossKV[Special[boss]], durationItem, 5.0);
+		BossAbilityCooldownMax[boss][slot] = KvGetFloat(BossKV[Special[boss]], cooltimeItem, 10.0);
+	}
+	
 	SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
 	TF2_RemovePlayerDisguise(client);
 
@@ -5753,26 +5771,31 @@ public Action:BossTimer(Handle:timer)
 			else	FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 		}
 
-		if(BossAbilityDuration[boss][0] > 0.0)
+		for(new slot=0; slot<8; slot++)
 		{
-			BossAbilityDuration[boss][0]-=0.2;
-			NoticedRageEnd[boss]=false;
-		}
-		else if(BossAbilityCooldown[boss][0] > 0.0)
-		{
-			if(!NoticedRageEnd[boss])
+			if(BossAbilityDuration[boss][slot] > 0.0)
 			{
-				NoticedRageEnd[boss]=true;
-
-				if(IsPlayerAlive(client))
-				{
-					Call_StartForward(OnRageEnd);
-					Call_PushCell(boss);
-					Call_Finish();
-				}
+				BossAbilityDuration[boss][slot]-=0.2;
+				NoticedAbilityTimeEnd[boss][slot]=false;
 			}
-			BossAbilityCooldown[boss][0]-=0.2;
+			else if(BossAbilityCooldown[boss][slot] > 0.0)
+			{
+				if(!NoticedAbilityTimeEnd[boss][slot])
+				{
+					NoticedAbilityTimeEnd[boss][slot]=true;
+
+					if(IsPlayerAlive(client))
+					{
+						Call_StartForward(OnAbilityTimeEnd);
+						Call_PushCell(boss);
+						Call_PushCell(slot);
+						Call_Finish();
+					}
+				}
+				BossAbilityCooldown[boss][slot]-=0.2;
+			}
 		}
+
 		SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
 		SetClientGlow(client, -0.2);
 
@@ -6070,11 +6093,11 @@ public Action:OnCallForMedic(client, const String:command[], args)
 			KvRewind(BossKV[Special[boss]]);
 			KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 			CPrintToChatAll("{olive}[FF2]{default} %t", "oneperson_rage", bossName);
-			BossAbilityCooldown[0][boss]=BossAbilityCooldownMax[0][boss]*2.0;
+			BossAbilityCooldown[boss][0]=BossAbilityCooldownMax[boss][0]*2.0;
 		}
 		else
 		{
-			BossAbilityCooldown[0][boss]=BossAbilityCooldownMax[0][boss];
+			BossAbilityCooldown[boss][0]=BossAbilityCooldownMax[boss][0];
 		}
 		BossAbilityDuration[boss]=BossAbilityDurationMax[boss];
 
@@ -7372,7 +7395,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					if(index==225 || index==574)  //Your Eternal Reward, Wanga Prick
 					{
 						slienced=true;
-						BossAbilityCooldown[0][boss] += sliencedTime;
+						BossAbilityCooldown[boss][0] += sliencedTime;
 						CreateTimer(0.3, Timer_DisguiseBackstab, GetClientUserId(attacker), TIMER_FLAG_NO_MAPCHANGE);
 					}
 					else if(index==356)  //Conniver's Kunai
