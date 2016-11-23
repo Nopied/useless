@@ -3936,7 +3936,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		BossAbilityDurationMax[boss][slot] = KvGetFloat(BossKV[Special[boss]], durationItem, 5.0);
 		BossAbilityCooldownMax[boss][slot] = KvGetFloat(BossKV[Special[boss]], cooltimeItem, 10.0);
 	}
-	
+
 	SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
 	TF2_RemovePlayerDisguise(client);
 
@@ -6099,7 +6099,7 @@ public Action:OnCallForMedic(client, const String:command[], args)
 		{
 			BossAbilityCooldown[boss][0]=BossAbilityCooldownMax[boss][0];
 		}
-		BossAbilityDuration[boss]=BossAbilityDurationMax[boss];
+		BossAbilityDuration[boss][0]=BossAbilityDurationMax[boss][0];
 
 		decl String:sound[PLATFORM_MAX_PATH];
 		if(RandomSoundAbility("sound_ability", sound, sizeof(sound), boss))
