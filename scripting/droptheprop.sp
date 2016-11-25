@@ -279,14 +279,9 @@ public Action OnPickup(Handle timer, int entRef) // Copied from FF2
 			// 메세지
 			Format(centerMessage, sizeof(centerMessage), "%i개를 얻었습니다!", g_iEatCount[client]);
 		    // PrintCenterText(client, "%i개 주웠습니다!");
-			int remaining=0;
+			int remaining = g_iEatCount[client] % GetConVarInt(cvarPropBuffCount);
 
-			for(int count = 1; remaining < g_iEatCount[client]; count++)
-			{
-				remaining = GetConVarInt(cvarPropBuffCount) * count;
-			}
-
-			if(remaining - g_iEatCount[client] == 0) // 일정 갯수를 얻었을 경우
+			if(remaining == 0) // 일정 갯수를 얻었을 경우
 			{
 			  	Format(centerMessage, sizeof(centerMessage), "%s\n잠시동안 버프를 받게됩니다!", centerMessage);
 				TF2_AddCondition(client, TFCond_Ubercharged, GetConVarFloat(cvarPropUberTime));
@@ -295,7 +290,7 @@ public Action OnPickup(Handle timer, int entRef) // Copied from FF2
 			}
 			else
 			{
-		    	Format(centerMessage, sizeof(centerMessage), "%s [ 버프까지 남은 갯수: %i / %i ]", centerMessage, remaining - g_iEatCount[client], GetConVarInt(cvarPropBuffCount));
+		    	Format(centerMessage, sizeof(centerMessage), "%s [ 버프까지 남은 갯수: %i / %i ]", centerMessage, remaining, GetConVarInt(cvarPropBuffCount));
 			}
 
 			PrintCenterText(client, centerMessage);
