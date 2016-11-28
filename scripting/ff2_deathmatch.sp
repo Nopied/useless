@@ -384,6 +384,8 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         if(top[0]<=0)
           return Plugin_Continue;
 
+         SetRandomSeed(GetTime());
+
         for(int i; i<3; i++)
         {
             totalDamage+=topDamage[i];
@@ -1191,7 +1193,7 @@ stock PushClientsApart(int iClient1, int iClient2) // Copied from Chdata's Fixed
     vVel[1] += 0.1;                         // This is just a safeguard for sm_tele
     vVel[2] = 0.0;                          // Negate upwards push. += 280.0; for extra upwards push (can have sort of a fan/vent effect)
 
-    new iBaseVelocityOffset = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
+    new iBaseVelocityOffset = FindSendPropInfo("CBasePlayer","m_vecBaseVelocity");
     SetEntDataVector(iClient1, iBaseVelocityOffset, vVel, true);
 }
 

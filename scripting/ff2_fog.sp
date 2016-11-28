@@ -73,7 +73,9 @@ public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 
 public void Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 {
-	CreateTimer(0.1, RemoveEntity, EntIndexToEntRef(envFog), TIMER_FLAG_NO_MAPCHANGE);
+	if(IsValidEntity(envFog))
+		CreateTimer(0.1, RemoveEntity, EntIndexToEntRef(envFog), TIMER_FLAG_NO_MAPCHANGE);
+
 	for(int client=MaxClients;client;client--)
 	{
 		if(client<=0||client>MaxClients||!IsClientInGame(client))
