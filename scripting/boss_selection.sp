@@ -5,6 +5,7 @@
 #include <tf2_stocks>
 #include <freak_fortress_2>
 #include <clientprefs>
+#include <steamtools>
 
 /*
 
@@ -15,10 +16,11 @@
 
 #define PLUGIN_VERSION "2.1"
 #define MAX_NAME 126
+#define PORTY_GROUP_ID 7824949
 // #define INFINITE_BLASTER_NAME "INFINITE BLASTER"
 
 int g_iChatCommand;
-
+bool IsPlayerInGroup[MAXPLAYERS+1];
 // bool CharingBlaster[MAXPLAYERS+1];
 
 float StartGameTime;
@@ -258,7 +260,7 @@ public void OnClientPutInServer(client)
 	if(AreClientCookiesCached(client))
 	{
 		GetClientCookie(client, g_hBossQueue, CookieV, sizeof(CookieV));
-		if(CookieV[0] == '\0')
+		if(Steam_RequestGroupStatus(client, PORTY_GROUP_ID) && CookieV[0] == '\0')
 		{
 			SetClientCookie(client, g_hBossCookie, "");
 			Format(CookieV, sizeof(CookieV), "%d", -1); // 만약에 대비해..
@@ -274,6 +276,21 @@ public void OnClientPutInServer(client)
 	}
 }
 
+public int Steam_GroupStatusResult(int client, int groupAccountID, bool groupMember, bool groupOfficer)
+{
+	if(groupAccountID == PORTY_GROUP_ID )
+	{
+		if(groupMember)
+		{
+			IsPlayerInGroup[client] = true;
+		}
+		else
+		{
+			IsPlayerInGroup[client] = false;
+		}
+	}
+}
+
 public Action Command_SetMyBoss(int client, int args)
 {
 	if (client == 0)
@@ -285,6 +302,12 @@ public Action Command_SetMyBoss(int client, int args)
 	if (!CheckCommandAccess(client, "ff2_boss", 0, true))
 	{
 		ReplyToCommand(client, "[SM] %t", "ff2boss_noaccess");
+		return Plugin_Handled;
+	}
+
+	if(!IsPlayerInGroup[client])
+	{
+		CPrintToChat(client, "{lightblue}[POTRY]{default} 본 기능은 {orange}본 서버의 그룹{default}에 가입하셔야 사용하실 수 있습니다.");
 		return Plugin_Handled;
 	}
 
