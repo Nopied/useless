@@ -537,7 +537,7 @@ public Action:Timer_PostRoundStartInits(Handle:timer)
 		// HUD hiding settings. done after delay because of possible load order issues with Dynamic Defaults
 		if (SH_CanUse[clientIdx])
 		{
-			FF2_SetFF2flags(clientIdx, FF2_GetFF2flags(clientIdx) | FF2FLAG_HUDDISABLED);
+			// FF2_SetFF2flags(clientIdx, FF2_GetFF2flags(clientIdx) | FF2FLAG_HUDDISABLED);
 			DD_SetForceHUDEnabled(clientIdx, true);
 		}
 	}

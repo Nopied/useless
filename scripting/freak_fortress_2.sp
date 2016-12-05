@@ -5759,7 +5759,7 @@ public Action:BossTimer(Handle:timer)
 					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 					Format(temp, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
 					SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
-					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss], temp);
+					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss][0], temp);
 				}
 				else if(BossAbilityCooldown[boss][0] > 0.0)
 				{

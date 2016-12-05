@@ -79,10 +79,14 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 	return Plugin_Continue;
 }
 
-public Action FF2_OnRageEnd(int boss)
+public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
 	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
-	SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 22.5);
+
+	if(slot == 0)
+	{
+		SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 22.5);
+	}
 }
 
 public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abilityName, int status)
