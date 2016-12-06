@@ -8,9 +8,7 @@
 #include <morecolors>
 #include <freak_fortress_2>
 #include <POTRY>
-// player_recent_teleport_red
 
-// bool IsLastManStanding=false;
 bool IsFakeLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 bool AlreadyLastmanSpawned[MAXPLAYERS+1];
