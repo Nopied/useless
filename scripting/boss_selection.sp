@@ -232,7 +232,8 @@ public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 			{
 				if(IsPlayerDontPlayBoss(client))
 				{
-					if(FF2_GetQueuePoints(client) >= 0)
+					int queuepoints = GetClientQueueCookie(client);
+					if(FF2_GetQueuePoints(client) > 0)
 					{
 						SetClientQueueCookie(client, queuepoints+FF2_GetQueuePoints(client));
 					}
@@ -241,7 +242,7 @@ public Action FF2_OnAddQueuePoints(add_points[MAXPLAYERS+1])
 					FF2_SetQueuePoints(client, -1);
 				}
 
-				LogMessage("%N의 대기열 포인트: %d, 저장된 대기열포인트: %d", client, FF2_GetQueuePoints(client), GetClientQueueCookie(client));	
+				LogMessage("%N의 대기열 포인트: %d, 저장된 대기열포인트: %d", client, FF2_GetQueuePoints(client), GetClientQueueCookie(client));
 			}
 		}
 		return Plugin_Changed;
