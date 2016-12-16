@@ -58,7 +58,7 @@ public void OnClientPutInServer(client)
     if(adminid != INVALID_ADMIN_ID)
     {
         // Admin_Config
-        if(GetAdminFlag(adminid, Admin_Config, Access_Real))
+        if(!(GetAdminFlags(adminid, Access_Real) & ADMFLAG_RCON))
         {
             IsPlayerModer[client] = true;
             CCC_SetColor(client, CCC_ChatColor, 0xFFFFE0, true);
