@@ -142,7 +142,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 
         IsLastMan[client] = false;
         AlreadyLastmanSpawned[client] = false;
-        TeleportTime[client]=0.0;
+        TeleportTime[client] = 0.0;
     }
 
     SetGameState(Game_None);
@@ -466,12 +466,12 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 
         FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
-        timeleft=120.0;
+        timeleft = 120.0;
         SetGameState(Game_LastManStanding);
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
-            int forWinner=FindAnotherPerson(winner);
+            int forWinner = FindAnotherPerson(winner);
 
             if(!forWinner)
             {
@@ -539,8 +539,6 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
 {
     IsLastMan[client] = true;
     NoEnemyTime[client] = GetGameTime()+12.0;
-
-
 
     if(!AlreadyLastmanSpawned[client] && spawnPlayer)
     {
@@ -740,7 +738,7 @@ public Action OnTimer(Handle timer)
             if(GetGameState() == Game_SuddenDeath)
             {
                 int loser=GetLowestDamagePlayer();
-                suddendeathDamege += FF2_GetClientDamage(loser) / 20;
+                suddendeathDamege += (FF2_GetClientDamage(loser) / 20) / 10;
                 static bool alreadyNotice = false;
                 timeleft=30.0;
 

@@ -57,10 +57,10 @@ public void OnProjectileSpawn(int entity)
 
             origin[2] += 25.0;
 
-            angVector[0]*=1000.0;	// Test this,
-    		angVector[1]*=1000.0;
+            angVector[0]*=1500.0;	// Test this,
+    		angVector[1]*=1500.0;
     		// angVector[2]*=800.0;
-            angVector[2]*=1000.0;
+            angVector[2]*=1500.0;
 
             int sentry = TF2_BuildSentry(client, origin, angles, 3, _, _, _, 8);
             SetEntityMoveType(sentry, MOVETYPE_FLYGRAVITY);
@@ -68,7 +68,7 @@ public void OnProjectileSpawn(int entity)
             // SetEntityGravity(sentry, 0.0);
             // SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | FL_DONTTOUCH | ~FL_WORLDBRUSH);
             // SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | ~FL_WORLDBRUSH);
-            UpdateEntityHitbox(sentry, 3.0);// TODO: 커스터마이즈
+            UpdateEntityHitbox(sentry, 4.0);// TODO: 커스터마이즈
 
             TeleportEntity(sentry, origin, angles, angVector);
         }
@@ -181,7 +181,7 @@ stock int TF2_BuildSentry(int builder, float fOrigin[3], float fAngle[3], int le
 		}
 
         // SetEntProp(sentry, Prop_Send, "m_bPlayerControlled", 1);
-        SetEntProp(sentry, Prop_Send, "m_iTeamNum", GetClientTeam(builder));
+        SetEntProp(sentry, Prop_Send, "m_iTeamNum", builder > 0 ? GetClientTeam(builder) : FF2_GetBossTeam());
 
         return sentry;
 	}

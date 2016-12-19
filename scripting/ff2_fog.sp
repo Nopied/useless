@@ -59,8 +59,9 @@ public Action OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 	if(activateFog)
 		for(int target = 1; target <= MaxClients; target++)
 		{
-			SetVariantString("MyFog");
-			AcceptEntityInput(target, "SetFogController");
+			if(IsClientInGame(target))
+				SetVariantString("MyFog");
+				AcceptEntityInput(target, "SetFogController");
 		}
 
 	return Plugin_Continue;

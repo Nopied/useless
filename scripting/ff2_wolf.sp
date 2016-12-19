@@ -176,11 +176,13 @@ public Action OnTouch(int entity, int other)
   		//SetEntPropVector( other, Prop_Data, "m_vecAbsVelocity", RocketVec );
 
 		SetEntPropEnt(other, Prop_Send, "m_hOwnerEntity", GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
-	    SetEntProp(other, Prop_Send, "m_iTeamNum", GetEntProp(entity, Prop_Send, "m_iTeamNum"));
-		SetEntProp(other, Prop_Send, "m_iDeflected", 1);
+	    SetEntProp(other, Prop_Send, "m_iTeamNum", GetEntProp(entity, Prop_Send, "m_iTeamNum"));		
 
-		if(StrEqual(classname, "tf_projectile_pipe"))
+		if(HasEntProp(other, Prop_Send, "m_bTouched"))
 			SetEntProp(other, Prop_Send, "m_bTouched", 0);
+
+		if(HasEntProp(other, Prop_Send, "m_iDeflected"))
+			SetEntProp(other, Prop_Send, "m_iDeflected", 1);
 
 		int boss = FF2_GetBossIndex(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
 		FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss) - 3.0);

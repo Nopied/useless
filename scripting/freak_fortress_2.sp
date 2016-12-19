@@ -9777,7 +9777,9 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 		}
 	}
 	new String:temp[80];
-	Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
+	if(slot >= 0)
+		Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
+
 	new Float:temp2=BossAbilityDuration[boss][slot];
 	new Float:temp3=BossAbilityCooldown[boss][slot];
 
