@@ -21,8 +21,6 @@ public Plugin myinfo = {
   version=PLUGIN_VERSION,
 };
 
-bool KilledForRealSpy[MAXPLAYERS+1];
-
 /*
 
 - 1: 파괴됨!
@@ -40,12 +38,6 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
     int client = GetEventInt(event, "userid");
     if(!IsClientInGame(client)) return Plugin_Continue;
-
-    if(CP_IsPartActived(client, 9)) // 건소울, 파츠 거부 반응
-    {
-        Debug("건 소울");
-        RequestFrame(ReviveTimerForDeath, client);
-    }
 
     return Plugin_Continue;
 }
@@ -102,14 +94,14 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
 public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 {
-    if(IsClientInGame(client))
+    if(IsClientInGame(client)
     {
-        Debug("CP_OnSlotClear: client = %i, partIndex = %i", client, partIndex);
-
-        if(KilledForRealSpy[client])
+        if(FF2_GetRoundState() != 1)
             return Plugin_Handled;
 
-        if(CP_IsPartActived(client, 9))
+        Debug("CP_OnSlotClear: client = %i, partIndex = %i", client, partIndex);
+
+        if(CP_IsPartActived(client, 8))
             return Plugin_Handled;
 
         if(partIndex == 10)
@@ -161,24 +153,6 @@ public void TF2_OnConditionAdded(int client, TFCond condition)
     {
         if(CP_IsPartActived(client, 8) && GetClientTeam(client) != FF2_GetBossTeam())
         {
-            int anotherClient = FindAnotherPerson(client);
-            if(!IsValidClient(anotherClient))
-            {
-                CPrintToChat(client, "ERROR!");
-                return;
-            }
-
-            KilledForRealSpy[client] = true;
-            Handle datapack = CreateDataPack(); // client | anotherClient
-
-            WritePackCell(datapack, client);
-            WritePackCell(datapack, anotherClient);
-
-            ResetPack(datapack);
-
-            RequestFrame(ChangeRealSpyTeam, CloneHandle(datapack));
-            CloseHandle(datapack);
-
             float pos[3], angle[3];
             GetClientEyePosition(client, pos);
             GetClientEyeAngles(client, angle);
@@ -197,11 +171,8 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
 {
     if(condition == TFCond_Disguised)
     {
-        if(CP_IsPartActived(client, 8) && !KilledForRealSpy[client] && GetClientTeam(client) == FF2_GetBossTeam())
+        if(CP_IsPartActived(client, 8) && GetClientTeam(client) == FF2_GetBossTeam())
         {
-            KilledForRealSpy[client] = true;
-
-            RequestFrame(JustOneFrameLater, client);
 
             float pos[3], angle[3];
             GetClientEyePosition(client, pos);
@@ -216,39 +187,6 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
         }
     }
 }
-
-public void JustOneFrameLater(int client)
-{
-    KilledForRealSpy[client] = false;
-}
-
-public void ReviveTimerForDeath(int client)
-{
-    if(IsClientInGame(client))
-        TF2_RespawnPlayer(client);
-
-    RequestFrame(ChangeGunSoul, client); // 부활한 시점의 1프레임 뒤.
-}
-
-public void ChangeGunSoul(int client)
-{
-    if(IsClientInGame(client))
-    {
-        CP_RefrashPartSlotArray(client, true);
-
-        CP_ReplacePartSlot(client, 9, 11);
-    }
-}
-
-public void ChangeRealSpyTeam(Handle datapack)
-{
-    int client = ReadPackCell(datapack);
-    int anotherClient = ReadPackCell(datapack);
-    CloseHandle(datapack);
-
-    KilledForRealSpy[client] = false;
-}
-
 
 int CreateDispenserTrigger(int client)
 {
