@@ -92,20 +92,24 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 
     for(int target = 1; target <= MaxClients; target++)
     {
+        NoEnemyTime[client] = 0.0;
+        TeleportTime[client] = 0.0;
+        WeaponCannotUseTime[client] = 0.0;
+
         if(IsClientInGame(target))
         {
-            // SDKUnhook(target, SDKHook_OnTakeDamage, OnTakeDamage);
+            SDKUnhook(target, SDKHook_OnTakeDamage, OnTakeDamage);
             SDKHook(target, SDKHook_OnTakeDamage, OnTakeDamage);
 
-            // SDKUnhook(target, SDKHook_PreThinkPost, StatusTimer);
+            SDKUnhook(target, SDKHook_PreThinkPost, StatusTimer);
             SDKHook(target, SDKHook_PreThinkPost, StatusTimer);
         }
     }
 
     // SetGameState(Game_AttackAndDefense);
 
-    timeleft=float(CheckAlivePlayers()*15)+60.0;
-    DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+    timeleft = float(CheckAlivePlayers()*15)+60.0;
+    DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
     return Plugin_Continue;
 }
 
@@ -161,8 +165,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 
 public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
-    if((GetGameState() != Game_LastManStanding && GetGameState() != Game_AttackAndDefense && !IsFakeLastManStanding)
-    || FF2_GetRoundState() != 1)
+    if(FF2_GetRoundState() != 1)
     {
         SDKUnhook(victim, SDKHook_OnTakeDamage, OnTakeDamage);
         return Plugin_Continue;
@@ -172,7 +175,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
     char classname[60];
 
-    if(!IsBossTeam(victim) && GetGameState() == Game_AttackAndDefense)
+    if(GetGameState() == Game_AttackAndDefense)
     {
         if(GetEntityClassname(attacker, classname, sizeof(classname)) && !strcmp(classname, "trigger_hurt", false))
             return Plugin_Continue;
@@ -198,7 +201,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
     }
 
     bool changed = false;
-    if(IsLastMan[attacker] && IsValidEntity(weapon))
+    if((GetGameState() == Game_LastManStanding || IsFakeLastManStanding) && IsLastMan[attacker] && IsValidEntity(weapon))
     {
         int boss = FF2_GetBossIndex(victim);
         float bossPosition[3];
@@ -240,13 +243,14 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             }
 
             if(!(FF2_GetFF2flags(attacker) & FF2FLAG_HUDDISABLED))
-      			{
-      				PrintHintText(attacker, "%t", "Backstab");
-      			}
-      			if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
-      			{
-      				PrintHintText(victim, "%t", "Backstabbed");
-      			}
+            {
+                PrintHintText(attacker, "%t", "Backstab");
+            }
+
+      		if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
+      		{
+      			PrintHintText(victim, "%t", "Backstabbed");
+      		}
 
             Handle BossKV=FF2_GetSpecialKV(boss);
             char playerName[64];
@@ -256,7 +260,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             KvRewind(BossKV);
             KvGetString(BossKV, "name", bossName, sizeof(bossName), "ERROR NAME");
 
-            FF2_SetAbilityCooldown(boss, FF2_GetAbilityCooldown(boss)+12.0);
+            FF2_SetAbilityCooldown(boss, FF2_GetAbilityCooldown(boss) + 12.0);
 
             CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "페이스스탭", bossName, RoundFloat(damage*(255.0/85.0)));
             CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(FF2_GetAbilityCooldown(boss)));
@@ -268,7 +272,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
           {
             float velocity[3];
             GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
-            velocity[2]+=650.0;
+            velocity[2] += 650.0;
             TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
           }
 
