@@ -24,6 +24,7 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #include <sdkhooks>
 #include <tf2_stocks>
 #include <tf2items>
+// #include <custompart>
 #undef REQUIRE_EXTENSIONS
 #tryinclude <steamtools>
 #define REQUIRE_EXTENSIONS
@@ -226,6 +227,7 @@ new mp_forcecamera;
 new tf_dropped_weapon_lifetime;
 new Float:tf_feign_death_activate_damage_scale;
 new Float:tf_feign_death_damage_scale;
+new String:mp_humans_must_join_team[16];
 
 new Handle:cvarNextmap;
 new bool:areSubPluginsEnabled;
@@ -1078,6 +1080,8 @@ new Handle:OnAlivePlayersChanged;
 new Handle:OnAbilityTime;
 new Handle:OnAbilityTimeEnd;
 new Handle:OnPlayBoss;
+new Handle:OnTakePercentDamage;
+new Handle:OnTakePercentDamagePost;
 
 new bool:bBlockVoice[MAXSPECIALS];
 new Float:BossSpeed[MAXSPECIALS];
@@ -1165,6 +1169,8 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnAbilityTime=CreateGlobalForward("FF2_OnBossAbilityTime", ET_Hook, Param_Cell, Param_String, Param_Cell, Param_FloatByRef, Param_FloatByRef);
 	OnAbilityTimeEnd=CreateGlobalForward("FF2_OnAbilityTimeEnd", ET_Hook, Param_Cell, Param_Cell);
 	OnPlayBoss=CreateGlobalForward("FF2_OnPlayBoss", ET_Hook, Param_Cell, Param_Cell); // client, bossindex
+	OnTakePercentDamage=CreateGlobalForward("FF2_OnTakePercentDamage", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell, Param_FloatByRef); // victim, attacker, damagetype, damage
+	OnTakePercentDamagePost=CreateGlobalForward("FF2_OnTakePercentDamage_Post", ET_Hook, Param_Cell, Param_Cell, Param_Cell, Param_FloatByRef); // victim, attacker, damagetype, damage
 
 	RegPluginLibrary("freak_fortress_2");
 
@@ -1697,6 +1703,7 @@ public OnConfigsExecuted()
 	tf_dropped_weapon_lifetime=bool:GetConVarInt(FindConVar("tf_dropped_weapon_lifetime"));
 	tf_feign_death_activate_damage_scale=GetConVarFloat(FindConVar("tf_feign_death_activate_damage_scale"));
 	tf_feign_death_damage_scale=GetConVarFloat(FindConVar("tf_feign_death_damage_scale"));
+	GetConVarString(FindConVar("mp_humans_must_join_team"), mp_humans_must_join_team, sizeof(mp_humans_must_join_team));
 
 	if(IsFF2Map() && GetConVarBool(cvarEnabled))
 	{
@@ -1791,6 +1798,7 @@ public EnableFF2()
 	SetConVarInt(FindConVar("tf_dropped_weapon_lifetime"), 0);
 	SetConVarFloat(FindConVar("tf_feign_death_activate_damage_scale"), 0.3);
 	SetConVarFloat(FindConVar("tf_feign_death_damage_scale"), 0.0);
+	SetConVarString(FindConVar("mp_humans_must_join_team"), "any");
 
 	new Float:time=Announce;
 	if(time>1.0)
@@ -1838,6 +1846,7 @@ public DisableFF2()
 	SetConVarInt(FindConVar("tf_dropped_weapon_lifetime"), tf_dropped_weapon_lifetime);
 	SetConVarFloat(FindConVar("tf_feign_death_activate_damage_scale"), tf_feign_death_activate_damage_scale);
 	SetConVarFloat(FindConVar("tf_feign_death_damage_scale"), tf_feign_death_damage_scale);
+	SetConVarString(FindConVar("mp_humans_must_join_team"), mp_humans_must_join_team);
 
 	if(doorCheckTimer!=INVALID_HANDLE)
 	{
@@ -4300,15 +4309,15 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		{
 			case 35: // 크리츠크리그
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "11 ; 1.35 ; 18 ; 1.0 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75", true);
+				itemOverride=PrepareItemHandle(item, _, _, "11 ; 1.25 ; 18 ; 1.0 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75 ; 314 ; 10.0", true);
 			}
 			case 411: // 응급조치
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "10 ; 2.2 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75", true);
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.75 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75 ; 314 ; 12.0", true);
 			}
 		  default:
 		  {
-			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.3 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0", true);
+			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.25 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0 ; 314 ; 8.0", true);
 		  }
 		}
 
@@ -4553,7 +4562,7 @@ public Action:CheckItems(Handle:timer, any:userid)
 			case 265:  //Stickybomb Jumper
 			{
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
-				SpawnWeapon(client, "tf_weapon_pipebomblauncher", 265, 1, 0, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -7.0");
+				SpawnWeapon(client, "tf_weapon_pipebomblauncher", 265, 1, 0, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -4.0");
 				FF2_SetAmmo(client, weapon, 24);
 			}
 		}
@@ -4753,7 +4762,7 @@ public Action:OnUberDeployed(Handle:event, const String:name[], bool:dontBroadca
 	}
 	return Plugin_Continue;
 }
-*/
+
 
 public Action:Timer_Uber(Handle:timer, any:medigunid)
 {
@@ -4790,6 +4799,7 @@ public Action:Timer_Uber(Handle:timer, any:medigunid)
 	}
 	return Plugin_Continue;
 }
+*/
 
 public Action:Command_GetHPCmd(client, args)
 {
@@ -5987,6 +5997,27 @@ public TF2_OnConditionRemoved(client, TFCond:condition)
 		{
 			TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.01);
 		}
+
+		else if(TF2_GetPlayerClass(client) == TFClass_Medic && condition == TFCond_Ubercharged)
+		{
+			new medigun = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+			if(IsValidEntity(medigun))
+			{
+				decl String:medigunClassname[64];
+				GetEntityClassname(medigun, medigunClassname, sizeof(medigunClassname));
+				if(StrEqual(medigunClassname, "tf_weapon_medigun", false))
+				{
+					int index = GetEntProp(medigun, Prop_Send, "m_iItemDefinitionIndex");
+					if(index == 35 ||
+						index == 411 ||
+						index == 998)
+						return;
+
+					if(GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") > 0.0 && GetEntProp(medigun, Prop_Send, "m_bChargeRelease")) // m_bChargeRelease
+						TF2_AddCondition(client, TFCond_Ubercharged, TFCondDuration_Infinite, medigun);
+				}
+			}
+		}
 /*
 		else if(!IsBoss(client) && condition==TFCond_BlastJumping)
 		{
@@ -6820,7 +6851,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	return Plugin_Continue;
 }
 
-
+/*
 public void CheckPlayerStun(Handle:datapack)
 {
 	if(!Enabled || !CheckRoundState())
@@ -6858,6 +6889,7 @@ public void CheckPlayerStun(Handle:datapack)
 
 	return;
 }
+*/
 
 
 public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damagetype, &weapon, Float:damageForce[3], Float:damagePosition[3], damagecustom)
@@ -6959,12 +6991,20 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 		{
 			if(attacker<=MaxClients)
 			{
-				new bool:bIsTelefrag, bool:bIsBackstab;
+				new bool:bIsTelefrag, bool:bIsBackstab, bool:bIsFacestab;
 				if(dmgCustomInOTD)
 				{
+					decl String:classname[32];
+
 					if(damagecustom==TF_CUSTOM_BACKSTAB)
 					{
 						bIsBackstab=true;
+					}
+					else if(FF2flags[attacker] & FF2FLAG_ALLOW_FACESTAB &&
+						GetEntityClassname(weapon, classname, sizeof(classname)) &&
+						!StrContains(classname, "tf_weapon_knife") && !(damagecustom & TF_CUSTOM_BACKSTAB))
+					{
+						bIsFacestab=true;
 					}
 					else if(damagecustom==TF_CUSTOM_TELEFRAG)
 					{
@@ -7065,7 +7105,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						}
 					}
 				}
-
+/*
 				if(IsValidEntity(inflictor))
 				{
 					new String:inflictorClassname[64];
@@ -7086,8 +7126,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						CloseHandle(datapack);
 					}
 				}
-
-
+*/
 
 				switch(index)
 				{
@@ -7210,11 +7249,12 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					}
 					case 307, 416:  //Market Gardener (courtesy of Chdata) and 울라풀 막대
 					{
-						if(TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping)) //TFCond_BlastJumping
+						if(FF2flags[attacker] & FF2FLAG_ALLOW_GROUNDMARKET && TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping)) //TFCond_BlastJumping
 						{
 							if(index == 307 && GetEntProp(weapon, Prop_Send, "m_iDetonated") == 1)
 								return Plugin_Continue;
 
+							new bool:bIsGroundMarket = FF2flags[attacker] & FF2FLAG_ALLOW_GROUNDMARKET && !TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping) && index!=307;
 
 							new String:playerName[50];
 							GetClientName(attacker, playerName, sizeof(playerName));
@@ -7225,6 +7265,37 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 
 							damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.12)/(255.0/85.0));
 							damagetype|=DMG_CRIT;
+
+							if(bIsGroundMarket)
+								damage /= 2.0;
+
+							new Action:action;
+							new Float:tempDamage = damage * 3.0;
+							new tempAttacker = attacker;
+
+							Call_StartForward(OnTakePercentDamage);
+							Call_PushCell(client);
+							Call_PushCell(tempAttacker);
+							Call_PushCell(index==307 ? Percent_Ullapool : bIsGroundMarket ? Percent_GroundMarketed : Percent_Marketed);
+							Call_PushCell(tempDamage);
+							Call_Finish(action);
+
+							if(action == Plugin_Changed)
+							{
+								attacker = tempAttacker;
+								damage = tempDamage / 3.0;
+							}
+							else if(action == Plugin_Handled)
+							{
+								return Plugin_Handled;
+							}
+
+							Call_StartForward(OnTakePercentDamagePost);
+							Call_PushCell(client);
+							Call_PushCell(attacker);
+							Call_PushCell(index==307 ? Percent_Ullapool : bIsGroundMarket ? Percent_GroundMarketed : Percent_Marketed);
+							Call_PushCell(damage);
+							Call_Finish();
 
 							if(CheckedFirstRound)
 							{
@@ -7242,7 +7313,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							PrintHintText(attacker, "%t", index==307 ? "Ullapool" : "Market Gardener");  //You just market-gardened the boss!
 							PrintHintText(client, "%t", index==307 ? "Ullapooled" : "Market Gardened");  //You just got market-gardened!
 
-							CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, index==307 ? "울라풀 막대 공격" : "마켓가든 공격", bossName, RoundFloat(damage*(255.0/85.0)));
+							CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, index==307 ? "울라풀 막대 공격" : bIsGroundMarket ? "지면 마켓가든" : "마켓가든", bossName, RoundFloat(damage*(255.0/85.0)));
 
 							EmitSoundToClient(attacker, "player/doubledonk.wav", _, _, _, _, 0.6, _, _, position, _, false);
 							EmitSoundToClient(client, "player/doubledonk.wav", _, _, _, _, 0.6, _, _, position, _, false);
@@ -7333,27 +7404,20 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					}*/
 				}
 
-				if(bIsBackstab)
+				if(bIsBackstab || bIsFacestab)
 				{
 					new Float:sliencedTime=6.0; // TODO: 광역변수.
 					new bool:slienced=false;
 
 					damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.12)/(255.0/85.0));
+					if(bIsFacestab)
+					{
+						damage /= 2.0;
+					}
 
 					damagetype|=DMG_CRIT;
 					damagecustom=0;
-					if(CheckedFirstRound)
-					{
-						IsFakeKill=true;
-					 	new Handle:hStreak = CreateEvent("player_death", false);
-					 	SetEventString(hStreak, "weapon", "knife");
-					 	SetEventString(hStreak, "weapon_logclassname", "backstab");
-					 	SetEventInt(hStreak, "attacker", GetClientUserId(attacker));
-					 	SetEventInt(hStreak, "userid", GetClientUserId(client));
-					 	SetEventInt(hStreak, "death_flags", TF_DEATHFLAG_DEADRINGER);
-					 	SetEventInt(hStreak, "kill_streak_wep", ++Stabbed[attacker]);
-				 		FireEvent(hStreak);
-					}
+
 
 					EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
 					EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
@@ -7392,7 +7456,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						PrintHintText(client, "%t", "Backstabbed");
 					}
 
-					if(index==225 || index==574)  //Your Eternal Reward, Wanga Prick
+					if(index==225 || index==574 || bIsFacestab)  //Your Eternal Reward, Wanga Prick
 					{
 						slienced=true;
 						BossAbilityCooldown[boss][0] += sliencedTime;
@@ -7441,6 +7505,47 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						EmitSoundToAllExcept(SOUNDEXCEPT_VOICE, sound, _, _, _, _, _, _, Boss[boss], _, _, false);
 					}
 
+					new Action:action;
+					new Float:tempDamage = damage * 3.0;
+					new tempAttacker = attacker;
+
+					Call_StartForward(OnTakePercentDamage);
+					Call_PushCell(client);
+					Call_PushCell(tempAttacker);
+					Call_PushCell(bIsFacestab ? Percent_Facestab : Percent_Backstab);
+					Call_PushCell(tempDamage);
+					Call_Finish(action);
+
+					if(action == Plugin_Changed)
+					{
+						attacker = tempAttacker;
+						damage = tempDamage / 3.0;
+					}
+					else if(action == Plugin_Handled)
+					{
+						return Plugin_Handled;
+					}
+
+					Call_StartForward(OnTakePercentDamagePost);
+					Call_PushCell(client);
+					Call_PushCell(attacker);
+					Call_PushCell(bIsFacestab ? Percent_Facestab : Percent_Backstab);
+					Call_PushCell(damage);
+					Call_Finish();
+
+					if(CheckedFirstRound)
+					{
+						IsFakeKill=true;
+					 	new Handle:hStreak = CreateEvent("player_death", false);
+					 	SetEventString(hStreak, "weapon", "knife");
+					 	SetEventString(hStreak, "weapon_logclassname", "backstab");
+					 	SetEventInt(hStreak, "attacker", GetClientUserId(attacker));
+					 	SetEventInt(hStreak, "userid", GetClientUserId(client));
+					 	SetEventInt(hStreak, "death_flags", TF_DEATHFLAG_DEADRINGER);
+					 	SetEventInt(hStreak, "kill_streak_wep", ++Stabbed[attacker]);
+				 		FireEvent(hStreak);
+					}
+
 					new String:playerName[50];
 					GetClientName(attacker, playerName, sizeof(playerName));
 
@@ -7448,7 +7553,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					KvRewind(BossKV[Special[boss]]);
 					KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-					CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "백스탭", bossName, RoundFloat(damage*(255.0/85.0)));
+					CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, bIsFacestab ? "페이스스탭" : "백스탭", bossName, RoundFloat(damage*(255.0/85.0)));
 					if(slienced) CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(BossAbilityCooldown[boss][0]));
 					return Plugin_Changed;
 				}
@@ -7614,6 +7719,31 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 	}
 	else if(IsBoss(victim))
 	{
+		Action action;
+		float tempDamage = damageBonus + 500.0;
+		Call_StartForward(OnTakePercentDamage);
+		Call_PushCell(victim);
+		Call_PushCell(attacker);
+		Call_PushCell(Percent_Goomba);
+		Call_PushCell(tempDamage);
+		Call_Finish(action);
+
+		if(action == Plugin_Changed)
+		{
+			damageBonus = tempDamage - 500.0;
+		}
+		else if(action == Plugin_Handled)
+		{
+			return Plugin_Handled;
+		}
+
+		Call_StartForward(OnTakePercentDamagePost);
+		Call_PushCell(victim);
+		Call_PushCell(attacker);
+		Call_PushCell(Percent_Goomba);
+		Call_PushCell(damageBonus);
+		Call_Finish();
+
 		char playerName[50];
 		GetClientName(attacker, playerName, sizeof(playerName));
 

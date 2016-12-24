@@ -92,9 +92,9 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 
     for(int target = 1; target <= MaxClients; target++)
     {
-        NoEnemyTime[client] = 0.0;
-        TeleportTime[client] = 0.0;
-        WeaponCannotUseTime[client] = 0.0;
+        NoEnemyTime[target] = 0.0;
+        TeleportTime[target] = 0.0;
+        WeaponCannotUseTime[target] = 0.0;
 
         if(IsClientInGame(target))
         {
@@ -201,6 +201,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
     }
 
     bool changed = false;
+
     if((GetGameState() == Game_LastManStanding || IsFakeLastManStanding) && IsLastMan[attacker] && IsValidEntity(weapon))
     {
         int boss = FF2_GetBossIndex(victim);
@@ -208,7 +209,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
         GetEntityClassname(weapon, classname, sizeof(classname));
-
+        /*
         if(!StrContains(classname, "tf_weapon_knife") && !(damagecustom & TF_CUSTOM_BACKSTAB))
         {
             damagetype |= DMG_CRIT;
@@ -266,7 +267,9 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(FF2_GetAbilityCooldown(boss)));
             return Plugin_Changed;
         }
-        else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
+        */
+
+        if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
         {
           if(!TF2_IsPlayerInCondition(victim, TFCond_MegaHeal) && !(GetEntityFlags(victim) & FL_ONGROUND))
           {
@@ -288,10 +291,11 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
           AcceptEntityInput(explosion, "Explode");
           AcceptEntityInput(explosion, "kill");
         }
-        else if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Pyro)
+        if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Pyro)
         {
             TF2_IgnitePlayer(victim, attacker);
         }
+        /*
         else if(!StrContains(classname, "tf_weapon_shovel") && TF2_GetPlayerClass(attacker) == TFClass_Soldier && !TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping))
         {
           damage=((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.08)/3.0;
@@ -313,6 +317,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
           CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "지면 마켓가든", bossName, RoundFloat(damage*(255.0/85.0)));
           return Plugin_Changed; //
         }
+        */
 
         if(damagetype & DMG_BULLET && !(TF2_GetPlayerClass(victim) == TFClass_Sniper || TF2_GetPlayerClass(victim) == TFClass_Heavy))
         {

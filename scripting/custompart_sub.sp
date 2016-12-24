@@ -29,9 +29,31 @@ public Plugin myinfo = {
 
 */
 
+float NanoBoongDuration[MAXPLAYERS+1];
+
 public void OnPluginStart()
 {
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Post);
+}
+
+public void OnGameFrame() // TODO: 본 작업을 메인플러그인에서 할 수 있게.
+{
+    for(int client=1; client<=MaxClients; client++)
+    {
+        if(IsClientInGame(client) && IsPlayerAlive(client))
+        {
+            float currentTime = GetGameTime();
+            if(currentTime > NanoBoongDuration[client])
+            {
+                AddToAllWeapon(client, 2, -0.3);
+                AddToSomeWeapon(client, 412, 0.5);
+            }
+        }
+        else
+        {
+            NanoBoongDuration[client] = 0.0;
+        }
+    }
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -90,14 +112,33 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     {
         ROLLER_CreateRollerMine(client, 8);
     }
+
+    else if(partIndex == 13)
+    {
+        SetEntProp(client, Prop_Send, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth") + 300);
+        TF2_StunPlayer(client, 1.5, 0.5, TF_STUNFLAGS_SMALLBONK);
+        CP_NoticePart(client, partIndex);
+    }
+}
+
+public void CP_OnActivedPart(int client, int partIndex)
+{
+    if(partIndex == 12)
+    {
+        NanoBoongDuration[client] = GetGameTime() + 8.0;
+
+        AddToAllWeapon(client, 2, 0.3);
+        AddToSomeWeapon(client, 412, -0.5);
+        CP_NoticePart(client, partIndex);
+    }
 }
 
 public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 {
-    if(IsClientInGame(client)
+    if(IsClientInGame(client))
     {
         if(FF2_GetRoundState() != 1)
-            return Plugin_Handled;
+            return Plugin_Continue;
 
         Debug("CP_OnSlotClear: client = %i, partIndex = %i", client, partIndex);
 
@@ -147,45 +188,61 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
     return Plugin_Continue;
 }
 
+public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageType damageType, float &damage)
+{
+    bool changed;
+    bool blocked;
+
+    if((damageType == Percent_Marketed || damageType == Percent_GroundMarketed) && CP_IsPartActived(attacker, 9))
+    {
+        changed = true;
+        damage *= 1.5;
+    }
+
+    if(blocked)         return Plugin_Handled;
+    else if(changed)    return Plugin_Changed;
+
+    return Plugin_Continue;
+}
+
+public void FF2_OnTakePercentDamage_Post(int victim, int attacker, PercentDamageType damageType, float damage)
+{
+    if(damageType == Percent_Goomba && CP_IsPartActived(attacker, 8))
+    {
+        float distance = 600.0; // TODO: 메인 플러그인 상의 거리 설정 (파츠 컨픽에서 설정 가능하게.)
+        float clientPos[3];
+        float targetPos[3];
+
+        GetClientEyePosition(attacker, clientPos);
+        for(int client=1; client<=MaxClients; client++)
+        {
+            if(IsClientInGame(client) && GetClientTeam(attacker) != GetClientTeam(client))
+            {
+                GetClientEyePosition(client, targetPos);
+
+                if(GetVectorDistance(clientPos, targetPos) <= distance)
+                {
+                    TF2_StunPlayer(client, 5.0, 0.5, TF_STUNFLAGS_SMALLBONK, attacker); // TODO: 메인 플러그인 상의 시간 설정 (파츠 컨픽에서 설정 가능하게.)
+                }
+            }
+        }
+        CP_NoticePart(attacker, 8);
+    }
+
+    if((damageType == Percent_Marketed || damageType == Percent_GroundMarketed) && CP_IsPartActived(attacker, 9))
+    {
+        TF2_StunPlayer(victim, 5.0, 0.5, TF_STUNFLAGS_SMALLBONK, attacker);
+        CP_NoticePart(attacker, 9);
+    }
+}
 public void TF2_OnConditionAdded(int client, TFCond condition)
 {
-    if(condition == TFCond_Disguised)
-    {
-        if(CP_IsPartActived(client, 8) && GetClientTeam(client) != FF2_GetBossTeam())
-        {
-            float pos[3], angle[3];
-            GetClientEyePosition(client, pos);
-            GetClientEyeAngles(client, angle);
 
-            TF2_ChangeClientTeam(client, TFTeam_Spectator);
-
-            TF2_ChangeClientTeam(client, view_as<TFTeam>(FF2_GetBossTeam()));
-            TF2_RespawnPlayer(client);
-
-            TeleportEntity(client, pos, angle, NULL_VECTOR);
-        }
-    }
 }
 
 public void TF2_OnConditionRemoved(int client, TFCond condition)
 {
-    if(condition == TFCond_Disguised)
-    {
-        if(CP_IsPartActived(client, 8) && GetClientTeam(client) == FF2_GetBossTeam())
-        {
 
-            float pos[3], angle[3];
-            GetClientEyePosition(client, pos);
-            GetClientEyeAngles(client, angle);
-
-            TF2_ChangeClientTeam(client, TFTeam_Spectator);
-
-            TF2_ChangeClientTeam(client, view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Blue ? TFTeam_Red : TFTeam_Blue);
-            TF2_RespawnPlayer(client);
-
-            TeleportEntity(client, pos, angle, NULL_VECTOR);
-        }
-    }
 }
 
 int CreateDispenserTrigger(int client)

@@ -58,12 +58,12 @@ public void OnPluginStart()
 	RegAdminCmd("sm_rollermine", Command_Rollermine, ADMFLAG_ROOT);
 	RegAdminCmd("sm_clearmines", Command_ClearMines, ADMFLAG_ROOT);
 
-	g_hRollerSpeed = CreateConVar("tf2_rollermine_speed", "280", "Rollermine rotation speed");
+	g_hRollerSpeed = CreateConVar("tf2_rollermine_speed", "320", "Rollermine rotation speed");
 	g_hRollerForce = CreateConVar("tf2_rollermine_force", "5000", "Rollermine angular force");
-	g_hRollerDamage = CreateConVar("tf2_rollermine_damage", "35", "Rollermine shock damage");
+	g_hRollerDamage = CreateConVar("tf2_rollermine_damage", "45", "Rollermine shock damage");
 	g_hRollerStunDur = CreateConVar("tf2_rollermine_stunduration", "0.5", "Rollermine stun duration");
 	g_hRollerOpenThreshold = CreateConVar("tf2_rollermine_open_threshold", "256", "Rollermine open threshold");
-	g_hRollerAttackDist = CreateConVar("tf2_rollermine_max_attack_distance", "10000", "Rollermine max attack distance");
+	g_hRollerAttackDist = CreateConVar("tf2_rollermine_max_attack_distance", "20000", "Rollermine max attack distance");
 
 	g_hRollerSpeed.AddChangeHook(OnSettingsChanged);
 	g_hRollerForce.AddChangeHook(OnSettingsChanged);
@@ -305,7 +305,12 @@ public void OnRollermineThink(int iEnt, int client)
 
 				float flDirection[3];
 				MakeVectorFromPoints(flEntPos, flClientPos, flDirection);
-				flDirection[2] = 0.0;
+				// flDirection[2] = 0.0;
+
+				if(flDirection[2] > 0.0)
+					flDirection[2] = 0.2;
+				else
+					flDirection[2] = 0.0;
 
 				NormalizeVector(flDirection, flDirection);
 
