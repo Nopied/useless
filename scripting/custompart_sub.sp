@@ -43,15 +43,16 @@ public void OnGameFrame() // TODO: 본 작업을 메인플러그인에서 할 �
         if(IsClientInGame(client) && IsPlayerAlive(client))
         {
             float currentTime = GetGameTime();
-            if(currentTime > NanoBoongDuration[client])
+            if(currentTime > NanoBoongDuration[client] && NanoBoongDuration[client] != -1.0)
             {
+                NanoBoongDuration[client] = -1.0;
                 AddToAllWeapon(client, 2, -0.3);
                 AddToSomeWeapon(client, 412, 0.5);
             }
         }
         else
         {
-            NanoBoongDuration[client] = 0.0;
+            NanoBoongDuration[client] = -1.0;
         }
     }
 }
