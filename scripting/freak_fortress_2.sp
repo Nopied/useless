@@ -5401,6 +5401,28 @@ public Action:ClientTimer(Handle:timer)
 			new index=(validwep ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
 			if(class==TFClass_Medic)
 			{
+				if(!TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
+				{
+					new medigun = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+					if(IsValidEntity(medigun))
+					{
+						decl String:medigunClassname[64];
+						GetEntityClassname(medigun, medigunClassname, sizeof(medigunClassname));
+						if(StrEqual(medigunClassname, "tf_weapon_medigun", false))
+						{
+							int index = GetEntProp(medigun, Prop_Send, "m_iItemDefinitionIndex");
+							if(index != 35 &&
+								index != 411 &&
+								index != 998)
+							{
+								if(GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") > 0.0 && GetEntProp(medigun, Prop_Send, "m_bChargeRelease")) // m_bChargeRelease
+									TF2_AddCondition(client, TFCond_Ubercharged, 0.22, medigun);
+
+							}
+						}
+					}
+				}		
+
 				if(weapon==GetPlayerWeaponSlot(client, TFWeaponSlot_Primary))
 				{
 					new medigun=GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
@@ -5997,7 +6019,7 @@ public TF2_OnConditionRemoved(client, TFCond:condition)
 		{
 			TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.01);
 		}
-
+/*
 		else if(TF2_GetPlayerClass(client) == TFClass_Medic && condition == TFCond_Ubercharged)
 		{
 			new medigun = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
@@ -6018,6 +6040,7 @@ public TF2_OnConditionRemoved(client, TFCond:condition)
 				}
 			}
 		}
+*/
 /*
 		else if(!IsBoss(client) && condition==TFCond_BlastJumping)
 		{
