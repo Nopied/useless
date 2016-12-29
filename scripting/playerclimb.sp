@@ -13,7 +13,7 @@ new maxClimbs[MAXPLAYERS+1] = {0, ...};
 new bool:gClimb[MAXPLAYERS+1][9];
 new bool:isClientBoss[MAXPLAYERS+1] = {false, ...};
 // new bool:justClimbed[MAXPLAYERS+1] = {false, ...};
-new bool:blockClimb[MAXPLAYERS+1] = {false, ...};
+// new bool:blockClimb[MAXPLAYERS+1] = {false, ...};
 
 public Plugin:myinfo = {
 	name		= "Player Climb",
@@ -25,9 +25,9 @@ public Plugin:myinfo = {
 
 public OnPluginStart()
 {
-	CreateConVar("sm_playerclimb_version", PLUGIN_VERSION, "Player Climb Version", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_UNLOGGED|FCVAR_DONTRECORD|FCVAR_REPLICATED|FCVAR_NOTIFY);
+	CreateConVar("sm_playerclimb_version", PLUGIN_VERSION, "Player Climb Version", FCVAR_SPONLY|FCVAR_UNLOGGED|FCVAR_DONTRECORD|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	cvarEnable = CreateConVar("sm_playerclimb_enable", "1", "Enable the plugin? 1 = Yes, 0 = No.", _, true, 0.0, true, 1.0);
-	cvarDamageAmount = CreateConVar("sm_playerclimb_damageamount", "15.0", "How much damage should a player take on each melee climb?");
+	cvarDamageAmount = CreateConVar("sm_playerclimb_damageamount", "25.0", "How much damage should a player take on each melee climb?");
 	cvarTeam = CreateConVar("sm_playerclimb_team", "0", "Restrict climbing to X team only. 0 = No restriction, 1 = BLU, 2 = RED.", _, true, 0.0, true, 2.0);
 	cvarBoss = CreateConVar("sm_playerclimb_boss", "0", "Should bosses (VSH/FF2) be allowed to climb? 0 = No, 1 = Yes.", _, true, 0.0, true, 1.0);
 	cvarClass = CreateConVar("sm_playerclimb_class", "sniper", "Which classes should be allowed to climb? You can add multiple classes by separating them with a comma (EX: scout,sniper,spy,heavy,soldier,demo,medic,pyro,engineer). For all classes, just put \"all\" (no quotes).");
@@ -84,7 +84,7 @@ public OnClientDisconnect(client)
 {
 	isClientBoss[client] = false;
 	// justClimbed[client] = false;
-	blockClimb[client] = false;
+	// blockClimb[client] = false;
 	maxClimbs[client] = 0;
 }
 
@@ -339,22 +339,25 @@ public OnGameFrame()
 		if (IsClientInGame(i) && (GetEntityFlags(i) & FL_ONGROUND))
 		{
 			maxClimbs[i] = 0;
+			/*
 			// if (GetConVarFloat(cvarCooldown) != 0.0 && justClimbed[i])
 			if(GetConVarFloat(cvarCooldown) != 0.0)
 			{
 				// justClimbed[i] = false;
-				blockClimb[i] = true;
-				CreateTimer(GetConVarFloat(cvarCooldown), Timer_ClimbCooldown, i, TIMER_FLAG_NO_MAPCHANGE);
+				// blockClimb[i] = true;
+				// CreateTimer(GetConVarFloat(cvarCooldown), Timer_ClimbCooldown, i, TIMER_FLAG_NO_MAPCHANGE);
 			}
+			*/
 		}
 	}
 }
 
+/*
 public Action:Timer_ClimbCooldown(Handle:timer, any:client)
 {
-	blockClimb[client] = false;
+	// blockClimb[client] = false;
 }
-
+*/
 SickleClimbWalls(client, weapon)	 //Credit to Mecha the Slag
 {
 	if (!GetConVarBool(cvarEnable) || !IsValidClient(client) || (GetClientHealth(client) <= GetConVarFloat(cvarDamageAmount))) return;
@@ -385,7 +388,7 @@ SickleClimbWalls(client, weapon)	 //Credit to Mecha the Slag
 	new Float:distance = GetVectorDistance(vecClientEyePos, pos);
 
 	if (distance >= 100.0) return;
-
+/*
 	if (blockClimb[client])
 	{
 		PrintToChat(client, "[SM] Climbing is currently on cool-down, please wait.");
@@ -394,7 +397,7 @@ SickleClimbWalls(client, weapon)	 //Credit to Mecha the Slag
 
 	new maxNumClimbs = GetConVarInt(cvarMaxClimbs);
 
-	/*
+
 	if (maxNumClimbs != 0 && maxClimbs[client] >= maxNumClimbs && !(GetEntityFlags(client) & FL_ONGROUND))
 	{
 		PrintToChat(client, "[SM] You need to touch the ground before you can climb again.");

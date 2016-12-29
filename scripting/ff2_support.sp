@@ -25,6 +25,7 @@ bool CBS_Abilities[MAXPLAYERS+1];
 
 bool IsEntityCanReflect[MAX_EDICTS];
 bool AllLastmanStanding;
+bool AttackAndDef;
 int g_nEntityBounce[MAX_EDICTS];
 
 public void OnPluginStart2()
@@ -36,7 +37,8 @@ public void OnPluginStart2()
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
 	if(AllLastmanStanding)
-		CreateTimer(0.3, CheckTimer, _, GetClientOfUserId(GetEventInt(event, "userid")));
+		CreateTimer(0.3, CheckTimer, TIMER_FLAG_NO_MAPCHANGE, GetClientOfUserId(GetEventInt(event, "userid")));
+
 }
 
 public Action CheckTimer(Handle timer, int client)
@@ -103,13 +105,17 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
-  CheckAbilities();
+  	CheckAbilities();
+
+  	if(AttackAndDef)
+		FF2_SetGameState(Game_AttackAndDefense);
 }
 
 void CheckAbilities()
 {
   int client, boss;
   AllLastmanStanding = false;
+  AttackAndDef = false;
   for(client=1; client<=MaxClients; client++)
   {
 	    Sub_SaxtonReflect[client]=false;
@@ -123,6 +129,8 @@ void CheckAbilities()
 		    	CBS_Abilities[client] = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_lastmanstanding"))
 				AllLastmanStanding = true;
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_attackanddef"))
+				AttackAndDef = true;
 		}
   }
 

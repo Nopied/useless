@@ -171,11 +171,12 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         return Plugin_Continue;
     }
 
-    if(IsBossTeam(victim)) return Plugin_Continue;
+    if(!IsValidClient(attacker) || !IsValidClient(victim))
+        return Plugin_Continue;
 
     char classname[60];
 
-    if(GetGameState() == Game_AttackAndDefense)
+    if(IsBossTeam(attacker) && GetGameState() == Game_AttackAndDefense)
     {
         if(GetEntityClassname(attacker, classname, sizeof(classname)) && !strcmp(classname, "trigger_hurt", false))
             return Plugin_Continue;
@@ -202,7 +203,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
     bool changed = false;
 
-    if((GetGameState() == Game_LastManStanding || IsFakeLastManStanding) && IsLastMan[attacker] && IsValidEntity(weapon))
+    if(!IsBossTeam(attacker) && (GetGameState() == Game_LastManStanding || IsFakeLastManStanding) && IsLastMan[attacker] && IsValidEntity(weapon))
     {
         int boss = FF2_GetBossIndex(victim);
         float bossPosition[3];
@@ -269,17 +270,17 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         }
         */
 
-        if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
+        if(!StrContains(classname, "tf_weapon_shotgun", false) && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
         {
           if(!TF2_IsPlayerInCondition(victim, TFCond_MegaHeal) && !(GetEntityFlags(victim) & FL_ONGROUND))
           {
-            float velocity[3];
-            GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
-            velocity[2] += 650.0;
-            TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
+                float velocity[3];
+                GetEntPropVector(victim, Prop_Data, "m_vecVelocity", velocity);
+                velocity[2] += 650.0;
+                TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
           }
 
-          int explosion=CreateEntityByName("env_explosion");
+          int explosion = CreateEntityByName("env_explosion");
 
           DispatchKeyValueFloat(explosion, "DamageForce", 0.0);
           SetEntProp(explosion, Prop_Data, "m_iMagnitude", 0, 4);
@@ -291,7 +292,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
           AcceptEntityInput(explosion, "Explode");
           AcceptEntityInput(explosion, "kill");
         }
-        if(!StrContains(classname, "tf_weapon_shotgun") && TF2_GetPlayerClass(attacker) == TFClass_Pyro)
+        if(!StrContains(classname, "tf_weapon_shotgun", false) && TF2_GetPlayerClass(attacker) == TFClass_Pyro)
         {
             TF2_IgnitePlayer(victim, attacker);
         }
@@ -462,13 +463,16 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             int boss=FF2_GetBossIndex(bosses[i]);
             int newhealth=7500/bossCount;
 
+            FF2_SetBossCharge(boss, 0, 0.0);
+            FF2_SetBossLives(boss, 1);
+            FF2_SetBossMaxLives(boss, 1);
+
+            FF2_SetBossMaxHealth(boss, FF2_GetBossHealth(boss));
+
             if(FF2_GetBossHealth(boss) < newhealth){
                 FF2_SetBossMaxHealth(boss, newhealth);
                 FF2_SetBossHealth(boss, newhealth);
             }
-            FF2_SetBossCharge(boss, 0, 0.0);
-            FF2_SetBossLives(boss, 1);
-            FF2_SetBossMaxLives(boss, 1);
         }
 
         if(timeleft<=0.0)
@@ -559,6 +563,11 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
     TF2_AddCondition(client, TFCond_Stealthed, 10.0);
     TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
     GiveLastManWeapon(client);
+
+    RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
+    RemovePlayerTarge(client);
+
+    FF2_SetFF2Userflags(client, FF2_GetFF2Userflags(client) | FF2USERFLAG_ALLOW_FACESTAB | FF2USERFLAG_ALLOW_GROUNDMARKET);
 }
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
@@ -846,6 +855,12 @@ public Action BeLastMan(Handle timer, Handle LastManData)
         {
             TF2_ChangeClientTeam(client, TFTeam_Spectator);
             TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
+            if(IsPlayerAlive(client))
+            {
+                Debug("그 한명이 지금 살아있다!!!");
+                SDKHooks_TakeDamage(client, );
+            }
+
         }
     }
     return Plugin_Continue;
@@ -982,7 +997,7 @@ stock void GiveLastManWeapon(int client)
     case TFClass_Medic:
     {
       SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 17 ; 0.12 ; 97 ; 1.3");
-      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0 ; 231 ; 2 ; 18 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0");
       SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 2, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0 ; 26 ; 150 ; 107 ; 1.10");
       // 17: 적중 시 우버차지
       // 482: 오버힐 마스터리
@@ -1611,6 +1626,64 @@ stock bool IsPlayerStuck(int ent)
     return (TR_DidHit());
 }
 
+stock void RemovePlayerTarge(int client)
+{
+	int entity = MaxClients+1;
+	while((entity = FindEntityByClassname2(entity, "tf_wearable_demoshield")) != -1)
+	{
+		int index = GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex");
+		if(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity") == client && !GetEntProp(entity, Prop_Send, "m_bDisguiseWearable"))
+		{
+			if(index==131 || index==406 || index==1099 || index==1144)  //Chargin' Targe, Splendid Screen, Tide Turner, Festive Chargin' Targe
+			{
+				TF2_RemoveWearable(client, entity);
+			}
+		}
+	}
+}
+
+stock void RemovePlayerBack(int client, int[] indices, int length)
+{
+	if(length<=0)
+	{
+		return;
+	}
+
+	int entity=MaxClients+1;
+	while((entity=FindEntityByClassname2(entity, "tf_wearable"))!=-1)
+	{
+		char netclass[32];
+		if(GetEntityNetClass(entity, netclass, sizeof(netclass)) && StrEqual(netclass, "CTFWearable"))
+		{
+			int index=GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex");
+			if(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")==client && !GetEntProp(entity, Prop_Send, "m_bDisguiseWearable"))
+			{
+				for(int i; i<length; i++)
+				{
+					if(index==indices[i])
+					{
+						TF2_RemoveWearable(client, entity);
+					}
+				}
+			}
+		}
+	}
+}
+
+stock int FindPlayerBack(int client, int index)
+{
+	int entity=MaxClients+1;
+	while((entity=FindEntityByClassname2(entity, "tf_wearable"))!=-1)
+	{
+		char netclass[32];
+		if(GetEntityNetClass(entity, netclass, sizeof(netclass)) && StrEqual(netclass, "CTFWearable") && GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex")==index && GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")==client && !GetEntProp(entity, Prop_Send, "m_bDisguiseWearable"))
+		{
+			return entity;
+		}
+	}
+	return -1;
+}
+
 GameMode GetGameState()
 {
     return CurrentGame;
@@ -1619,6 +1692,15 @@ GameMode GetGameState()
 void SetGameState(GameMode gamemode)
 {
     CurrentGame = gamemode;
+
+    if(gamemode == Game_AttackAndDefense)
+    {
+        if(timeleft <= 0.0)
+        {
+            DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+        }
+        timeleft = float(CheckAlivePlayers()*15)+60.0;
+    }
 }
 
 public bool TraceRayPlayerOnly(int iEntity, int iMask, any iData)

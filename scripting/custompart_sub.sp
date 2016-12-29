@@ -31,7 +31,61 @@ public Plugin myinfo = {
 
 public void OnPluginStart()
 {
-    HookEvent("player_death", OnPlayerDeath, EventHookMode_Post);
+    HookEvent("player_death", OnPlayerDeath);
+}
+
+public void OnClientPostAdminCheck(int client)
+{
+    if(CP_IsEnabled())
+    {
+        SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+        SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
+        SDKHook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
+        SDKHook(client, SDKHook_OnTakeDamageAlivePost, OnTakeDamageAlivePost);
+    }
+}
+
+public void OnClientDisconnect(int client)
+{
+    SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+    SDKUnhook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
+    SDKUnhook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
+    SDKUnhook(client, SDKHook_OnTakeDamageAlivePost, OnTakeDamageAlivePost);
+}
+
+public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
+{
+
+}
+
+public Action OnTakeDamageAlive(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
+{
+
+}
+
+public void OnTakeDamagePost(int victim, int attacker, int inflictor, float damage, int damagetype)
+{
+
+}
+
+public void OnTakeDamageAlivePost(int victim, int attacker, int inflictor, float damage, int damagetype)
+{
+    if(IsValidClient(victim))
+    {
+        if(CP_ReplacePartSlot(victim, 18, 1))
+        {
+            int target = FindAnotherPerson(victim, true);
+            float targetPos[3];
+            GetClientEyePosition(target, targetPos);
+
+            TeleportEntity(victim, targetPos, NULL_VECTOR, NULL_VECTOR);
+            CP_NoticePart(victim, 18);
+        }
+    }
+    if(IsValidClient(attacker))
+    {
+        return; // What?
+    }
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -39,7 +93,65 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     int client = GetEventInt(event, "userid");
     if(!IsClientInGame(client)) return Plugin_Continue;
 
+    if(CP_IsPartActived(client, 15))
+    {
+        TF2_RespawnPlayer(FindAnotherPerson(client));
+        CP_NoticePart(client, 15);
+    }
+
     return Plugin_Continue;
+}
+
+public void OnEntityCreated(int entity)
+{
+    SDKHook(entity, SDKHook_SpawnPost, OnEntitySpawned);
+}
+
+public void OnEntitySpawned(int entity)
+{
+    int owner;
+    if(HasEntProp(entity, Prop_Send, "m_hOwnerEntity"))
+        owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
+
+    if(!IsValidClient(owner)) return;
+
+    char classname[60];
+    GetEntityClassname(entity, classname, sizeof(classname));
+
+    if(!StrContains(classname, "tf_flame", false))
+    {
+        if(CP_IsPartActived(owner, 17))
+        {
+            SetEntityRenderMode(entity, RENDER_TRANSCOLOR);
+    		SetEntityRenderColor(entity, 0, 216, 255, 255);
+        }
+    }
+
+    else if(!StrContains(classname, "tf_projectile_", false))
+    {
+        if(CP_IsPartActived(owner, 19))
+        {
+            float pos[3];
+            GetEntPropVector(entity, Prop_Send, "m_vecOrigin", pos);
+            AcceptEntityInput(entity, "kill");
+
+            int prop = CreateEntityByName("prop_physics_override");
+
+            if(IsValidEntity(prop))
+            {
+                SetEntityMoveType(prop, MOVETYPE_VPHYSICS);
+                SetEntProp(prop, Prop_Send, "m_CollisionGroup", 2);
+
+                SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
+                DispatchSpawn(prop);
+
+                CP_PropToPartProp(prop, 0, CP_RandomPartRank(true), true, true, false);
+
+                FF2_SetClientDamage(owner, FF2_GetClientDamage(owner) + 20);
+                TeleportEntity(prop, pos, NULL_VECTOR, NULL_VECTOR);
+            }
+        }
+    }
 }
 
 public void CP_OnActivedPartEnd(int client, int partIndex)
@@ -50,6 +162,8 @@ public void CP_OnActivedPartEnd(int client, int partIndex)
         {
             AddToAllWeapon(client, 2, -0.3);
             AddToSomeWeapon(client, 412, 0.5);
+
+            TF2_StunPlayer(client, 6.0, 0.5, TF_STUNFLAGS_SMALLBONK);
         }
     }
 }
@@ -121,6 +235,26 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
         CP_NoticePart(client, partIndex);
     }
+
+    else if(partIndex == 14)
+    {
+        TF2_AddCondition(client, TFCond_Stealthed, 20.0); //TFCond_Stealthed
+        CP_NoticePart(client, partIndex);
+    }
+
+    else if(partIndex == 16)
+    {
+        AddToSomeWeapon(client, 80, 1.0);
+        AddToSomeWeapon(client, 54, -0.1);
+    }
+
+    else if(partIndex == 17)
+    {
+        AddToSlotWeapon(client, 0, 32, 100.0);
+        AddToSlotWeapon(client, 0, 27, 1.0);
+
+        AddToSomeWeapon(client, 54, -0.3);
+    }
 }
 
 public void CP_OnActivedPart(int client, int partIndex)
@@ -179,6 +313,25 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 
             AddToAllWeapon(client, 2, -0.3);
             AddToSomeWeapon(client, 54, 0.15);
+        }
+
+        else if(partIndex == 16)
+        {
+            AddToSomeWeapon(client, 80, -1.0);
+            AddToSomeWeapon(client, 54, 0.1);
+        }
+
+        else if(partIndex == 17)
+        {
+            // AddToSlotWeapon(client, 0, 32, 100.0);
+            // AddToSlotWeapon(client, 0, 27, 1.0);
+
+            // AddToSomeWeapon(client, 54, -0.3);
+
+            AddToSlotWeapon(client, 0, 32, -100.0);
+            AddToSlotWeapon(client, 0, 27, -1.0);
+
+            AddToSomeWeapon(client, 54, 0.3);
         }
     }
     else
@@ -253,7 +406,7 @@ public void RandomHallyVoice(char[] path, int buffer) // TODO: 관련 컨픽 새
     int count = 4;
     int random = GetRandomInt(1, count);
 
-    Format(path, buffer, "POTRY/custompart/hal_ly/hal_ly%i.mp3", random);
+    Format(path, buffer, "POTRY/custompart/hal_ly/c_hal_ly%d.mp3", random);
 
     if(!IsSoundPrecached(path))
         PrecacheSound(path);
@@ -281,6 +434,13 @@ int CreateDispenserTrigger(int client)
 
     }
     return -1;
+}
+
+void AddToSlotWeapon(int client, int slot, int defIndex, float value)
+{
+    int weapon = GetPlayerWeaponSlot(client, slot);
+    if(IsValidEntity(weapon))
+        AddAttributeDefIndex(weapon, defIndex, value);
 }
 
 void AddToAllWeapon(int client, int defIndex, float value)
@@ -325,14 +485,18 @@ void AddAttributeDefIndex(int entity, int defIndex, float value)
     }
 }
 
-stock int FindAnotherPerson(int Gclient)
+stock int FindAnotherPerson(int Gclient, bool checkAlive=false)
 {
     int count;
     int validTarget[MAXPLAYERS+1];
 
     for(int client=1; client<=MaxClients; client++)
     {
-        if(IsClientInGame(client) && client != Gclient && !IsBossTeam(client) && !IsPlayerAlive(client))
+        if(IsClientInGame(client)
+        && client != Gclient
+        && GetClientTeam(client) == GetClientTeam(Gclient)
+        && ((checkAlive && IsPlayerAlive(client))
+        || (!checkAlive && !IsPlayerAlive(client))))
         {
             validTarget[count++]=client;
         }
@@ -340,7 +504,8 @@ stock int FindAnotherPerson(int Gclient)
 
     if(!count)
     {
-        return CreateFakeClient("No Target.");
+        // return CreateFakeClient("No Target.");
+        return 0;
     }
     return validTarget[GetRandomInt(0, count-1)];
 }

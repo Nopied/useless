@@ -4341,15 +4341,15 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		{
 			case 35: // 크리츠크리그
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "11 ; 1.25 ; 18 ; 1.0 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75 ; 314 ; 10.0", true);
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.35 ; 11 ; 1.25 ; 18 ; 1.0 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75 ; 314 ; 10.0", true);
 			}
 			case 411: // 응급조치
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.75 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75 ; 314 ; 12.0", true);
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.55 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75 ; 314 ; 8.0", true);
 			}
 		  default:
 		  {
-			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.25 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0 ; 314 ; 8.0", true);
+			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 2.25 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0", true);
 		  }
 		}
 
@@ -5438,6 +5438,7 @@ public Action:ClientTimer(Handle:timer)
 			new index=(validwep ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
 			if(class==TFClass_Medic)
 			{
+				/*
 				if(TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
 				{
 					if(IsValidEntity(weapon))
@@ -5459,6 +5460,7 @@ public Action:ClientTimer(Handle:timer)
 						}
 					}
 				}
+				*/
 
 				if(weapon==GetPlayerWeaponSlot(client, TFWeaponSlot_Primary))
 				{
@@ -7309,7 +7311,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					}
 					case 307, 416:  //Market Gardener (courtesy of Chdata) and 울라풀 막대
 					{
-						if(TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping)) //TFCond_BlastJumping
+						if(FF2Userflags[attacker] & FF2USERFLAG_ALLOW_GROUNDMARKET || TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping)) //TFCond_BlastJumping
 						{
 							if(index == 307 && GetEntProp(weapon, Prop_Send, "m_iDetonated") == 1)
 								return Plugin_Continue;
