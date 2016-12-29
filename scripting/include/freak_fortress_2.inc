@@ -28,9 +28,11 @@ enum PercentDamageType
 #define FF2FLAG_ALLOW_HEALTH_PICKUPS	(1<<13)		//Used to prevent bosses from picking up health
 #define FF2FLAG_ALLOW_AMMO_PICKUPS		(1<<14)		//Used to prevent bosses from picking up ammo
 // #define FF2FLAG_ROCKET_JUMPING			(1<<15)		//Used when a soldier is rocket jumping
-#define FF2FLAG_NOTALLOW_RAGE       (1<<16)
-#define FF2FLAG_ALLOW_FACESTAB       (1<<17)
-#define FF2FLAG_ALLOW_GROUNDMARKET       (1<<18)
+#define FF2FLAG_NOTALLOW_RAGE       (1<<15)
+
+// 소스모드의 'int'는 16비트로 추정됨.
+// #define FF2FLAG_ALLOW_FACESTAB       (1<<17)
+// #define FF2FLAG_ALLOW_GROUNDMARKET       (1<<18)
 #define FF2FLAGS_SPAWN					~FF2FLAG_UBERREADY & ~FF2FLAG_ISBUFFED & ~FF2FLAG_TALKING & ~FF2FLAG_ALLOWSPAWNINBOSSTEAM & ~FF2FLAG_CHANGECVAR & ~FF2FLAG_ROCKET_JUMPING & FF2FLAG_USEBOSSTIMER & FF2FLAG_USINGABILITY
 
 #define FF2SERVERFLAG_UNCHANGE_BGM_SERVER (1<<1)
@@ -39,6 +41,9 @@ enum PercentDamageType
 #define FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER (1<<4)
 #define FF2SERVERFLAG_ISLASTMAN (1<<5)
 #define FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE (1<<6)
+
+#define FF2USERFLAG_ALLOW_FACESTAB (1<<1)
+#define FF2USERFLAG_ALLOW_GROUNDMARKET (1<<2)
 
 #if defined _FF2_included
  #endinput
@@ -458,6 +463,10 @@ native FF2_LoadMusicData(Handle:Kv);
 
 native FF2_SetClientDamage(int client, int damage);
 
+native FF2_GetFF2Userflags(int client);
+
+native FF2_SetFF2Userflags(int client, int flags);
+
 /**
  * FF2_ONABILITY IS KNOWN TO BE BUGGED AND WILL NOT BE FIXED TO PRESERVE BACKWARDS COMPATABILITY.  DO NOT USE IT.
  * Called when a Boss uses an ability (Rage, jump, teleport, etc)
@@ -552,9 +561,10 @@ forward Action:FF2_OnAbilityTimeEnd(boss, slot);
 
 forward Action:FF2_OnPlayBoss(int client, int bossIndex);
 
-// 굼바 데미지는 수정불가.
+
 forward Action:FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageType:damageType, float &damage);
 
+// 굼바는 무조건 이쪽으로만.
 forward void FF2_OnTakePercentDamage_Post(int victim, int attacker, PercentDamageType:damageType, float damage);
 
 

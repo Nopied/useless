@@ -29,32 +29,9 @@ public Plugin myinfo = {
 
 */
 
-float NanoBoongDuration[MAXPLAYERS+1];
-
 public void OnPluginStart()
 {
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Post);
-}
-
-public void OnGameFrame() // TODO: 본 작업을 메인플러그인에서 할 수 있게.
-{
-    for(int client=1; client<=MaxClients; client++)
-    {
-        if(IsClientInGame(client) && IsPlayerAlive(client))
-        {
-            float currentTime = GetGameTime();
-            if(currentTime > NanoBoongDuration[client] && NanoBoongDuration[client] != -1.0)
-            {
-                NanoBoongDuration[client] = -1.0;
-                AddToAllWeapon(client, 2, -0.3);
-                AddToSomeWeapon(client, 412, 0.5);
-            }
-        }
-        else
-        {
-            NanoBoongDuration[client] = -1.0;
-        }
-    }
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -63,6 +40,18 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     if(!IsClientInGame(client)) return Plugin_Continue;
 
     return Plugin_Continue;
+}
+
+public void CP_OnActivedPartEnd(int client, int partIndex)
+{
+    if(IsPlayerAlive(client))
+    {
+        if(partIndex == 12)
+        {
+            AddToAllWeapon(client, 2, -0.3);
+            AddToSomeWeapon(client, 412, 0.5);
+        }
+    }
 }
 
 public Action CP_OnTouchedPartProp(int client, int prop)
@@ -75,6 +64,9 @@ public Action CP_OnTouchedPartProp(int client, int prop)
 
 public void CP_OnGetPart_Post(int client, int partIndex)
 {
+    float clientPos[3];
+    GetClientEyePosition(client, clientPos);
+
     if(partIndex == 10) // "파츠 멀티 슬릇"
     {
         CP_SetClientMaxSlot(client, CP_GetClientMaxSlot(client) + 2);
@@ -118,6 +110,15 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     {
         SetEntProp(client, Prop_Send, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth") + 300);
         TF2_StunPlayer(client, 1.5, 0.5, TF_STUNFLAGS_SMALLBONK);
+
+        char path[PLATFORM_MAX_PATH];
+        RandomHallyVoice(path, sizeof(path));
+
+        // EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
+        // EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
+        EmitSoundToAll(path);
+        EmitSoundToAll(path);
+
         CP_NoticePart(client, partIndex);
     }
 }
@@ -126,8 +127,6 @@ public void CP_OnActivedPart(int client, int partIndex)
 {
     if(partIndex == 12)
     {
-        NanoBoongDuration[client] = GetGameTime() + 8.0;
-
         AddToAllWeapon(client, 2, 0.3);
         AddToSomeWeapon(client, 412, -0.5);
         CP_NoticePart(client, partIndex);
@@ -200,6 +199,8 @@ public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageTy
         damage *= 1.5;
     }
 
+    // Debug("FF2_OnTakePercentDamage: attacker = %i, damageType = %i", attacker, damageType);
+
     if(blocked)         return Plugin_Handled;
     else if(changed)    return Plugin_Changed;
 
@@ -236,6 +237,7 @@ public void FF2_OnTakePercentDamage_Post(int victim, int attacker, PercentDamage
         CP_NoticePart(attacker, 9);
     }
 }
+
 public void TF2_OnConditionAdded(int client, TFCond condition)
 {
 
@@ -244,6 +246,17 @@ public void TF2_OnConditionAdded(int client, TFCond condition)
 public void TF2_OnConditionRemoved(int client, TFCond condition)
 {
 
+}
+
+public void RandomHallyVoice(char[] path, int buffer) // TODO: 관련 컨픽 새로 만들기
+{
+    int count = 4;
+    int random = GetRandomInt(1, count);
+
+    Format(path, buffer, "POTRY/custompart/hal_ly/hal_ly%i.mp3", random);
+
+    if(!IsSoundPrecached(path))
+        PrecacheSound(path);
 }
 
 int CreateDispenserTrigger(int client)

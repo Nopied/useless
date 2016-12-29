@@ -100,6 +100,7 @@ new bool:playBGM[MAXPLAYERS+1]=true;
 new String:currentBGM[MAXPLAYERS+1][PLATFORM_MAX_PATH];
 
 new FF2flags[MAXPLAYERS+1];
+new FF2Userflags[MAXPLAYERS+1];
 new FF2ServerFlag;
 
 new DPSTick;
@@ -1152,6 +1153,8 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	CreateNative("FF2_Debug", Native_Debug);
 	CreateNative("FF2_GetServerFlags", Native_GetServerFlags);
 	CreateNative("FF2_SetServerFlags", Native_SetServerFlags);
+	CreateNative("FF2_GetFF2Userflags", Native_GetFF2Userflags);
+	CreateNative("FF2_SetFF2Userflags", Native_SetFF2Userflags);
 	CreateNative("FF2_GetAbilityDuration", Native_GetAbilityDuration);
 	CreateNative("FF2_SetAbilityDuration", Native_SetAbilityDuration);
 	CreateNative("FF2_GetAbilityCooldown", Native_GetAbilityCooldown);
@@ -1170,7 +1173,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnAbilityTimeEnd=CreateGlobalForward("FF2_OnAbilityTimeEnd", ET_Hook, Param_Cell, Param_Cell);
 	OnPlayBoss=CreateGlobalForward("FF2_OnPlayBoss", ET_Hook, Param_Cell, Param_Cell); // client, bossindex
 	OnTakePercentDamage=CreateGlobalForward("FF2_OnTakePercentDamage", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell, Param_FloatByRef); // victim, attacker, damagetype, damage
-	OnTakePercentDamagePost=CreateGlobalForward("FF2_OnTakePercentDamage_Post", ET_Hook, Param_Cell, Param_Cell, Param_Cell, Param_FloatByRef); // victim, attacker, damagetype, damage
+	OnTakePercentDamagePost=CreateGlobalForward("FF2_OnTakePercentDamage_Post", ET_Hook, Param_Cell, Param_Cell, Param_Cell, Param_Cell); // victim, attacker, damagetype, damage
 
 	RegPluginLibrary("freak_fortress_2");
 
@@ -1720,6 +1723,7 @@ public OnMapStart()
 	HPTime=0.0;
 	doorCheckTimer=INVALID_HANDLE;
 	RoundCount=0;
+	FF2ServerFlag=0;
 	CheckedFirstRound=false;
 	CloseLoadMusicTimer();
 
@@ -1727,6 +1731,7 @@ public OnMapStart()
 	{
 		KSpreeTimer[client]=0.0;
 		FF2flags[client]=0;
+		FF2Userflags[client]=0;
 		Incoming[client]=-1;
 		MusicTimer[client]=INVALID_HANDLE;
 	}
@@ -2427,6 +2432,22 @@ public Action:Timer_Announce(Handle:timer)
 				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_4");
 			}
 			case 5:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_5");
+			}
+			case 6:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_6");
+			}
+			case 7:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_7");
+			}
+			case 8:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_8");
+			}
+			case 9:
 			{
 				announcecount=0;
 				CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_last_update", PLUGIN_VERSION, ff2versiondates[maxVersion]);
@@ -4277,6 +4298,17 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 				//114: Mini-crits targets launched airborne by explosions, grapple hooks or enemy attacks
 				//179: Mini-crits become crits
 		}
+		else if(iItemDefinitionIndex == 237 ||
+			iItemDefinitionIndex == 228 ||
+			iItemDefinitionIndex == 1104 ||
+			iItemDefinitionIndex == 441 ||
+			iItemDefinitionIndex == 414 ||
+			iItemDefinitionIndex == 1085 ||
+			iItemDefinitionIndex == 730
+			)
+		{
+			itemOverride=PrepareItemHandle(item, _, _, "114 ; 1");
+		}
 		else
 		{
 			itemOverride=PrepareItemHandle(item, _, _, "114 ; 1 ; 488 ; 1");
@@ -5160,6 +5192,7 @@ public OnClientPostAdminCheck(client) // OnClientPutInServer
 	SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
 
 	FF2flags[client]=0;
+	FF2Userflags[client]=0;
 	Damage[client]=0;
 	uberTarget[client]=-1;
 	Marketed[client]=0;
@@ -5216,6 +5249,7 @@ public OnClientDisconnect(client)
 	}
 
 	FF2flags[client]=0;
+	FF2Userflags[client]=0;
 	Damage[client]=0;
 	uberTarget[client]=-1;
 	playBGM[client]=false; // This is reset accordingly in OnClientPostAdminCheck
@@ -5228,8 +5262,11 @@ public OnClientDisconnect(client)
 
 public Action:OnPlayerSpawn(Handle:event, const String:name[], bool:dontBroadcast)
 {
+	FF2Userflags[GetEventInt(event, "userid")] = 0;
+
 	if(Enabled && CheckRoundState()==1)
 	{
+		// FF2Userflags[GetEventInt(event, "userid")] = 0;
 		CreateTimer(0.1, CheckAlivePlayers, 0, TIMER_FLAG_NO_MAPCHANGE);
 	}
 	return Plugin_Continue;
@@ -5365,7 +5402,7 @@ public Action:ClientTimer(Handle:timer)
 						else if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0)
 						{
 							char temp2[25];
-							if(BossAbilityDuration[boss][0]>0.0)
+							if(BossAbilityDuration[boss][0] > 0.0)
 							{
 								Format(temp2, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
 								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_duration", BossAbilityName[boss][0], temp2);
@@ -5401,27 +5438,27 @@ public Action:ClientTimer(Handle:timer)
 			new index=(validwep ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
 			if(class==TFClass_Medic)
 			{
-				if(!TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
+				if(TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
 				{
-					new medigun = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
-					if(IsValidEntity(medigun))
+					if(IsValidEntity(weapon))
 					{
 						decl String:medigunClassname[64];
-						GetEntityClassname(medigun, medigunClassname, sizeof(medigunClassname));
+						GetEntityClassname(weapon, medigunClassname, sizeof(medigunClassname));
 						if(StrEqual(medigunClassname, "tf_weapon_medigun", false))
 						{
-							int index = GetEntProp(medigun, Prop_Send, "m_iItemDefinitionIndex");
 							if(index != 35 &&
 								index != 411 &&
 								index != 998)
 							{
-								if(GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") > 0.0 && GetEntProp(medigun, Prop_Send, "m_bChargeRelease")) // m_bChargeRelease
-									TF2_AddCondition(client, TFCond_Ubercharged, 0.22, medigun);
-
+								if(GetEntPropFloat(weapon, Prop_Send, "m_flChargeLevel") > 0.0 && GetEntProp(weapon, Prop_Send, "m_bChargeRelease")) // m_bChargeRelease
+								{
+									TF2_RemoveCondition(client, TFCond_Ubercharged);
+									TF2_AddCondition(client, TFCond_Ubercharged, 0.22);
+								}
 							}
 						}
 					}
-				}		
+				}
 
 				if(weapon==GetPlayerWeaponSlot(client, TFWeaponSlot_Primary))
 				{
@@ -7023,9 +7060,9 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					{
 						bIsBackstab=true;
 					}
-					else if(FF2flags[attacker] & FF2FLAG_ALLOW_FACESTAB &&
+					else if(FF2Userflags[attacker] & FF2USERFLAG_ALLOW_FACESTAB &&
 						GetEntityClassname(weapon, classname, sizeof(classname)) &&
-						!StrContains(classname, "tf_weapon_knife") && !(damagecustom & TF_CUSTOM_BACKSTAB))
+						!StrContains(classname, "tf_weapon_knife", false) && !(damagecustom & TF_CUSTOM_BACKSTAB))
 					{
 						bIsFacestab=true;
 					}
@@ -7121,7 +7158,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 								}
 								else
 								{
-									damage*=damagecustom & TF_CUSTOM_HEADSHOT ? 2.4 : 2.0;
+									damage*=damagecustom & TF_CUSTOM_HEADSHOT ? 3.0 : 2.5;
 								}
 							}
 							return Plugin_Changed;
@@ -7272,12 +7309,12 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					}
 					case 307, 416:  //Market Gardener (courtesy of Chdata) and 울라풀 막대
 					{
-						if(FF2flags[attacker] & FF2FLAG_ALLOW_GROUNDMARKET && TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping)) //TFCond_BlastJumping
+						if(TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping)) //TFCond_BlastJumping
 						{
 							if(index == 307 && GetEntProp(weapon, Prop_Send, "m_iDetonated") == 1)
 								return Plugin_Continue;
 
-							new bool:bIsGroundMarket = FF2flags[attacker] & FF2FLAG_ALLOW_GROUNDMARKET && !TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping) && index!=307;
+							new bool:bIsGroundMarket = FF2Userflags[attacker] & FF2USERFLAG_ALLOW_GROUNDMARKET && !TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping) && index!=307;
 
 							new String:playerName[50];
 							GetClientName(attacker, playerName, sizeof(playerName));
@@ -7298,9 +7335,9 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 
 							Call_StartForward(OnTakePercentDamage);
 							Call_PushCell(client);
-							Call_PushCell(tempAttacker);
+							Call_PushCellRef(tempAttacker);
 							Call_PushCell(index==307 ? Percent_Ullapool : bIsGroundMarket ? Percent_GroundMarketed : Percent_Marketed);
-							Call_PushCell(tempDamage);
+							Call_PushFloatRef(tempDamage);
 							Call_Finish(action);
 
 							if(action == Plugin_Changed)
@@ -7534,9 +7571,9 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 
 					Call_StartForward(OnTakePercentDamage);
 					Call_PushCell(client);
-					Call_PushCell(tempAttacker);
+					Call_PushCellRef(tempAttacker);
 					Call_PushCell(bIsFacestab ? Percent_Facestab : Percent_Backstab);
-					Call_PushCell(tempDamage);
+					Call_PushFloatRef(tempDamage);
 					Call_Finish(action);
 
 					if(action == Plugin_Changed)
@@ -7742,24 +7779,6 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 	}
 	else if(IsBoss(victim))
 	{
-		Action action;
-		float tempDamage = damageBonus + 500.0;
-		Call_StartForward(OnTakePercentDamage);
-		Call_PushCell(victim);
-		Call_PushCell(attacker);
-		Call_PushCell(Percent_Goomba);
-		Call_PushCell(tempDamage);
-		Call_Finish(action);
-
-		if(action == Plugin_Changed)
-		{
-			damageBonus = tempDamage - 500.0;
-		}
-		else if(action == Plugin_Handled)
-		{
-			return Plugin_Handled;
-		}
-
 		Call_StartForward(OnTakePercentDamagePost);
 		Call_PushCell(victim);
 		Call_PushCell(attacker);
@@ -9931,27 +9950,29 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 	}
 	new String:temp[80];
 	if(slot >= 0)
+	{
 		Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
 
-	new Float:temp2=BossAbilityDuration[boss][slot];
-	new Float:temp3=BossAbilityCooldown[boss][slot];
+		new Float:temp2=BossAbilityDuration[boss][slot];
+		new Float:temp3=BossAbilityCooldown[boss][slot];
 
-	Call_StartForward(OnAbilityTime);
-	Call_PushCell(boss);
-	Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-	Call_PushCell(slot);
-	Call_PushFloatRef(temp2);
-	Call_PushFloatRef(temp3);
-	Call_Finish(action);
+		Call_StartForward(OnAbilityTime);
+		Call_PushCell(boss);
+		Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+		Call_PushCell(slot);
+		Call_PushFloatRef(temp2);
+		Call_PushFloatRef(temp3);
+		Call_Finish(action);
 
-	switch(action)
-	{
-		case Plugin_Changed:
+		switch(action)
 		{
-			BossAbilityDuration[boss][slot]=temp2;
-			BossAbilityCooldown[boss][slot]=temp3;
-			Format(BossAbilityName[boss][slot], sizeof(BossAbilityName[][]), "%s", temp);
-	  }
+			case Plugin_Changed:
+			{
+				BossAbilityDuration[boss][slot]=temp2;
+				BossAbilityCooldown[boss][slot]=temp3;
+				Format(BossAbilityName[boss][slot], sizeof(BossAbilityName[][]), "%s", temp);
+		  	}
+		}
 		// wat.
 	}
 
@@ -10271,6 +10292,16 @@ public Native_GetFF2flags(Handle:plugin, numParams)
 public Native_SetFF2flags(Handle:plugin, numParams)
 {
 	FF2flags[GetNativeCell(1)]=GetNativeCell(2);
+}
+
+public Native_GetFF2Userflags(Handle:plugin, numParams)
+{
+	return FF2Userflags[GetNativeCell(1)];
+}
+
+public Native_SetFF2Userflags(Handle:plugin, numParams)
+{
+	FF2Userflags[GetNativeCell(1)]=GetNativeCell(2);
 }
 
 public Native_GetQueuePoints(Handle:plugin, numParams)
