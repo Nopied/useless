@@ -74,12 +74,20 @@ public void OnTakeDamageAlivePost(int victim, int attacker, int inflictor, float
     {
         if(CP_ReplacePartSlot(victim, 18, 1))
         {
-            int target = FindAnotherPerson(victim, true);
-            float targetPos[3];
-            GetClientEyePosition(target, targetPos);
-
-            TeleportEntity(victim, targetPos, NULL_VECTOR, NULL_VECTOR);
             CP_NoticePart(victim, 18);
+
+            int target = FindAnotherPerson(victim, true);
+            if(IsValidClient(target))
+            {
+                float targetPos[3];
+                GetClientEyePosition(target, targetPos);
+
+                TeleportEntity(victim, targetPos, NULL_VECTOR, NULL_VECTOR);
+            }
+            else
+            {
+                CPrintToChatAll("{yellow}[CP]{default} 그런데 효과를 발동할 아군이 없어요!");
+            }
         }
     }
     if(IsValidClient(attacker))
@@ -95,8 +103,17 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
     if(CP_IsPartActived(client, 15))
     {
-        TF2_RespawnPlayer(FindAnotherPerson(client));
         CP_NoticePart(client, 15);
+
+        int target = FindAnotherPerson(client);
+        if(IsValidClient(target))
+        {
+            TF2_RespawnPlayer(FindAnotherPerson(client));
+        }
+        else
+        {
+            CPrintToChatAll("{yellow}[CP]{default} 그런데 부활시킬 아군이 없어요!");
+        }
     }
 
     return Plugin_Continue;
@@ -117,17 +134,22 @@ public void OnEntitySpawned(int entity)
 
     char classname[60];
     GetEntityClassname(entity, classname, sizeof(classname));
-
+/*
     if(!StrContains(classname, "tf_flame", false))
     {
+
         if(CP_IsPartActived(owner, 17))
         {
             SetEntityRenderMode(entity, RENDER_TRANSCOLOR);
     		SetEntityRenderColor(entity, 0, 216, 255, 255);
         }
-    }
 
-    else if(!StrContains(classname, "tf_projectile_", false))
+        SetEntityRenderMode(entity, RENDER_TRANSCOLOR);
+        SetEntityRenderColor(entity, 0, 216, 255, 255);
+    }
+*/
+
+    if(!StrContains(classname, "tf_projectile_", false))
     {
         if(CP_IsPartActived(owner, 19))
         {
@@ -143,7 +165,7 @@ public void OnEntitySpawned(int entity)
                 SetEntProp(prop, Prop_Send, "m_CollisionGroup", 2);
 
                 SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
-                DispatchSpawn(prop);
+                // DispatchSpawn(prop);
 
                 CP_PropToPartProp(prop, 0, CP_RandomPartRank(true), true, true, false);
 
@@ -251,9 +273,25 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     else if(partIndex == 17)
     {
         AddToSlotWeapon(client, 0, 32, 100.0);
-        AddToSlotWeapon(client, 0, 27, 1.0);
+        AddToSlotWeapon(client, 0, 356, 1.0);
 
         AddToSomeWeapon(client, 54, -0.3);
+    }
+    else if(partIndex == 21)
+    {
+        TF2_AddCondition(client, TFCond_MarkedForDeath, TFCondDuration_Infinite);
+    }
+    else if(partIndex == 22)
+    {
+        int boss = FF2_GetBossIndex(client);
+        if(boss != -1)
+        {
+            FF2_SetBossCharge(boss, 0, 100.0);
+        }
+        else
+        {
+            Debug("보스가 아닌데 이 파츠를 흭득함.");
+        }
     }
 }
 
@@ -329,7 +367,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
             // AddToSomeWeapon(client, 54, -0.3);
 
             AddToSlotWeapon(client, 0, 32, -100.0);
-            AddToSlotWeapon(client, 0, 27, -1.0);
+            AddToSlotWeapon(client, 0, 356, -1.0);
 
             AddToSomeWeapon(client, 54, 0.3);
         }
@@ -346,10 +384,23 @@ public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageTy
     bool changed;
     bool blocked;
 
-    if((damageType == Percent_Marketed || damageType == Percent_GroundMarketed) && CP_IsPartActived(attacker, 9))
+    if((damageType == Percent_Marketed || damageType == Percent_GroundMarketed))
     {
-        changed = true;
-        damage *= 1.5;
+        if(CP_IsPartActived(attacker, 9))
+        {
+            changed = true;
+            damage *= 1.5;
+        }
+    }
+
+    if(damageType == Percent_Backstab)
+    {
+        if(CP_IsPartActived(attacker, 20))
+        {
+            blocked = true;
+            TF2_StunPlayer(victim, 3.5, 0.5, TF_STUNFLAGS_SMALLBONK, attacker);
+            CP_NoticePart(attacker, 20);
+        }
     }
 
     // Debug("FF2_OnTakePercentDamage: attacker = %i, damageType = %i", attacker, damageType);
@@ -398,7 +449,13 @@ public void TF2_OnConditionAdded(int client, TFCond condition)
 
 public void TF2_OnConditionRemoved(int client, TFCond condition)
 {
-
+    if(condition == TFCond_MarkedForDeath)
+    {
+        if(CP_IsPartActived(client, 21))
+        {
+            TF2_AddCondition(client, TFCond_MarkedForDeath, TFCondDuration_Infinite);
+        }
+    }
 }
 
 public void RandomHallyVoice(char[] path, int buffer) // TODO: 관련 컨픽 새로 만들기

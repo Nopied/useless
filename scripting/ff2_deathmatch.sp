@@ -14,7 +14,8 @@ bool IsLastMan[MAXPLAYERS+1];
 bool AlreadyLastmanSpawned[MAXPLAYERS+1];
 bool IsSnowStorm[MAXPLAYERS+1];
 
-int top[3];
+int top[MAXPLAYERS+1];
+bool loserTop[MAXPLAYERS+1];
 int lastDamage;
 int BGMCount;
 float timeleft;
@@ -69,6 +70,9 @@ public void OnPluginStart()
     // TODO: pass 커맨드 구현.
 
     LoadTranslations("freak_fortress_2.phrases");
+
+    AddCommandListener(Listener_Say, "say");
+    AddCommandListener(Listener_Say, "say_team");
 }
 
 public void OnMapStart()
@@ -79,6 +83,97 @@ public void OnMapStart()
     MusicKV=INVALID_HANDLE;
   }
   PrecacheMusic();
+}
+
+public Action Listener_Say(int client, const char[] command, int argc)
+{
+	if(!IsValidClient(client)) return Plugin_Continue;
+
+	char strChat[100];
+	char temp[3][64];
+	GetCmdArgString(strChat, sizeof(strChat));
+
+	int start;
+
+	if(strChat[start] == '"') start++;
+	if(strChat[start] == '!' || strChat[start] == '/') start++;
+	strChat[strlen(strChat)-1] = '\0';
+	ExplodeString(strChat[start], " ", temp, 3, 64, true);
+
+	if(StrEqual(temp[0], "넘기기", true))
+	{
+		if(temp[1][0] != '\0')
+		{
+			return Plugin_Continue;
+		}
+		PassLastMan(client);
+		return Plugin_Handled;
+	}
+
+    return Plugin_Continue;
+}
+
+void PassLastMan(int client)
+{
+    if(FF2_GetRoundState() != 1 && GetGameState() != Game_LastManStanding || IsFakeLastManStanding)
+    {
+        CPrintToChat(client, "{olive}[FF2]{default} 이 커맨드는 {orange}최후의 결전{default}에서만 사용하실 수 있습니다.");
+        return;
+    }
+    if(loserTop[client] || !IsLastMan[client] || !IsPlayerAlive(client) || IsBossTeam(client))
+    {
+        CPrintToChat(client, "{olive}[FF2]{default} 이미 넘기셨거나 라스트맨이 아닙니다.");
+        return;
+    }
+    if(NoEnemyTime[client] <= GetGameTime())
+    {
+        CPrintToChat(client, "{olive}[FF2]{default} 무적시간 끝나서 넘겨드릴 수 없습니다. 싸우세요!");
+        return;
+    }
+
+    bool IsBossHurt = false;
+    int boss;
+    for(int target = 1; target <= MaxClients; target++)
+    {
+        if(IsClientInGame(target) && IsBoss(target) && IsPlayerAlive(target))
+        {
+            boss = FF2_GetBossIndex(target);
+            if(FF2_GetBossMaxHealth(boss) > FF2_GetBossHealth(boss) - 3)
+                IsBossHurt = true;
+        }
+    }
+
+    if(IsBossHurt)
+    {
+        CPrintToChat(client, "{olive}[FF2]{default} 이미 보스를 때리신 것 같은데.. 어쩔 수 없네요. 싸우세요!");
+        return;
+    }
+
+    loserTop[client] = true;
+    int somebodyBeLastman = 0;
+    TFTeam team = TF2_GetClientTeam(client);
+
+    for(int count = 0; count <= MaxClients; count++)
+    {
+        if(!loserTop[top[count]] && !IsPlayerAlive(top[count]))
+        {
+            TF2_ChangeClientTeam(client, team);
+            EnableLastManStanding(top[count], true);
+            somebodyBeLastman = top[count];
+        }
+    }
+
+    TF2_ChangeClientTeam(client, TFTeam_Spectator);
+    TF2_ChangeClientTeam(client, team);
+
+    if(IsValidClient(somebodyBeLastman))
+    {
+        CPrintToChatAll("{olive}[FF2]{default} %N님이 라스트맨을 다른 사람에게 넘겼습니다. 이제 %N님이 대신 싸웁니다!", client, somebodyBeLastman);
+    }
+    else
+    {
+        CPrintToChatAll("{olive}[FF2]{default} %N님이 라스트맨을 넘기려고 하였으나.. 대체할 사람이 없군요!", client);
+    }
 }
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
@@ -95,6 +190,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
         NoEnemyTime[target] = 0.0;
         TeleportTime[target] = 0.0;
         WeaponCannotUseTime[target] = 0.0;
+        loserTop[target] = true;
 
         if(IsClientInGame(target))
         {
@@ -147,6 +243,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
         IsLastMan[client] = false;
         AlreadyLastmanSpawned[client] = false;
         TeleportTime[client] = 0.0;
+        loserTop[client] = false;
     }
 
     SetGameState(Game_None);
@@ -205,7 +302,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
     if(!IsBossTeam(attacker) && (GetGameState() == Game_LastManStanding || IsFakeLastManStanding) && IsLastMan[attacker] && IsValidEntity(weapon))
     {
-        int boss = FF2_GetBossIndex(victim);
+        // int boss = FF2_GetBossIndex(victim);
         float bossPosition[3];
 
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
@@ -320,7 +417,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         }
         */
 
-        if(damagetype & DMG_BULLET && !(TF2_GetPlayerClass(victim) == TFClass_Sniper || TF2_GetPlayerClass(victim) == TFClass_Heavy))
+        if(damagetype & DMG_BULLET && (TF2_GetPlayerClass(attacker) == TFClass_Sniper || TF2_GetPlayerClass(attacker) == TFClass_Heavy || TF2_GetPlayerClass(attacker) == TFClass_Engineer))
         {
           changed=true;
           damagetype|=DMG_PREVENT_PHYSICS_FORCE;
@@ -343,14 +440,17 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
         SetGameState(Game_LastManStanding);
+        IsFakeLastManStanding = false;
 
         int bosses[MAXPLAYERS+1];
         int topDamage[3];
         int totalDamage;
         int bossCount;
-        top[0]=0;
-        top[1]=0;
-        top[2]=0;
+
+        for(int count=0; count<=MaxClients; count++)
+        {
+            top[count] = 0;
+        }
 
         for(int target = 1; target <= MaxClients; target++)
         {
@@ -363,7 +463,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
           else if(IsBossTeam(target)) // FF2_GetClientDamage(client)<=0 ||
             continue;
         }
-
+/*
       	for (int z = 1; z <= MaxClients; z++)
       	{
       	  if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[0]))
@@ -388,14 +488,69 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
       			topDamage[2] = FF2_GetClientDamage(z);
       		}
       	}
+*/
+        int clientDamage;
+        int targetDamage;
+        int tempTop[MAXPLAYERS+1];
 
-        if(top[0]<=0)
-          return Plugin_Continue;
+        for(int target=1; target<=MaxClients; target++)
+        {
+            if(!IsClientInGame(target) || FF2_GetClientDamage(target) <= 0 || IsBossTeam(target))
+                continue;
 
-         SetRandomSeed(GetTime());
+            clientDamage = FF2_GetClientDamage(target);
+            targetDamage = FF2_GetClientDamage(top[0]);
+
+            if(targetDamage > 0)
+            {
+                for(int count=0; count < MaxClients; count++)
+                {
+                    tempTop[count] = top[count];
+                }
+
+                if(clientDamage > targetDamage)
+                {
+                    for(int count=0; count < MaxClients; count++)
+                    {
+                        if(MaxClients < count + 1) break;
+
+                        top[count+1] = tempTop[count];
+                    }
+
+                    top[0] = target;
+                }
+                else // 이때는 본인의 포지션의 맞는 곳으로 가야함.
+                {   // 위쪽부터 순차적으로 검색 후 정렬.
+                    int position=0;
+                    for(int count=1; count < MaxClients; count++)
+                    {
+                        if(MaxClients < count + 1) break;
+                        targetDamage = FF2_GetClientDamage(top[count]);
+
+                        if(clientDamage >= targetDamage)
+                        {
+                            top[count+1] = tempTop[count];
+                            if(position == 0)
+                                position = count;
+                        }
+                    }
+                    top[position] = target;
+                }
+            }
+            else
+            {
+                top[0] = target;
+            }
+        }
+
+        if(!IsValidClient(top[0]))
+            return Plugin_Continue;
+
+        SetRandomSeed(GetTime());
 
         for(int i; i<3; i++)
         {
+            topDamage[i]=FF2_GetClientDamage(top[i]);
             totalDamage+=topDamage[i];
         }
 
@@ -756,7 +911,8 @@ public Action OnTimer(Handle timer)
             if(GetGameState() == Game_SuddenDeath)
             {
                 int loser=GetLowestDamagePlayer();
-                suddendeathDamege += (FF2_GetClientDamage(loser) / 20) / 10;
+                int damage = (FF2_GetClientDamage(loser) / 20) / 10;
+                suddendeathDamege += damage > 2 ? damage : 2;
                 static bool alreadyNotice = false;
                 timeleft=30.0;
 
@@ -858,7 +1014,7 @@ public Action BeLastMan(Handle timer, Handle LastManData)
             if(IsPlayerAlive(client))
             {
                 Debug("그 한명이 지금 살아있다!!!");
-                SDKHooks_TakeDamage(client, );
+                TF2_ChangeClientTeam(client, TFTeam_Spectator);
             }
 
         }
