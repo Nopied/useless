@@ -68,7 +68,7 @@ public void OnProjectileSpawn(int entity)
             // SetEntityGravity(sentry, 0.0);
             // SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | FL_DONTTOUCH | ~FL_WORLDBRUSH);
             // SetEntityFlags(sentry, GetEntityFlags(sentry) | FL_BASEVELOCITY | ~FL_WORLDBRUSH);
-            UpdateEntityHitbox(sentry, 4.0);// TODO: 커스터마이즈
+            // UpdateEntityHitbox(sentry, 1.0);// TODO: 커스터마이즈
 
             TeleportEntity(sentry, origin, angles, angVector);
         }
@@ -82,7 +82,7 @@ public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abi
 
 stock void UpdateEntityHitbox(const int client, const float fScale)
 {
-    static const Float:vecTF2PlayerMin[3] = { -24.5, -24.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 24.5,  24.5, 83.0 };
+    static const Float:vecTF2PlayerMin[3] = { -50.5, -70.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 50.5,  70.5, 80.0 };
 
     decl Float:vecScaledPlayerMin[3], Float:vecScaledPlayerMax[3];
 

@@ -20,7 +20,7 @@ new Float:gf_greyalien_timer, Float:gf_greyalien_radius, Float:gf_greyalien_velo
 new Float:gf_greyalien_stuntime, Float:gf_greyalien_duration, Float:gf_greyalien_damage;
 new Float:gf_greyalien_slayratio;
 new String:gs_greyalien_push[6];
-// new g_Touched[MAX_EDICTS+1];
+new Float:g_clientGra[MAXPLAYERS+1];
 
 Greyalien_event_round_active()
 {
@@ -126,7 +126,7 @@ Abduct(client)
         EmitAmbientSound(SOUND_GREYALIEN_POD_START, origin, trigger);
         EmitSoundToAll(SOUND_GREYALIEN_POD_LOOP, trigger, SNDCHAN_VOICE);
         CreateTimer(gf_greyalien_duration+2.5, Timer_RemovePod, EntIndexToEntRef(trigger), TIMER_FLAG_NO_MAPCHANGE);
-        CreateTimer(2.5, EnablePod, EntIndexToEntRef(trigger), TIMER_FLAG_NO_MAPCHANGE);
+        CreateTimer(2.0, EnablePod, EntIndexToEntRef(trigger), TIMER_FLAG_NO_MAPCHANGE);
 
         DispatchKeyValueVector(trigger, "origin", origin);
         DispatchKeyValue(trigger, "speed", gs_greyalien_push);
@@ -178,8 +178,9 @@ public Action:EnablePod(Handle:timer, any:ref)
 
 public Action:OnStartTouchBeam( brush, entity )
 {
-    if(entity > 0 && entity <= MaxClients && IsClientInGame(entity) && GetClientTeam(entity) == g_otherteam) // should be in game, but sometimes arn't wtf
+    if(entity > 0 && entity <= MaxClients && IsClientInGame(entity)) // should be in game, but sometimes arn't wtf
     {
+        g_clientGra[entity] =  GetEntityGravity(entity);
         SetEntityGravity(entity, 0.001);
 
         if(GetClientTeam(entity) == g_otherteam)
@@ -196,7 +197,7 @@ public Action:OnEndTouchBeam( brush, entity )
     if(entity > 0 && entity <= MaxClients && IsClientInGame(entity)) // should be in game, but sometimes arn't wtf
     {
         g_update[entity] = 0;
-        SetEntityGravity(entity, 1.0);
+        SetEntityGravity(entity, g_clientGra[entity]);
     }
 }
 

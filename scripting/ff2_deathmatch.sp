@@ -168,6 +168,7 @@ void PassLastMan(int client)
 
     TF2_ChangeClientTeam(client, TFTeam_Spectator);
     // TF2_ChangeClientTeam(client, team);
+    // FIXME: 팀포 버그
 
     if(IsValidClient(somebodyBeLastman))
     {

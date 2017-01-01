@@ -98,7 +98,7 @@ public void OnTakeDamageAlivePost(int victim, int attacker, int inflictor, float
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-    int client = GetEventInt(event, "userid");
+    int client = GetClientOfUserId(GetEventInt(event, "userid"));
     bool IsFake;
     if(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         IsFake = true;
@@ -164,6 +164,9 @@ public void OnEntitySpawned(int entity)
             GetEntPropVector(entity, Prop_Data, "m_angRotation", velocity);
 
             NormalizeVector(velocity, velocity);
+            velocity[0]*=800.0;
+            velocity[1]*=800.0;
+            velocity[2]*=800.0;
 
             AcceptEntityInput(entity, "kill");
 
@@ -474,9 +477,14 @@ public void RandomHallyVoice(char[] path, int buffer) // TODO: 관련 컨픽 새
     int random = GetRandomInt(1, count);
 
     Format(path, buffer, "POTRY/custompart/hal_ly/c_hal_ly%d.mp3", random);
+    Debug(path);
 
     if(!IsSoundPrecached(path))
+    {
+        Debug("사운드 캐시가 되지 않음!");
         PrecacheSound(path);
+    }
+
 }
 
 int CreateDispenserTrigger(int client)
