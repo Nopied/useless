@@ -117,7 +117,7 @@ void PassLastMan(int client)
 {
     if(FF2_GetRoundState() != 1 && GetGameState() != Game_LastManStanding || IsFakeLastManStanding)
     {
-        CPrintToChat(client, "{olive}[FF2]{default} 이 커맨드는 {orange}최후의 결전{default}에서만 사용하실 수 있습니다.");
+        CPrintToChat(client, "{olive}[FF2]{default} 이 명령어는 {orange}최후의 결전{default}에서만 사용하실 수 있습니다.");
         return;
     }
     if(loserTop[client] || !IsLastMan[client] || !IsPlayerAlive(client) || IsBossTeam(client))
@@ -138,7 +138,7 @@ void PassLastMan(int client)
         if(IsClientInGame(target) && IsBoss(target) && IsPlayerAlive(target))
         {
             boss = FF2_GetBossIndex(target);
-            if(FF2_GetBossMaxHealth(boss) > FF2_GetBossHealth(boss) - 3)
+            if(FF2_GetBossMaxHealth(boss) - 3 > FF2_GetBossHealth(boss))
                 IsBossHurt = true;
         }
     }
@@ -150,6 +150,7 @@ void PassLastMan(int client)
     }
 
     loserTop[client] = true;
+    timeleft = 120.0;
     int somebodyBeLastman = 0;
     TFTeam team = TF2_GetClientTeam(client);
 
@@ -160,11 +161,13 @@ void PassLastMan(int client)
             TF2_ChangeClientTeam(client, team);
             EnableLastManStanding(top[count], true);
             somebodyBeLastman = top[count];
+
+            break;
         }
     }
 
     TF2_ChangeClientTeam(client, TFTeam_Spectator);
-    TF2_ChangeClientTeam(client, team);
+    // TF2_ChangeClientTeam(client, team);
 
     if(IsValidClient(somebodyBeLastman))
     {
@@ -190,7 +193,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
         NoEnemyTime[target] = 0.0;
         TeleportTime[target] = 0.0;
         WeaponCannotUseTime[target] = 0.0;
-        loserTop[target] = true;
+        loserTop[target] = false;
 
         if(IsClientInGame(target))
         {
@@ -240,7 +243,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
             SDKUnhook(client, SDKHook_PreThinkPost, StatusTimer);
         }
 
-        IsLastMan[client] = false;
+         false;
         AlreadyLastmanSpawned[client] = false;
         TeleportTime[client] = 0.0;
         loserTop[client] = false;
@@ -307,65 +310,6 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
         GetEntPropVector(victim, Prop_Send, "m_vecOrigin", bossPosition);
         GetEntityClassname(weapon, classname, sizeof(classname));
-        /*
-        if(!StrContains(classname, "tf_weapon_knife") && !(damagecustom & TF_CUSTOM_BACKSTAB))
-        {
-            damagetype |= DMG_CRIT;
-            damage = ((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.06)/3.0;
-
-            EmitSoundToClient(victim, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
-            EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
-            EmitSoundToClient(victim, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
-            EmitSoundToClient(attacker, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
-
-            SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+2.0);
-            SetEntPropFloat(attacker, Prop_Send, "m_flNextAttack", GetGameTime()+2.0);
-            SetEntPropFloat(attacker, Prop_Send, "m_flStealthNextChangeTime", GetGameTime()+2.0);
-
-            int viewmodel = GetEntPropEnt(attacker, Prop_Send, "m_hViewModel");
-            if(viewmodel > MaxClients && IsValidEntity(viewmodel) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
-            {
-                int melee=GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee);
-                int animation=41;
-                switch(melee)
-                {
-                    case 225, 356, 423, 461, 574, 649, 1071:  //Your Eternal Reward, Conniver's Kunai, Saxxy, Wanga Prick, Big Earner, Spy-cicle, Golden Frying Pan
-                    {
-                        animation=15;
-                    }
-                    case 638:  //Sharp Dresser
-                    {
-                        animation=31;
-                    }
-                }
-                SetEntProp(viewmodel, Prop_Send, "m_nSequence", animation);
-            }
-
-            if(!(FF2_GetFF2flags(attacker) & FF2FLAG_HUDDISABLED))
-            {
-                PrintHintText(attacker, "%t", "Backstab");
-            }
-
-      		if(!(FF2_GetFF2flags(victim) & FF2FLAG_HUDDISABLED))
-      		{
-      			PrintHintText(victim, "%t", "Backstabbed");
-      		}
-
-            Handle BossKV=FF2_GetSpecialKV(boss);
-            char playerName[64];
-            char bossName[64];
-
-            GetClientName(attacker, playerName, sizeof(playerName));
-            KvRewind(BossKV);
-            KvGetString(BossKV, "name", bossName, sizeof(bossName), "ERROR NAME");
-
-            FF2_SetAbilityCooldown(boss, FF2_GetAbilityCooldown(boss) + 12.0);
-
-            CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "페이스스탭", bossName, RoundFloat(damage*(255.0/85.0)));
-            CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(FF2_GetAbilityCooldown(boss)));
-            return Plugin_Changed;
-        }
-        */
 
         if(!StrContains(classname, "tf_weapon_shotgun", false) && TF2_GetPlayerClass(attacker) == TFClass_Soldier)
         {
@@ -393,29 +337,6 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             TF2_IgnitePlayer(victim, attacker);
         }
-        /*
-        else if(!StrContains(classname, "tf_weapon_shovel") && TF2_GetPlayerClass(attacker) == TFClass_Soldier && !TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping))
-        {
-          damage=((float(FF2_GetBossMaxHealth(boss))*float(FF2_GetBossMaxLives(boss)))*0.08)/3.0;
-          damagetype|=DMG_CRIT;
-
-          EmitSoundToClient(victim, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
-          EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, bossPosition, _, false);
-          EmitSoundToClient(victim, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
-          EmitSoundToClient(attacker, "player/crit_received3.wav", _, _, _, _, 0.7, _, _, _, _, false);
-
-          Handle BossKV=FF2_GetSpecialKV(boss);
-          char playerName[64];
-          char bossName[64];
-
-          GetClientName(attacker, playerName, sizeof(playerName));
-          KvRewind(BossKV);
-          KvGetString(BossKV, "name", bossName, sizeof(bossName), "ERROR NAME");
-
-          CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "지면 마켓가든", bossName, RoundFloat(damage*(255.0/85.0)));
-          return Plugin_Changed; //
-        }
-        */
 
         if(damagetype & DMG_BULLET && (TF2_GetPlayerClass(attacker) == TFClass_Sniper || TF2_GetPlayerClass(attacker) == TFClass_Heavy || TF2_GetPlayerClass(attacker) == TFClass_Engineer))
         {
@@ -463,32 +384,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
           else if(IsBossTeam(target)) // FF2_GetClientDamage(client)<=0 ||
             continue;
         }
-/*
-      	for (int z = 1; z <= MaxClients; z++)
-      	{
-      	  if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[0]))
-          {
-              top[0] = z;
-              topDamage[0] = FF2_GetClientDamage(z);
-    	    }
-        }
-      	for (int z = 1; z <= MaxClients; z++)
-      	{
-      		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[1]) && z != top[0])
-      		{
-                top[1] = z;
-      			topDamage[1] = FF2_GetClientDamage(z);
-      		}
-      	}
-      	for (int z = 1; z <= MaxClients; z++)
-      	{
-      		if (IsClientInGame(z) && FF2_GetClientDamage(z) > FF2_GetClientDamage(top[2]) && z != top[1] && z != top[0])
-      		{
-                top[2] = z;
-      			topDamage[2] = FF2_GetClientDamage(z);
-      		}
-      	}
-*/
+
         int clientDamage;
         int targetDamage;
         int tempTop[MAXPLAYERS+1];

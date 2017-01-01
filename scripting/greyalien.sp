@@ -20,7 +20,7 @@ new Float:gf_greyalien_timer, Float:gf_greyalien_radius, Float:gf_greyalien_velo
 new Float:gf_greyalien_stuntime, Float:gf_greyalien_duration, Float:gf_greyalien_damage;
 new Float:gf_greyalien_slayratio;
 new String:gs_greyalien_push[6];
-new g_Touched[MAX_EDICTS+1];
+// new g_Touched[MAX_EDICTS+1];
 
 Greyalien_event_round_active()
 {
@@ -123,7 +123,6 @@ Abduct(client)
     new trigger = CreateEntityByName("trigger_push");
     if(trigger != -1)
     {
-        g_Touched[trigger] = INVALID_ENT_REFERENCE;
         EmitAmbientSound(SOUND_GREYALIEN_POD_START, origin, trigger);
         EmitSoundToAll(SOUND_GREYALIEN_POD_LOOP, trigger, SNDCHAN_VOICE);
         CreateTimer(gf_greyalien_duration+2.5, Timer_RemovePod, EntIndexToEntRef(trigger), TIMER_FLAG_NO_MAPCHANGE);
@@ -169,7 +168,6 @@ public Action:Timer_RemovePod(Handle:timer, any:ref)
 public Action:EnablePod(Handle:timer, any:ref)
 {
     new ent = EntRefToEntIndex(ref);
-    g_Touched[ent] = INVALID_ENT_REFERENCE;
     if(ent != INVALID_ENT_REFERENCE)
     {
         SDKHook(ent, SDKHook_StartTouch, OnStartTouchBeam);
@@ -184,6 +182,10 @@ public Action:OnStartTouchBeam( brush, entity )
     {
         SetEntityGravity(entity, 0.001);
 
+        if(GetClientTeam(entity) == g_otherteam)
+        {
+            TF2_StunPlayer(entity, 2.0, 0.0, TF_STUNFLAG_BONKSTUCK|TF_STUNFLAG_NOSOUNDOREFFECT, 0);
+        }
         return Plugin_Continue;
     }
     return Plugin_Handled;
@@ -200,17 +202,14 @@ public Action:OnEndTouchBeam( brush, entity )
 
 public Action:OnTouchBeam( brush, entity )
 {
-    if(g_Touched[brush] > 0 && g_Touched[brush] != brush)
-        return Plugin_Continue;
-
-    g_Touched[brush] = entity;
-
     static Float:lasthurtstun[MAXPLAYERS+1];
     static Float:time, Float:ratio;
     static Float:clientpos[3], Float:beampos[3];
 
-    if(IsValidClient(entity) && GetClientTeam(entity) == g_otherteam) // should be in game, but sometimes arn't wtf
+    // if(IsValidClient(entity) && GetClientTeam(entity) == g_otherteam) // should be in game, but sometimes arn't wtf
+    if(IsValidClient(entity))
     {
+        /*
         time = GetEngineTime();
         if(lasthurtstun[entity] < time)
         {
@@ -231,6 +230,7 @@ public Action:OnTouchBeam( brush, entity )
                 SDKHooks_TakeDamage(entity, g_boss, g_boss, gf_greyalien_damage * ratio, DMG_SHOCK|DMG_PREVENT_PHYSICS_FORCE);
             }
         }
+        */
 
         if(GetEntityFlags(entity) & FL_ONGROUND)
         {

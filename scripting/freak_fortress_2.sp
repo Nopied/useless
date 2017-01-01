@@ -2658,6 +2658,7 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 		Damage[client]=0;
 		uberTarget[client]=-1;
 		emitRageSound[client]=true;
+		FF2Userflags[client]=0;
 		for(new loop=0; loop<sizeof(PlayerDamageDPS[]); loop++)
 		{
 		  PlayerDamageDPS[client][loop]=0.0;
@@ -7063,7 +7064,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						bIsBackstab=true;
 					}
 					else if(FF2Userflags[attacker] & FF2USERFLAG_ALLOW_FACESTAB &&
-						GetEntityClassname(weapon, classname, sizeof(classname)) &&
+					IsValidEntity(weapon) && GetEntityClassname(weapon, classname, sizeof(classname)) &&
 						!StrContains(classname, "tf_weapon_knife", false) && !(damagecustom & TF_CUSTOM_BACKSTAB))
 					{
 						bIsFacestab=true;

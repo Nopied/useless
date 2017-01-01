@@ -99,9 +99,13 @@ public void OnTakeDamageAlivePost(int victim, int attacker, int inflictor, float
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
     int client = GetEventInt(event, "userid");
+    bool IsFake;
+    if(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+        IsFake = true;
+
     if(!IsClientInGame(client)) return Plugin_Continue;
 
-    if(CP_IsPartActived(client, 15))
+    if(!IsFake && CP_IsPartActived(client, 15))
     {
         CP_NoticePart(client, 15);
 
@@ -154,7 +158,13 @@ public void OnEntitySpawned(int entity)
         if(CP_IsPartActived(owner, 19))
         {
             float pos[3];
+            float velocity[3];
+
             GetEntPropVector(entity, Prop_Send, "m_vecOrigin", pos);
+            GetEntPropVector(entity, Prop_Data, "m_angRotation", velocity);
+
+            NormalizeVector(velocity, velocity);
+
             AcceptEntityInput(entity, "kill");
 
             int prop = CreateEntityByName("prop_physics_override");
@@ -170,7 +180,7 @@ public void OnEntitySpawned(int entity)
                 CP_PropToPartProp(prop, 0, CP_RandomPartRank(true), true, true, false);
 
                 FF2_SetClientDamage(owner, FF2_GetClientDamage(owner) + 20);
-                TeleportEntity(prop, pos, NULL_VECTOR, NULL_VECTOR);
+                TeleportEntity(prop, pos, NULL_VECTOR, velocity);
             }
         }
     }
