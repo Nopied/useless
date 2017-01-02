@@ -2449,6 +2449,14 @@ public Action:Timer_Announce(Handle:timer)
 			}
 			case 9:
 			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_9");
+			}
+			case 10:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_10");
+			}
+			case 11:
+			{
 				announcecount=0;
 				CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_last_update", PLUGIN_VERSION, ff2versiondates[maxVersion]);
 			}

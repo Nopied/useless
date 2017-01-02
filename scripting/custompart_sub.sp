@@ -32,6 +32,53 @@ public Plugin myinfo = {
 public void OnPluginStart()
 {
     HookEvent("player_death", OnPlayerDeath);
+    // HookEvent("teamplay_round_start", OnRoundStart);
+    HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
+}
+
+public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+{
+    int weapon;
+    int index;
+    int client = GetClientOfUserId(GetEventInt(event, "userid"));
+    int weaponAttIndex[16];
+    float weaponAttfloat[16];
+
+    if(!IsValidClient(client) || IsFakeClient(client)) return Plugin_Continue;
+
+    for(int slot=0; slot<5; slot++)
+    {
+        weapon = GetPlayerWeaponSlot(client, slot);
+        if(IsValidEntity(weapon))
+        {
+            index = GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex");
+            if(index != -1)
+            {
+                TF2Attrib_RemoveAll(weapon);
+
+                TF2Attrib_GetStaticAttribs(index, weaponAttIndex, weaponAttfloat);
+                for(int count=0; count<16; count++)
+                {
+                    if(weaponAttIndex[count] > 0)
+                    {
+                        TF2Attrib_SetByDefIndex(weapon, weaponAttIndex[count], weaponAttfloat[count]);
+                    }
+                }
+
+            }
+        }
+    }
+
+    int maxSlot = CP_GetClientMaxSlot(client);
+    int part;
+    for(int slot=0; slot<maxSlot; slot++)
+    {
+        part = CP_GetClientPart(client, slot);
+        if(CP_IsValidPart(part))
+            CP_OnGetPart_Post(client, part);
+    }
+
+    return Plugin_Continue;
 }
 
 public void OnClientPostAdminCheck(int client)
@@ -112,7 +159,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         int target = FindAnotherPerson(client);
         if(IsValidClient(target))
         {
-            TF2_RespawnPlayer(FindAnotherPerson(client));
+            TF2_RespawnPlayer(target);
         }
         else
         {
@@ -556,7 +603,10 @@ void AddAttributeDefIndex(int entity, int defIndex, float value)
     }
     else
     {
-        TF2Attrib_SetByDefIndex(entity, defIndex, value+1.0);
+        if(TF2Attrib_IsIntegerValue(defIndex))
+            TF2Attrib_SetByDefIndex(entity, defIndex, value);
+        else
+            TF2Attrib_SetByDefIndex(entity, defIndex, value + 1.0);
     }
 }
 

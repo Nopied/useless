@@ -178,15 +178,12 @@ public Action:EnablePod(Handle:timer, any:ref)
 
 public Action:OnStartTouchBeam( brush, entity )
 {
-    if(entity > 0 && entity <= MaxClients && IsClientInGame(entity)) // should be in game, but sometimes arn't wtf
+    if(entity > 0 && entity <= MaxClients && IsClientInGame(entity) && GetClientTeam(entity) == g_otherteam) // should be in game, but sometimes arn't wtf
     {
         g_clientGra[entity] =  GetEntityGravity(entity);
         SetEntityGravity(entity, 0.001);
+        TF2_StunPlayer(entity, 2.0, 0.0, TF_STUNFLAG_BONKSTUCK|TF_STUNFLAG_NOSOUNDOREFFECT, 0);
 
-        if(GetClientTeam(entity) == g_otherteam)
-        {
-            TF2_StunPlayer(entity, 2.0, 0.0, TF_STUNFLAG_BONKSTUCK|TF_STUNFLAG_NOSOUNDOREFFECT, 0);
-        }
         return Plugin_Continue;
     }
     return Plugin_Handled;
@@ -194,7 +191,7 @@ public Action:OnStartTouchBeam( brush, entity )
 
 public Action:OnEndTouchBeam( brush, entity )
 {
-    if(entity > 0 && entity <= MaxClients && IsClientInGame(entity)) // should be in game, but sometimes arn't wtf
+    if(entity > 0 && entity <= MaxClients && IsClientInGame(entity) && GetClientTeam(entity) == g_otherteam) // should be in game, but sometimes arn't wtf
     {
         g_update[entity] = 0;
         SetEntityGravity(entity, g_clientGra[entity]);
@@ -232,8 +229,16 @@ public Action:OnTouchBeam( brush, entity )
             }
         }
         */
+        if(GetClientTeam(entity) == g_otherteam)
+        {
+            clientpos[0] = 0.0;
+            clientpos[1] = 0.0;
+            clientpos[2] = 9.0;
 
-        if(GetEntityFlags(entity) & FL_ONGROUND)
+            TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, clientpos);
+        }
+
+        else if(GetEntityFlags(entity) & FL_ONGROUND)
         {
             clientpos[0] = 0.0;
             clientpos[1] = 0.0;
@@ -243,11 +248,14 @@ public Action:OnTouchBeam( brush, entity )
 
             g_update[entity] = 0;
         }
+
+        /*
         else if(g_update[entity] == 1)
         {
             TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, Float:{0.0,0.0,0.0});
         }
         g_update[entity]++;
+        */
 
         return Plugin_Continue;
     }

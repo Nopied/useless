@@ -156,7 +156,7 @@ void PassLastMan(int client)
 
     for(int count = 0; count <= MaxClients; count++)
     {
-        if(!loserTop[top[count]] && !IsPlayerAlive(top[count]))
+        if(!loserTop[top[count]] && IsValidClient(loserTop[top[count]]) &&!IsPlayerAlive(top[count]))
         {
             TF2_ChangeClientTeam(client, team);
             EnableLastManStanding(top[count], true);
@@ -167,7 +167,9 @@ void PassLastMan(int client)
     }
 
     TF2_ChangeClientTeam(client, TFTeam_Spectator);
-    // TF2_ChangeClientTeam(client, team);
+    TF2_ChangeClientTeam(client, team);
+    if(IsPlayerAlive(client))
+        ForcePlayerSuicide(client);
     // FIXME: 팀포 버그
 
     if(IsValidClient(somebodyBeLastman))
@@ -193,7 +195,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
     {
         NoEnemyTime[target] = 0.0;
         TeleportTime[target] = 0.0;
-        WeaponCannotUseTime[target] = 0.0;
+        WeaponCannotUseTime[target] = -1.0;
         loserTop[target] = false;
 
         if(IsClientInGame(target))
@@ -244,8 +246,10 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
             SDKUnhook(client, SDKHook_PreThinkPost, StatusTimer);
         }
 
-         false;
+        IsLastMan[client] = false;
         AlreadyLastmanSpawned[client] = false;
+        WeaponCannotUseTime[client] = -1.0;
+        NoEnemyTime[client] = 0.0;
         TeleportTime[client] = 0.0;
         loserTop[client] = false;
     }
@@ -295,6 +299,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             TF2_AddCondition(victim, TFCond_SpeedBuffAlly, 20.0);
 
             WeaponCannotUseTime[victim] = GetGameTime() + 20.0;
+            SetEntProp(victim, Prop_Send, "m_CollisionGroup", 1);
 
             PrintCenterText(victim, "죽을 정도의 치명적인 피해를 받아 20초 동안 행동불능 상태가 됩니다.\n 보스에게서 떨어지세요!");
 
@@ -624,7 +629,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
-  if(GetGameState() != Game_LastManStanding
+  if((GetGameState() != Game_LastManStanding && !IsFakeLastManStanding)
   || !IsLastMan[client]
   || !IsPlayerAlive(client) ) return Plugin_Continue;
 
@@ -848,7 +853,7 @@ public void StatusTimer(int client)
     {
         for(int target = 1; target <= MaxClients; target++)
         {
-            if(IsClientInGame(target) && IsPlayerAlive(target) && IsBossTeam(target))
+            if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(client) != GetClientTeam(target))
             {
                 float pos[3];
                 float enemyPos[3];
@@ -874,6 +879,17 @@ public void StatusTimer(int client)
             SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime() + 0.03);
             SetEntPropFloat(weapon, Prop_Send, "m_flNextSecondaryAttack", GetGameTime() + 0.03);
             SetEntPropFloat(client, Prop_Send, "m_flNextAttack", GetGameTime() + 0.03);
+        }
+    }
+    else if(WeaponCannotUseTime[client] != -1.0)
+    {
+        WeaponCannotUseTime[client] = -1.0;
+        SetEntProp(client, Prop_Send, "m_CollisionGroup", 5);
+
+        if(IsPlayerStuck(client))
+        {
+            TF2_RespawnPlayer(client);
+            PrintCenterText(client, "이런! 끼는 자리에 있어서 부활시켰습니다!");
         }
     }
 
@@ -910,8 +926,7 @@ public Action BeLastMan(Handle timer, Handle LastManData)
             TF2_ChangeClientTeam(client, view_as<TFTeam>(team));
             if(IsPlayerAlive(client))
             {
-                Debug("그 한명이 지금 살아있다!!!");
-                TF2_ChangeClientTeam(client, TFTeam_Spectator);
+                ForcePlayerSuicide(client);
             }
 
         }
