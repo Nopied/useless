@@ -5,6 +5,7 @@
 #include <tf2>
 #include <tf2_stocks>
 #include <tf2attributes>
+#include <tf2items>
 #include <freak_fortress_2>
 #include <custompart>
 #include <POTRY>
@@ -21,13 +22,9 @@ public Plugin myinfo = {
   version=PLUGIN_VERSION,
 };
 
-/*
+Handle CustomPartSubKv;
 
-- 1: 파괴됨!
-- 9: 건 소울
-- 11: 파츠 거부 반응
-
-*/
+int slotWeaponEntityRef[MAXPLAYERS+1][5];
 
 public void OnPluginStart()
 {
@@ -36,49 +33,39 @@ public void OnPluginStart()
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
 }
 
+public void OnMapStart()
+{
+    CheckPartConfigFile();
+}
+
+public void TF2Items_OnGiveNamedItem_Post(int client, char[] classname, int itemDefinitionIndex, int itemLevel, int itemQuality, int entityIndex)
+{
+    int slot = GetWeaponSlot(client, entityIndex);
+
+
+
+}
+
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
-    int weapon;
-    int index;
     int client = GetClientOfUserId(GetEventInt(event, "userid"));
-    int weaponAttIndex[16];
-    float weaponAttfloat[16];
 
     if(!IsValidClient(client) || IsFakeClient(client)) return Plugin_Continue;
+
+    int weapon;
 
     for(int slot=0; slot<5; slot++)
     {
         weapon = GetPlayerWeaponSlot(client, slot);
         if(IsValidEntity(weapon))
         {
-            index = GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex");
-            if(index != -1)
-            {
-                TF2Attrib_RemoveAll(weapon);
-
-                TF2Attrib_GetStaticAttribs(index, weaponAttIndex, weaponAttfloat);
-                for(int count=0; count<16; count++)
-                {
-                    if(weaponAttIndex[count] > 0)
-                    {
-                        TF2Attrib_SetByDefIndex(weapon, weaponAttIndex[count], weaponAttfloat[count]);
-                    }
-                }
-
-            }
+            slotWeaponEntityRef[client][slot] = EntIndexToEntRef(weapon);
         }
     }
 
-    int maxSlot = CP_GetClientMaxSlot(client);
-    int part;
-    for(int slot=0; slot<maxSlot; slot++)
-    {
-        part = CP_GetClientPart(client, slot);
-        if(CP_IsValidPart(part))
-            CP_OnGetPart_Post(client, part);
-    }
 
     return Plugin_Continue;
+
 }
 
 public void OnClientPostAdminCheck(int client)
@@ -185,35 +172,22 @@ public void OnEntitySpawned(int entity)
 
     char classname[60];
     GetEntityClassname(entity, classname, sizeof(classname));
-/*
-    if(!StrContains(classname, "tf_flame", false))
-    {
-
-        if(CP_IsPartActived(owner, 17))
-        {
-            SetEntityRenderMode(entity, RENDER_TRANSCOLOR);
-    		SetEntityRenderColor(entity, 0, 216, 255, 255);
-        }
-
-        SetEntityRenderMode(entity, RENDER_TRANSCOLOR);
-        SetEntityRenderColor(entity, 0, 216, 255, 255);
-    }
-*/
 
     if(!StrContains(classname, "tf_projectile_", false))
     {
         if(CP_IsPartActived(owner, 19))
         {
             float pos[3];
+            float ang[3];
             float velocity[3];
 
             GetEntPropVector(entity, Prop_Send, "m_vecOrigin", pos);
-            GetEntPropVector(entity, Prop_Data, "m_angRotation", velocity);
+            GetEntPropVector(entity, Prop_Send, "m_angRotation", ang);
 
+            velocity[0]=ang[0]*800.0;
+            velocity[1]=ang[1]*800.0;
+            velocity[2]=ang[2]*800.0;
             NormalizeVector(velocity, velocity);
-            velocity[0]*=800.0;
-            velocity[1]*=800.0;
-            velocity[2]*=800.0;
 
             AcceptEntityInput(entity, "kill");
 
@@ -225,12 +199,11 @@ public void OnEntitySpawned(int entity)
                 SetEntProp(prop, Prop_Send, "m_CollisionGroup", 2);
 
                 SetEntProp(prop, Prop_Send, "m_usSolidFlags", 0x0004);
-                // DispatchSpawn(prop);
 
                 CP_PropToPartProp(prop, 0, CP_RandomPartRank(true), true, true, false);
 
                 FF2_SetClientDamage(owner, FF2_GetClientDamage(owner) + 20);
-                TeleportEntity(prop, pos, NULL_VECTOR, velocity);
+                TeleportEntity(prop, pos, ang, velocity);
             }
         }
     }
@@ -240,6 +213,7 @@ public void CP_OnActivedPartEnd(int client, int partIndex)
 {
     if(IsPlayerAlive(client))
     {
+
         if(partIndex == 12)
         {
             AddToAllWeapon(client, 2, -0.3);
@@ -308,7 +282,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         TF2_StunPlayer(client, 1.5, 0.5, TF_STUNFLAGS_SMALLBONK);
 
         char path[PLATFORM_MAX_PATH];
-        RandomHallyVoice(path, sizeof(path));
+        RandomSound("Hal_ly", path, sizeof(path));
 
         // EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
         // EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
@@ -332,7 +306,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     else if(partIndex == 17)
     {
-        AddToSlotWeapon(client, 0, 32, 100.0);
+        AddToSlotWeapon(client, 0, 32, 1.0);
         AddToSlotWeapon(client, 0, 356, 1.0);
 
         AddToSomeWeapon(client, 54, -0.3);
@@ -373,9 +347,6 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
             return Plugin_Continue;
 
         Debug("CP_OnSlotClear: client = %i, partIndex = %i", client, partIndex);
-
-        if(CP_IsPartActived(client, 8))
-            return Plugin_Handled;
 
         if(partIndex == 10)
         {
@@ -421,12 +392,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 
         else if(partIndex == 17)
         {
-            // AddToSlotWeapon(client, 0, 32, 100.0);
-            // AddToSlotWeapon(client, 0, 27, 1.0);
-
-            // AddToSomeWeapon(client, 54, -0.3);
-
-            AddToSlotWeapon(client, 0, 32, -100.0);
+            AddToSlotWeapon(client, 0, 32, -1.0);
             AddToSlotWeapon(client, 0, 356, -1.0);
 
             AddToSomeWeapon(client, 54, 0.3);
@@ -518,22 +484,6 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
     }
 }
 
-public void RandomHallyVoice(char[] path, int buffer) // TODO: 관련 컨픽 새로 만들기
-{
-    int count = 4;
-    int random = GetRandomInt(1, count);
-
-    Format(path, buffer, "POTRY/custompart/hal_ly/c_hal_ly%d.mp3", random);
-    Debug(path);
-
-    if(!IsSoundPrecached(path))
-    {
-        Debug("사운드 캐시가 되지 않음!");
-        PrecacheSound(path);
-    }
-
-}
-
 int CreateDispenserTrigger(int client)
 {
     int trigger = CreateEntityByName("dispenser_touch_trigger");
@@ -562,7 +512,9 @@ void AddToSlotWeapon(int client, int slot, int defIndex, float value)
 {
     int weapon = GetPlayerWeaponSlot(client, slot);
     if(IsValidEntity(weapon))
+    {
         AddAttributeDefIndex(weapon, defIndex, value);
+    }
 }
 
 void AddToAllWeapon(int client, int defIndex, float value)
@@ -610,6 +562,87 @@ void AddAttributeDefIndex(int entity, int defIndex, float value)
     }
 }
 
+void CheckPartConfigFile()
+{
+  if(CustomPartSubKv != INVALID_HANDLE)
+  {
+    CloseHandle(CustomPartSubKv);
+    CustomPartSubKv = INVALID_HANDLE;
+  }
+
+  char config[PLATFORM_MAX_PATH];
+  char temp[PLATFORM_MAX_PATH];
+  char item[20];
+  int count;
+  BuildPath(Path_SM, config, sizeof(config), "configs/custompart_sub.cfg");
+
+  if(!FileExists(config))
+  {
+      SetFailState("[CP] NO CFG FILE! (configs/custompart_sub.cfg)");
+      return;
+  }
+
+  CustomPartSubKv = CreateKeyValues("custompart_sub");
+
+  if(!FileToKeyValues(CustomPartSubKv, config))
+  {
+    SetFailState("[CP] configs/custompart_sub.cfg is broken?!");
+  }
+
+  KvRewind(CustomPartSubKv);
+  if(KvGotoFirstSubKey(CustomPartSubKv))
+  {
+      do
+      {
+          count = 0;
+          for( ; ; )
+          {
+            Format(item, sizeof(item), "%i", ++count);
+            KvGetString(CustomPartSubKv, item, config, sizeof(config), "");
+
+            if(config[0] == '\0') break;
+
+            Format(temp, sizeof(temp), "sound/%s", config);
+            if(FileExists(temp, true))
+            {
+                if(!IsSoundPrecached(config))
+                {
+                    PrecacheSound(config);
+                }
+
+                AddFileToDownloadsTable(temp);
+            }
+          }
+      }
+      while(KvGotoNextKey(CustomPartSubKv));
+  }
+}
+
+public void RandomSound(const char[] key, char[] path, int buffer)
+{
+    if(CustomPartSubKv == INVALID_HANDLE)   return;
+
+    char config[PLATFORM_MAX_PATH];
+    char item[20];
+    int count;
+
+    KvRewind(CustomPartSubKv);
+    if(KvJumpToKey(CustomPartSubKv, key))
+    {
+        count = 0;
+        for( ; ; )
+        {
+          Format(item, sizeof(item), "%i", ++count);
+          KvGetString(CustomPartSubKv, item, config, sizeof(config), "");
+
+          if(config[0] == '\0') break;
+        }
+    }
+
+    Format(item, sizeof(item), "%i", GetRandomInt(1, count));
+    KvGetString(CustomPartSubKv, item, path, buffer, "");
+}
+
 stock int FindAnotherPerson(int Gclient, bool checkAlive=false)
 {
     int count;
@@ -633,6 +666,22 @@ stock int FindAnotherPerson(int Gclient, bool checkAlive=false)
         return 0;
     }
     return validTarget[GetRandomInt(0, count-1)];
+}
+
+stock int GetWeaponSlot(int client, int entityIndex)
+{
+    int weapon;
+
+    for(int slot=0; slot<5; slot++)
+    {
+        weapon = GetPlayerWeaponSlot(client, slot);
+        if(IsValidEntity(weapon) && weapon == entityIndex)
+        {
+            return slot;
+        }
+    }
+
+    return -1;
 }
 
 stock bool IsBoss(int client)
