@@ -2457,6 +2457,14 @@ public Action:Timer_Announce(Handle:timer)
 			}
 			case 11:
 			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_11");
+			}
+			case 12:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_12");
+			}
+			case 13:
+			{
 				announcecount=0;
 				CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_last_update", PLUGIN_VERSION, ff2versiondates[maxVersion]);
 			}
@@ -4066,6 +4074,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		return Plugin_Continue;
 	}
 
+	Debug("TF2Items_OnGiveNamedItem: %N", client);
 	switch(iItemDefinitionIndex)
 	{
 		case 38, 457:  //Axtinguisher, Postal Pummeler
@@ -5271,7 +5280,10 @@ public OnClientDisconnect(client)
 
 public Action:OnPlayerSpawn(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	FF2Userflags[GetEventInt(event, "userid")] = 0;
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+	FF2Userflags[client] = 0;
+
+	Debug("OnPlayerSpawn: %N", client);
 
 	if(Enabled && CheckRoundState()==1)
 	{

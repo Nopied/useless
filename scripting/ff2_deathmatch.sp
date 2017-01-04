@@ -219,6 +219,13 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
     int client=GetClientOfUserId(GetEventInt(event, "userid"));
 
+    if(TF2_GetClientTeam(client) == TFTeam_Spectator && IsPlayerAlive(client)) // FIXME: 팀포 버그
+    {
+        TF2_ChangeClientTeam(client, view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Blue ? TFTeam_Red : TFTeam_Blue);
+        ForcePlayerSuicide(client);
+    }
+
+
     if(FF2_GetRoundState() == 1
     && (GetGameState() == Game_LastManStanding || IsFakeLastManStanding)
     && IsLastMan[client]
