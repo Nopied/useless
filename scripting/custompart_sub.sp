@@ -25,6 +25,7 @@ public Plugin myinfo = {
 Handle CustomPartSubKv;
 
 int slotWeaponEntityRef[MAXPLAYERS+1][5];
+bool slotWeaponEntityRefChanged[MAXPLAYERS+1][5];
 
 public void OnPluginStart()
 {
@@ -38,12 +39,14 @@ public void OnMapStart()
     CheckPartConfigFile();
 }
 
-public void TF2Items_OnGiveNamedItem_Post(int client, char[] classname, int itemDefinitionIndex, int itemLevel, int itemQuality, int entityIndex)
+public int TF2Items_OnGiveNamedItem_Post(int client, char[] classname, int itemDefinitionIndex, int itemLevel, int itemQuality, int entityIndex)
 {
     int slot = GetWeaponSlot(client, entityIndex);
 
-
-
+    if(slot != -1)
+    {
+        slotWeaponEntityRef[client][slot] = EntIndexToEntRef(entityIndex);
+    }
 }
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
@@ -213,11 +216,10 @@ public void CP_OnActivedPartEnd(int client, int partIndex)
 {
     if(IsPlayerAlive(client))
     {
-
         if(partIndex == 12)
         {
-            AddToAllWeapon(client, 2, -0.3);
-            AddToSomeWeapon(client, 412, 0.5);
+            RemoveToAllWeapon(client, 2, -0.3);
+            RemoveToSomeWeapon(client, 412, 0.5);
 
             TF2_StunPlayer(client, 6.0, 0.5, TF_STUNFLAGS_SMALLBONK);
         }
@@ -341,12 +343,33 @@ public void CP_OnActivedPart(int client, int partIndex)
 
 public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 {
+    int weapon;
+
     if(IsClientInGame(client))
     {
-        if(FF2_GetRoundState() != 1)
-            return Plugin_Continue;
-
         Debug("CP_OnSlotClear: client = %i, partIndex = %i", client, partIndex);
+
+        for(int slot=0; slot<5; slot++)
+        {
+            weapon = GetPlayerWeaponSlot(client, slot);
+            if(IsValidEntity(weapon))
+            {
+                if(slotWeaponEntityRef[client][slot] != EntIndexToEntRef(weapon))
+                {
+                    slotWeaponEntityRefChanged[client][slot] = true;
+                    slotWeaponEntityRef[client][slot] = EntIndexToEntRef(weapon);
+                }
+                else
+                {
+                    slotWeaponEntityRefChanged[client][slot] = false;
+                }
+            }
+            else
+            {
+                slotWeaponEntityRefChanged[client][slot] = false;
+                slotWeaponEntityRef[client][slot] = -1;
+            }
+        }
 
         if(partIndex == 10)
         {
@@ -356,46 +379,46 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         else if(partIndex == 2) // "체력 강화제"
         {
 /////////////////////////////////// 복사 북여넣기 하기 좋은거!!
-            AddToSomeWeapon(client, 26, -50.0);
+            RemoveToSomeWeapon(client, 26, -50.0);
 //////////////////////////////////
-            AddToSomeWeapon(client, 109, 0.1);
+            RemoveToSomeWeapon(client, 109, 0.1);
         }
 
         else if(partIndex == 3) // "근육 강화제"
         {
-            AddToAllWeapon(client, 6, -0.2);
-            AddToAllWeapon(client, 97, 0.2);
-            AddToSomeWeapon(client, 69, 0.5);
+            RemoveToAllWeapon(client, 6, -0.2);
+            RemoveToAllWeapon(client, 97, 0.2);
+            RemoveToSomeWeapon(client, 69, 0.5);
         }
 
         else if(partIndex == 4) // "나노 제트팩"
         {
-            AddToSomeWeapon(client, 610, -0.5);
-            AddToSomeWeapon(client, 207, -1.2);
+            RemoveToSomeWeapon(client, 610, -0.5);
+            RemoveToSomeWeapon(client, 207, -1.2);
         }
 
         else if(partIndex == 6) // "무쇠 탄환"
         {
-            AddToAllWeapon(client, 389, -1.0);
-            AddToAllWeapon(client, 397, -5.0);
-            AddToAllWeapon(client, 266, -1.0);
+            RemoveToAllWeapon(client, 389, -1.0);
+            RemoveToAllWeapon(client, 397, -5.0);
+            RemoveToAllWeapon(client, 266, -1.0);
 
-            AddToAllWeapon(client, 2, -0.3);
-            AddToSomeWeapon(client, 54, 0.15);
+            RemoveToAllWeapon(client, 2, -0.3);
+            RemoveToSomeWeapon(client, 54, 0.15);
         }
 
         else if(partIndex == 16)
         {
-            AddToSomeWeapon(client, 80, -1.0);
-            AddToSomeWeapon(client, 54, 0.1);
+            RemoveToSomeWeapon(client, 80, -1.0);
+            RemoveToSomeWeapon(client, 54, 0.1);
         }
 
         else if(partIndex == 17)
         {
-            AddToSlotWeapon(client, 0, 32, -1.0);
-            AddToSlotWeapon(client, 0, 356, -1.0);
+            RemoveToSlotWeapon(client, 0, 32, -1.0);
+            RemoveToSlotWeapon(client, 0, 356, -1.0);
 
-            AddToSomeWeapon(client, 54, 0.3);
+            RemoveToSomeWeapon(client, 54, 0.3);
         }
     }
     else
@@ -508,6 +531,51 @@ int CreateDispenserTrigger(int client)
     return -1;
 }
 
+void RemoveToSlotWeapon(int client, int slot, int defIndex, float value)
+{
+    int weapon = GetPlayerWeaponSlot(client, slot);
+    if(IsValidEntity(weapon) && !slotWeaponEntityRefChanged[client][slot])
+    {
+        AddAttributeDefIndex(weapon, defIndex, value);
+    }
+}
+
+void RemoveToAllWeapon(int client, int defIndex, float value)
+{
+    int weapon;
+    for(int slot = 0; slot < 5; slot++)
+    {
+        weapon = GetPlayerWeaponSlot(client, slot);
+        if(IsValidEntity(weapon) && !slotWeaponEntityRefChanged[client][slot])
+            AddAttributeDefIndex(weapon, defIndex, value);
+    }
+}
+
+void RemoveToSomeWeapon(int client, int defIndex, float value)
+{
+    int weapon;
+    for(int slot = 0; slot < 5; slot++)
+    {
+        weapon = GetPlayerWeaponSlot(client, slot);
+        if(IsValidEntity(weapon))
+        {
+            if(!slotWeaponEntityRefChanged[client][slot] || slotWeaponEntityRef[client][slot] != -1)
+            {
+                AddAttributeDefIndex(weapon, defIndex, value);
+                return;
+            }
+        }
+        else
+        {
+            if(slotWeaponEntityRefChanged[client][slot] || slotWeaponEntityRef[client][slot] == -1)
+                continue;
+        }
+
+        return;
+    }
+}
+
+
 void AddToSlotWeapon(int client, int slot, int defIndex, float value)
 {
     int weapon = GetPlayerWeaponSlot(client, slot);
@@ -520,7 +588,7 @@ void AddToSlotWeapon(int client, int slot, int defIndex, float value)
 void AddToAllWeapon(int client, int defIndex, float value)
 {
     int weapon;
-    for(int slot = 0; slot <= 5; slot++)
+    for(int slot = 0; slot < 5; slot++)
     {
         weapon = GetPlayerWeaponSlot(client, slot);
         if(IsValidEntity(weapon))
@@ -531,7 +599,7 @@ void AddToAllWeapon(int client, int defIndex, float value)
 void AddToSomeWeapon(int client, int defIndex, float value)
 {
     int weapon;
-    for(int slot = 0; slot <= 5; slot++)
+    for(int slot = 0; slot < 5; slot++)
     {
         weapon = GetPlayerWeaponSlot(client, slot);
         if(IsValidEntity(weapon))

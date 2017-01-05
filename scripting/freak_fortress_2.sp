@@ -4096,6 +4096,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 			}
 		}
 
+
 /*		case 45:
 		{
 			new Handle:itemOverride=PrepareItemHandle(item, _, _, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1", true);
@@ -4174,6 +4175,16 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 				return Plugin_Changed;
 			}
 		}*/
+		case 265:  //Stickybomb Jumper
+		{
+			new Handle:itemOverride=PrepareItemHandle(item, _, _, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -4.0");
+				//241: No reload penalty
+			if(itemOverride!=INVALID_HANDLE)
+			{
+				item=itemOverride;
+				return Plugin_Changed;
+			}
+		}
 		case 220:  //Shortstop
 		{
 			new Handle:itemOverride=PrepareItemHandle(item, _, _, "241 ; 1.0");
@@ -4316,8 +4327,11 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 				//114: Mini-crits targets launched airborne by explosions, grapple hooks or enemy attacks
 				//179: Mini-crits become crits
 		}
-		else if(iItemDefinitionIndex == 237 ||
-			iItemDefinitionIndex == 228 ||
+		else if(iItemDefinitionIndex == 237)
+		{ // 114 ; 1 ; 2 ; 1.45 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5
+			itemOverride=PrepareItemHandle(item, _, _, "114 ; 1 ; 2 ; 1.45 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5");
+		}
+		else if(iItemDefinitionIndex == 228 ||
 			iItemDefinitionIndex == 1104 ||
 			iItemDefinitionIndex == 441 ||
 			iItemDefinitionIndex == 414 ||
@@ -4550,7 +4564,7 @@ public Action:MakeNotBoss(Handle:timer, any:userid)
 public Action:CheckItems(Handle:timer, any:userid)
 {
 	new client=GetClientOfUserId(userid);
-	if(!IsValidClient(client) || !IsPlayerAlive(client) || CheckRoundState()==2 || IsBoss(client) || (FF2flags[client] & FF2FLAG_ALLOWSPAWNINBOSSTEAM))
+	if(!IsValidClient(client) || !IsPlayerAlive(client) || CheckRoundState()==2 || (IsBoss(client) && !IsBossYou[GetBossIndex(client)]) || (FF2flags[client] & FF2FLAG_ALLOWSPAWNINBOSSTEAM))
 	{
 		return Plugin_Continue;
 	}
@@ -4584,6 +4598,7 @@ public Action:CheckItems(Handle:timer, any:userid)
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
 				SpawnWeapon(client, "tf_weapon_minigun", 15, 1, 0, "");
 			}
+			/*
 			case 237:  //Rocket Jumper
 			{
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
@@ -4591,6 +4606,7 @@ public Action:CheckItems(Handle:timer, any:userid)
 					//114: Mini-crits targets launched airborne by explosions, grapple hooks or enemy attacks
 				FF2_SetAmmo(client, weapon, 20);
 			}
+			*/
 			case 402:  //Bazaar Bargain
 			{
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
@@ -4606,16 +4622,20 @@ public Action:CheckItems(Handle:timer, any:userid)
 	weapon=GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
 	if(IsValidEntity(weapon))
 	{
+		/*
 		index=GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex");
 		switch(index)
 		{
+
 			case 265:  //Stickybomb Jumper
 			{
 				TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
 				SpawnWeapon(client, "tf_weapon_pipebomblauncher", 265, 1, 0, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -4.0");
 				FF2_SetAmmo(client, weapon, 24);
 			}
+
 		}
+		*/
 
 		if(TF2_GetPlayerClass(client)==TFClass_Medic)
 		{

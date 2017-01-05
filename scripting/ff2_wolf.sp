@@ -53,26 +53,24 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 			11.5*70.0 : abilityTime*11.5);
 		*/
 		float eyePos[3];
-		if(GetPlayerEye(client, eyePos))
+		GetPlayerEyeEnd(client, eyePos);
+		int target = GetPlayerEye(client);
+		if(IsValidClient(target))
 		{
-			for(int target = 1;  target <= MaxClients; target++)
+			if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(client) != GetClientTeam(target))
 			{
-			  if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(client) != GetClientTeam(target))
-			  {
-				  float clientPos[3];
-				  GetClientEyePosition(target, clientPos);
+				float clientPos[3];
+				GetClientEyePosition(target, clientPos);
 
-				  if(GetVectorDistance(clientPos, eyePos) <= 100.0)
-				  {
-					  SDKHooks_TakeDamage(target,
-						  GetEntPropEnt(target, Prop_Send, "m_hActiveWeapon"),
-						  client,
-						  damage*(-(GetVectorDistance(clientPos, eyePos) - 100.0)*0.01))
-				  }
-
+				if(GetVectorDistance(clientPos, eyePos) <= 100.0)
+				{
+					SDKHooks_TakeDamage(target,
+					  GetEntPropEnt(target, Prop_Send, "m_hActiveWeapon"),
+					  client,
+					  damage*((-(GetVectorDistance(clientPos, eyePos) - 100.0)*0.01) * 2.0));
+				}
 			  }
-			}
-		}
+		  }
 
 		FF2_SetAbilityDuration(boss, abilityTime-3.0);
   }
@@ -146,7 +144,7 @@ public Action OnTouch(int entity, int other)
   		float MiddleVec[3];
 		// Debug("ppp");
 
-  		GetPlayerEye(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"), TargetPos);
+  		GetPlayerEyeEnd(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"), TargetPos);
 
   		GetEntPropVector( other, Prop_Data, "m_vecAbsOrigin", RocketPos );
   		GetEntPropVector( other, Prop_Data, "m_angRotation", RocketAng );
@@ -173,10 +171,9 @@ public Action OnTouch(int entity, int other)
   		ScaleVector( RocketVec, RocketSpeed );
 
 		TeleportEntity(other, NULL_VECTOR, RocketAng, RocketVec);
-  		//SetEntPropVector( other, Prop_Data, "m_vecAbsVelocity", RocketVec );
 
 		SetEntPropEnt(other, Prop_Send, "m_hOwnerEntity", GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
-	    SetEntProp(other, Prop_Send, "m_iTeamNum", GetEntProp(entity, Prop_Send, "m_iTeamNum"));		
+	    SetEntProp(other, Prop_Send, "m_iTeamNum", GetEntProp(entity, Prop_Send, "m_iTeamNum"));
 
 		if(HasEntProp(other, Prop_Send, "m_bTouched"))
 			SetEntProp(other, Prop_Send, "m_bTouched", 0);
@@ -192,9 +189,11 @@ public Action OnTouch(int entity, int other)
 	return Plugin_Continue;
 }
 
-public bool GetPlayerEye(int client, float pos[3])
+public int GetPlayerEye(int client)
 {
 	float vAngles[3]; float vOrigin[3];
+	int damaged;
+
 	GetClientEyePosition(client, vOrigin);
 	GetClientEyeAngles(client, vAngles);
 
@@ -202,12 +201,28 @@ public bool GetPlayerEye(int client, float pos[3])
 
 	if(TR_DidHit(trace))
 	{
-		TR_GetEndPosition(pos, trace);
+		damaged = TR_GetEntityIndex(trace);
 		CloseHandle(trace);
-		return true;
+		return damaged;
 	}
 	CloseHandle(trace);
-	return false;
+	return -1;
+}
+
+public void GetPlayerEyeEnd(int client, float end[3])
+{
+	float vAngles[3]; float vOrigin[3];
+
+	GetClientEyePosition(client, vOrigin);
+	GetClientEyeAngles(client, vAngles);
+
+	Handle trace = TR_TraceRayFilterEx(vOrigin, vAngles, MASK_SHOT, RayType_Infinite, TraceRayPlayerOnly, client);
+
+	if(TR_DidHit(trace))
+	{
+		TR_GetEndPosition(end, trace);
+	}
+	CloseHandle(trace);
 }
 
 public bool TraceRayPlayerOnly(int iEntity, int iMask, any iData)
