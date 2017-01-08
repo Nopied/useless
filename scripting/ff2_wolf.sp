@@ -192,19 +192,35 @@ public Action OnTouch(int entity, int other)
 public int GetPlayerEye(int client)
 {
 	float vAngles[3]; float vOrigin[3];
+	float tempAngles[3];
+	Handle trace;
 	int damaged;
 
 	GetClientEyePosition(client, vOrigin);
 	GetClientEyeAngles(client, vAngles);
 
-	Handle trace = TR_TraceRayFilterEx(vOrigin, vAngles, MASK_SHOT, RayType_Infinite, TraceRayPlayerOnly, client);
-
-	if(TR_DidHit(trace))
+	for(float x=-10.0; x<=10.0; x += 0.1)
 	{
-		damaged = TR_GetEntityIndex(trace);
-		CloseHandle(trace);
-		return damaged;
+		tempAngles[0] = vAngles[0] + x;
+		for(float z=-10.0; z<=10.0; z += 0.1)
+		{
+			tempAngles[1] = vAngles[1] + z;
+			for(float y=-10.0; y<=10.0; y += 0.1)
+			{
+				tempAngles[2] = vAngles[2] + y;
+				trace = TR_TraceRayFilterEx(vOrigin, tempAngles, MASK_SHOT, RayType_Infinite, TraceRayPlayerOnly, client);
+
+				if(TR_DidHit(trace))
+				{
+					damaged = TR_GetEntityIndex(trace);
+					CloseHandle(trace);
+					return damaged;
+				}
+				CloseHandle(trace);
+			}
+		}
 	}
+
 	CloseHandle(trace);
 	return -1;
 }

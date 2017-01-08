@@ -4074,7 +4074,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		return Plugin_Continue;
 	}
 
-	Debug("TF2Items_OnGiveNamedItem: %N", client);
+	// Debug("TF2Items_OnGiveNamedItem: %N", client);
 	switch(iItemDefinitionIndex)
 	{
 		case 38, 457:  //Axtinguisher, Postal Pummeler
@@ -5303,7 +5303,7 @@ public Action:OnPlayerSpawn(Handle:event, const String:name[], bool:dontBroadcas
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	FF2Userflags[client] = 0;
 
-	Debug("OnPlayerSpawn: %N", client);
+	// Debug("OnPlayerSpawn: %N", client);
 
 	if(Enabled && CheckRoundState()==1)
 	{

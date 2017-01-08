@@ -240,6 +240,17 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
         // Debug("Spawned %N", client);
     }
+    else if(IsLastMan[client] && IsPlayerAlive(client))
+    {
+        Debug("%N님이 이상한 때에 라스트맨으로 부활해버림!", client);
+        Debug("AlreadyLastmanSpawned[%N] = %s", client, AlreadyLastmanSpawned[client] ? "true" : "false");
+
+        IsLastMan[client] = false;
+        AlreadyLastmanSpawned[client] = false;
+        NoEnemyTime[client] = 0.0;
+        TF2_RespawnPlayer(client);
+    }
+
     return Plugin_Continue;
 }
 
@@ -297,7 +308,7 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         if(damagetype & DMG_CRIT)
             realDamage *= 3.0;
 
-        if(GetEntProp(victim, Prop_Send, "m_iHealth") - RoundFloat(realDamage) < 0)
+        if(GetEntProp(victim, Prop_Send, "m_iHealth") - (RoundFloat(realDamage) + 2) < 0)
         {
             TF2_RegeneratePlayer(victim);
 
@@ -631,7 +642,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
     RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
     RemovePlayerTarge(client);
 
-    FF2_SetFF2Userflags(client, FF2_GetFF2Userflags(client) | FF2USERFLAG_ALLOW_FACESTAB | FF2USERFLAG_ALLOW_GROUNDMARKET);
+    FF2_SetFF2Userflags(client, FF2_GetFF2Userflags(client) | FF2USERFLAG_ALLOW_FACESTAB | FF2USERFLAG_ALLOW_GROUNDMARKET | FF2USERFLAG_ALLOW_MINIBOMB | ~FF2USERFLAG_NOTALLOW_MINIBOMB);
 }
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
@@ -644,13 +655,14 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
   {
     if(TF2_GetPlayerClass(client) != TFClass_Engineer)
       return Plugin_Continue;
-    if(TeleportTime[client]>GetGameTime())
+
+    if(TeleportTime[client] > GetGameTime())
     {
       CPrintToChat(client, "{olive}[FF2]{default} 휴대용 텔레포터의 대기시간이 남아있습니다. (남은 시간: %.1f)", TeleportTime[client]-GetGameTime());
       return Plugin_Continue;
     }
 
-    int metal=GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
+    int metal = GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
     if(metal < 200) // TODO: 커스터마이즈
     {
       CPrintToChat(client, "{olive}[FF2]{default} 최소 {red}%d{default}의 금속이 필요합니다.", 200);
@@ -659,6 +671,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
     float clientPos[3];
     GetClientEyePosition(client, clientPos);
+
     if(TryTeleport(client))
     {
       CreateTimer(2.0, RemoveEntity, AttachParticle(client, "teleported_red"), TIMER_FLAG_NO_MAPCHANGE);
@@ -668,7 +681,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
       {
          CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님의 휴대용 텔레포터!", client);
          SetEntProp(client, Prop_Send, "m_iAmmo", metal-200, _, 3);
-         TeleportTime[client]=GetGameTime()+15.0;
+         TeleportTime[client] = GetGameTime()+15.0;
       }
       else
       {
@@ -1063,7 +1076,7 @@ stock void GiveLastManWeapon(int client)
     }
     case TFClass_DemoMan:
     {
-      SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 0.7");
       SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 6 ; 0.4 ; 97 ; 0.7");
       SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.2 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 1.0 ; 26 ; 150");
       // 540:아이랜더 효과로 추정됨..

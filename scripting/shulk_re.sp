@@ -261,7 +261,7 @@ void DisableTimeStop(int boss)
 			if(IsValidEntity(entity))
 			{
 					GetEntityClassname(entity, classname, sizeof(classname));
-					SetEntityMoveType(entity, view_as<MoveType>(m[entity]));
+					SetEntityMoveType(entity, view_as<MoveType>(g_nEntityMovetype[entity]));
 
 					if(!StrContains(classname, "obj_"))
 					{
@@ -277,6 +277,13 @@ void DisableTimeStop(int boss)
 							SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 1);
 							SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
 						}
+					}
+					else
+					{
+						float tempVelo[3];
+						tempVelo[2] = 0.1;
+						NormalizeVector(tempVelo, tempVelo);
+						TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, tempVelo);
 					}
 			}
 

@@ -386,7 +386,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 
         else if(partIndex == 3) // "근육 강화제"
         {
-            RemoveToAllWeapon(client, 6, -0.2);
+            RemoveToAllWeapon(client, 6, 0.2);
             RemoveToAllWeapon(client, 97, 0.2);
             RemoveToSomeWeapon(client, 69, 0.5);
         }
@@ -673,11 +673,7 @@ void CheckPartConfigFile()
             Format(temp, sizeof(temp), "sound/%s", config);
             if(FileExists(temp, true))
             {
-                if(!IsSoundPrecached(config))
-                {
-                    PrecacheSound(config);
-                }
-
+                PrecacheSound(config);
                 AddFileToDownloadsTable(temp);
             }
           }
@@ -707,7 +703,7 @@ public void RandomSound(const char[] key, char[] path, int buffer)
         }
     }
 
-    Format(item, sizeof(item), "%i", GetRandomInt(1, count));
+    Format(item, sizeof(item), "%i", GetRandomInt(1, count-1));
     KvGetString(CustomPartSubKv, item, path, buffer, "");
 }
 

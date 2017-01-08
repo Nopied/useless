@@ -44,6 +44,8 @@ enum PercentDamageType
 
 #define FF2USERFLAG_ALLOW_FACESTAB (1<<1)
 #define FF2USERFLAG_ALLOW_GROUNDMARKET (1<<2)
+#define FF2USERFLAG_ALLOW_MINIBOMB (1<<3)
+#define FF2USERFLAG_NOTALLOW_MINIBOMB (1<<4)
 
 #if defined _FF2_included
  #endinput
