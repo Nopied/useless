@@ -226,12 +226,24 @@ public void CP_OnActivedPartEnd(int client, int partIndex)
     }
 }
 
-public Action CP_OnTouchedPartProp(int client, int prop)
+public Action CP_OnTouchedPartProp(int client, int &prop)
 {
     if(CP_IsPartActived(client, 11))
         return Plugin_Handled;
 
     return Plugin_Continue;
+}
+
+public Action CP_OnGetPart(int client, int &prop, int &partIndex)
+{
+    int part;
+
+    if(CP_IsPartActived(client, 23))
+    {
+        part = CP_GetClientPart(client, 0);
+        partIndex = part;
+        return Plugin_Changed;
+    }
 }
 
 public void CP_OnGetPart_Post(int client, int partIndex)
@@ -338,6 +350,12 @@ public void CP_OnActivedPart(int client, int partIndex)
         AddToAllWeapon(client, 2, 0.3);
         AddToSomeWeapon(client, 412, -0.5);
         CP_NoticePart(client, partIndex);
+
+        char path[PLATFORM_MAX_PATH];
+        RandomSound("NanoBbong", path, sizeof(path));
+
+        EmitSoundToAll(path);
+        EmitSoundToAll(path);
     }
 }
 
@@ -488,6 +506,12 @@ public void FF2_OnTakePercentDamage_Post(int victim, int attacker, PercentDamage
     {
         TF2_StunPlayer(victim, 5.0, 0.5, TF_STUNFLAGS_SMALLBONK, attacker);
         CP_NoticePart(attacker, 9);
+
+        char path[PLATFORM_MAX_PATH];
+        RandomSound("Bat", path, sizeof(path));
+
+        EmitSoundToAll(path);
+        EmitSoundToAll(path);
     }
 }
 

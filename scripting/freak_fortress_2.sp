@@ -4177,7 +4177,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}*/
 		case 265:  //Stickybomb Jumper
 		{
-			new Handle:itemOverride=PrepareItemHandle(item, _, _, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -4.0");
+			new Handle:itemOverride=PrepareItemHandle(item, _, 265, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -4.0 ; 280 ; 4");
 				//241: No reload penalty
 			if(itemOverride!=INVALID_HANDLE)
 			{
@@ -4318,18 +4318,18 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}
 	}
 
-	if(TF2_GetPlayerClass(client)==TFClass_Soldier && (!StrContains(classname, "tf_weapon_rocketlauncher", false) || !StrContains(classname, "tf_weapon_shotgun", false)))
+	if(TF2_GetPlayerClass(client)==TFClass_Soldier && (!StrContains(classname, "tf_weapon_rocketlauncher", false)))
 	{
 		new Handle:itemOverride;
-		if(iItemDefinitionIndex==127)  //Direct Hit
+		if(iItemDefinitionIndex == 127)  //Direct Hit
 		{
 			itemOverride=PrepareItemHandle(item, _, _, "114 ; 1 ; 179 ; 1.0");
 				//114: Mini-crits targets launched airborne by explosions, grapple hooks or enemy attacks
 				//179: Mini-crits become crits
 		}
 		else if(iItemDefinitionIndex == 237)
-		{ // 114 ; 1 ; 2 ; 1.45 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5
-			itemOverride=PrepareItemHandle(item, _, _, "114 ; 1 ; 2 ; 1.45 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5");
+		{
+			itemOverride=PrepareItemHandle(item, _, 237, "114 ; 1 ; 2 ; 1.45 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5");
 		}
 		else if(iItemDefinitionIndex == 228 ||
 			iItemDefinitionIndex == 1104 ||
@@ -4347,6 +4347,19 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 				//114: Mini-crits targets launched airborne by explosions, grapple hooks or enemy attacks
 				//488: 로켓 특화.
 		}
+
+		if(itemOverride!=INVALID_HANDLE)
+		{
+			item=itemOverride;
+			return Plugin_Changed;
+		}
+	}
+
+	if(TF2_GetPlayerClass(client)==TFClass_Soldier && !StrContains(classname, "tf_weapon_shotgun", false))
+	{
+		new Handle:itemOverride = PrepareItemHandle(item, _, _, "114 ; 1");
+		// 114: Mini-crits targets launched airborne by explosions, grapple hooks or enemy attacks
+		// 488: 로켓 특화.
 
 		if(itemOverride!=INVALID_HANDLE)
 		{
@@ -4379,10 +4392,10 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 			{
 				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.55 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75 ; 314 ; 8.0", true);
 			}
-		  default:
-		  {
+		  	default:
+		  	{
 			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 2.25 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0", true);
-		  }
+		  	}
 		}
 
 		if(itemOverride!=INVALID_HANDLE)
@@ -4394,11 +4407,23 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 
 	if(!StrContains(classname, "tf_weapon_pda_engineer_build"))
 	{
-		new Handle:itemOverride=PrepareItemHandle(item, _, _, "276 ; 1 ; 345 ; 4", true);
+		new Handle:itemOverride;
 		// 276: 양방향 텔레포터
 		// 345: 디스펜서 범위
-		if(GetPlayerWeaponSlot(client, TFWeaponSlot_Melee) == 142)
-			itemOverride=PrepareItemHandle(item, _, _, "124 ; 1 ; 351 ; 1", true);
+
+		switch(iItemDefinitionIndex)
+		{
+			case 142:
+			{
+				itemOverride=PrepareItemHandle(item, _, _, "124 ; 1 ; 351 ; 1", true);
+			}
+
+			default:
+			{
+				itemOverride=PrepareItemHandle(item, _, _, "276 ; 1 ; 345 ; 4", true);
+			}
+		}
+
 
 		// 124: 미니 센트리
 		// 351: 일회용 센트리 하나.

@@ -39,47 +39,67 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 
 
 		*/
-		if(abilityTime<=0.0)
+		if(abilityTime <= 0.0)
 		{
 			if(GetEntPropFloat(client, Prop_Send, "m_flRageMeter") > 15.0)
 				SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 15.0);
 			return Plugin_Continue;
 		}
 
-		// FF2_SetAbilityDuration(boss, abilityTime+3.0 > 70.0 ? 70.0 : abilityTime+3.0);
-		/*
-		SetEntPropFloat(client, Prop_Send, "m_flRageMeter",
-			GetEntPropFloat(client, Prop_Send, "m_flRageMeter") > abilityTime*11.5 ?
-			11.5*70.0 : abilityTime*11.5);
-		*/
 		float eyePos[3];
-		GetPlayerEyeEnd(client, eyePos);
-		int target = GetPlayerEye(client);
-		if(IsValidClient(target))
-		{
-			if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(client) != GetClientTeam(target))
-			{
-				float clientPos[3];
-				GetClientEyePosition(target, clientPos);
+		float clientPos[3];
+		GetClientEyePosition(client, clientPos);
 
-				if(GetVectorDistance(clientPos, eyePos) <= 100.0)
+		float distance;
+
+		for(int target = 1;  target < MaxClients; target++)
+		{
+			if(IsValidClient(target))
+			{
+				if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(client) != GetClientTeam(target))
 				{
-					SDKHooks_TakeDamage(target,
-					  GetEntPropEnt(target, Prop_Send, "m_hActiveWeapon"),
-					  client,
-					  damage*((-(GetVectorDistance(clientPos, eyePos) - 100.0)*0.01) * 2.0));
-				}
-			  }
-		  }
+					float targetPos[3];
+					GetClientEyePosition(target, targetPos);
+					distance = GetVectorDistance(clientPos, targetPos);
+					GetEyeEndPos(client, distance, eyePos);
+
+					if(GetVectorDistance(targetPos, eyePos) <= 100.0 && CanSeeTarget(client, target))
+					{
+						SDKHooks_TakeDamage(target,
+						  GetEntPropEnt(target, Prop_Send, "m_hActiveWeapon"),
+						  client,
+						  damage*((-(GetVectorDistance(clientPos, eyePos) - 100.0)*0.01) * 3.0));
+					}
+				  }
+			 }
+		}
 
 		FF2_SetAbilityDuration(boss, abilityTime-3.0);
   }
 	return Plugin_Continue;
 }
 
+stock bool CanSeeTarget(int client, int target)
+{
+	float clientPos[3];
+	float targetPos[3];
+	Handle trace;
+	bool didhit = false;
+
+	GetClientEyePosition(client, clientPos);
+	GetClientEyePosition(target, targetPos);
+
+	trace = TR_TraceRayFilterEx(clientPos, targetPos, MASK_SHOT, RayType_EndPoint, TraceRayPlayerOnly, client);
+
+	didhit = TR_DidHit(trace);
+	CloseHandle(trace);
+
+	return didhit;
+}
+
 public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
-	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
+	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
 	if(slot == 0)
 	{
@@ -189,6 +209,31 @@ public Action OnTouch(int entity, int other)
 	return Plugin_Continue;
 }
 
+public void GetEyeEndPos(int client, float max_distance, float endPos[3])
+{
+	if(IsClientInGame(client))
+	{
+		if(max_distance<0.0)
+			max_distance=0.0;
+
+		float PlayerEyePos[3];
+		float PlayerAimAngles[3];
+		GetClientEyePosition(client,PlayerEyePos);
+		GetClientEyeAngles(client,PlayerAimAngles);
+
+		float PlayerAimVector[3];
+		GetAngleVectors(PlayerAimAngles,PlayerAimVector,NULL_VECTOR,NULL_VECTOR);
+
+		if(max_distance>0.0){
+			ScaleVector(PlayerAimVector,max_distance);
+		}
+		else{
+			ScaleVector(PlayerAimVector,3000.0);
+		}
+        AddVectors(PlayerEyePos,PlayerAimVector,endPos);
+	}
+}
+
 public int GetPlayerEye(int client)
 {
 	float vAngles[3]; float vOrigin[3];
@@ -199,29 +244,16 @@ public int GetPlayerEye(int client)
 	GetClientEyePosition(client, vOrigin);
 	GetClientEyeAngles(client, vAngles);
 
-	for(float x=-10.0; x<=10.0; x += 0.1)
+	trace = TR_TraceRayFilterEx(vOrigin, tempAngles, MASK_SHOT, RayType_Infinite, TraceRayPlayerOnly, client);
+
+	if(TR_DidHit(trace))
 	{
-		tempAngles[0] = vAngles[0] + x;
-		for(float z=-10.0; z<=10.0; z += 0.1)
-		{
-			tempAngles[1] = vAngles[1] + z;
-			for(float y=-10.0; y<=10.0; y += 0.1)
-			{
-				tempAngles[2] = vAngles[2] + y;
-				trace = TR_TraceRayFilterEx(vOrigin, tempAngles, MASK_SHOT, RayType_Infinite, TraceRayPlayerOnly, client);
-
-				if(TR_DidHit(trace))
-				{
-					damaged = TR_GetEntityIndex(trace);
-					CloseHandle(trace);
-					return damaged;
-				}
-				CloseHandle(trace);
-			}
-		}
+		damaged = TR_GetEntityIndex(trace);
+		CloseHandle(trace);
+		return damaged;
 	}
-
 	CloseHandle(trace);
+
 	return -1;
 }
 

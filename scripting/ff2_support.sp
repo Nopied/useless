@@ -95,7 +95,7 @@ public void OnSpawn(int entity)
 		SetVariantString("!activator");
 		AcceptEntityInput(observer, "SetParent", entity);
 	}
-	else IsEntityCanReflect[entity]=false;
+	else IsEntityCanReflect[entity] = false;
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
@@ -216,9 +216,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
 					NormalizeVector(angVector, angVector);
 
-					angVector[0]*=1500.0;
-					angVector[1]*=1500.0;
-					angVector[2]*=1500.0;
+					angVector[0] *= 1500.0;
+					angVector[1] *= 1500.0;
+					angVector[2] *= 1500.0;
 
 					TeleportEntity(ent, NULL_VECTOR, NULL_VECTOR, angVector);
 					EmitSoundToAll("player/flame_out.wav", ent, _, _, _, _, _, ent, targetPos);
