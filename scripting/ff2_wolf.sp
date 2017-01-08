@@ -68,7 +68,7 @@ public Action OnBlocked(Handle event, const char[] name, bool dont)
 						SDKHooks_TakeDamage(target,
 						  GetEntPropEnt(target, Prop_Send, "m_hActiveWeapon"),
 						  client,
-						  damage*((-(GetVectorDistance(clientPos, eyePos) - 100.0)*0.01) * 3.0));
+						  (damage*(GetVectorDistance(targetPos, eyePos)*0.01))*2.0);
 					}
 				  }
 			 }

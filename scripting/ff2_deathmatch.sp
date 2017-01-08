@@ -240,7 +240,8 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
         // Debug("Spawned %N", client);
     }
-    else if(IsLastMan[client] && IsPlayerAlive(client))
+    else if((FF2_GetRoundState() != 1 || (GetGameState() != Game_LastManStanding && !IsFakeLastManStanding))
+    && IsLastMan[client] && !AlreadyLastmanSpawned[client] && IsPlayerAlive(client))
     {
         Debug("%N님이 이상한 때에 라스트맨으로 부활해버림!", client);
         Debug("AlreadyLastmanSpawned[%N] = %s", client, AlreadyLastmanSpawned[client] ? "true" : "false");
