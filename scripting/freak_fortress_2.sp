@@ -10606,13 +10606,18 @@ public OnTakeDamagePost(client, attacker, inflictor, Float:damage, damagetype)
 	if(Enabled && IsBoss(client))
 	{
 		UpdateHealthBar();
-		PlayerDamageDPS[attacker][DPSTick-1 < 0 ? sizeof(PlayerDamageDPS[])-1 : DPSTick-1]+= damagetype & DMG_CRIT ? damage*3.0 : damage;
-		// Debug("attacker: %N, DPSTick: %d, damage: %.1f", attacker, DPSTick, damage);
 
-		if(GetPlayerDPS(attacker) > HighestDPS){
-			HighestDPSClient=attacker;
-			HighestDPS=GetPlayerDPS(attacker);
+		if(IsValidClient(attacker))
+		{
+			PlayerDamageDPS[attacker][DPSTick-1 < 0 ? sizeof(PlayerDamageDPS[])-1 : DPSTick-1] += damagetype & DMG_CRIT ? damage*3.0 : damage;
+			// FIXME: 배열 크기 에러.
+
+			if(GetPlayerDPS(attacker) > HighestDPS){
+				HighestDPSClient=attacker;
+				HighestDPS=GetPlayerDPS(attacker);
+			}
 		}
+
 	}
 }
 

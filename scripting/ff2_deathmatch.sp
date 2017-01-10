@@ -403,7 +403,8 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
           if(!IsValidClient(target)) // for bossCount.
       			continue;
           else if(IsBoss(target) && IsPlayerAlive(target)){
-            bosses[bossCount++]=target;
+            ExtinguishEntity(target);
+            bosses[bossCount++] = target;
             continue;
           }
           else if(IsBossTeam(target)) // FF2_GetClientDamage(client)<=0 ||
@@ -471,30 +472,30 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         for(int i; i<3; i++)
         {
-            topDamage[i]=FF2_GetClientDamage(top[i]);
-            totalDamage+=topDamage[i];
+            topDamage[i] = FF2_GetClientDamage(top[i]);
+            totalDamage += topDamage[i];
         }
 
-        int random=GetRandomInt(0, totalDamage);
+        int random = GetRandomInt(0, totalDamage);
 
         while(lastDamage == random)
         {
-          random=GetRandomInt(0, totalDamage);
+          random = GetRandomInt(0, totalDamage);
         }
-        lastDamage=random;
+        lastDamage = random;
         int winner;
 
-        for(int i; i<3; i++) // OH this stupid code..
+        for(int i; i < 3; i++) // OH this stupid code..
         {
             int tempDamage;
-            for (int x=i; x>=0; x--)
+            for (int x = i; x >= 0; x--)
             {
                 tempDamage+=topDamage[x];
             }
 
             if(random > tempDamage)
                 continue;
-            winner=top[i];
+            winner = top[i];
             break;
         }
 
@@ -512,16 +513,6 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         if(IsValidEntity(particle))
         {
-            /*
-            int flags = GetEdictFlags(particle);
-            char test[60];
-            for(int i = 0;  i < 9; i++)
-            {
-              Format(test, sizeof(test), "%s %i", test, flags & (1<<i) ? i : 0);
-            }
-            Debug(test);
-            SetEdictFlags(particle, GetEdictFlags(particle) | ~FL_EDICT_ALWAYS);
-            */
             SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
         }
 
@@ -529,15 +520,14 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
         if(IsValidEntity(particle))
         {
-            // SetEdictFlags(particle, GetEdictFlags(particle) | ~FL_EDICT_ALWAYS);
             SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
         }
 
 
         for(int i; i<bossCount; i++)
         {
-            int boss=FF2_GetBossIndex(bosses[i]);
-            int newhealth=7500/bossCount;
+            int boss = FF2_GetBossIndex(bosses[i]);
+            int newhealth = 7500/bossCount;
 
             FF2_SetBossCharge(boss, 0, 0.0);
             FF2_SetBossLives(boss, 1);
