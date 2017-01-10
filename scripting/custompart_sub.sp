@@ -308,10 +308,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         char path[PLATFORM_MAX_PATH];
         RandomSound("Hal_ly", path, sizeof(path));
 
-        // EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
-        // EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
-        EmitSoundToAll(path);
-        EmitSoundToAll(path);
+        EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
 
         CP_NoticePart(client, partIndex);
     }
@@ -355,17 +352,21 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
 public void CP_OnActivedPart(int client, int partIndex)
 {
+    float clientPos[3];
+
+    GetClientEyePosition(client, clientPos);
+    
     if(partIndex == 12)
     {
         AddToAllWeapon(client, 2, 0.3);
         AddToSomeWeapon(client, 412, -0.5);
+
         CP_NoticePart(client, partIndex);
 
         char path[PLATFORM_MAX_PATH];
         RandomSound("NanoBbong", path, sizeof(path));
 
-        EmitSoundToAll(path);
-        EmitSoundToAll(path);
+        EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
     }
 }
 
@@ -490,13 +491,15 @@ public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageTy
 
 public void FF2_OnTakePercentDamage_Post(int victim, int attacker, PercentDamageType damageType, float damage)
 {
+    float clientPos[3];
+    float targetPos[3];
+
+    GetClientEyePosition(attacker, clientPos);
+
     if(damageType == Percent_Goomba && CP_IsPartActived(attacker, 8))
     {
         float distance = 600.0; // TODO: 메인 플러그인 상의 거리 설정 (파츠 컨픽에서 설정 가능하게.)
-        float clientPos[3];
-        float targetPos[3];
 
-        GetClientEyePosition(attacker, clientPos);
         for(int client=1; client<=MaxClients; client++)
         {
             if(IsClientInGame(client) && GetClientTeam(attacker) != GetClientTeam(client))
@@ -520,8 +523,7 @@ public void FF2_OnTakePercentDamage_Post(int victim, int attacker, PercentDamage
         char path[PLATFORM_MAX_PATH];
         RandomSound("Bat", path, sizeof(path));
 
-        EmitSoundToAll(path);
-        EmitSoundToAll(path);
+        EmitSoundToAll(path, victim, _, _, _, _, _, victim, clientPos);
     }
 }
 

@@ -278,6 +278,10 @@ void DisableTimeStop(int boss)
 							SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
 						}
 					}
+					else if(!StrContains(classname, "tf_projectile_", false))
+					{
+						continue;
+					}
 					else
 					{
 						float tempVelo[3];
