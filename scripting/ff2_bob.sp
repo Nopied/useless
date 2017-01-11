@@ -44,8 +44,6 @@ public void OnProjectileSpawn(int entity)
             float sentryPos[3];
             float angles[3];
             float angVector[3];
-            // float velocity[3];
-            // float vecrt[3];
 
             GetClientEyePosition(client, origin);
             GetClientEyeAngles(client, angles);
@@ -54,9 +52,6 @@ public void OnProjectileSpawn(int entity)
             sentryPos[1] = origin[1];
             sentryPos[2] = origin[2];
 
-            // NormalizeVector(origin, sentryPos);
-
-            // GetEntPropVector(entity, Prop_Data, "m_vecVelocity", velocity);
             AcceptEntityInput(entity, "Kill");
 
             GetAngleVectors(angles, angVector, NULL_VECTOR, NULL_VECTOR);
@@ -64,16 +59,16 @@ public void OnProjectileSpawn(int entity)
 
             sentryPos[2] += 25.0;
 
-            angVector[0]*=1500.0;	// Test this,
-    		angVector[1]*=1500.0;
-            angVector[2]*=1500.0;
+            angVector[0] *= 1500.0;	// Test this,
+    		angVector[1] *= 1500.0;
+            angVector[2] *= 1500.0;
 
             int sentry = TF2_BuildSentry(client, origin, angles, 3, _, _, _, 8);
             SetEntityMoveType(sentry, MOVETYPE_FLYGRAVITY);
 
             TeleportEntity(sentry, sentryPos, angles, angVector);
 
-            if(!IsSpotSafe(client, origin, 1.0))
+            if(!IsSpotSafe(sentry, sentryPos, 1.0))
             {
                 AcceptEntityInput(sentry, "Kill");
 

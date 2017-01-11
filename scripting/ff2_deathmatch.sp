@@ -57,6 +57,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
     CreateNative("FF2_SetGameState", Native_SetGameState);
     CreateNative("FF2_GetTimeLeft", Native_GetTimeLeft);
     CreateNative("FF2_SetTimeLeft", Native_SetTimeLeft);
+    CreateNative("FF2_IsLastMan", Native_IsLastMan);
 
 	return APLRes_Success;
 }
@@ -71,6 +72,9 @@ public void OnPluginStart()
 
     LoadTranslations("freak_fortress_2.phrases");
 
+    RegConsoleCmd("pass", PassCmd);
+    RegAdminCmd("checklastman", CheckLastMan, ADMFLAG_CHEATS);
+
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
 }
@@ -83,6 +87,40 @@ public void OnMapStart()
     MusicKV=INVALID_HANDLE;
   }
   PrecacheMusic();
+}
+
+public Action CheckLastMan(int client, int args)
+{
+    if(args != 1)
+	{
+		CReplyToCommand(client, "{yellow}[CP]{default} Usage: !checklastman <target>");
+		return Plugin_Handled;
+	}
+
+	char pattern[PLATFORM_MAX_PATH];
+	GetCmdArg(1, pattern, sizeof(pattern));
+
+	char targetName[MAX_TARGET_LENGTH];
+	int targets[MAXPLAYERS], matches;
+	bool targetNounIsMultiLanguage;
+
+	if((matches=ProcessTargetString(pattern, client, targets, sizeof(targets), 0, targetName, sizeof(targetName), targetNounIsMultiLanguage))<=0)
+	{
+		ReplyToTargetError(client, matches);
+		return Plugin_Handled;
+	}
+
+	for(int target; target<matches; target++)
+	{
+		if(!IsClientSourceTV(targets[target]) && !IsClientReplay(targets[target]))
+		{
+            Debug("%N: IsLastMan[%N] = %s\n AlreadyLastmanSpawned[%N] = %s",
+            targets[target], targets[target], IsLastMan[targets[target]] ? "true" : "false"
+            , targets[target], AlreadyLastmanSpawned[targets[target]] ? "true" : "false");
+        }
+	}
+
+    return Plugin_Handled;
 }
 
 public Action Listener_Say(int client, const char[] command, int argc)
@@ -109,6 +147,15 @@ public Action Listener_Say(int client, const char[] command, int argc)
 		PassLastMan(client);
 		return Plugin_Handled;
 	}
+
+    return Plugin_Continue;
+}
+
+public Action PassCmd(int client, int args)
+{
+    if(!IsValidClient(client))  return Plugin_Continue;
+
+    PassLastMan(client);
 
     return Plugin_Continue;
 }
@@ -197,6 +244,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
         TeleportTime[target] = 0.0;
         WeaponCannotUseTime[target] = -1.0;
         loserTop[target] = false;
+        IsLastMan[target] = false;
 
         if(IsClientInGame(target))
         {
@@ -231,6 +279,8 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     && IsLastMan[client]
     && !AlreadyLastmanSpawned[client])
     {
+        AlreadyLastmanSpawned[client] = true;
+
         Handle LastManData;
         CreateDataTimer(0.1, BeLastMan, LastManData);
 
@@ -240,6 +290,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
         // Debug("Spawned %N", client);
     }
+    /*
     else if((FF2_GetRoundState() != 1 || (GetGameState() != Game_LastManStanding && !IsFakeLastManStanding))
     && IsLastMan[client] && !AlreadyLastmanSpawned[client] && IsPlayerAlive(client))
     {
@@ -251,6 +302,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
         NoEnemyTime[client] = 0.0;
         TF2_RespawnPlayer(client);
     }
+    */
 
     return Plugin_Continue;
 }
@@ -587,6 +639,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         EnableLastManStanding(winner, true);
+        Debug("OnPlayerDeath => EnableLastManStanding");
 
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
@@ -616,8 +669,16 @@ public Action SnowStormTransmit(int entity, int client)
 
 void EnableLastManStanding(int client, bool spawnPlayer = false)
 {
+    if(FF2_GetRoundState() != 1)
+    {
+        IsLastMan[client] = false;
+        NoEnemyTime[client] = 0.0;
+        Debug("%N is lastman. but not now.", client);
+        return;
+    }
+
     IsLastMan[client] = true;
-    NoEnemyTime[client] = GetGameTime()+12.0;
+    NoEnemyTime[client] = GetGameTime() + 12.0;
 
     if(!AlreadyLastmanSpawned[client] && spawnPlayer)
     {
@@ -629,6 +690,8 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
     TF2_AddCondition(client, TFCond_Stealthed, 10.0);
     TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
     GiveLastManWeapon(client);
+
+    Debug("%N is lastman.", client);
 
     RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
     RemovePlayerTarge(client);
@@ -919,6 +982,7 @@ public Action BeLastMan(Handle timer, Handle LastManData)
     int winner = ReadPackCell(LastManData);
 
     TF2_RespawnPlayer(winner);
+    Debug("BeLastMan => EnableLastManStanding");
     EnableLastManStanding(winner, false);
 
     if(needData > 0)
@@ -949,6 +1013,12 @@ public void OnClientPostAdminCheck(int client)
 {
     if(FF2_GetRoundState() == 1)
     {
+        IsLastMan[client] = false;
+        AlreadyLastmanSpawned[client] = false;
+
+        WeaponCannotUseTime[client] = -1.0;
+        NoEnemyTime[client] = 0.0;
+
         SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
         SDKHook(client, SDKHook_PreThinkPost, StatusTimer);
     }
@@ -960,6 +1030,9 @@ public void OnClientDisconnect(int client)
     {
         IsLastMan[client] = false;
         AlreadyLastmanSpawned[client] = false;
+
+        WeaponCannotUseTime[client] = -1.0;
+        NoEnemyTime[client] = 0.0;
 
         SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
         SDKUnhook(client, SDKHook_PreThinkPost, StatusTimer);
@@ -1790,8 +1863,12 @@ public bool TraceRayPlayerOnly(int iEntity, int iMask, any iData)
 public Native_EnablePlayerLastmanStanding(Handle plugin, numParams)
 {
     int client =  GetNativeCell(1);
-    IsFakeLastManStanding = true;
-    EnableLastManStanding(client, false);
+
+    if(GetGameState() != Game_LastManStanding)
+        IsFakeLastManStanding = true;
+
+    Debug("Native_EnablePlayerLastmanStanding => EnableLastManStanding");
+    EnableLastManStanding(client, !IsPlayerAlive(client));
 }
 
 public Native_GetGameState(Handle plugin, numParams)
@@ -1820,3 +1897,9 @@ public Native_SetTimeLeft(Handle plugin, numParams)
         DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
     }
 }
+
+
+public Native_IsLastMan(Handle plugin, numParams)
+{
+    return IsLastMan[GetNativeCell(1)];
+} //

@@ -43,7 +43,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 public Action CheckTimer(Handle timer, int client)
 {
-	if(IsValidClient(client) && IsPlayerAlive(client) && !IsBossTeam(client))
+	if(IsValidClient(client) && IsPlayerAlive(client) && !IsBossTeam(client) && !FF2_IsLastMan(client))
 	{
 		FF2_EnablePlayerLastmanStanding(client);
 	}

@@ -35,7 +35,7 @@ public OnPluginStart2()
 	AddCommandListener(Listener_Say, "say");
 	AddCommandListener(Listener_Say, "say_team");
 
-	CreateTimer(0.1, Timer_Millisecond);
+	CreateTimer(0.2, Timer_Millisecond);
 	damageHUD = CreateHudSynchronizer();
 }
 
@@ -65,7 +65,7 @@ public Action:Listener_Say(int client, const char[] commands, int argc)
 
 public Action:Timer_Millisecond(Handle:timer)
 {
-	CreateTimer(0.1, Timer_Millisecond);
+	CreateTimer(0.2, Timer_Millisecond);
 	if (FF2_GetRoundState() != 1) return Plugin_Handled;
 
 	new highestDamage = 0;
@@ -148,22 +148,34 @@ public Action:Timer_Millisecond(Handle:timer)
 			eigthHighestDamageClient = z;
 		}
 	}
+
+	int tempDamageTrack;
 	for (new z = 1; z <= GetMaxClients(); z++)
 	{
-		if (IsClientInGame(z) && !IsFakeClient(z) && damageTracker[z] > 0)
+		if (IsClientInGame(z) && !IsFakeClient(z))
 		{
 			new a_index = FF2_GetBossIndex(z);
 			if (a_index == -1) // client is not Hale
 			{
+				tempDamageTrack = damageTracker[z];
+				if(!IsPlayerAlive(z) && damageTracker[z] < 3)
+				{
+					tempDamageTrack = 3;
+				}
+				else if(tempDamageTrack <= 0)
+				{
+					continue;
+				}
+
 				new userIsWinner = false;
 				if (z == highestDamageClient) userIsWinner = true;
-				if (damageTracker[z] > 1 && z == secondHighestDamageClient) userIsWinner = true;
-				if (damageTracker[z] > 2 && z == thirdHighestDamageClient) userIsWinner = true;
-				if (damageTracker[z] > 3 && z == fourthHighestDamageClient) userIsWinner = true;
-				if (damageTracker[z] > 4 && z == fifthHighestDamageClient) userIsWinner = true;
-				if (damageTracker[z] > 5 && z == sixthHighestDamageClient) userIsWinner = true;
-				if (damageTracker[z] > 6 && z == seventhHighestDamageClient) userIsWinner = true;
-				if (damageTracker[z] > 7 && z == eigthHighestDamageClient) userIsWinner = true;
+				if (tempDamageTrack > 1 && z == secondHighestDamageClient) userIsWinner = true;
+				if (tempDamageTrack > 2 && z == thirdHighestDamageClient) userIsWinner = true;
+				if (tempDamageTrack > 3 && z == fourthHighestDamageClient) userIsWinner = true;
+				if (tempDamageTrack > 4 && z == fifthHighestDamageClient) userIsWinner = true;
+				if (tempDamageTrack > 5 && z == sixthHighestDamageClient) userIsWinner = true;
+				if (tempDamageTrack > 6 && z == seventhHighestDamageClient) userIsWinner = true;
+				if (tempDamageTrack > 7 && z == eigthHighestDamageClient) userIsWinner = true;
 				SetHudTextParams(0.0, 0.0, 0.2, 255, 255, 255, 255);
 				SetGlobalTransTarget(z);
 				new String:first[64];
@@ -177,20 +189,20 @@ public Action:Timer_Millisecond(Handle:timer)
 				new String:user[64];
 				if (highestDamageClient != -1) Format(first, 64, "[1] %N : %i\n", highestDamageClient, highestDamage);
 				if (highestDamageClient == -1) Format(first, 64, "[1]\n", highestDamageClient, highestDamage);
-				if (damageTracker[z] > 1 && secondHighestDamageClient != -1) Format(second, 64, "[2] %N : %i\n", secondHighestDamageClient, secondHighestDamage);
-				if (damageTracker[z] > 1 && secondHighestDamageClient == -1) Format(second, 64, "[2]\n", secondHighestDamageClient, secondHighestDamage);
-				if (damageTracker[z] > 2 && thirdHighestDamageClient != -1) Format(third, 64, "[3] %N : %i\n", thirdHighestDamageClient, thirdHighestDamage);
-				if (damageTracker[z] > 2 && thirdHighestDamageClient == -1) Format(third, 64, "[3]\n", thirdHighestDamageClient, thirdHighestDamage);
-				if (damageTracker[z] > 3 && fourthHighestDamageClient != -1) Format(fourth, 64, "[4] %N : %i\n", fourthHighestDamageClient, fourthHighestDamage);
-				if (damageTracker[z] > 3 && fourthHighestDamageClient == -1) Format(fourth, 64, "[4]\n", fourthHighestDamageClient, fourthHighestDamage);
-				if (damageTracker[z] > 4 && fifthHighestDamageClient != -1) Format(fifth, 64, "[5] %N : %i\n", fifthHighestDamageClient, fifthHighestDamage);
-				if (damageTracker[z] > 4 && fifthHighestDamageClient == -1) Format(fifth, 64, "[5]\n", fifthHighestDamageClient, fifthHighestDamage);
-				if (damageTracker[z] > 5 && sixthHighestDamageClient != -1) Format(sixth, 64, "[6] %N : %i\n", sixthHighestDamageClient, sixthHighestDamage);
-				if (damageTracker[z] > 5 && sixthHighestDamageClient == -1) Format(sixth, 64, "[6]\n", sixthHighestDamageClient, sixthHighestDamage);
-				if (damageTracker[z] > 6 && seventhHighestDamageClient != -1) Format(seventh, 64, "[7] %N : %i\n", seventhHighestDamageClient, seventhHighestDamage);
-				if (damageTracker[z] > 6 && seventhHighestDamageClient == -1) Format(seventh, 64, "[7]\n", seventhHighestDamageClient, seventhHighestDamage);
-				if (damageTracker[z] > 7 && eigthHighestDamageClient != -1) Format(eigth, 64, "[8] %N : %i\n", eigthHighestDamageClient, eigthHighestDamage);
-				if (damageTracker[z] > 7 && eigthHighestDamageClient == -1) Format(eigth, 64, "[8]\n", eigthHighestDamageClient, eigthHighestDamage);
+				if (tempDamageTrack > 1 && secondHighestDamageClient != -1) Format(second, 64, "[2] %N : %i\n", secondHighestDamageClient, secondHighestDamage);
+				if (tempDamageTrack > 1 && secondHighestDamageClient == -1) Format(second, 64, "[2]\n", secondHighestDamageClient, secondHighestDamage);
+				if (tempDamageTrack > 2 && thirdHighestDamageClient != -1) Format(third, 64, "[3] %N : %i\n", thirdHighestDamageClient, thirdHighestDamage);
+				if (tempDamageTrack > 2 && thirdHighestDamageClient == -1) Format(third, 64, "[3]\n", thirdHighestDamageClient, thirdHighestDamage);
+				if (tempDamageTrack > 3 && fourthHighestDamageClient != -1) Format(fourth, 64, "[4] %N : %i\n", fourthHighestDamageClient, fourthHighestDamage);
+				if (tempDamageTrack > 3 && fourthHighestDamageClient == -1) Format(fourth, 64, "[4]\n", fourthHighestDamageClient, fourthHighestDamage);
+				if (tempDamageTrack > 4 && fifthHighestDamageClient != -1) Format(fifth, 64, "[5] %N : %i\n", fifthHighestDamageClient, fifthHighestDamage);
+				if (tempDamageTrack > 4 && fifthHighestDamageClient == -1) Format(fifth, 64, "[5]\n", fifthHighestDamageClient, fifthHighestDamage);
+				if (tempDamageTrack > 5 && sixthHighestDamageClient != -1) Format(sixth, 64, "[6] %N : %i\n", sixthHighestDamageClient, sixthHighestDamage);
+				if (tempDamageTrack > 5 && sixthHighestDamageClient == -1) Format(sixth, 64, "[6]\n", sixthHighestDamageClient, sixthHighestDamage);
+				if (tempDamageTrack > 6 && seventhHighestDamageClient != -1) Format(seventh, 64, "[7] %N : %i\n", seventhHighestDamageClient, seventhHighestDamage);
+				if (tempDamageTrack > 6 && seventhHighestDamageClient == -1) Format(seventh, 64, "[7]\n", seventhHighestDamageClient, seventhHighestDamage);
+				if (tempDamageTrack > 7 && eigthHighestDamageClient != -1) Format(eigth, 64, "[8] %N : %i\n", eigthHighestDamageClient, eigthHighestDamage);
+				if (tempDamageTrack > 7 && eigthHighestDamageClient == -1) Format(eigth, 64, "[8]\n", eigthHighestDamageClient, eigthHighestDamage);
 				if (userIsWinner) Format(user, 64, " ");
 				if (!userIsWinner) Format(user, 64, "---------\n[  ] %N : %i", z, FF2_GetClientDamage(z));
 				if (z == secondHighestDamageClient && !userIsWinner) Format(user, 64, "---------\n[2] %N : %i", z, FF2_GetClientDamage(z));
@@ -240,7 +252,7 @@ void DoDamageTracker(int client, const char[] command)
 		if (damageTracker[client] == 0) playersetting = "OFF";
 		if (damageTracker[client] > 0) playersetting = "ON";
 		CPrintToChat(client, "{olive}[FF2]{default} 현재 데미지 표시: {olive}%s{default}.\n{olive}[FF2]{default}{olive}\"!ff2dmg on\"{default} 혹은 {olive}\"!ff2dmg off\"{default}로 수정하실 수 있습니다.", playersetting);
-		CPrintToChat(client, "혹은 {olive}\"/ff2dmg (슬릇))\"{default}으로 원하는 슬릇을 추가할 수 있습니다.");
+		CPrintToChat(client, "혹은 {olive}\"!데미지 (슬릇))\"{default}으로 원하는 슬릇을 추가할 수 있습니다.");
 		return;
 	}
 	new newval = 3;
