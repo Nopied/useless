@@ -24,6 +24,8 @@ public Plugin myinfo = {
 
 Handle CustomPartSubKv;
 
+ArrayList MaterialsModelNum;
+
 int slotWeaponEntityRef[MAXPLAYERS+1][5];
 bool slotWeaponEntityRefChanged[MAXPLAYERS+1][5];
 
@@ -32,6 +34,8 @@ public void OnPluginStart()
     HookEvent("player_death", OnPlayerDeath);
     // HookEvent("teamplay_round_start", OnRoundStart);
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
+
+    MaterialsModelNum = new ArrayList(100);
 }
 
 public void OnMapStart()
@@ -355,7 +359,7 @@ public void CP_OnActivedPart(int client, int partIndex)
     float clientPos[3];
 
     GetClientEyePosition(client, clientPos);
-    
+
     if(partIndex == 12)
     {
         AddToAllWeapon(client, 2, 0.3);
@@ -972,6 +976,7 @@ void CheckPartConfigFile()
   char config[PLATFORM_MAX_PATH];
   char temp[PLATFORM_MAX_PATH];
   char item[20];
+  char keyName[60];
   int count;
   BuildPath(Path_SM, config, sizeof(config), "configs/custompart_sub.cfg");
 
@@ -996,17 +1001,34 @@ void CheckPartConfigFile()
           count = 0;
           for( ; ; )
           {
-            Format(item, sizeof(item), "%i", ++count);
-            KvGetString(CustomPartSubKv, item, config, sizeof(config), "");
+              KvGetSectionName(CustomPartSubKv, keyName, sizeof(keyName));
+              Format(item, sizeof(item), "%i", ++count);
+              KvGetString(CustomPartSubKv, item, config, sizeof(config), "");
 
-            if(config[0] == '\0') break;
+              if(config[0] == '\0') break;
 
-            Format(temp, sizeof(temp), "sound/%s", config);
-            if(FileExists(temp, true))
-            {
-                PrecacheSound(config);
-                AddFileToDownloadsTable(temp);
-            }
+              Format(temp, sizeof(temp), "sound/%s", config);
+
+              if(StrEqual(keyName, "models"))
+              {
+                  if(FileExists(config, true))
+                  {
+                      PrecacheModel(config);
+                  }
+              }
+              else if(StrEqual(keyName, "materials"))
+              {
+                  if(FileExists(config, true))
+                  {
+                      int precached = PrecacheModel(config);
+                      MaterialsModelNum.Set(count, precached);
+                  }
+              }
+              else if(FileExists(temp, true))
+              {
+                  PrecacheSound(config);
+                  AddFileToDownloadsTable(temp);
+              }
           }
       }
       while(KvGotoNextKey(CustomPartSubKv));

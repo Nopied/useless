@@ -71,12 +71,13 @@ public void OnProjectileSpawn(int entity)
             if(!IsSpotSafe(sentry, sentryPos, 1.0))
             {
                 AcceptEntityInput(sentry, "Kill");
+                PrintCenterText(client, "센트리가 끼는 자리에 있어 삭제되었습니다!");
 
                 int weapon = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
 
                 if(IsValidEntity(weapon))
                 {
-                    FF2_SetAmmo(client, weapon, 1, GetEntProp(weapon, Prop_Data, "m_iClip1") + 1);
+                    FF2_SetAmmo(client, weapon, 1, GetEntProp(weapon, Prop_Send, "m_iClip1") + 1);
                 }
             }
 

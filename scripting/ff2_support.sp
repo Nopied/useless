@@ -36,11 +36,14 @@ public void OnPluginStart2()
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
+	/*
 	if(AllLastmanStanding)
 		CreateTimer(0.3, CheckTimer, TIMER_FLAG_NO_MAPCHANGE, GetClientOfUserId(GetEventInt(event, "userid")));
+		*/
 
 }
 
+/*
 public Action CheckTimer(Handle timer, int client)
 {
 	if(IsValidClient(client) && IsPlayerAlive(client) && !IsBossTeam(client) && !FF2_IsLastMan(client))
@@ -48,6 +51,7 @@ public Action CheckTimer(Handle timer, int client)
 		FF2_EnablePlayerLastmanStanding(client);
 	}
 }
+*/
 
 public OnEntityCreated(entity, const String:classname[])
 {
