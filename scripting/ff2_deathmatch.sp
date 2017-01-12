@@ -288,21 +288,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
         WritePackCell(LastManData, client);
         ResetPack(LastManData);
 
-        // Debug("Spawned %N", client);
     }
-    /*
-    else if((FF2_GetRoundState() != 1 || (GetGameState() != Game_LastManStanding && !IsFakeLastManStanding))
-    && IsLastMan[client] && !AlreadyLastmanSpawned[client] && IsPlayerAlive(client))
-    {
-        Debug("%N님이 이상한 때에 라스트맨으로 부활해버림!", client);
-        Debug("AlreadyLastmanSpawned[%N] = %s", client, AlreadyLastmanSpawned[client] ? "true" : "false");
-
-        IsLastMan[client] = false;
-        AlreadyLastmanSpawned[client] = false;
-        NoEnemyTime[client] = 0.0;
-        TF2_RespawnPlayer(client);
-    }
-    */
 
     return Plugin_Continue;
 }
@@ -639,7 +625,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
 
         EnableLastManStanding(winner, true);
-        Debug("OnPlayerDeath => EnableLastManStanding");
+        // Debug("OnPlayerDeath => EnableLastManStanding");
 
         FF2_StartMusic(); // Call FF2_OnMusic
         FF2_LoadMusicData(MusicKV);
@@ -673,7 +659,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
     {
         IsLastMan[client] = false;
         NoEnemyTime[client] = 0.0;
-        Debug("%N is lastman. but not now.", client);
+        // Debug("%N is lastman. but not now.", client);
         return;
     }
 
@@ -691,7 +677,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
     TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
     GiveLastManWeapon(client);
 
-    Debug("%N is lastman.", client);
+    // Debug("%N is lastman.", client);
 
     RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
     RemovePlayerTarge(client);
@@ -982,7 +968,7 @@ public Action BeLastMan(Handle timer, Handle LastManData)
     int winner = ReadPackCell(LastManData);
 
     TF2_RespawnPlayer(winner);
-    Debug("BeLastMan => EnableLastManStanding");
+    // Debug("BeLastMan => EnableLastManStanding");
     EnableLastManStanding(winner, false);
 
     if(needData > 0)
@@ -1867,7 +1853,7 @@ public Native_EnablePlayerLastmanStanding(Handle plugin, numParams)
     if(GetGameState() != Game_LastManStanding)
         IsFakeLastManStanding = true;
 
-    Debug("Native_EnablePlayerLastmanStanding => EnableLastManStanding");
+    // Debug("Native_EnablePlayerLastmanStanding => EnableLastManStanding");
     EnableLastManStanding(client, !IsPlayerAlive(client));
 }
 

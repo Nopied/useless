@@ -550,12 +550,19 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
 {
 	bRaged[index]=false;
 	new boss=GetClientOfUserId(FF2_GetBossUserId(index));
-	if (isDead[index] || (!(GetEntityFlags(boss) & FL_ONGROUND) && FF2_GetAbilityArgument(index, this_plugin_name, "rage_wraithfire_eruption", 8, 1)))
+
+	if (FF2_GetRoundState() != 1)
 	{
-		PrintHintText(boss,"%t","rage_available_in_ground");
+		return Plugin_Continue;
+	}
+	/*
+	if (isDead[index])
+	{
+		// PrintHintText(boss,"%t","rage_available_in_ground");
 		CreateTimer(0.3, Timer_RestoreCharge, index);
 		return Plugin_Continue;
 	}
+	*/
 	SetEntityFlags(boss, GetEntityFlags(boss) & ~FL_FROZEN);
 	SetEntityMoveType(boss, MOVETYPE_WALK);
 	SDKUnhook(boss, SDKHook_OnTakeDamage, StopTakeDamage);
@@ -583,11 +590,18 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
 			continue;
 		GetEntPropVector(victim, Prop_Send, "m_vecOrigin", position2);
 		new Float:adistance = GetVectorDistance(pos, position2);
+		new Float:damage = (distance-adistance)*multiplier;
+
 		if (adistance<distance)
+		{
 			SDKHooks_TakeDamage(victim,
                         boss,
                         boss,
-                        (distance-adistance)*multiplier);
+                        damage);
+
+			FF2_SetBossMaxHealth(boss, FF2_GetBossMaxHealth(boss) + RoundFloat(damage));
+			FF2_SetBossHealth(boss, FF2_GetBossHealth(boss) + RoundFloat(damage));
+		}
 	}
 	return Plugin_Continue;
 }

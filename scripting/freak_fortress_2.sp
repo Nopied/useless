@@ -1241,6 +1241,7 @@ public OnPluginStart()
 	HookEvent("object_destroyed", OnObjectDestroyed, EventHookMode_Pre);
 	HookEvent("object_deflected", OnObjectDeflected, EventHookMode_Pre);
 	HookEvent("deploy_buff_banner", OnDeployBackup);
+	HookEvent("player_healed", OnPlayerHealed);
 
 	HookUserMessage(GetUserMessageId("PlayerJarated"), OnJarate);  //Used to subtract rage when a boss is jarated (not through Sydney Sleeper)
 
@@ -1383,6 +1384,19 @@ public OnPluginStart()
 	#if defined _tf2attributes_included
 	tf2attributes=LibraryExists("tf2attributes");
 	#endif
+}
+
+public Action:OnPlayerHealed(Handle:event, const String:name[], bool:dont)
+{
+	// int client = GetClientOfUserId(GetEventInt(event, "patient"));
+	int healer = GetClientOfUserId(GetEventInt(event, "healer"));
+	int healed = GetEventInt(event, "amount");
+
+	if(CheckRoundState() != 1)
+		return Plugin_Continue;
+
+	Damage[healer] += healed;
+	return Plugin_Continue;
 }
 
 public Action:Listener_Say(client, const String:command[], argc)
