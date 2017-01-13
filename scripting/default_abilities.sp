@@ -146,6 +146,10 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 	{
 		Charge_Teleport(ability_name, boss, slot, status);
 	}
+	else if(!strcmp(ability_name, "HHH_mono"))
+	{
+		SpawnMono(ability_name, boss);
+	}
 	else if(!strcmp(ability_name, "rage_uber"))
 	{
 		new client=GetClientOfUserId(FF2_GetBossUserId(boss));
@@ -201,9 +205,45 @@ public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:abil
 
 		GetEntPropVector(target, Prop_Data, "m_vecOrigin", position);
 		TeleportEntity(client, position, NULL_VECTOR, NULL_VECTOR);
+
+		SetEntProp(client, Prop_Send, "m_bDucked", 1);
+		SetEntityFlags(client, GetEntityFlags(client)|FL_DUCKING);
+
 		TF2_StunPlayer(client, 2.0, 0.0, TF_STUNFLAGS_GHOSTSCARE|TF_STUNFLAG_NOSOUNDOREFFECT, client);
 	}
 	return Plugin_Continue;
+}
+
+SpawnMono(const String:ability_name[], boss)
+{
+	new client=GetClientOfUserId(FF2_GetBossUserId(boss));
+	new clientTeam=_:TF2_GetClientTeam(client);
+	new ent=CreateEntityByName("tf_projectile_spellspawnboss");
+
+	if(!IsValidEntity(ent)) return;
+	SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
+	SetEntPropEnt(ent, Prop_Send, "m_hThrower", client);
+	SetEntPropFloat(ent, Prop_Send, "m_flDamage", FF2_GetAbilityArgumentFloat(boss, this_plugin_name, ability_name, 2));
+	SetEntProp(ent, Prop_Send, "m_iTeamNum", clientTeam);
+	SetEntProp(ent, Prop_Send, "m_bIsLive", 1);
+	//m_bIsLive
+	DispatchSpawn(ent);
+// m_flDamage
+
+	new Float:clientPos[3], Float:angles[3], Float:angVector[3], Float:vecrt[3];
+	new Float:speed=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, ability_name, 1);
+
+	GetClientEyeAngles(client, angles);
+	GetClientEyePosition(client, clientPos);
+
+	GetAngleVectors(angles, angVector, vecrt, NULL_VECTOR);
+	NormalizeVector(angVector, angVector);
+
+	angVector[0]*=speed;	// Test this,
+	angVector[1]*=speed;
+	angVector[2]*=speed;
+
+	TeleportEntity(ent, clientPos, angles, angVector);
 }
 
 Rage_Stun(const String:ability_name[], boss)
@@ -274,25 +314,28 @@ Charge_BraveJump(const String:ability_name[], boss, slot, status)
 	new Float:charge=FF2_GetBossCharge(boss, slot);
 	new Float:multiplier=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, ability_name, 3, 1.0);
 
+	if(status != 1 && status != 3)
+	{
+		SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
+		if(enableSuperDuperJump[boss])
+		{
+			SetHudTextParams(-1.0, 0.88, 0.15, 255, 64, 64, 255);
+			FF2_ShowSyncHudText(client, jumpHUD, "%t", "super_duper_jump");
+		}
+		else
+		{
+			FF2_ShowSyncHudText(client, jumpHUD, "%t", "jump_status",
+			RoundFloat(charge),
+			FF2_GetAbilityArgument(boss, this_plugin_name, "charge_bravejump", 99, 0) > 0 ? "재장전" : "");
+		}
+	}
+
 	switch(status)
 	{
 		case 1:
 		{
 			SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
 			FF2_ShowSyncHudText(client, jumpHUD, "%t", "jump_status_2", -RoundFloat(charge));
-		}
-		case 2:
-		{
-			SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
-			if(enableSuperDuperJump[boss])
-			{
-				SetHudTextParams(-1.0, 0.88, 0.15, 255, 64, 64, 255);
-				FF2_ShowSyncHudText(client, jumpHUD, "%t", "super_duper_jump");
-			}
-			else
-			{
-				FF2_ShowSyncHudText(client, jumpHUD, "%t", "jump_status", RoundFloat(charge), status==3 ? "(재장전)", "");
-			}
 		}
 		case 3:
 		{
@@ -372,6 +415,15 @@ Charge_Teleport(const String:ability_name[], boss, slot, status)
 {
 	new client=GetClientOfUserId(FF2_GetBossUserId(boss));
 	new Float:charge=FF2_GetBossCharge(boss, slot);
+
+	if(status != 1 && status != 3)
+	{
+		SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
+		FF2_ShowSyncHudText(client, jumpHUD, "%t", "teleport_status",
+		RoundFloat(charge),
+		FF2_GetAbilityArgument(boss, this_plugin_name, "charge_teleport", 99, 0) > 0 ? "재장전" : "");
+	}
+
 	switch(status)
 	{
 		case 1:
@@ -379,11 +431,13 @@ Charge_Teleport(const String:ability_name[], boss, slot, status)
 			SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
 			FF2_ShowSyncHudText(client, jumpHUD, "%t", "teleport_status_2", -RoundFloat(charge));
 		}
+		/*
 		case 2:
 		{
 			SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
 			FF2_ShowSyncHudText(client, jumpHUD, "%t", "teleport_status", RoundFloat(charge));
 		}
+		*/
 		case 3:
 		{
 			new Action:action=Plugin_Continue;
