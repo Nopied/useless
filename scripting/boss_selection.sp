@@ -301,7 +301,7 @@ public Action Command_SetMyBoss(int client, int args)
 		return Plugin_Handled;
 	}
 
-	if(!IsPlayerInGroup[client])
+	if(Steam_RequestGroupStatus(client, PORTY_GROUP_ID) && !IsPlayerInGroup[client])
 	{
 		CPrintToChat(client, "{lightblue}[POTRY]{default} 본 기능은 {orange}본 서버의 그룹{default}에 가입하셔야 사용하실 수 있습니다.");
 		return Plugin_Handled;
@@ -360,12 +360,27 @@ public Action Command_SetMyBoss(int client, int args)
 	Format(s, sizeof(s), "%t", "ff2boss_none_1");
 	AddMenuItem(dMenu, "None", s);
 
+	char banMaps[500];
+	char map[100];
+	GetCurrentMap(map, sizeof(map));
+
+	int itemflags;
 	for (int i=0; (BossKV=FF2_GetSpecialKV(i,true)); i++)
 	{
+		itemflags = 0;
+
 		if (KvGetNum(BossKV, "blocked",0)) continue;
 		if (KvGetNum(BossKV, "hidden",0)) continue;
 		KvGetString(BossKV, "name", spclName, 64);
-		AddMenuItem(dMenu,spclName,spclName);
+		KvGetString(BossKV, "ban_map", banMaps, 500);
+
+		if(banMaps[0] != '\0' && !StrContains(banMaps, map, false))
+		{
+			Format(spclName, sizeof(spclName), "%s (이 맵에서 선택 불가!)", spclName);
+			itemflags |= ITEMDRAW_DISABLED;
+		}
+
+		AddMenuItem(dMenu, spclName, spclName, itemflags);
 	}
 	SetMenuExitButton(dMenu, true);
 	DisplayMenu(dMenu, client, 90);
@@ -712,9 +727,25 @@ public Action FF2_OnSpecialSelected(boss, &SpecialNum, char[] SpecialName, bool 
 {
 	if(preset) return Plugin_Continue;
 
-	new client=GetClientOfUserId(FF2_GetBossUserId(boss));
-	if (!boss && !StrEqual(Incoming[client], ""))
+	new client = GetClientOfUserId(FF2_GetBossUserId(boss));
+	Handle BossKv = FF2_GetSpecialKV(SpecialNum, true);
+	if (!boss  && IsPlayerInGroup[client] && !StrEqual(Incoming[client], ""))
 	{
+		if(BossKv != INVALID_HANDLE)
+		{
+			char banMaps[500];
+			char map[124];
+
+			GetCurrentMap(map, sizeof(map));
+			KvGetString(BossKv, "ban_map", banMaps, sizeof(banMaps), "");
+
+			if(!StrContains(banMaps, map, false))
+			{
+				CPrintToChat(client, "{olive}[FF2]{default} 선택하신 보스는 이 맵에서 할 수 없습니다!");
+				return Plugin_Continue;
+			}
+
+		}
 		strcopy(SpecialName, sizeof(Incoming[]), Incoming[client]);
 		return Plugin_Changed;
 	}

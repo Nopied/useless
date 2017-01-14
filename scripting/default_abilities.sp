@@ -326,7 +326,7 @@ Charge_BraveJump(const String:ability_name[], boss, slot, status)
 		{
 			FF2_ShowSyncHudText(client, jumpHUD, "%t", "jump_status",
 			RoundFloat(charge),
-			FF2_GetAbilityArgument(boss, this_plugin_name, "charge_bravejump", 99, 0) > 0 ? "재장전" : "");
+			FF2_GetAbilityArgument(boss, this_plugin_name, "charge_bravejump", 99, 0) > 0 ? "재장전" : "우클릭");
 		}
 	}
 
@@ -421,7 +421,7 @@ Charge_Teleport(const String:ability_name[], boss, slot, status)
 		SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
 		FF2_ShowSyncHudText(client, jumpHUD, "%t", "teleport_status",
 		RoundFloat(charge),
-		FF2_GetAbilityArgument(boss, this_plugin_name, "charge_teleport", 99, 0) > 0 ? "재장전" : "");
+		FF2_GetAbilityArgument(boss, this_plugin_name, "charge_teleport", 99, 0) > 0 ? "재장전" : "우클릭");
 	}
 
 	switch(status)
