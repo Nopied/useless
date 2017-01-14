@@ -200,11 +200,13 @@ public Plugin:myinfo =
 
 public Action:FF2_OnAbility2(index,const String:plugin_name[],const String:ability_name[],action)
 {
+	/*
 	if (!strcmp(ability_name,"special_predator"))
 	{
 		Rage_UsePredator(ability_name, index);
 	}
-	else if(!strcmp(ability_name,"special_skulls"))
+	*/
+	if(!strcmp(ability_name,"special_skulls"))
 	{
 		Rage_UseSkulls(ability_name, index);
 	}
@@ -509,7 +511,7 @@ public Action:event_player_death(Handle:hEvent, const String:strEventName[], boo
 
 				if(gf_diedPredCannon[client] != 0.0)									// convert shoulder cannon kills to sentry icons
 				{
-					if(GetEngineTime() - gf_diedPredCannon[client] <= 0.1)
+					if(GetGameTime() - gf_diedPredCannon[client] <= 0.1)
 					{
 						new iDamageBits = GetEventInt(hEvent, "damagebits");
 						SetEventInt(hEvent, "damagebits",  iDamageBits |= DMG_CRIT);
@@ -552,7 +554,7 @@ public Action:event_player_death(Handle:hEvent, const String:strEventName[], boo
 			{
 				if(gf_diedFireball[client] != 0.0)									// set kill icon to hadouken
 				{
-					if(GetEngineTime() - gf_diedFireball[client] <= 0.1)
+					if(GetGameTime() - gf_diedFireball[client] <= 0.1)
 					{
 						new iDamageBits = GetEventInt(hEvent, "damagebits");
 						SetEventInt(hEvent, "damagebits",  iDamageBits |= DMG_CRIT);
@@ -583,7 +585,7 @@ public Action:event_player_death(Handle:hEvent, const String:strEventName[], boo
 			{
 				if(gf_DiedChainsaw[client] != 0.0)									// set kill icon to hadouken
 				{
-					if(GetEngineTime() - gf_DiedChainsaw[client] <= 0.1)
+					if(GetGameTime() - gf_DiedChainsaw[client] <= 0.1)
 					{
 						new iDamageBits = GetEventInt(hEvent, "damagebits");
 						SetEventInt(hEvent, "damagebits",  iDamageBits |= DMG_NERVEGAS);
@@ -676,7 +678,7 @@ public OnTakeDamagePost(victim, attacker, inflictor, Float:damage, damagetype)
 
 public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &bool:result)
 {
-	if(gb_Skulls && client == g_boss && gf_rageTime > GetEngineTime())
+	if(gb_Skulls && client == g_boss && gf_rageTime > GetGameTime())
 	{
 		ThrowFireBall(client);
 	}
@@ -997,7 +999,7 @@ public Action:Timer_DoomguyThink(Handle:timer, any:userid)	// powers the hud ai
 					}
 				}
 
-				if(GetEngineTime() > gf_NextEmotion[client])
+				if(GetGameTime() > gf_NextEmotion[client])
 				{
 					switch(GetRandomInt(0, LOOK_CHANCE))
 					{
@@ -1033,22 +1035,22 @@ SetDoomUI(client, emotion)								// draws the hud
 	{
 		case EMOTION_HAPPY:
 		{
-			gf_NextEmotion[client] = GetEngineTime() + HAPPY_DURATION;
+			gf_NextEmotion[client] = GetGameTime() + HAPPY_DURATION;
 			SetOverlay(client, "freak_fortress_2/doom/doomguy_happy");
 		}
 		case EMOTION_INVULN:
 		{
-			gf_NextEmotion[client] = GetEngineTime() + gf_PowerupDuration;
+			gf_NextEmotion[client] = GetGameTime() + gf_PowerupDuration;
 			SetOverlay(client, "freak_fortress_2/doom/doomguy_invuln");
 		}
 		case EMOTION_LEFT:
 		{
-			gf_NextEmotion[client] = GetEngineTime() + LOOK_DURATION;
+			gf_NextEmotion[client] = GetGameTime() + LOOK_DURATION;
 			SetOverlay(client, "freak_fortress_2/doom/doomguy_normal_l");
 		}
 		case EMOTION_RIGHT:
 		{
-			gf_NextEmotion[client] = GetEngineTime() + LOOK_DURATION;
+			gf_NextEmotion[client] = GetGameTime() + LOOK_DURATION;
 			SetOverlay(client, "freak_fortress_2/doom/doomguy_normal_r");
 		}
 		case EMOTION_NEUTRAL:
@@ -1209,7 +1211,7 @@ SetVisionMode(client, mode)								// handles setting predator's vision modes (c
 	{
 		case VISION_NORMAL:
 		{
-			if(gf_rageTime > GetEngineTime())			// check if still in rage and return to it
+			if(gf_rageTime > GetGameTime())			// check if still in rage and return to it
 			{
 				SetVisionMode(client,  VISION_RAGE);		// hur dur
 				HideSprites(true);
@@ -1414,12 +1416,12 @@ public Action:OnTrophyTouch( prop, entity )				// Refunds stealth to boss on pic
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////  Predator Active Rage
-
+/*
 Rage_UsePredator(const String:ability_name[],index)
 {
 	new userid = FF2_GetBossUserId(index);
 	new client = GetClientOfUserId(userid);
-	new Float:time = GetEngineTime();
+	new Float:time = GetGameTime();
 	new Float:duration = FF2_GetAbilityArgumentFloat(index,this_plugin_name,ability_name, 1, 15.0);
 	if(gf_rageTime > time)			// old rage, add time
 	{
@@ -1433,7 +1435,59 @@ Rage_UsePredator(const String:ability_name[],index)
 		CreateTimer(0.5, Timer_Predator, userid, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 	}
 }
+*/
+public Action:FF2_OnBossAbilityTime(boss, String:abilityName[], slot, &Float:abilityDuration, &Float:abilityCooldown)
+{
+	if(FF2_HasAbility(boss, this_plugin_name, "special_predator") && slot == 0)
+	{
+		new client = GetClientOfUserId(FF2_GetBossUserId(boss));
+		Timer_Predator(client);
 
+		if(abilityDuration > 0.0)
+		{
+			TurretThink(client);
+			SetVisionMode(client, VISION_RAGE);
+		}
+		else
+		{
+			if(TF2_IsPlayerInCondition(client, TFCond_Cloaked))
+			{
+				SetVisionMode(client, VISION_CLOAK);				// if they are cloaked when their rage ends, give them cloak vision
+			}
+			else
+			{
+				SetVisionMode(client, VISION_NORMAL);				// normal vision when rage ended
+			}
+		}
+	}
+}
+
+public Action:FF2_OnAbilityTimeEnd(boss, slot)
+{
+	if(FF2_HasAbility(boss, this_plugin_name, "special_predator"))
+	{
+		new client = GetClientOfUserId(FF2_GetBossUserId(boss));
+		EmitSoundToAll(SOUND_RAGE_OFF, client);
+	}
+}
+
+Timer_Predator(client)
+{
+	new Float:clientpos[3];
+
+	for(new target=1;target<=MaxClients;target++)
+	{
+		if(client != target && IsClientInGame(target) && IsPlayerAlive(target))
+		{
+			GetClientEyePosition(target, clientpos);
+			clientpos[2] -= 20.0;
+
+			TE_SetupGlowSprite(clientpos, g_TargetSprite, 0.5, 1.0, 120);
+			TE_SendToClient(client);
+		}
+	}
+}
+/*
 public Action:Timer_Predator(Handle:timer, any:userid)
 {
 	new boss = GetClientOfUserId(userid);
@@ -1441,7 +1495,7 @@ public Action:Timer_Predator(Handle:timer, any:userid)
 	{
 		if(gb_predator && IsPlayerAlive(boss))
 		{
-			if(gf_rageTime > GetEngineTime())					// rage is active
+			if(gf_rageTime > GetGameTime())					// rage is active
 			{
 				decl Float:clientpos[3];
 
@@ -1481,6 +1535,7 @@ public Action:Timer_Predator(Handle:timer, any:userid)
 
 	return Plugin_Stop;
 }
+*/
 
 TurretThink(client)										// Shoulder cannon AI
 {
@@ -1524,7 +1579,7 @@ TurretThink(client)										// Shoulder cannon AI
 		}
 	}
 
-	if(playercount)
+	if(playercount > 0)
 	{
 		new target = playerarray[GetRandomInt(0, playercount-1)];
 		CreateProjectile(client, target, turretpos, angles, anglevector);
@@ -1560,7 +1615,7 @@ CreateProjectile(client, target, Float:origin[3], Float:eyeangles[3], Float:angl
 		TeleportEntity(entity, origin, eyeangles, anglevector);
 
 		SDKHook(entity, SDKHook_StartTouch, ProjectileTouchHook);				// force projectile to deal damage on touch
-		SDKHook(entity, SDKHook_PreThinkPost, ProjectileThinkHook);					// force projectile to turn to target
+		SDKHook(entity, SDKHook_SetTransmit, ProjectileThinkHook);					// force projectile to turn to target
 	}
 }
 
@@ -1571,20 +1626,23 @@ public Action:ProjectileTouchHook(entity, other)			// Wat happens when this proj
 		new client = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
 		if(client > 0 && client <= MaxClients && IsClientInGame(client))			// will probably just be -1, but whatever.
 		{
-			gf_diedPredCannon[other] = GetEngineTime();
+			gf_diedPredCannon[other] = GetGameTime();
 			SDKHooks_TakeDamage(other, client, client, gf_CannonDamage, DMG_SHOCK|DMG_ALWAYSGIB);
 		}
 	}
 }
 
-public Action:ProjectileThinkHook(entity)					// rtd 0.4 (going to use sdkhooks, more conservative than gameframe)
+public Action:ProjectileThinkHook(entity, client)					// rtd 0.4 (going to use sdkhooks, more conservative than gameframe)
 {
 	// new target = GetEntProp(entity, Prop_Send, "m_nForceBone");
+
 	new target = g_Target[entity];
 	if(HomingProjectile_IsValidTarget(target, entity, GetEntProp(entity, Prop_Send, "m_iTeamNum")))
 	{
 		HomingProjectile_TurnToTarget(target, entity);
 	}
+
+	return Plugin_Continue;
 }
 
 bool:HomingProjectile_IsValidTarget(client, iProjectile, iTeam)	// Test if projectile can "see" intended target still
@@ -1661,7 +1719,7 @@ HomingProjectile_TurnToTarget(client, iProjectile)					// update projectile posi
 Rage_UseSkulls(const String:ability_name[],index)
 {
 	new userid = FF2_GetBossUserId(index);
-	new Float:time = GetEngineTime();
+	new Float:time = GetGameTime();
 	new Float:duration = FF2_GetAbilityArgumentFloat(index,this_plugin_name,ability_name, 1, 15.0);
 	if(gf_rageTime > time)			// old rage, add time
 	{
@@ -1684,7 +1742,7 @@ public Action:Timer_Skulls(Handle:timer, any:userid)			// Updates boss rage stuf
 	{
 		if(gb_Skulls && IsPlayerAlive(boss))
 		{
-			if(gf_rageTime > GetEngineTime())					// rage is active
+			if(gf_rageTime > GetGameTime())					// rage is active
 			{
 				// do stuff ?
 
@@ -1849,7 +1907,7 @@ public Action:FireProjectileTouchHook(entity, other)
 		new client = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
 		if(client > 0 && client <= MaxClients && IsClientInGame(client))			// will probably just be -1, but whatever.
 		{
-			gf_diedFireball[other] = GetEngineTime();
+			gf_diedFireball[other] = GetGameTime();
 			SDKHooks_TakeDamage(other, client, client, gf_CannonDamage, DMG_BURN|DMG_ALWAYSGIB);
 			TF2_IgnitePlayer(other, other);										// if hale ignites them it will rape them.
 			if(gf_IgniteTime < 10.0)
@@ -1866,7 +1924,7 @@ public Action:FireProjectileTouchHook(entity, other)
 Rage_UseAsh(const String:ability_name[],index)
 {
 	new userid = FF2_GetBossUserId(index);
-	new Float:time = GetEngineTime();
+	new Float:time = GetGameTime();
 	new Float:duration = FF2_GetAbilityArgumentFloat(index,this_plugin_name,ability_name, 1, 10.0);
 	if(gf_rageTime > time)			// old rage, add time
 	{
@@ -1887,7 +1945,7 @@ public Action:Timer_Ash(Handle:timer, any:userid)					// Updates boss rage stuff
 	{
 		if(gb_Ash && boss == g_boss && IsPlayerAlive(boss))
 		{
-			if(gf_rageTime > GetEngineTime())					// rage is active
+			if(gf_rageTime > GetGameTime())					// rage is active
 			{
 				// do stuff ?
 
@@ -1963,7 +2021,7 @@ public Action:OnSawTouch( prop, entity )
 {
 	if(entity != g_boss && entity > 0 && entity <= MaxClients && IsClientInGame(entity))
 	{
-		new Float:time = GetEngineTime();
+		new Float:time = GetGameTime();
 		if(gf_rageTime > time && gf_lasthit[entity] < time)
 		{
 			gf_lasthit[entity] = time + SAW_REHIT_INTERVAL;												// prevent the saw from hitting them 30 times or something a second

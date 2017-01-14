@@ -140,7 +140,6 @@ new bool:playingCustomBossBGM[MAXPLAYERS+1];
 new bool:playingCustomBGM[MAXPLAYERS+1];
 new bool:NoticedAbilityTimeEnd[MAXPLAYERS+1][8];
 new bool:DEVmode=false;
-new bool:IsFakeKill=false;
 
 new timeleft;
 
@@ -4020,7 +4019,11 @@ public Action:MakeBoss(Handle:timer, any:boss)
 			FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
 		}
 	}
-	if(IsBossYou[boss]) FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
+	if(IsBossYou[boss])
+	{
+		FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
+		FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
+	}
 
 	CreateTimer(0.2, MakeModelTimer, boss, TIMER_FLAG_NO_MAPCHANGE);
 	if(!IsVoteInProgress())
@@ -4400,15 +4403,15 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		{
 			case 35: // 크리츠크리그
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.35 ; 11 ; 1.25 ; 18 ; 1.0 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75 ; 314 ; 10.0", true);
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.2 ; 11 ; 1.25 ; 18 ; 1.0 ; 144 ; 2.0 ; 199 ; 0.75 ; 547 ; 0.75 ; 314 ; 10.0", true);
 			}
 			case 411: // 응급조치
 			{
-				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.55 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75 ; 314 ; 8.0", true);
+				itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.35 ; 11 ; 0.5 ; 144 ; 2.0 ; 199 ; 0.75 ; 231 ; 2 ; 547 ; 0.75 ; 314 ; 8.0", true);
 			}
 		  	default:
 		  	{
-			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 2.25 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0", true);
+			  itemOverride=PrepareItemHandle(item, _, _, "10 ; 1.6 ; 11 ; 1.5 ; 13 ; 2.0 ; 144 ; 2.0", true);
 		  	}
 		}
 
@@ -5922,6 +5925,8 @@ public Action:BossTimer(Handle:timer)
 			else	FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 		}
 
+
+		new String:temp[80];
 		for(new slot=0; slot<8; slot++)
 		{
 			if(BossAbilityDuration[boss][slot] > 0.0)
@@ -5944,6 +5949,44 @@ public Action:BossTimer(Handle:timer)
 					}
 				}
 				BossAbilityCooldown[boss][slot]-=0.2;
+			}
+			else
+			{
+				continue;
+			}
+
+			Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
+		
+			new Float:temp2=BossAbilityDuration[boss][slot];
+			new Float:temp3=BossAbilityCooldown[boss][slot];
+			new Action:action;
+
+			Call_StartForward(OnAbilityTime);
+			Call_PushCell(boss);
+			Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+			Call_PushCell(slot);
+			Call_PushFloatRef(temp2);
+			Call_PushFloatRef(temp3);
+			Call_Finish(action);
+
+			switch(action)
+			{
+				case Plugin_Changed:
+				{
+					BossAbilityDuration[boss][slot]=temp2;
+					BossAbilityCooldown[boss][slot]=temp3;
+					Format(BossAbilityName[boss][slot], sizeof(BossAbilityName[][]), "%s", temp);
+			  	}
+			}
+
+		}
+
+		if(IsBossYou[boss])
+		{
+			new weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+			if(weapon == GetPlayerWeaponSlot(client, TFWeaponSlot_Melee))
+			{
+				TF2_AddCondition(client, TFCond_HalloweenCritCandy, 0.22);
 			}
 		}
 
@@ -6409,131 +6452,130 @@ public Action:OnJoinTeam(client, const String:command[], args)
 
 public Action:OnPlayerDeath(Handle:event, const String:eventName[], bool:dontBroadcast)
 {
-
 	if(!Enabled || CheckRoundState()!=1)
 	{
 		return Plugin_Continue;
 	}
+
 	CreateTimer(0.1, CheckAlivePlayers, 0, TIMER_FLAG_NO_MAPCHANGE);
-	if(!IsFakeKill)
+
+	new client=GetClientOfUserId(GetEventInt(event, "userid")), attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
+	decl String:sound[PLATFORM_MAX_PATH];
+	// CreateTimer(0.1, CheckAlivePlayers, _, TIMER_FLAG_NO_MAPCHANGE);
+	DoOverlay(client, "");
+
+	if(!IsBoss(client))
 	{
-		new client=GetClientOfUserId(GetEventInt(event, "userid")), attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
-		decl String:sound[PLATFORM_MAX_PATH];
-		// CreateTimer(0.1, CheckAlivePlayers, _, TIMER_FLAG_NO_MAPCHANGE);
-		DoOverlay(client, "");
-
-		if(!IsBoss(client))
+		if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
 		{
-			if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
-			{
-				CreateTimer(1.0, Timer_Damage, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
-			}
-
-			if(IsBoss(attacker))
-			{
-				new boss=GetBossIndex(attacker);
-				if(firstBlood)  //TF_DEATHFLAG_FIRSTBLOOD is broken
-				{
-					if(RandomSound("sound_first_blood", sound, sizeof(sound), boss))
-					{
-						EmitSoundToAll(sound);
-						EmitSoundToAll(sound);
-					}
-					firstBlood=false;
-				}
-
-				if(RedAlivePlayers!=1)  //Don't conflict with end-of-round sounds
-				{
-					if(GetRandomInt(0, 1) && RandomSound("sound_hit", sound, sizeof(sound), boss))
-					{
-						EmitSoundToAll(sound);
-						EmitSoundToAll(sound);
-					}
-					else if(!GetRandomInt(0, 2))  //1/3 chance for "sound_kill_<class>"
-					{
-						new String:classnames[][]={"", "scout", "sniper", "soldier", "demoman", "medic", "heavy", "pyro", "spy", "engineer"};
-						decl String:class[32];
-						Format(class, sizeof(class), "sound_kill_%s", classnames[TF2_GetPlayerClass(client)]);
-						if(RandomSound(class, sound, sizeof(sound), boss))
-						{
-							EmitSoundToAll(sound);
-							EmitSoundToAll(sound);
-						}
-					}
-				}
-
-				if(GetGameTime()<=KSpreeTimer[boss])
-				{
-					KSpreeCount[boss]++;
-				}
-				else
-				{
-					KSpreeCount[boss]=1;
-				}
-
-				if(KSpreeCount[boss]==3)
-				{
-					if(RandomSound("sound_kspree", sound, sizeof(sound), boss))
-					{
-						EmitSoundToAll(sound);
-						EmitSoundToAll(sound);
-					}
-					KSpreeCount[boss]=0;
-				}
-				else
-				{
-					KSpreeTimer[boss]=GetGameTime()+5.0;
-				}
-			}
-		}
-		else
-		{
-			new boss=GetBossIndex(client);
-			if(boss==-1 || (GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
-			{
-				return Plugin_Continue;
-			}
-
-			if(RandomSound("sound_death", sound, sizeof(sound), boss))
-			{
-				EmitSoundToAll(sound);
-				EmitSoundToAll(sound);
-			}
-
-			BossHealth[boss]=0;
-			// 확인용
-			UpdateHealthBar();
-
+			CreateTimer(1.0, Timer_Damage, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 		}
 
-		if(TF2_GetPlayerClass(client)==TFClass_Engineer && !(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
+		if(IsBoss(attacker))
 		{
-			decl String:name[PLATFORM_MAX_PATH];
-			FakeClientCommand(client, "destroy 2");
-			for(new entity=MaxClients+1; entity<MAXENTITIES; entity++)
+			new boss=GetBossIndex(attacker);
+			if(firstBlood)  //TF_DEATHFLAG_FIRSTBLOOD is broken
 			{
-				if(IsValidEntity(entity))
+				if(RandomSound("sound_first_blood", sound, sizeof(sound), boss))
 				{
-					GetEntityClassname(entity, name, sizeof(name));
-					if(!StrContains(name, "obj_sentrygun") && (GetEntPropEnt(entity, Prop_Send, "m_hBuilder")==client))
-					{
-						SetVariantInt(GetEntPropEnt(entity, Prop_Send, "m_iMaxHealth")+1);
-						AcceptEntityInput(entity, "RemoveHealth");
+					EmitSoundToAll(sound);
+					EmitSoundToAll(sound);
+				}
+				firstBlood=false;
+			}
 
-						new Handle:eventRemoveObject=CreateEvent("object_removed", true);
-						SetEventInt(eventRemoveObject, "userid", GetClientUserId(client));
-						SetEventInt(eventRemoveObject, "index", entity);
-						FireEvent(eventRemoveObject);
-						AcceptEntityInput(entity, "kill");
+			if(RedAlivePlayers!=1)  //Don't conflict with end-of-round sounds
+			{
+				if(GetRandomInt(0, 1) && RandomSound("sound_hit", sound, sizeof(sound), boss))
+				{
+					EmitSoundToAll(sound);
+					EmitSoundToAll(sound);
+				}
+				else if(!GetRandomInt(0, 2))  //1/3 chance for "sound_kill_<class>"
+				{
+					new String:classnames[][]={"", "scout", "sniper", "soldier", "demoman", "medic", "heavy", "pyro", "spy", "engineer"};
+					decl String:class[32];
+					Format(class, sizeof(class), "sound_kill_%s", classnames[TF2_GetPlayerClass(client)]);
+					if(RandomSound(class, sound, sizeof(sound), boss))
+					{
+						EmitSoundToAll(sound);
+						EmitSoundToAll(sound);
 					}
+				}
+			}
+
+			if(GetGameTime()<=KSpreeTimer[boss])
+			{
+				KSpreeCount[boss]++;
+			}
+			else
+			{
+				KSpreeCount[boss]=1;
+			}
+
+			if(KSpreeCount[boss]==3)
+			{
+				if(RandomSound("sound_kspree", sound, sizeof(sound), boss))
+				{
+					EmitSoundToAll(sound);
+					EmitSoundToAll(sound);
+				}
+				KSpreeCount[boss]=0;
+			}
+			else
+			{
+				KSpreeTimer[boss]=GetGameTime()+5.0;
+			}
+		}
+	}
+	else if(IsBoss(client))
+	{
+		new boss=GetBossIndex(client);
+		if(boss==-1)
+		{
+			return Plugin_Continue;
+		}
+		else if(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
+		{
+			return Plugin_Handled;
+		}
+
+		if(RandomSound("sound_death", sound, sizeof(sound), boss))
+		{
+			EmitSoundToAll(sound);
+			EmitSoundToAll(sound);
+		}
+
+		BossHealth[boss]=0;
+		// 확인용
+		UpdateHealthBar();
+
+	}
+
+	if(TF2_GetPlayerClass(client)==TFClass_Engineer && !(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
+	{
+		decl String:name[PLATFORM_MAX_PATH];
+		FakeClientCommand(client, "destroy 2");
+		for(new entity=MaxClients+1; entity<MAXENTITIES; entity++)
+		{
+			if(IsValidEntity(entity))
+			{
+				GetEntityClassname(entity, name, sizeof(name));
+				if(!StrContains(name, "obj_sentrygun") && (GetEntPropEnt(entity, Prop_Send, "m_hBuilder")==client))
+				{
+					SetVariantInt(GetEntPropEnt(entity, Prop_Send, "m_iMaxHealth")+1);
+					AcceptEntityInput(entity, "RemoveHealth");
+
+					new Handle:eventRemoveObject=CreateEvent("object_removed", true);
+					SetEventInt(eventRemoveObject, "userid", GetClientUserId(client));
+					SetEventInt(eventRemoveObject, "index", entity);
+					FireEvent(eventRemoveObject);
+					AcceptEntityInput(entity, "kill");
 				}
 			}
 		}
 	}
-	else
-	{
-		IsFakeKill=false;
-	}
+
 	return Plugin_Continue;
 }
 
@@ -6542,7 +6584,7 @@ public Action:Timer_Damage(Handle:timer, any:userid)
 	new client=GetClientOfUserId(userid);
 	if(IsValidClient(client, false))
 	{
-		CPrintToChat(client, "{olive}[FF2] %t. %t{default}", "damage", Damage[client], "scores", RoundFloat(Damage[client]/600.0));
+		CPrintToChat(client, "{olive}[FF2] %t. %t{default}", "damage", Damage[client], "scores", RoundFloat(Damage[client]/400.0));
 	}
 	return Plugin_Continue;
 }
@@ -6968,8 +7010,6 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 				  {
 						if(CheckedFirstRound)
 						{
-							IsFakeKill=true;
-							// changeResult=true;
 							new Handle:hStreak=CreateEvent("player_death", false);
 							SetEventInt(hStreak, "attacker", GetClientUserId(attacker));
 							SetEventInt(hStreak, "userid", GetClientUserId(client));
@@ -7441,7 +7481,6 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 
 							if(CheckedFirstRound)
 							{
-								IsFakeKill=true;
 								new Handle:hStreak = CreateEvent("player_death", false);
 								SetEventString(hStreak, "weapon", index==307 ? "ullapool_caber_explosion" : "market_gardener");
 								SetEventString(hStreak, "weapon_logclassname", index==307 ? "ullapool_caber_explosion" : "market_gardener");
@@ -7677,7 +7716,6 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 
 					if(CheckedFirstRound)
 					{
-						IsFakeKill=true;
 					 	new Handle:hStreak = CreateEvent("player_death", false);
 					 	SetEventString(hStreak, "weapon", "knife");
 					 	SetEventString(hStreak, "weapon_logclassname", "backstab");
@@ -7873,7 +7911,6 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 
 		if(CheckedFirstRound)
 		{
-			IsFakeKill=true;
 			new Handle:hStreak = CreateEvent("player_death", false);
 			SetEventString(hStreak, "weapon", "mantreads");
 			SetEventString(hStreak, "weapon_logclassname", "mantreads");
@@ -8663,6 +8700,10 @@ public bool:PickCharacter(boss, companion)
 			return true;
 		}
 
+		new String:banMaps[500];
+		new String:map[128];
+		GetCurrentMap(map, sizeof(map));
+
 		for(new tries; tries<100; tries++)
 		{
 			if(ChancesString[0])
@@ -8682,7 +8723,14 @@ public bool:PickCharacter(boss, companion)
 			}
 
 			KvRewind(BossKV[Special[boss]]);
+			KvGetString(BossKV[Special[boss]], "ban_map", banMaps, sizeof(banMaps), "");
+
 			if(KvGetNum(BossKV[Special[boss]], "blocked"))
+			{
+				Special[boss]=-1;
+				continue;
+			}
+			else if(banMaps[0] != '\0' &&  !StrContains(banMaps, map, false))
 			{
 				Special[boss]=-1;
 				continue;
@@ -10029,33 +10077,6 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 			Call_PushCell(0);  //Status
 			Call_Finish(action);
 		}
-	}
-	new String:temp[80];
-	if(slot >= 0)
-	{
-		Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
-
-		new Float:temp2=BossAbilityDuration[boss][slot];
-		new Float:temp3=BossAbilityCooldown[boss][slot];
-
-		Call_StartForward(OnAbilityTime);
-		Call_PushCell(boss);
-		Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-		Call_PushCell(slot);
-		Call_PushFloatRef(temp2);
-		Call_PushFloatRef(temp3);
-		Call_Finish(action);
-
-		switch(action)
-		{
-			case Plugin_Changed:
-			{
-				BossAbilityDuration[boss][slot]=temp2;
-				BossAbilityCooldown[boss][slot]=temp3;
-				Format(BossAbilityName[boss][slot], sizeof(BossAbilityName[][]), "%s", temp);
-		  	}
-		}
-		// wat.
 	}
 
 	return true;

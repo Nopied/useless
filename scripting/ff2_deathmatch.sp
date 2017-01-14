@@ -203,7 +203,7 @@ void PassLastMan(int client)
 
     for(int count = 0; count <= MaxClients; count++)
     {
-        if(!loserTop[top[count]] && IsValidClient(loserTop[top[count]]) &&!IsPlayerAlive(top[count]))
+        if(!loserTop[top[count]] && IsValidClient(top[count]) && !IsPlayerAlive(top[count]))
         {
             TF2_ChangeClientTeam(client, team);
             EnableLastManStanding(top[count], true);
@@ -757,6 +757,7 @@ public Action OnTimer(Handle timer)
     }
 
     Handle timeleftHUD=CreateHudSynchronizer();
+
     timeleft-=0.1;
     char timeDisplay[6];
 

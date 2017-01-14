@@ -36,7 +36,7 @@ public void OnPluginStart2()
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
-	if(g_flTimeStopCooling != -1.0 || g_flTimeStop != -1.0)
+	if( g_flTimeStop > GetGameTime() || (g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime()))
 	{
 		SDKUnhook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
 		SDKHook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
@@ -45,7 +45,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 public void OnEntityCreated(int entity, const char[] classname)
 {
-	if(g_flTimeStop != -1.0)
+	if(g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime())
 	{
 		SDKHook(entity, SDKHook_SpawnPost, OnEntitySpawnOnTimeStop);
 	}
@@ -55,8 +55,8 @@ public Action OnEntitySpawnOnTimeStop(int entity)
 {
 	if(IsValidEntity(entity))
 	{
-			g_nEntityMovetype[entity] = view_as<int>(GetEntityMoveType(entity));
-			SetEntityMoveType(entity, MOVETYPE_NONE);
+		g_nEntityMovetype[entity] = view_as<int>(GetEntityMoveType(entity));
+		SetEntityMoveType(entity, MOVETYPE_NONE);
 	}
 }
 
