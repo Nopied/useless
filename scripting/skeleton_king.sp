@@ -599,8 +599,8 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
                         boss,
                         damage);
 
-			FF2_SetBossMaxHealth(boss, FF2_GetBossMaxHealth(boss) + RoundFloat(damage));
-			FF2_SetBossHealth(boss, FF2_GetBossHealth(boss) + RoundFloat(damage));
+			FF2_SetBossMaxHealth(FF2_GetBossIndex(boss), FF2_GetBossMaxHealth(boss) + RoundFloat(damage));
+			FF2_SetBossHealth(FF2_GetBossIndex(boss), FF2_GetBossHealth(boss) + RoundFloat(damage));
 		}
 	}
 	return Plugin_Continue;

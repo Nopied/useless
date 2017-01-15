@@ -37,7 +37,7 @@ new g_serial;
 new g_soundcount[MAXPLAYERS+1];
 new Float:gf_LastSaysound[MAXPLAYERS+1];
 
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
 	name = "Say Sounds (Redux)",
 	author = "Friagram",
@@ -72,55 +72,55 @@ public OnPluginStart()
 	// ***Load Translations **
 	LoadTranslations("common.phrases");
 
-	CreateConVar("sm_saysounds_redux_version", PLUGIN_VERSION, "Say Sounds Version", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+	CreateConVar("sm_saysounds_redux_version", PLUGIN_VERSION, "Say Sounds Version", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 
 	decl Handle:cvar;
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_enable","1","Turns Sounds On/Off", FCVAR_PLUGIN, true, 0.0, true, 1.0), Cvar_EnableChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_enable","1","Turns Sounds On/Off", _, true, 0.0, true, 1.0), Cvar_EnableChanged);
 	gb_enabled = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_sound_limit","10","Maximum sounds per person (0 for unlimited)", FCVAR_PLUGIN, true, 0.0, false, 0.0), Cvar_LimitChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_sound_limit","10","Maximum sounds per person (0 for unlimited)", _, true, 0.0, false, 0.0), Cvar_LimitChanged);
 	g_saysound_limit[0] = GetConVarInt(cvar);
-	
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_donor_limit","15","Maximum sounds for saysounds_donor (0 for unlimited)", FCVAR_PLUGIN, true, 0.0, false, 0.0), Cvar_DonorLimitChanged);
+
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_donor_limit","15","Maximum sounds for saysounds_donor (0 for unlimited)", _, true, 0.0, false, 0.0), Cvar_DonorLimitChanged);
 	g_saysound_limit[1] = GetConVarInt(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_admin_limit","0","Maximum sounds per saysounds_admin (0 for unlimited)", FCVAR_PLUGIN, true, 0.0, false, 0.0), Cvar_AdminLimitChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_admin_limit","0","Maximum sounds per saysounds_admin (0 for unlimited)", _, true, 0.0, false, 0.0), Cvar_AdminLimitChanged);
 	g_saysound_limit[2] = GetConVarInt(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_sound_delay","5.0","Time between each sound trigger, 0.0 to disable checking", FCVAR_PLUGIN, true, 0.0, false, 0.0), Cvar_DelayChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_sound_delay","5.0","Time between each sound trigger, 0.0 to disable checking", _, true, 0.0, false, 0.0), Cvar_DelayChanged);
 	gf_saysound_delay[0] = GetConVarFloat(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_donor_delay","3.0","User flags to bypass the Time between sounds check", FCVAR_PLUGIN, true, 0.0, false, 0.0), Cvar_DonorDelayChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_donor_delay","3.0","User flags to bypass the Time between sounds check", _, true, 0.0, false, 0.0), Cvar_DonorDelayChanged);
 	gf_saysound_delay[1] = GetConVarFloat(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_admin_delay","1.0","User flags to bypass the Time between sounds check", FCVAR_PLUGIN, true, 0.0, false, 0.0), Cvar_AdminDelayChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_admin_delay","1.0","User flags to bypass the Time between sounds check", _, true, 0.0, false, 0.0), Cvar_AdminDelayChanged);
 	gf_saysound_delay[2] = GetConVarFloat(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_round", "0", "If set, sm_saysoundhe_sound_limit is the limit per round instead of per map", FCVAR_PLUGIN, true, 0.0, true, 1.0), Cvar_RoundChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_round", "0", "If set, sm_saysoundhe_sound_limit is the limit per round instead of per map", _, true, 0.0, true, 1.0), Cvar_RoundChanged);
 	gb_saysound_round = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_sound_sentence", "1", "When set, will trigger sounds if keyword is embedded in a sentence", FCVAR_PLUGIN, true, 0.0, true, 1.0), Cvar_SentenceChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_sound_sentence", "1", "When set, will trigger sounds if keyword is embedded in a sentence", _, true, 0.0, true, 1.0), Cvar_SentenceChanged);
 	gb_saysound_sentence = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_block_trigger", "0", "If set, block the sound trigger to be displayed in the chat window", FCVAR_PLUGIN, true, 0.0, true, 1.0), Cvar_BlockTriggerChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_block_trigger", "0", "If set, block the sound trigger to be displayed in the chat window", _, true, 0.0, true, 1.0), Cvar_BlockTriggerChanged);
 	gb_saysound_blocktrigger = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude", "2", "Number of sounds that must be different before this sound can be replayed", FCVAR_PLUGIN, true, 0.0, false, 0.0), Cvar_ExcludeChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude", "2", "Number of sounds that must be different before this sound can be replayed", _, true, 0.0, false, 0.0), Cvar_ExcludeChanged);
 	g_saysound_excludecount = GetConVarInt(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude_client", "1", "If set, clients obey exclude count", FCVAR_PLUGIN, true, 0.0, true, 1.0), Cvar_SpamClientChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude_client", "1", "If set, clients obey exclude count", _, true, 0.0, true, 1.0), Cvar_SpamClientChanged);
 	gb_preventspam[0] = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude_donor", "1", "If set, donors obey exclude count", FCVAR_PLUGIN, true, 0.0, true, 1.0), Cvar_SpamDonorChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude_donor", "1", "If set, donors obey exclude count", _, true, 0.0, true, 1.0), Cvar_SpamDonorChanged);
 	gb_preventspam[1] = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude_admin", "0", "If set, admins obey exclude count", FCVAR_PLUGIN, true, 0.0, true, 1.0), Cvar_SpamAdminChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude_admin", "0", "If set, admins obey exclude count", _, true, 0.0, true, 1.0), Cvar_SpamAdminChanged);
 	gb_preventspam[2] = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_playingame","0.0","Play as an emit sound or direct (0 / 1)",FCVAR_PLUGIN,true,0.0,true,1.0), Cvar_PlayIngameChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_playingame","1.0","Play as an emit sound or direct (0 / 1)",_,true,0.0,true,1.0), Cvar_PlayIngameChanged);
 	gb_playingame = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_volume","1.0","Volume setting for Say Sounds (0.0 <= x <= 1.0)",FCVAR_PLUGIN,true,0.0,true,1.0), Cvar_VolumeChanged);
+	HookConVarChange(cvar = CreateConVar("sm_saysounds_volume","1.0","Volume setting for Say Sounds (0.0 <= x <= 1.0)",_,true,0.0,true,1.0), Cvar_VolumeChanged);
 	gf_saysound_volume = GetConVarFloat(cvar);
 
 	gh_cookie = RegClientCookie("saysounds_pref", "saysounds data", CookieAccess_Protected);
@@ -144,7 +144,7 @@ public OnPluginStart()
 	}
 
 	PrepareSounds();
-	
+
 	for(new client = 1; client <= MaxClients; client++)
 	{
 		if(IsClientConnected(client) && IsClientAuthorized(client) && !IsFakeClient(client))
@@ -299,7 +299,7 @@ PrecacheSounds()
 	decl String:buffer[PLATFORM_MAX_PATH];
 	decl Handle:hpath;
 	decl flags;
-	
+
 	for(new i = GetArraySize(gh_paths) - 1; i >= 0; i--)
 	{
 		hpath = GetArrayCell(gh_paths, i);
@@ -353,10 +353,10 @@ PrepareSounds()
 		{
 			gh_menu = CreateMenu(menu_handler);
 			gh_adminmenu = CreateMenu(menu_handler);
-			
+
 			SetMenuTitle(gh_menu, "Saysounds\n ");
 			SetMenuTitle(gh_adminmenu, "Saysounds\n ");
-		
+
 			decl String:filelocation[PLATFORM_MAX_PATH], String:item[8], String:trigger[SAYSOUND_TRIGGER_SIZE];
 			decl Handle:soundpath;
 			decl flags;
@@ -374,7 +374,7 @@ PrepareSounds()
 					if(KvGetNum(listfile, "admin", 0))
 					{
 						flags |= SAYSOUND_FLAG_ADMIN;
-						
+
 						AddMenuItem(gh_adminmenu, trigger, trigger);
 					}
 					else
@@ -409,7 +409,7 @@ PrepareSounds()
 					PushArrayCell(gh_length, duration);
 					PushArrayCell(gh_volume, volume);
 					PushArrayCell(gh_flags, flags);
-					
+
 					if(gb_lamesoundengine)
 					{
 						Format(filelocation, sizeof(filelocation), "*%s", filelocation);	// prefix asterisk for newer games
@@ -493,7 +493,7 @@ public Action:Command_Say(client, const String:command[], argc)
 		if (GetCmdArgString(speech, sizeof(speech)) >= 1)
 		{
 			startidx = 0;
-			
+
 			if (speech[strlen(speech)-1] == '"')
 			{
 				speech[strlen(speech)-1] = '\0';
@@ -507,7 +507,7 @@ public Action:Command_Say(client, const String:command[], argc)
 
 			return  Action:AttemptSaySound(client, speech[startidx]);
 		}
-	}	
+	}
 	return Plugin_Continue;
 }
 
@@ -577,10 +577,10 @@ public Action:AttemptSaySound(client, String:sound[])
 						gf_LastSaysound[client] = time + gf_saysound_delay[g_access[client]];
 					}
 				}
-				
+
 				g_soundcount[client]++;
 				DisplayRemainingSounds(client);
-				
+
 				if(gb_saysound_blocktrigger)
 				{
 					return Plugin_Handled;
@@ -589,7 +589,7 @@ public Action:AttemptSaySound(client, String:sound[])
 				return Plugin_Continue;
 			}
 		}
-		
+
 		if(adminonly)
 		{
 			if(client && IsClientInGame(client))
@@ -615,6 +615,7 @@ DisplayRemainingSounds(client)
 
 DoSaySound(String:soundfile[], Float:volume)
 {
+	// float tempVolume = volume;
 	for(new target = 1; target<=MaxClients; target++)
 	{
 		if(IsClientInGame(target) && !g_clientprefs[target][SAYSOUND_PREF_DISABLED])
@@ -656,7 +657,7 @@ public Action:Command_Sound_Reset(client, args)
 	}
 
 	new String:arg[64];
-	GetCmdArg(1, arg, sizeof(arg));	
+	GetCmdArg(1, arg, sizeof(arg));
 
 	decl String:name[64];
 	new bool:isml,clients[MAXPLAYERS+1];
@@ -682,11 +683,11 @@ public Action:Command_Sound_Ban(client, args)
 	if (args < 1)
 	{
 		ReplyToCommand(client, "[sm] usage: sm_sound_ban <target>");
-		return Plugin_Handled;	
+		return Plugin_Handled;
 	}
 
 	new String:arg[64];
-	GetCmdArg(1, arg, sizeof(arg));	
+	GetCmdArg(1, arg, sizeof(arg));
 
 	decl String:name[64];
 	new bool:isml,clients[MAXPLAYERS+1];
@@ -695,7 +696,7 @@ public Action:Command_Sound_Ban(client, args)
 	{
 		g_clientprefs[clients[0]][SAYSOUND_PREF_BANNED] = !g_clientprefs[clients[0]][SAYSOUND_PREF_BANNED];
 		ReplyToCommand(client, "[sm] %N ban status set to: %s", clients[0], g_clientprefs[clients[0]][SAYSOUND_PREF_BANNED] ? "banned" : "unbanned");
-		
+
 		StoreClientCookies(clients[0]);
 	}
 	else
@@ -729,14 +730,14 @@ ShowClientPrefMenu(client)
 
 public MenuHandlerClientPref(Handle:menu, MenuAction:action, param1, param2)
 {
-	if(action == MenuAction_Select)	
+	if(action == MenuAction_Select)
 	{
 		if (param2 == 0)
 		{
 			g_clientprefs[param1][SAYSOUND_PREF_DISABLED] = !g_clientprefs[param1][SAYSOUND_PREF_DISABLED];
 		}
 		ShowClientPrefMenu(param1);
-	} 
+	}
 	else if(action == MenuAction_End)
 	{
 		CloseHandle(menu);
@@ -807,4 +808,3 @@ public Play_Admin_Sound(Handle:topmenu, TopMenuAction:action, TopMenuObject:obje
 		Command_Sound_Menu(param, 0);
 	}
 }
-
