@@ -71,8 +71,8 @@ public OnPluginStart()
     g_Cvar_SoundsEnabled = CreateConVar("goomba_sounds", "1", "Enable or disable sounds of the plugin", 0, true, 0.0, true, 1.0);
     g_Cvar_ParticlesEnabled = CreateConVar("goomba_particles", "1", "Enable or disable particles of the plugin", 0, true, 0.0, true, 1.0);
     g_Cvar_ImmunityEnabled = CreateConVar("goomba_immunity", "1", "Enable or disable the immunity system", 0, true, 0.0, true, 1.0);
-    g_Cvar_JumpPower = CreateConVar("goomba_rebound_power", "300.0", "Goomba jump power", 0, true, 0.0);
-    g_Cvar_StompMinSpeed = CreateConVar("goomba_minspeed", "360.0", "Minimum falling speed to kill", 0, true, 0.0, false, 0.0);
+    g_Cvar_JumpPower = CreateConVar("goomba_rebound_power", "400.0", "Goomba jump power", 0, true, 0.0);
+    g_Cvar_StompMinSpeed = CreateConVar("goomba_minspeed", "1.0", "Minimum falling speed to kill", 0, true, 0.0, false, 0.0);
     // To remove the warning about this variable not being used
     GetConVarFloat(g_Cvar_StompMinSpeed);
 
@@ -84,8 +84,8 @@ public OnPluginStart()
     CreateConVar("goomba_version", PL_VERSION, PL_NAME, FCVAR_PLUGIN | FCVAR_SPONLY | FCVAR_REPLICATED | FCVAR_NOTIFY | FCVAR_DONTRECORD);
 
     g_Cookie_ClientPref = RegClientCookie("goomba_client_pref", "", CookieAccess_Private);
-    RegConsoleCmd("goomba_toggle", Cmd_GoombaToggle, "Toggle the goomba immunity client's pref.");
-    RegConsoleCmd("goomba_status", Cmd_GoombaStatus, "Give the current goomba immunity setting.");
+    RegAdminCmd("goomba_toggle", Cmd_GoombaToggle, ADMFLAG_RCON, "Toggle the goomba immunity client's pref.");
+    RegAdminCmd("goomba_status", Cmd_GoombaStatus, ADMFLAG_RCON, "Give the current goomba immunity setting.");
     RegAdminCmd("goomba_on", Cmd_GoombaOn, ADMFLAG_RCON, "Enable stomp.");
     RegAdminCmd("goomba_off", Cmd_GoombaOff, ADMFLAG_RCON, "Disable stomp.");
 
