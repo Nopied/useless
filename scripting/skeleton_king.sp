@@ -588,6 +588,7 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
 	{
 		if (!IsValidClient(victim) || GetClientTeam(victim)==BossTeam)
 			continue;
+
 		GetEntPropVector(victim, Prop_Send, "m_vecOrigin", position2);
 		new Float:adistance = GetVectorDistance(pos, position2);
 		new Float:damage = (distance-adistance)*multiplier;
@@ -599,8 +600,8 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
                         boss,
                         damage);
 
-			FF2_SetBossMaxHealth(FF2_GetBossIndex(boss), FF2_GetBossMaxHealth(boss) + RoundFloat(damage));
-			FF2_SetBossHealth(FF2_GetBossIndex(boss), FF2_GetBossHealth(boss) + RoundFloat(damage));
+			FF2_SetBossMaxHealth(FF2_GetBossIndex(boss), FF2_GetBossMaxHealth(FF2_GetBossIndex(boss)) + RoundFloat(damage));
+			FF2_SetBossHealth(FF2_GetBossIndex(boss), FF2_GetBossHealth(FF2_GetBossIndex(boss)) + RoundFloat(damage));
 		}
 	}
 	return Plugin_Continue;

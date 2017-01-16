@@ -82,9 +82,9 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
   return Plugin_Continue;
 }
 
-public Action FF2_OnBossAbilityTime(int boss, char[] abilityName, float &abilityDuration, float &abilityCooldown)
+public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
-  if(playingSound && abilityDuration <= 0.0 && FF2_HasAbility(boss, this_plugin_name, "passive_painis"))
+  if(playingSound && slot == 0 && FF2_HasAbility(boss, this_plugin_name, "rage_painis"))
   {
     FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_painis", 1, RageSoundPath, sizeof(RageSoundPath));
 

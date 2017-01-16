@@ -1207,11 +1207,12 @@ TerminateHidden()
 
 SetVisionMode(client, mode)								// handles setting predator's vision modes (cloak, rage, normal)
 {
+	int boss = FF2_GetBossIndex(client);
 	switch(mode)
 	{
 		case VISION_NORMAL:
 		{
-			if(gf_rageTime > GetGameTime())			// check if still in rage and return to it
+			if(FF2_GetAbilityDuration(boss, 0) > 0.0)			// check if still in rage and return to it
 			{
 				SetVisionMode(client,  VISION_RAGE);		// hur dur
 				HideSprites(true);
@@ -1231,7 +1232,6 @@ SetVisionMode(client, mode)								// handles setting predator's vision modes (c
 		{
 			SetOverlay(client, "Effects/combine_binocoverlay");
 			HideSprites(true);
-			EmitSoundToAll(SOUND_RAGE_ON, client);
 		}
 	}
 }
@@ -1446,6 +1446,7 @@ public Action:FF2_OnBossAbilityTime(boss, String:abilityName[], slot, &Float:abi
 		if(abilityDuration > 0.0)
 		{
 			TurretThink(client);
+			EmitSoundToAll(SOUND_RAGE_ON, client);
 			SetVisionMode(client, VISION_RAGE);
 		}
 		else

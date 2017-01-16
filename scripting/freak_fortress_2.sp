@@ -3855,13 +3855,13 @@ EquipBoss(boss)
 			KvGetString(BossKV[Special[boss]], "attributes", attributes, sizeof(attributes));
 			if(attributes[0]!='\0')
 			{
-				Format(attributes, sizeof(attributes), "68 ; %i ; 252 ; 0.6 ; %s", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2 ,attributes);
+				Format(attributes, sizeof(attributes), "68 ; %i ; 259 ; 1.0 ; 252 ; 0.6 ; %s", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2 ,attributes);
 					//68: +2 cap rate
 					//2: x3.1 damage
 			}
 			else
 			{
-				Format(attributes, sizeof(attributes), "68 ; %i ; 2 ; 3.1 ; 252 ; 0.75", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2);
+				Format(attributes, sizeof(attributes), "68 ; %i ; 2 ; 3.1 ; 252 ; 0.75 ; 259 ; 1.0", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2);
 					//68: +2 cap rate
 					//2: x3.1 damage
 			}
@@ -5956,7 +5956,7 @@ public Action:BossTimer(Handle:timer)
 			}
 
 			Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
-		
+
 			new Float:temp2=BossAbilityDuration[boss][slot];
 			new Float:temp3=BossAbilityCooldown[boss][slot];
 			new Action:action;
@@ -5984,9 +5984,9 @@ public Action:BossTimer(Handle:timer)
 		if(IsBossYou[boss])
 		{
 			new weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
-			if(weapon == GetPlayerWeaponSlot(client, TFWeaponSlot_Melee))
+			if(weapon == GetPlayerWeaponSlot(client, TFWeaponSlot_Melee) || FF2ServerFlag & FF2SERVERFLAG_ISLASTMAN)
 			{
-				TF2_AddCondition(client, TFCond_HalloweenCritCandy, 0.22);
+				TF2_AddCondition(client, TFCond_Buffed, 0.22);
 			}
 		}
 
