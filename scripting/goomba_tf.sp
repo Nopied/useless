@@ -218,7 +218,7 @@ public Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroa
         new victim = GetClientOfUserId(GetEventInt(event, "userid"));
         new killer = GetClientOfUserId(GetEventInt(event, "attacker"));
 
-        CPrintToChatAllEx(killer, "%t", "Goomba Stomp", killer, victim);
+        // CPrintToChatAllEx(killer, "%t", "Goomba Stomp", killer, victim);
 
         new damageBits = GetEventInt(event, "damagebits");
 

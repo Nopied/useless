@@ -114,7 +114,7 @@ public Action CheckLastMan(int client, int args)
 	{
 		if(!IsClientSourceTV(targets[target]) && !IsClientReplay(targets[target]))
 		{
-            Debug("%N: IsLastMan[%N] = %s\n AlreadyLastmanSpawned[%N] = %s",
+            CPrintToChatAll("%N: IsLastMan[%N] = %s\n AlreadyLastmanSpawned[%N] = %s",
             targets[target], targets[target], IsLastMan[targets[target]] ? "true" : "false"
             , targets[target], AlreadyLastmanSpawned[targets[target]] ? "true" : "false");
         }
@@ -233,11 +233,6 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
     if(FF2_GetRoundState() != 1) return Plugin_Continue;
 
-    if(CheckAlivePlayers() < 2){ // TODO: 커스터마이즈
-        CPrintToChatAll("{olive}[FF2]{default} {green}최소 %d명{default}이 있어야 타이머가 작동됩니다.", 2);
-        return Plugin_Continue;
-    }
-
     for(int target = 1; target <= MaxClients; target++)
     {
         NoEnemyTime[target] = 0.0;
@@ -256,6 +251,11 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
         }
     }
 
+    if(CheckAlivePlayers() < 2){ // TODO: 커스터마이즈
+        CPrintToChatAll("{olive}[FF2]{default} {green}최소 %d명{default}이 있어야 타이머가 작동됩니다.", 2);
+        return Plugin_Continue;
+    }
+
     // SetGameState(Game_AttackAndDefense);
 
     timeleft = float(CheckAlivePlayers()*15)+60.0;
@@ -265,17 +265,12 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
-    int client=GetClientOfUserId(GetEventInt(event, "userid"));
+    int client = GetClientOfUserId(GetEventInt(event, "userid"));
+    int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
 
-    if(TF2_GetClientTeam(client) == TFTeam_Spectator && IsPlayerAlive(client)) // FIXME: 팀포 버그
-    {
-        TF2_ChangeClientTeam(client, view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Blue ? TFTeam_Red : TFTeam_Blue);
-        ForcePlayerSuicide(client);
-    }
+    if(FF2_GetRoundState() != 1)    return Plugin_Continue;
 
-
-    if(FF2_GetRoundState() == 1
-    && (GetGameState() == Game_LastManStanding || IsFakeLastManStanding)
+    if((GetGameState() == Game_LastManStanding || IsFakeLastManStanding)
     && IsLastMan[client]
     && !AlreadyLastmanSpawned[client])
     {
@@ -288,6 +283,11 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
         WritePackCell(LastManData, client);
         ResetPack(LastManData);
 
+    }
+    else if(GetGameState() == Game_SuddenDeath
+    && !IsBossTeam(client))
+    {
+        timeleft += 30.0;
     }
 
     return Plugin_Continue;
@@ -414,11 +414,18 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
     int client = GetClientOfUserId(GetEventInt(event, "userid"));
+    int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
     if(FF2_GetRoundState() != 1 || IsBossTeam(client) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
 
     IsLastMan[client] = false;
     AlreadyLastmanSpawned[client] = false;
+
+    if(GetGameState() == Game_SuddenDeath
+    && !IsBossTeam(client) && IsBossTeam(attacker))
+    {
+        timeleft += 30.0;
+    }
 
     if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding)
     && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
@@ -677,8 +684,6 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
     TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
     GiveLastManWeapon(client);
 
-    // Debug("%N is lastman.", client);
-
     RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
     RemovePlayerTarge(client);
 
@@ -758,8 +763,8 @@ public Action OnTimer(Handle timer)
 
     Handle timeleftHUD=CreateHudSynchronizer();
 
-    timeleft-=0.1;
-    char timeDisplay[6];
+
+    char timeDisplay[60];
 
   	if(RoundFloat(timeleft)/60>9)
   	{
@@ -784,6 +789,17 @@ public Action OnTimer(Handle timer)
       Format(timeDisplay, sizeof(timeDisplay), "%.1f", timeleft);
     }
 
+    if(GetGameState() == Game_None && CheckAlivePlayers() <= 2)
+    {
+        Format(timeDisplay, sizeof(timeDisplay), "%s | 2명 이하는 타이머가 작동되지 않음!", timeDisplay);
+    }
+    else
+    {
+        timeleft-=0.1;
+    }
+
+
+
   	SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
   	for(new client = 1; client <= MaxClients; client++)
   	{
@@ -792,6 +808,8 @@ public Action OnTimer(Handle timer)
   			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
   		}
   	}
+
+
 
     if(GetGameState() == Game_SuddenDeath)
     {
@@ -877,9 +895,10 @@ public Action OnTimer(Handle timer)
                 int damage = (FF2_GetClientDamage(loser) / 20) / 10;
                 suddendeathDamege += damage > 2 ? damage : 2;
                 static bool alreadyNotice = false;
-                timeleft=30.0;
 
+                timeleft += 30.0 + (damage*3); // 게임이 중단되는것을 막는 용.
                 ForcePlayerSuicide(loser);
+
                 CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님이 {olive}데미지가 가장 낮아{default} 사망합니다.\n({orange}데미지: %i{default})", loser, suddendeathDamege);
 
                 if(!alreadyNotice)

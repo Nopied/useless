@@ -50,7 +50,10 @@ public Action Timer_Gag(Handle timer)
 	      }
 	    }
 	  }
+
+	SetRandomSeed(GetTime());
 	int random=GetRandomInt(0, count-1);
+
 	if(count)
 	  	CPrintToChatAll("{green}[개그]{default} %s{default} - {green}%N",
 		cookieClient[random],

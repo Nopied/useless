@@ -1212,16 +1212,8 @@ SetVisionMode(client, mode)								// handles setting predator's vision modes (c
 	{
 		case VISION_NORMAL:
 		{
-			if(FF2_GetAbilityDuration(boss, 0) > 0.0)			// check if still in rage and return to it
-			{
-				SetVisionMode(client,  VISION_RAGE);		// hur dur
-				HideSprites(true);
-			}
-			else
-			{
-				SetOverlay(client, "");
-				HideSprites(false);
-			}
+			SetOverlay(client, "");
+			HideSprites(true);
 		}
 		case VISION_CLOAK:
 		{
@@ -1231,7 +1223,7 @@ SetVisionMode(client, mode)								// handles setting predator's vision modes (c
 		case VISION_RAGE:
 		{
 			SetOverlay(client, "Effects/combine_binocoverlay");
-			HideSprites(true);
+			HideSprites(false);
 		}
 	}
 }
@@ -1468,6 +1460,7 @@ public Action:FF2_OnAbilityTimeEnd(boss, slot)
 	if(FF2_HasAbility(boss, this_plugin_name, "special_predator"))
 	{
 		new client = GetClientOfUserId(FF2_GetBossUserId(boss));
+		HideSprites(true);
 		EmitSoundToAll(SOUND_RAGE_OFF, client);
 	}
 }

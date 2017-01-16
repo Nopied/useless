@@ -1,7 +1,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <clientprefs>
-
+#include <morecolors>
 #undef REQUIRE_PLUGIN
 #include <adminmenu>
 
@@ -59,7 +59,7 @@ new bool:gb_saysound_round;
 new bool:gb_saysound_sentence;
 new bool:gb_saysound_blocktrigger;
 new g_saysound_excludecount;
-new bool:gb_playingame;
+// new bool:gb_playingame;
 new Float:gf_saysound_volume;
 
 public OnPluginStart()
@@ -117,8 +117,8 @@ public OnPluginStart()
 	HookConVarChange(cvar = CreateConVar("sm_saysounds_exclude_admin", "0", "If set, admins obey exclude count", _, true, 0.0, true, 1.0), Cvar_SpamAdminChanged);
 	gb_preventspam[2] = GetConVarBool(cvar);
 
-	HookConVarChange(cvar = CreateConVar("sm_saysounds_playingame","1.0","Play as an emit sound or direct (0 / 1)",_,true,0.0,true,1.0), Cvar_PlayIngameChanged);
-	gb_playingame = GetConVarBool(cvar);
+	// HookConVarChange(cvar = CreateConVar("sm_saysounds_playingame","1.0","Play as an emit sound or direct (0 / 1)",_,true,0.0,true,1.0), Cvar_PlayIngameChanged);
+	// gb_playingame = GetConVarBool(cvar);
 
 	HookConVarChange(cvar = CreateConVar("sm_saysounds_volume","1.0","Volume setting for Say Sounds (0.0 <= x <= 1.0)",_,true,0.0,true,1.0), Cvar_VolumeChanged);
 	gf_saysound_volume = GetConVarFloat(cvar);
@@ -215,7 +215,7 @@ public Cvar_SpamAdminChanged(Handle:convar, const String:oldValue[], const Strin
 {
 	gb_preventspam[2] = bool:StringToInt(newValue);
 }
-
+/*
 public Cvar_PlayIngameChanged(Handle:convar, const String:oldValue[], const String:newValue[])
 {
 	gb_playingame = bool:StringToInt(newValue);
@@ -224,6 +224,7 @@ public Cvar_PlayIngameChanged(Handle:convar, const String:oldValue[], const Stri
 		PrecacheSounds();
 	}
 }
+*/
 public Cvar_VolumeChanged(Handle:convar, const String:oldValue[], const String:newValue[])
 {
 	gf_saysound_volume = StringToFloat(newValue);
@@ -308,6 +309,7 @@ PrecacheSounds()
 		for(new k = GetArraySize(hpath) - 1; k >= 0; k--)
 		{
 			GetArrayString(hpath, k, soundfile, sizeof(soundfile));
+			/*
 			if(gb_playingame)
 			{
 				if(gb_lamesoundengine)
@@ -318,6 +320,15 @@ PrecacheSounds()
 				{
 					PrecacheSound(soundfile, true);
 				}
+			}
+			*/
+			if(gb_lamesoundengine)
+			{
+				AddToStringTable(FindStringTable( "soundprecache" ), soundfile);
+			}
+			else
+			{
+				PrecacheSound(soundfile, true);
 			}
 
 			if(flags & SAYSOUND_FLAG_DOWNLOAD)
@@ -560,6 +571,7 @@ public Action:AttemptSaySound(client, String:sound[])
 				GetArrayString(hpath, GetRandomInt(0, GetArraySize(hpath)-1), buffer, sizeof(buffer));
 
 				DoSaySound(buffer, (flags & SAYSOUND_FLAG_CUSTOMVOLUME) ? (Float:GetArrayCell(gh_volume, i)) : gf_saysound_volume);
+				CPrintToChatAll("{green}%N{default}: ♫ {green}%s", client, sound);
 
 				if(PushArrayCell(gh_recentsounds, i) >= g_saysound_excludecount)
 				{
@@ -620,6 +632,17 @@ DoSaySound(String:soundfile[], Float:volume)
 	{
 		if(IsClientInGame(target) && !g_clientprefs[target][SAYSOUND_PREF_DISABLED])
 		{
+			if(volume > 1.0)
+			{
+				volume *= 0.5;
+				EmitSoundToClient(target, soundfile);
+				EmitSoundToClient(target, soundfile);
+			}
+			else
+			{
+				EmitSoundToClient(target, soundfile);
+			}
+			/*
 			if(gb_playingame)
 			{
 				if(volume > 1.0)
@@ -644,6 +667,7 @@ DoSaySound(String:soundfile[], Float:volume)
 					ClientCommand(target, "playgamesound \"%s\"",soundfile);
 				}
 			}
+			*/
 		}
 	}
 }
@@ -721,7 +745,7 @@ ShowClientPrefMenu(client)
 
 	SetMenuTitle(menu, "Saysounds\n ");
 
-	AddMenuItem(menu, "", g_clientprefs[client][SAYSOUND_PREF_DISABLED] ? "Saysounds: Disabled" : "Saysounds: Enabled");
+	AddMenuItem(menu, "", g_clientprefs[client][SAYSOUND_PREF_DISABLED] ? "Saysounds: 비활성화" : "Saysounds: 활성화");
 
 	SetMenuExitButton(menu, true);
 

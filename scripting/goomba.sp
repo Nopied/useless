@@ -278,7 +278,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     SDKHooks_TakeDamage(victim,
                         client,
                         client,
-                        500.0, // 675.0
+                        180.0, // 675.0
                         DMG_PREVENT_PHYSICS_FORCE | DMG_CRUSH | DMG_ALWAYSGIB);
 
     Goomba_Fakekill[victim] = 0;

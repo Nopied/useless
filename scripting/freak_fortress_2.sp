@@ -7930,7 +7930,7 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 		KvRewind(BossKV[Special[GetBossIndex(victim)]]);
 		KvGetString(BossKV[Special[GetBossIndex(victim)]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-		CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "굼바 스톰프", bossName, !TF2_IsPlayerInCondition(attacker, TFCond_Buffed) ? 500 : 675); // 굼바 데미지는 굼바 플러그인에서 고정데미지로 정함.
+		CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "굼바 스톰프", bossName, !TF2_IsPlayerInCondition(attacker, TFCond_Buffed) ? 180 : 239); // 굼바 데미지는 굼바 플러그인에서 고정데미지로 정함.
 		return Plugin_Changed;
 	}
 	return Plugin_Continue;
