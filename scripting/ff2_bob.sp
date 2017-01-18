@@ -77,7 +77,7 @@ public void OnProjectileSpawn(int entity)
 
                 if(IsValidEntity(weapon))
                 {
-                    FF2_SetAmmo(client, weapon, 1, GetEntProp(weapon, Prop_Send, "m_iClip1") + 1);
+                    FF2_SetAmmo(client, weapon, 0, GetEntProp(weapon, Prop_Send, "m_iClip1") + 1);
                 }
             }
 

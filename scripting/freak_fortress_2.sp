@@ -4346,7 +4346,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}
 		else if(iItemDefinitionIndex == 237)
 		{
-			itemOverride=PrepareItemHandle(item, _, 237, "114 ; 1 ; 2 ; 2.45 ; 5 ; 1.4 ; 96 ; 1.4 ; 99 ; 1.8 ; 3 ; 0.5");
+			itemOverride=PrepareItemHandle(item, _, 237, "114 ; 1 ; ; 5 ; 1.8 ; 96 ; 1.4 ; 3 ; 0.25");
 		}
 		else if(iItemDefinitionIndex == 228 ||
 			iItemDefinitionIndex == 1104 ||

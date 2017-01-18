@@ -421,10 +421,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     IsLastMan[client] = false;
     AlreadyLastmanSpawned[client] = false;
 
-    if(GetGameState() == Game_SuddenDeath
+    if((GetGameState() == Game_SuddenDeath || GetGameState() == Game_None)
     && !IsBossTeam(client) && IsBossTeam(attacker))
     {
-        timeleft += 30.0;
+        timeleft += 30.0 + (float(FF2_GetClientDamage(client)) / 30.0);
     }
 
     if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding)
@@ -788,7 +788,7 @@ public Action OnTimer(Handle timer)
     {
       Format(timeDisplay, sizeof(timeDisplay), "%.1f", timeleft);
     }
-
+/*
     if(GetGameState() == Game_None && CheckAlivePlayers() <= 2)
     {
         Format(timeDisplay, sizeof(timeDisplay), "%s | 2명 이하는 타이머가 작동되지 않음!", timeDisplay);
@@ -797,8 +797,8 @@ public Action OnTimer(Handle timer)
     {
         timeleft-=0.1;
     }
-
-
+*/
+    timeleft -= 0.1;
 
   	SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
   	for(new client = 1; client <= MaxClients; client++)
