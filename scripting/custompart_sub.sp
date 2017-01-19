@@ -231,9 +231,12 @@ public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
     {
         if(partIndex == 24)
         {
+            // Debug("%N: %.1f", client, duration);
             CreateLaser(client);
         }
     }
+
+    return Plugin_Continue;
 }
 
 void CreateLaser(int client)
@@ -241,16 +244,16 @@ void CreateLaser(int client)
     float clientPos[3];
     float clientEyeAngles[3];
     float end_pos[3];
-    float damage = 12.0;
+    float damage = 14.0;
     float range = 65.0;
 
     GetClientEyePosition(client, clientPos);
     GetClientEyeAngles(client, clientEyeAngles);
     GetEyeEndPos(client, 0.0, end_pos);
 
-    clientPos[2]-=28.0;
-    clientPos[1]-=14.0;
-    clientPos[0]-=17.0;
+    clientPos[2] -= 28.0;
+    clientPos[1] -= 14.0;
+    clientPos[0] -= 17.0;
 
     TE_SetupBeamPoints(clientPos, end_pos, GetPrecacheMaterialsNum(1), GetPrecacheMaterialsNum(2), 10, 50, 0.1
     , 6.0
@@ -278,7 +281,7 @@ void CreateLaser(int client)
               EmitSoundToAll(path, target, _, _, _, _, _, target, targetPos);
           }
 
-             TF2_IgnitePlayer(target, client);
+          TF2_IgnitePlayer(target, client);
         }
       }
     }
@@ -329,7 +332,8 @@ public void CP_OnActivedPartEnd(int client, int partIndex)
             RemoveToAllWeapon(client, 2, -0.3);
             RemoveToSomeWeapon(client, 412, 0.5);
 
-            TF2_StunPlayer(client, 6.0, 0.5, TF_STUNFLAGS_SMALLBONK);
+            TF2_StunPlayer(client, 1.0, 0.5, TF_STUNFLAGS_SMALLBONK);
+            TF2_AddCondition(client, TFCond_MarkedForDeath, 5.0);
         }
     }
 }

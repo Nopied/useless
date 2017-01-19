@@ -48,7 +48,7 @@ public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
 {
 	if(FF2_GetRoundState() == 1)
 	{
-		if(g_flTimeStop > GetGameTime() || (g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime()))
+		if(g_flTimeStop > GetGameTime() || g_flTimeStop != -1.0)
 		{
 			return Plugin_Handled;
 		}

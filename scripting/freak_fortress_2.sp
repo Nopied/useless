@@ -61,6 +61,8 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #define MONOCULUS "eyeball_boss"
 #define DISABLED_PERKS "toxic,noclip,uber,ammo,instant,jump,tinyplayer"
 
+#define MODEL_TRIGGER	"models/buildables/teleporter.mdl"
+
 #if defined _steamtools_included
 new bool:steamtools=false;
 #endif
@@ -1759,6 +1761,8 @@ public OnMapStart()
 			BossKV[specials]=INVALID_HANDLE;
 		}
 	}
+
+	PrecacheModel(MODEL_TRIGGER, true);
 }
 
 public OnMapEnd()
@@ -4349,7 +4353,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}
 		else if(iItemDefinitionIndex == 237)
 		{
-			itemOverride=PrepareItemHandle(item, _, 237, "114 ; 1 ; ; 5 ; 1.8 ; 96 ; 1.4 ; 3 ; 0.25");
+			itemOverride=PrepareItemHandle(item, _, 237, "114 ; 1 ; 5 ; 1.8 ; 96 ; 1.4 ; 3 ; 0.25");
 		}
 		else if(iItemDefinitionIndex == 228 ||
 			iItemDefinitionIndex == 1104 ||
@@ -7102,6 +7106,11 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 				BossHealth[GetBossIndex(client)] -= RoundFloat(damage);
 				return Plugin_Continue;
 			}
+			else if(damagetype & DMG_FALL)
+			{
+				damage = 1.0;
+				return Plugin_Changed;
+			}
 			return Plugin_Handled;
 		}
 	}
@@ -7114,12 +7123,6 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 	if(!CheckRoundState() && IsBoss(client))
 	{
 		damage*=0.0;
-		return Plugin_Changed;
-	}
-
-	if(CheckRoundState() == 1 && IsBoss(client) && damagetype & DMG_FALL)
-	{
-		damage = 1.0;
 		return Plugin_Changed;
 	}
 
@@ -10711,13 +10714,30 @@ public OnItemSpawned(entity)
 
 			GetEntPropVector(entity, Prop_Send, "m_vecOrigin", origin);
 
+			DispatchSpawn(nobulid);
+
 			GetEntPropVector(entity, Prop_Send, "m_vecMins", vecMin);
 			GetEntPropVector(entity, Prop_Send, "m_vecMaxs", vecMax);
+
+			vecMin[0] *= 2.0;
+			vecMin[1] *= 2.0;
+			vecMin[2] *= 2.0;
+
+			vecMax[0] *= 2.0;
+			vecMax[1] *= 2.0;
+			vecMax[2] *= 2.0;
 
 			SetEntPropVector(nobulid, Prop_Send, "m_vecMins", vecMin);
 			SetEntPropVector(nobulid, Prop_Send, "m_vecMaxs", vecMax);
 
 			TeleportEntity(nobulid, origin, NULL_VECTOR, NULL_VECTOR);
+
+			SetEntityModel(nobulid, MODEL_TRIGGER);
+			SetEntProp(nobulid, Prop_Send, "m_nSolidType", 2);
+
+			AcceptEntityInput(nobulid, "Enable");
+			ActivateEntity(nobulid);
+
 		}
 	}
 
@@ -10733,12 +10753,10 @@ public Action:OnPickup(entity, client)  //Thanks friagram!
 		GetEntityClassname(entity, classname, sizeof(classname));
 		if(!StrContains(classname, "item_healthkit", false) && !(FF2flags[client] & FF2FLAG_ALLOW_HEALTH_PICKUPS))
 		{
-			Debug("보스가 치료킷을 먹으려고 함.");
 			return Plugin_Handled;
 		}
 		else if((!StrContains(classname, "item_ammopack", false) || StrEqual(classname, "tf_ammo_pack")) && !(FF2flags[client] & FF2FLAG_ALLOW_AMMO_PICKUPS))
 		{
-			Debug("보스가 아모킷을 먹으려고 함.");
 			return Plugin_Handled;
 		}
 	}
