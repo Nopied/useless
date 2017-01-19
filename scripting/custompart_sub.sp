@@ -129,8 +129,9 @@ public void OnTakeDamageAlivePost(int victim, int attacker, int inflictor, float
 
                 if(!IsSpotSafe(victim, targetPos, 1.0))
                 {
+                    CP_SetClientCPFlags(victim, CP_GetClientCPFlags(victim) | CPFLAG_DONOTCLEARSLOT);
                     TF2_RespawnPlayer(victim);
-                    // TODO: 더 좋은 해결책?
+                    CP_SetClientCPFlags(victim, CP_GetClientCPFlags(victim) | ~CPFLAG_DONOTCLEARSLOT);
                 }
             }
             else
@@ -221,6 +222,101 @@ public void OnEntitySpawned(int entity)
                 TeleportEntity(prop, pos, ang, velocity);
             }
         }
+    }
+}
+
+public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
+{
+    if(IsPlayerAlive(client))
+    {
+        if(partIndex == 24)
+        {
+            CreateLaser(client);
+        }
+    }
+}
+
+void CreateLaser(int client)
+{
+    float clientPos[3];
+    float clientEyeAngles[3];
+    float end_pos[3];
+    float damage = 12.0;
+    float range = 65.0;
+
+    GetClientEyePosition(client, clientPos);
+    GetClientEyeAngles(client, clientEyeAngles);
+    GetEyeEndPos(client, 0.0, end_pos);
+
+    clientPos[2]-=28.0;
+    clientPos[1]-=14.0;
+    clientPos[0]-=17.0;
+
+    TE_SetupBeamPoints(clientPos, end_pos, GetPrecacheMaterialsNum(1), GetPrecacheMaterialsNum(2), 10, 50, 0.1
+    , 6.0
+    , 25.0, 0, 64.0, {0, 255, 0, 255}, 40);
+    TE_SendToAll();
+
+    float targetPos[3];
+    float targetEndPos[3];
+    char path[PLATFORM_MAX_PATH];
+    RandomSound("Laser_Hit", path, sizeof(path));
+
+    for(int target=1; target<=MaxClients; target++)
+    {
+      if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(target) != GetClientTeam(client))
+      {
+        GetClientEyePosition(target, targetPos);
+        GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+
+        if(GetVectorDistance(targetPos, targetEndPos) <= range && !TF2_IsPlayerInCondition(target, TFCond_Ubercharged))
+        {
+          SDKHooks_TakeDamage(target, client, client, damage, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM, -1, _, targetEndPos);
+
+          if(path[0] != '\0'){
+              EmitSoundToAll(path, target, _, _, _, _, _, target, targetPos);
+              EmitSoundToAll(path, target, _, _, _, _, _, target, targetPos);
+          }
+
+             TF2_IgnitePlayer(target, client);
+        }
+      }
+    }
+
+    int ent = -1;
+
+    while((ent = FindEntityByClassname(ent, "obj_sentrygun")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+    {
+      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+      GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+
+      if(GetVectorDistance(targetPos, targetEndPos) <= range)
+      {
+        SDKHooks_TakeDamage(ent, client, client, damage*1.5, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
+      }
+    }
+
+    while((ent = FindEntityByClassname(ent, "obj_dispenser")) != -1)  // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+    {
+      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+      GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+
+      if(GetVectorDistance(targetPos, targetEndPos) <= range)
+      {
+        SDKHooks_TakeDamage(ent, client, client, damage*1.5, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
+      }
+    }
+
+
+    while((ent = FindEntityByClassname(ent, "obj_teleporter")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+    {
+      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+      GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+
+      if(GetVectorDistance(targetPos, targetEndPos) <= range)
+      {
+        SDKHooks_TakeDamage(ent, client, client, damage*1.5, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1, _, targetEndPos);
+      }
     }
 }
 
@@ -359,19 +455,20 @@ public void CP_OnActivedPart(int client, int partIndex)
     float clientPos[3];
 
     GetClientEyePosition(client, clientPos);
+    CP_NoticePart(client, partIndex);
 
     if(partIndex == 12)
     {
         AddToAllWeapon(client, 2, 0.3);
         AddToSomeWeapon(client, 412, -0.5);
 
-        CP_NoticePart(client, partIndex);
-
         char path[PLATFORM_MAX_PATH];
         RandomSound("NanoBbong", path, sizeof(path));
 
         EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
     }
+
+
 }
 
 public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
@@ -666,10 +763,83 @@ void AddAttributeDefIndex(int entity, int defIndex, float value)
     else
     {
         if(TF2Attrib_IsIntegerValue(defIndex))
+        {
             TF2Attrib_SetByDefIndex(entity, defIndex, value);
+        }
         else
+        {
             TF2Attrib_SetByDefIndex(entity, defIndex, value + 1.0);
+        }
+
+        SwitchWeaponForTick(entity);
     }
+}
+
+void SwitchWeaponForTick(int entity)
+{
+    int owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
+    int weapon;
+    Address itemAddress;
+
+    int slotWeapon[5];
+    int count;
+    bool hasThis = false;
+
+    if(IsValidClient(owner))
+    {
+        for(int slot=0; slot < 5; slot++)
+        {
+            weapon = GetPlayerWeaponSlot(owner, slot);
+            itemAddress = TF2Attrib_GetByDefIndex(entity, 226);
+
+            if(IsValidEntity(weapon))
+            {
+                if(weapon == entity)
+                {
+                    hasThis = true;
+                    continue;
+                }
+                else if(itemAddress != Address_Null && TF2Attrib_GetValue(itemAddress) >= 1.0) // 226
+                {
+                    continue;
+                }
+
+                slotWeapon[count++] = weapon;
+            }
+        }
+
+        if(hasThis)
+        {
+            int random = GetRandomInt(0, count-1);
+
+            SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", slotWeapon[random]);
+            SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", entity);
+        }
+    }
+
+
+}
+
+public void GetEyeEndPos(int client, float max_distance, float endPos[3])
+{
+	if(IsClientInGame(client))
+	{
+		if(max_distance<0.0)
+			max_distance=0.0;
+		float PlayerEyePos[3];
+		float PlayerAimAngles[3];
+		GetClientEyePosition(client,PlayerEyePos);
+		GetClientEyeAngles(client,PlayerAimAngles);
+		float PlayerAimVector[3];
+		GetAngleVectors(PlayerAimAngles,PlayerAimVector,NULL_VECTOR,NULL_VECTOR);
+		if(max_distance>0.0){
+			ScaleVector(PlayerAimVector,max_distance);
+		}
+		else{
+			ScaleVector(PlayerAimVector,3000.0);
+		}
+        AddVectors(PlayerEyePos,PlayerAimVector,endPos);
+	}
 }
 
 /*
@@ -987,6 +1157,8 @@ void CheckPartConfigFile()
   }
 
   CustomPartSubKv = CreateKeyValues("custompart_sub");
+  MaterialsModelNum.Clear();
+  MaterialsModelNum.Resize(100);
 
   if(!FileToKeyValues(CustomPartSubKv, config))
   {
@@ -1033,6 +1205,14 @@ void CheckPartConfigFile()
       }
       while(KvGotoNextKey(CustomPartSubKv));
   }
+}
+
+public int GetPrecacheMaterialsNum(int index)
+{
+    if(index >= MaterialsModelNum.Length || 0 > index)
+        return 0;
+
+    return MaterialsModelNum.Get(index);
 }
 
 public void RandomSound(const char[] key, char[] path, int buffer)

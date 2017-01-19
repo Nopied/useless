@@ -18,6 +18,7 @@ int top[MAXPLAYERS+1];
 bool loserTop[MAXPLAYERS+1];
 int lastDamage;
 int BGMCount;
+
 float timeleft;
 int noticed;
 
@@ -258,7 +259,7 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 
     // SetGameState(Game_AttackAndDefense);
 
-    timeleft = float(CheckAlivePlayers()*15)+60.0;
+    timeleft = float(CheckAlivePlayers()*12)+45.0;
     DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
     return Plugin_Continue;
 }
@@ -424,7 +425,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     if((GetGameState() == Game_SuddenDeath || GetGameState() == Game_None)
     && !IsBossTeam(client) && IsBossTeam(attacker))
     {
-        timeleft += 30.0 + (float(FF2_GetClientDamage(client)) / 30.0);
+        if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
+        {
+            timeleft += 30.0 + (float(FF2_GetClientDamage(client)) / 60.0);
+        }
     }
 
     if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding)
@@ -762,7 +766,6 @@ public Action OnTimer(Handle timer)
     }
 
     Handle timeleftHUD=CreateHudSynchronizer();
-
 
     char timeDisplay[60];
 
@@ -1857,7 +1860,7 @@ void SetGameState(GameMode gamemode)
         {
             DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
         }
-        timeleft = float(CheckAlivePlayers()*15)+60.0;
+        timeleft = float(CheckAlivePlayers() * 12) + 45.0;
     }
 }
 

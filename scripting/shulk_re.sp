@@ -2,6 +2,7 @@
 #include <sdktools>
 #include <sdkhooks>
 #include <tf2>
+#include <custompart>
 #include <tf2_stocks>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
@@ -41,6 +42,19 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 		SDKUnhook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
 		SDKHook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
 	}
+}
+
+public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
+{
+	if(FF2_GetRoundState() == 1)
+	{
+		if(g_flTimeStop > GetGameTime() || (g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime()))
+		{
+			return Plugin_Handled;
+		}
+	}
+
+	return Plugin_Continue;
 }
 
 public void OnEntityCreated(int entity, const char[] classname)

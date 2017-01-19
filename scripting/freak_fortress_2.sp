@@ -75,6 +75,7 @@ new bool:goomba=false;
 
 new bool:smac=false;
 new bool:CheckedFirstRound=false;
+new bool:MapIsRunning=false;
 
 new OtherTeam=2;
 new BossTeam=3;
@@ -1738,6 +1739,7 @@ public OnMapStart()
 	RoundCount=0;
 	FF2ServerFlag=0;
 	CheckedFirstRound=false;
+	MapIsRunning=true;
 	CloseLoadMusicTimer();
 
 	for(new client; client<=MaxClients; client++)
@@ -1761,6 +1763,7 @@ public OnMapStart()
 
 public OnMapEnd()
 {
+	MapIsRunning = false;
 	if(Enabled || Enabled2)
 	{
 		DisableFF2();
@@ -7114,6 +7117,12 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 		return Plugin_Changed;
 	}
 
+	if(CheckRoundState() == 1 && IsBoss(client) && damagetype & DMG_FALL)
+	{
+		damage = 1.0;
+		return Plugin_Changed;
+	}
+
 	new Float:position[3];
 	GetEntPropVector(attacker, Prop_Send, "m_vecOrigin", position);
 	if(IsBoss(attacker))
@@ -7846,7 +7855,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					new secondary=GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
 					if(secondary<=0 || !IsValidEntity(secondary))
 					{
-						damage/=10.0;
+						damage/=8.0;
 						return Plugin_Changed;
 					}
 				}
@@ -10671,7 +10680,7 @@ public OnEntityCreated(entity, const String:classname[])
 		}
 	}
 
-	if(StrContains(classname, "item_healthkit")!=-1 || StrContains(classname, "item_ammopack")!=-1 || StrEqual(classname, "tf_ammo_pack"))
+	if(!StrContains(classname, "item_healthkit", false) || !StrContains(classname, "item_ammopack", false) || StrEqual(classname, "tf_ammo_pack"))
 	{
 		SDKHook(entity, SDKHook_Spawn, OnItemSpawned);
 	}
@@ -10691,6 +10700,27 @@ public OnEntityDestroyed(entity)
 
 public OnItemSpawned(entity)
 {
+	if(MapIsRunning)
+	{
+		int nobulid = CreateEntityByName("func_nobuild");
+		if(IsValidEntity(nobulid))
+		{
+			float vecMin[3];
+			float vecMax[3];
+			float origin[3];
+
+			GetEntPropVector(entity, Prop_Send, "m_vecOrigin", origin);
+
+			GetEntPropVector(entity, Prop_Send, "m_vecMins", vecMin);
+			GetEntPropVector(entity, Prop_Send, "m_vecMaxs", vecMax);
+
+			SetEntPropVector(nobulid, Prop_Send, "m_vecMins", vecMin);
+			SetEntPropVector(nobulid, Prop_Send, "m_vecMaxs", vecMax);
+
+			TeleportEntity(nobulid, origin, NULL_VECTOR, NULL_VECTOR);
+		}
+	}
+
 	SDKHook(entity, SDKHook_StartTouch, OnPickup);
 	SDKHook(entity, SDKHook_Touch, OnPickup);
 }
@@ -10699,14 +10729,16 @@ public Action:OnPickup(entity, client)  //Thanks friagram!
 {
 	if(IsBoss(client))
 	{
-		decl String:classname[32];
+		new String:classname[32];
 		GetEntityClassname(entity, classname, sizeof(classname));
-		if(!StrContains(classname, "item_healthkit") && !(FF2flags[client] & FF2FLAG_ALLOW_HEALTH_PICKUPS))
+		if(!StrContains(classname, "item_healthkit", false) && !(FF2flags[client] & FF2FLAG_ALLOW_HEALTH_PICKUPS))
 		{
+			Debug("보스가 치료킷을 먹으려고 함.");
 			return Plugin_Handled;
 		}
-		else if((!StrContains(classname, "item_ammopack") || StrEqual(classname, "tf_ammo_pack")) && !(FF2flags[client] & FF2FLAG_ALLOW_AMMO_PICKUPS))
+		else if((!StrContains(classname, "item_ammopack", false) || StrEqual(classname, "tf_ammo_pack")) && !(FF2flags[client] & FF2FLAG_ALLOW_AMMO_PICKUPS))
 		{
+			Debug("보스가 아모킷을 먹으려고 함.");
 			return Plugin_Handled;
 		}
 	}
