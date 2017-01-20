@@ -383,7 +383,8 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			tempAngle[1] = StartAngle[1];
 			tempAngle[2] = 20.0;
 
-			TraceRay = TR_TraceRayEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite);
+			// TraceRay = TR_TraceRayEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite);
+			TraceRay = TR_TraceRayFilterEx(clientPos, tempAngle, MASK_SOLID, RayType_Infinite, TraceRayNoPlayer, client);
 
 			if(TR_DidHit(TraceRay))
 			{
@@ -414,6 +415,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	}
 
   	return Plugin_Continue;
+}
+
+public bool TraceRayNoPlayer(int iEntity, int iMask, any iData)
+{
+    return (!IsValidClient(iEntity));
 }
 
 public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageType:damageType, float &damage)
