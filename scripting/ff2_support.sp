@@ -22,6 +22,10 @@ public Plugin myinfo=
 
 bool Sub_SaxtonReflect[MAXPLAYERS+1];
 bool CBS_Abilities[MAXPLAYERS+1];
+bool IsTank[MAXPLAYERS+1];
+bool NoJump[MAXPLAYERS+1];
+
+float RocketCooldown[MAXPLAYERS+1];
 
 bool IsEntityCanReflect[MAX_EDICTS];
 bool AllLastmanStanding;
@@ -104,7 +108,47 @@ public void OnSpawn(int entity)
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
 {
-  // HookEvent("arena_round_start", OnRoundStart);
+	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+
+  	if(StrEqual(ability_name, "ff2_tank"))
+	{
+		RocketCooldown[client] = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 1, 1.5);
+
+		float clientEyePos[3];
+		float clientEyeAngles[3];
+		float vecrt[3];
+		float angVector[3];
+
+		GetClientEyePosition(client, clientEyePos);
+		GetClientEyeAngles(client, clientEyeAngles);
+
+		GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
+		NormalizeVector(angVector, angVector);
+
+		float speed = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 5, 1200.0);
+
+		angVector[0] *= speed;
+		angVector[1] *= speed;
+		angVector[2] *= speed;
+
+		int rocket = SpawnRocket(client, clientEyePos, clientEyeAngles, angVector, FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 6, 90.5), true);
+		if(IsValidEntity(rocket))
+		{
+			int weapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+			TF2Attrib_SetByDefIndex(weapon, 521, 1.0);
+			TF2Attrib_SetByDefIndex(weapon, 642, 0.0); // 99
+			TF2Attrib_SetByDefIndex(weapon, 99, 2.5);
+
+			char path[PLATFORM_MAX_PATH];
+			FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 7, path, sizeof(path));
+
+			if(path[0] != '\0')
+			{
+				EmitSoundToAll(path, client, _, _, _, _, _, client, clientEyePos);
+			}
+		}
+	}
+
 }
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
@@ -122,8 +166,12 @@ void CheckAbilities()
   AttackAndDef = false;
   for(client=1; client<=MaxClients; client++)
   {
-	    Sub_SaxtonReflect[client]=false;
-		CBS_Abilities[client]=false;
+	    Sub_SaxtonReflect[client] = false;
+		CBS_Abilities[client] = false;
+		NoJump[client] = false;
+		IsTank[client] = false;
+
+		RocketCooldown[client] = 0.0;
 
 	    if((boss=FF2_GetBossIndex(client)) != -1)
 	    {
@@ -135,6 +183,16 @@ void CheckAbilities()
 				AllLastmanStanding = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_attackanddef"))
 				AttackAndDef = true;
+			if(FF2_HasAbility(boss, this_plugin_name, "tank_nojump"))
+				NoJump[client] = true;
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_tank"))
+			{
+				IsTank[client] = true;
+				SetOverlay(client, "Effects/combine_binocoverlay");
+				SDKHook(client, SDKHook_StartTouch, OnTankTouch);
+				SDKHook(client, SDKHook_Touch, OnTankTouch);
+			}
+
 		}
   }
 
@@ -151,12 +209,27 @@ void CheckAbilities()
 	}
 }
 
+public Action OnTankTouch(int entity, int other)
+{
+	if (other > 0 && other <= MaxClients)
+	{
+		if(IsTank[entity])
+		{
+			SDKHooks_TakeDamage(other, entity, entity, 30.0, DMG_SLASH, -1);
+		}
+	}
+}
+
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
+	if(FF2_GetRoundState() != 1) return Plugin_Continue;
+
   if(0 < client && client <= MaxClients && IsClientInGame(client))
   {
-    if(buttons & IN_ATTACK && Sub_SaxtonReflect[client])
-    {
+	 	int boss = FF2_GetBossIndex(client);
+
+	    if(buttons & IN_ATTACK && Sub_SaxtonReflect[client])
+	    {
 			if(GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime()
 			|| GetEntPropFloat(GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack") > GetGameTime())
 				return Plugin_Continue;
@@ -177,20 +250,16 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			while((ent = FindEntityByClassname(ent, "tf_projectile_*")) != -1)
 			{
-/*				if(!HasEntProp(ent, Prop_Send, "m_hOwnerEntity")
-				 || GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity") == client)
-*/
 				if(GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity") == client)
 				 continue;
 
 				GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
-				// GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
 
 				if(GetVectorDistance(end_pos, targetPos) <= 100.0)
 				{
 					SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
 
-/*					if(HasEntProp(ent, Prop_Send, "m_iTeamNum"))
+					if(HasEntProp(ent, Prop_Send, "m_iTeamNum"))
 					{
 						SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
 					}
@@ -201,7 +270,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					if(HasEntProp(ent, Prop_Send, "m_iDeflected"))
 					{
 						SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
-					} */
+					}
 					GetEntityClassname(ent, classname, sizeof(classname)); //
 					if(StrEqual(classname, "tf_projectile_pipe", true))
 					{
@@ -229,9 +298,171 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				}
 			}
 		}
+
+		if(IsTank[client])
+		{
+			SetOverlay(client, "Effects/combine_binocoverlay");
+		}
+
+		if(buttons & IN_ATTACK2 && IsTank[client] && GetGameTime() > RocketCooldown[client])
+		{
+			RocketCooldown[client] = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 1, 1.5);
+
+			float clientEyePos[3];
+			float clientEyeAngles[3];
+			float vecrt[3];
+			float angVector[3];
+
+			GetClientEyePosition(client, clientEyePos);
+			GetClientEyeAngles(client, clientEyeAngles);
+
+			GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
+			NormalizeVector(angVector, angVector);
+
+			float speed = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 2, 1200.0);
+
+			angVector[0] *= speed;
+			angVector[1] *= speed;
+			angVector[2] *= speed;
+
+			int rocket = SpawnRocket(client, clientEyePos, clientEyeAngles, angVector, FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 3, 14.5), true);
+			if(IsValidEntity(rocket))
+			{
+				int weapon2 = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+				TF2Attrib_SetByDefIndex(weapon2, 521, 0.0); //642
+				TF2Attrib_SetByDefIndex(weapon2, 642, 3.0);
+				TF2Attrib_SetByDefIndex(weapon2, 99, 1.0);
+
+				char path[PLATFORM_MAX_PATH];
+				FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 4, path, sizeof(path));
+
+				if(path[0] != '\0')
+				{
+					EmitSoundToAll(path, client, _, _, _, _, _, client, clientEyePos);
+				}
+
+			}
+		}
+
+		if(!(GetEntityFlags(client) & FL_ONGROUND) && NoJump[client])
+		{
+			SetEntProp(client, Prop_Send, "m_bJumping", 0);
+		}
+		else if(NoJump[client])
+		{
+			SetEntityGravity(client, 1.0);
+		}
+
+		if(buttons & IN_JUMP
+		&&	IsTank[client])
+		{
+		 	bool NearWall = false;
+			float StartOrigin[3];
+			float StartAngle[3];
+			float tempAngle[3];
+			float EndOrigin[3];
+			float vecrt[3];
+			float Velocity[3];
+
+			float Distance;
+			Handle TraceRay;
+
+			GetClientEyePosition(client, StartOrigin);
+			GetClientEyeAngles(client, StartAngle);
+
+
+/*
+			if(StartAngle[2] < 60.0)
+				return Plugin_Continue;
+*/
+
+			GetAngleVectors(StartAngle, Velocity, vecrt, NULL_VECTOR);
+			NormalizeVector(Velocity, Velocity);
+
+			tempAngle[0] = StartAngle[0];
+			tempAngle[1] = StartAngle[1];
+			tempAngle[2] = 20.0;
+
+			TraceRay = TR_TraceRayEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite);
+
+			if(TR_DidHit(TraceRay))
+			{
+				TR_GetEndPosition(EndOrigin, TraceRay);
+
+				Distance = (GetVectorDistance(StartOrigin, EndOrigin));
+
+				if(Distance < 50.0) NearWall = true;
+			}
+
+			CloseHandle(TraceRay);
+
+			if(NearWall)
+			{
+				float Speed = 300.0;
+
+				Velocity[1] *= 180.0;
+				Velocity[2] *= Speed;
+				Velocity[0] *= 180.0;
+
+				TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
+			}
+
+			PrintCenterText(client, "Distance: %.1f\n%.1f %.1f %.1f %s", Distance, Velocity[0], Velocity[1], Velocity[2],
+			NearWall ? "true" : "false"
+			);
+		}
 	}
 
-  return Plugin_Continue;
+  	return Plugin_Continue;
+}
+
+public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageType:damageType, float &damage)
+{
+	if(IsTank[victim])
+	{
+		damage *= 0.6;
+		return Plugin_Changed;
+	}
+
+	return Plugin_Continue;
+}
+
+void SetOverlay(int client, const char[] overlay)						// changes a client's screen overlay (requires clientcommand, they could disable so, enforce with smac or something if you care.)
+{
+	SetCommandFlags("r_screenoverlay", GetCommandFlags("r_screenoverlay") & ~FCVAR_CHEAT);
+	ClientCommand(client, "r_screenoverlay \"%s\"", overlay);
+	SetCommandFlags("r_screenoverlay", GetCommandFlags("r_screenoverlay") | FCVAR_CHEAT);
+}
+
+stock int SpawnRocket(int client, float origin[3], float angles[3], float velocity[3], float damage, bool allowcrit)
+{
+	int ent=CreateEntityByName("tf_projectile_rocket");
+	if(!IsValidEntity(ent)){
+		 return -1;
+		}
+	int clientTeam = GetClientTeam(client);
+	int damageOffset = FindSendPropInfo("CTFProjectile_Rocket", "m_iDeflected") + 4;
+
+	SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
+	SetEntProp(ent, Prop_Send, "m_bCritical", allowcrit ? 1 : 0);
+	SetEntProp(ent, Prop_Send, "m_iTeamNum", clientTeam);
+	SetEntProp(ent, Prop_Send, "m_CollisionGroup", 4);
+	SetEntProp(ent, Prop_Data, "m_takedamage", 0);
+	// SetEntPropEnt(ent, Prop_Send, "m_nForceBone", -1);
+	SetEntPropVector(ent, Prop_Send, "m_vecMins", Float:{0.0,0.0,0.0});
+	SetEntPropVector(ent, Prop_Send, "m_vecMaxs", Float:{0.0,0.0,0.0});
+	SetEntDataFloat(ent, damageOffset, damage); // set damage
+	SetVariantInt(clientTeam);
+	AcceptEntityInput(ent, "TeamNum", -1, -1, 0);
+	SetVariantInt(clientTeam);
+	AcceptEntityInput(ent, "SetTeam", -1, -1, 0);
+	DispatchSpawn(ent);
+	SetEntPropEnt(ent, Prop_Send, "m_hOriginalLauncher", GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"));
+	SetEntPropEnt(ent, Prop_Send, "m_hLauncher", GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"));
+
+	TeleportEntity(ent, origin, angles, velocity);
+
+	return ent;
 }
 
 public void GetEyeEndPos(int client, float max_distance, float endPos[3])

@@ -231,7 +231,6 @@ public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
     {
         if(partIndex == 24)
         {
-            // Debug("%N: %.1f", client, duration);
             CreateLaser(client);
         }
     }

@@ -6838,7 +6838,11 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	}
 	else if(custom==TF_CUSTOM_BOOTS_STOMP)
 	{
-		damage*=5;
+		if(IsBoss(attacker))
+			damage*=50.0;
+
+		else
+			damage*=5;
 	}
 
 	if(GetEventBool(event, "minicrit") && GetEventBool(event, "allseecrit"))
