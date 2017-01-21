@@ -42,7 +42,7 @@ public OnPluginStart2()
 	HookEvent("arena_round_start", Event_RoundStart, EventHookMode_PostNoCopy);
 	HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
 	AddNormalSoundHook(SoundHook);
-	g_bHitboxAvailable = ((FindSendPropOffs("CBasePlayer", "m_vecSpecifiedSurroundingMins") != -1) && FindSendPropOffs("CBasePlayer", "m_vecSpecifiedSurroundingMaxs") != -1);
+	g_bHitboxAvailable = ((FindSendPropInfo("CBasePlayer", "m_vecSpecifiedSurroundingMins") != -1) && FindSendPropInfo("CBasePlayer", "m_vecSpecifiedSurroundingMaxs") != -1);
 	decl String:szDir[64];
 	GetGameFolderName(szDir, sizeof(szDir));
 	if (strcmp(szDir, "tf") == 0 || strcmp(szDir, "tf_beta") == 0)
@@ -131,8 +131,8 @@ public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroad
 				{
 					FF2_GetAbilityArgumentString(g_boss, this_plugin_name, "footsteps", 3, g_rightfoot, PLATFORM_MAX_PATH);
 					FF2_GetAbilityArgumentString(g_boss, this_plugin_name, "footsteps", 4, g_leftfoot, PLATFORM_MAX_PATH);
-					PrecacheSound(g_rightfoot, true);
-					PrecacheSound(g_leftfoot, true);
+					PrecacheSound(g_rightfoot);
+					PrecacheSound(g_leftfoot);
 				}
 			}
 

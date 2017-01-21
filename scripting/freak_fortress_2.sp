@@ -61,8 +61,6 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #define MONOCULUS "eyeball_boss"
 #define DISABLED_PERKS "toxic,noclip,uber,ammo,instant,jump,tinyplayer"
 
-#define MODEL_TRIGGER	"models/buildables/teleporter.mdl"
-
 #if defined _steamtools_included
 new bool:steamtools=false;
 #endif
@@ -1741,7 +1739,6 @@ public OnMapStart()
 	RoundCount=0;
 	FF2ServerFlag=0;
 	CheckedFirstRound=false;
-	MapIsRunning=true;
 	CloseLoadMusicTimer();
 
 	for(new client; client<=MaxClients; client++)
@@ -1761,8 +1758,6 @@ public OnMapStart()
 			BossKV[specials]=INVALID_HANDLE;
 		}
 	}
-
-	PrecacheModel(MODEL_TRIGGER, true);
 }
 
 public OnMapEnd()
@@ -10707,44 +10702,6 @@ public OnEntityDestroyed(entity)
 
 public OnItemSpawned(entity)
 {
-	if(MapIsRunning)
-	{
-		int nobulid = CreateEntityByName("func_nobuild");
-		if(IsValidEntity(nobulid))
-		{
-			float vecMin[3];
-			float vecMax[3];
-			float origin[3];
-
-			GetEntPropVector(entity, Prop_Send, "m_vecOrigin", origin);
-
-			DispatchSpawn(nobulid);
-
-			GetEntPropVector(entity, Prop_Send, "m_vecMins", vecMin);
-			GetEntPropVector(entity, Prop_Send, "m_vecMaxs", vecMax);
-
-			vecMin[0] *= 2.0;
-			vecMin[1] *= 2.0;
-			vecMin[2] *= 2.0;
-
-			vecMax[0] *= 2.0;
-			vecMax[1] *= 2.0;
-			vecMax[2] *= 2.0;
-
-			SetEntPropVector(nobulid, Prop_Send, "m_vecMins", vecMin);
-			SetEntPropVector(nobulid, Prop_Send, "m_vecMaxs", vecMax);
-
-			TeleportEntity(nobulid, origin, NULL_VECTOR, NULL_VECTOR);
-
-			SetEntityModel(nobulid, MODEL_TRIGGER);
-			SetEntProp(nobulid, Prop_Send, "m_nSolidType", 2);
-
-			AcceptEntityInput(nobulid, "Enable");
-			ActivateEntity(nobulid);
-
-		}
-	}
-
 	SDKHook(entity, SDKHook_StartTouch, OnPickup);
 	SDKHook(entity, SDKHook_Touch, OnPickup);
 }

@@ -218,11 +218,19 @@ public Action OnTankTouch(int entity, int other)
 			SDKHooks_TakeDamage(other, entity, entity, 30.0, DMG_SLASH, -1);
 		}
 	}
+
 }
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
-	if(FF2_GetRoundState() != 1) return Plugin_Continue;
+	if(FF2_GetRoundState() != 1)
+	{
+		if(0 < client && client <= MaxClients && IsClientInGame(client))
+		{
+			SetOverlay(client, "");
+		}
+		return Plugin_Continue;
+	}
 
   if(0 < client && client <= MaxClients && IsClientInGame(client))
   {
@@ -302,7 +310,44 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		if(IsTank[client])
 		{
 			SetOverlay(client, "Effects/combine_binocoverlay");
-		}
+
+			int ent = -1;
+			float range = 50.0;
+			float clientPos[3];
+			float targetPos[3];
+			GetClientEyePosition(client, clientPos);
+
+			while((ent = FindEntityByClassname(ent, "obj_sentrygun")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+		    {
+		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+
+		      if(GetVectorDistance(targetPos, clientPos) <= range)
+		      {
+		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
+		      }
+		    }
+
+		    while((ent = FindEntityByClassname(ent, "obj_dispenser")) != -1)  // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+		    {
+		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+
+		      if(GetVectorDistance(targetPos, clientPos) <= range)
+		      {
+		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
+		      }
+		    }
+
+
+		    while((ent = FindEntityByClassname(ent, "obj_teleporter")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+		    {
+		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+
+		      if(GetVectorDistance(targetPos, clientPos) <= range)
+		      {
+		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
+		      }
+		    }
+		}//
 
 		if(buttons & IN_ATTACK2 && IsTank[client] && GetGameTime() > RocketCooldown[client])
 		{
@@ -320,6 +365,8 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			NormalizeVector(angVector, angVector);
 
 			float speed = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 2, 1200.0);
+
+			clientEyePos[2] -= 12.0;
 
 			angVector[0] *= speed;
 			angVector[1] *= speed;
@@ -344,17 +391,8 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			}
 		}
 
-		if(!(GetEntityFlags(client) & FL_ONGROUND) && NoJump[client])
-		{
-			SetEntProp(client, Prop_Send, "m_bJumping", 0);
-		}
-		else if(NoJump[client])
-		{
-			SetEntityGravity(client, 1.0);
-		}
-
-		if(buttons & IN_JUMP
-		&&	IsTank[client])
+		if((buttons & IN_FORWARD || buttons & IN_LEFT || buttons & IN_RIGHT)
+		&& IsTank[client])
 		{
 		 	bool NearWall = false;
 			float StartOrigin[3];
@@ -370,47 +408,48 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			GetClientEyePosition(client, StartOrigin);
 			GetClientEyeAngles(client, StartAngle);
 
-
-/*
-			if(StartAngle[2] < 60.0)
-				return Plugin_Continue;
-*/
-
 			GetAngleVectors(StartAngle, Velocity, vecrt, NULL_VECTOR);
 			NormalizeVector(Velocity, Velocity);
 
-			tempAngle[0] = StartAngle[0];
+			tempAngle[0] = 40.0;
 			tempAngle[1] = StartAngle[1];
-			tempAngle[2] = 20.0;
+			tempAngle[2] = StartAngle[2];
 
-			// TraceRay = TR_TraceRayEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite);
-			TraceRay = TR_TraceRayFilterEx(clientPos, tempAngle, MASK_SOLID, RayType_Infinite, TraceRayNoPlayer, client);
-
-			if(TR_DidHit(TraceRay))
+			for(int y = 40; y >= -40; y--)
 			{
-				TR_GetEndPosition(EndOrigin, TraceRay);
+				tempAngle[0] -= 1.0;
 
-				Distance = (GetVectorDistance(StartOrigin, EndOrigin));
+				// TraceRay = TR_TraceRayEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite);
+				TraceRay = TR_TraceRayFilterEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite, TraceRayNoPlayer, client);
 
-				if(Distance < 50.0) NearWall = true;
+				if(TR_DidHit(TraceRay))
+				{
+					TR_GetEndPosition(EndOrigin, TraceRay);
+					Distance = (GetVectorDistance(StartOrigin, EndOrigin));
+
+					if(Distance < 60.0 && !TR_PointOutsideWorld(EndOrigin)) NearWall = true;
+				}
+
+				CloseHandle(TraceRay);
+/*
+				PrintCenterText(client, "Distance: %.1f\n%.1f %.1f %.1f %s", Distance, Velocity[0], Velocity[1], Velocity[2],
+				NearWall ? "true" : "false"
+				);
+*/
+
+				if(NearWall)
+				{
+					float Speed = 300.0;
+
+					Velocity[1] *= 180.0;
+					Velocity[2] *= Speed;
+					Velocity[0] *= 180.0;
+
+					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
+
+					break;
+				}
 			}
-
-			CloseHandle(TraceRay);
-
-			if(NearWall)
-			{
-				float Speed = 300.0;
-
-				Velocity[1] *= 180.0;
-				Velocity[2] *= Speed;
-				Velocity[0] *= 180.0;
-
-				TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
-			}
-
-			PrintCenterText(client, "Distance: %.1f\n%.1f %.1f %.1f %s", Distance, Velocity[0], Velocity[1], Velocity[2],
-			NearWall ? "true" : "false"
-			);
 		}
 	}
 

@@ -416,6 +416,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
     int client = GetClientOfUserId(GetEventInt(event, "userid"));
     int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
+
+    if(!IsValidClient(client))
+        return Plugin_Continue;
+
     if(FF2_GetRoundState() != 1 || IsBossTeam(client) || GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER)
         return Plugin_Continue;
 
