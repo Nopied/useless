@@ -3855,9 +3855,10 @@ EquipBoss(boss)
 		{
 			KvGetString(BossKV[Special[boss]], "name", classname, sizeof(classname));
 			KvGetString(BossKV[Special[boss]], "attributes", attributes, sizeof(attributes));
+
 			if(attributes[0]!='\0')
 			{
-				Format(attributes, sizeof(attributes), "68 ; %i ; 259 ; 1.0 ; 252 ; 0.6 ; %s", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2 ,attributes);
+				Format(attributes, sizeof(attributes), "68 ; %i ; 259 ; 1.0 ; %s", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2 ,attributes);
 					//68: +2 cap rate
 					//2: x3.1 damage
 			}
@@ -3866,6 +3867,11 @@ EquipBoss(boss)
 				Format(attributes, sizeof(attributes), "68 ; %i ; 2 ; 3.1 ; 252 ; 0.75 ; 259 ; 1.0", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2);
 					//68: +2 cap rate
 					//2: x3.1 damage
+			}
+
+			if(i == 1)
+			{
+				Format(attributes, sizeof(attributes), "%s ; 252 ; 0.75", attributes);
 			}
 
 			new index=KvGetNum(BossKV[Special[boss]], "index");
@@ -6834,7 +6840,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	else if(custom==TF_CUSTOM_BOOTS_STOMP)
 	{
 		if(IsBoss(attacker))
-			damage*=50.0;
+			damage*=50;
 
 		else
 			damage*=5;
@@ -7167,6 +7173,12 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 			&& GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex")==226 && !(FF2flags[client] & FF2FLAG_ISBUFFED))  //Battalion's Backup
 			{
 				SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 100.0);
+			}
+
+			if(damagecustom == TF_CUSTOM_BOOTS_STOMP)
+			{
+				damage*=10.0;
+				return Plugin_Changed;
 			}
 /*
 			if(damage<=160.0)  //TODO: Wat

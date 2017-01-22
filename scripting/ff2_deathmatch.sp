@@ -25,6 +25,8 @@ int noticed;
 Handle MusicKV;
 Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 
+Handle OnTimerFor;
+
 float NoEnemyTime[MAXPLAYERS+1];
 float WeaponCannotUseTime[MAXPLAYERS+1];
 float TeleportTime[MAXPLAYERS+1];
@@ -59,6 +61,8 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
     CreateNative("FF2_GetTimeLeft", Native_GetTimeLeft);
     CreateNative("FF2_SetTimeLeft", Native_SetTimeLeft);
     CreateNative("FF2_IsLastMan", Native_IsLastMan);
+
+    OnTimerFor = CreateGlobalForward("FF2_OnDeathMatchTimer", ET_Hook, Param_FloatByRef);
 
 	return APLRes_Success;
 }
@@ -805,7 +809,22 @@ public Action OnTimer(Handle timer)
         timeleft-=0.1;
     }
 */
-    timeleft -= 0.1;
+    float tempTimeleft = timeleft;
+    Action action;
+
+    Call_StartForward(OnTimerFor);
+    Call_PushFloatRef(tempTimeleft);
+    Call_Finish(action);
+
+    if(action == Plugin_Continue)
+    {
+        timeleft -= 0.1;
+    }
+    else if(action == Plugin_Changed)
+    {
+        timeleft = tempTimeleft;
+    }
+
 
   	SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
   	for(new client = 1; client <= MaxClients; client++)

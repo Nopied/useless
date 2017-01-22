@@ -57,6 +57,18 @@ public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
 	return Plugin_Continue;
 }
 
+public Action FF2_OnDeathMatchTimer(float &time)
+{
+	if(FF2_GetRoundState() == 1)
+	{
+		if(g_flTimeStop > GetGameTime() || g_flTimeStop != -1.0)
+		{
+			return Plugin_Handled;
+		}
+	}
+	return Plugin_Continue;
+}
+
 public void OnEntityCreated(int entity, const char[] classname)
 {
 	if(g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime())

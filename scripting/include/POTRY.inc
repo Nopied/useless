@@ -28,6 +28,8 @@ native bool FF2_IsLastMan(int client);
 
 native void ROLLER_CreateRollerMine(int client, int count=1);
 
+forward Action FF2_OnDeathMatchTimer(float &time);
+
 /*
 * 이 inc는 존재만 확인하는 용도임.
 */

@@ -36,26 +36,50 @@ public void OnPluginStart2()
 {
 	HookEvent("arena_round_start", OnRoundStart);
 	HookEvent("player_spawn", OnPlayerSpawn);
+
+	AddNormalSoundHook(SoundHook);
+}
+
+public Action:SoundHook(int clients[64], int &numClients, char sound[PLATFORM_MAX_PATH], int &Ent, int &channel, float &volume, int &level, int &pitch, int &flags)
+{
+	if (volume == 0.0 || volume == 0.9997) return Plugin_Continue;
+	if (!IsValidClient(Ent)) return Plugin_Continue;
+
+	int client = Ent;
+
+	if(IsTank[client])
+	{
+		char path[PLATFORM_MAX_PATH];
+		int boss = FF2_GetBossIndex(client);
+		if(boss != -1)
+		{
+			FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 8, path, sizeof(path));
+
+			if(path[0] == '\0') return Plugin_Continue;
+
+			if (!StrContains(sound, "player/footsteps/", false))
+			{
+				if (!StrContains(sound, "1.wav", false))
+				{
+					StopSound(Ent, SNDCHAN_AUTO, sound);
+
+					sound = path;
+					EmitSoundToAll(sound, client, _, 20);
+
+					return Plugin_Changed;
+				}
+			}
+		}
+
+	}
+
+	return Plugin_Continue;
 }
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
-	/*
-	if(AllLastmanStanding)
-		CreateTimer(0.3, CheckTimer, TIMER_FLAG_NO_MAPCHANGE, GetClientOfUserId(GetEventInt(event, "userid")));
-		*/
 
 }
-
-/*
-public Action CheckTimer(Handle timer, int client)
-{
-	if(IsValidClient(client) && IsPlayerAlive(client) && !IsBossTeam(client) && !FF2_IsLastMan(client))
-	{
-		FF2_EnablePlayerLastmanStanding(client);
-	}
-}
-*/
 
 public OnEntityCreated(entity, const String:classname[])
 {
@@ -440,6 +464,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				if(NearWall)
 				{
 					float Speed = 300.0;
+
+					if(buttons & IN_JUMP)
+						Speed *= 2.0;
 
 					Velocity[1] *= 180.0;
 					Velocity[2] *= Speed;
