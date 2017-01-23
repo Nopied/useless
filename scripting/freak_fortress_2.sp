@@ -4354,7 +4354,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}
 		else if(iItemDefinitionIndex == 237)
 		{
-			itemOverride=PrepareItemHandle(item, _, 237, "114 ; 1 ; 5 ; 1.8 ; 96 ; 1.4 ; 3 ; 0.25");
+			itemOverride=PrepareItemHandle(item, _, 237, "114 ; 1 ; 5 ; 1.8 ; 96 ; 1.8 ; 3 ; 0.25");
 		}
 		else if(iItemDefinitionIndex == 228 ||
 			iItemDefinitionIndex == 1104 ||
@@ -5353,9 +5353,23 @@ public Action:OnPlayerSpawn(Handle:event, const String:name[], bool:dontBroadcas
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	FF2Userflags[client] = 0;
 
-	// Debug("OnPlayerSpawn: %N", client);
+	if(!Enabled || !IsValidClient(client))	return Plugin_Continue;
 
-	if(Enabled && CheckRoundState()==1)
+	if(GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 173) // 비타 쏘우
+	{
+		new medigun=GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
+		new String:classname[60];
+		if(IsValidEntity(medigun))
+		{
+			GetEntityClassname(medigun, classname, sizeof(medigun));
+			if(!StrContains(classname, "tf_weapon_medigun", false))
+			{
+				SetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel", 1.0);
+			}
+		}
+	}
+
+	if(CheckRoundState()==1)
 	{
 		// FF2Userflags[GetEventInt(event, "userid")] = 0;
 		CreateTimer(0.1, CheckAlivePlayers, 0, TIMER_FLAG_NO_MAPCHANGE);
@@ -7157,12 +7171,6 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 				return Plugin_Changed;
 			}
 
-/*			if(damagecustom==TF_CUSTOM_BACKSTAB)
-			{
-				damage*=3.0;
-				return Plugin_Changed;
-			}*/
-
 			if(shield[client] && damage)
 			{
 				RemoveShield(client, attacker, position);
@@ -7177,8 +7185,8 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 
 			if(damagecustom == TF_CUSTOM_BOOTS_STOMP)
 			{
-				damage*=10.0;
-				return Plugin_Changed;
+				damage*=13.0;
+				Change=true;
 			}
 /*
 			if(damage<=160.0)  //TODO: Wat
@@ -10724,12 +10732,36 @@ public Action:OnPickup(entity, client)  //Thanks friagram!
 	{
 		new String:classname[32];
 		GetEntityClassname(entity, classname, sizeof(classname));
-		if(!StrContains(classname, "item_healthkit", false) && !(FF2flags[client] & FF2FLAG_ALLOW_HEALTH_PICKUPS))
+		if(!StrContains(classname, "item_healthkit", false))
 		{
+			if(!(FF2flags[client] & FF2FLAG_ALLOW_HEALTH_PICKUPS))
+				return Plugin_Handled;
+
+			if(TF2_IsPlayerInCondition(client, TFCond_OnFire))
+				ExtinguishEntity(client);
+			if(TF2_IsPlayerInCondition(client, TFCond_Bleeding))
+				TF2_RemoveCondition(client, TFCond_Bleeding);
+
 			return Plugin_Handled;
 		}
-		else if((!StrContains(classname, "item_ammopack", false) || StrEqual(classname, "tf_ammo_pack")) && !(FF2flags[client] & FF2FLAG_ALLOW_AMMO_PICKUPS))
+		else if((!StrContains(classname, "item_ammopack", false) || StrEqual(classname, "tf_ammo_pack")))
 		{
+			if(!(FF2flags[client] & FF2FLAG_ALLOW_AMMO_PICKUPS))
+				return Plugin_Handled;
+
+			if(TF2_GetPlayerClass(client) == TFClass_Spy)
+			{
+				float cloakMeter = GetEntPropFloat(client, Prop_Send, "m_flCloakMeter") + 0.2;
+				if(cloakMeter > 100.0)
+					cloakMeter = 100.0;
+
+				SetEntPropFloat(client, Prop_Send, "m_flCloakMeter", cloakMeter);  //Full cloak
+			}
+
+			for(int i=0; i<4; i++)
+			{
+				GivePlayerAmmo(client, 1, i, false);
+			}
 			return Plugin_Handled;
 		}
 	}

@@ -970,6 +970,10 @@ public void StatusTimer(int client)
                 if(GetVectorDistance(pos, enemyPos) <= 250.0)
                 {
                     PushClientsApart(target, client);
+
+                    if(TF2_IsPlayerInCondition(client, TFCond_Taunting))
+                        TF2_RemoveCondition(client, TFCond_Taunting);
+
                     PrintCenterText(target, "라스트맨에게 잠시만 시간을 주세요!");
                 }
             }
