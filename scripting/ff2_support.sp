@@ -27,6 +27,8 @@ bool NoJump[MAXPLAYERS+1];
 
 float RocketCooldown[MAXPLAYERS+1];
 
+float WalkingSoundCooldown[MAXPLAYERS+1];
+
 bool IsEntityCanReflect[MAX_EDICTS];
 bool AllLastmanStanding;
 bool AttackAndDef;
@@ -36,44 +38,33 @@ public void OnPluginStart2()
 {
 	HookEvent("arena_round_start", OnRoundStart);
 	HookEvent("player_spawn", OnPlayerSpawn);
-
-	AddNormalSoundHook(SoundHook);
 }
 
-public Action:SoundHook(int clients[64], int &numClients, char sound[PLATFORM_MAX_PATH], int &Ent, int &channel, float &volume, int &level, int &pitch, int &flags)
+public void OnGameFrame()
 {
-	if (volume == 0.0 || volume == 0.9997) return Plugin_Continue;
-	if (!IsValidClient(Ent)) return Plugin_Continue;
+	if(FF2_GetRoundState() != 1) return;
 
-	int client = Ent;
-
-	if(IsTank[client])
+	for(int client=1; client<=MaxClients; client++)
 	{
-		char path[PLATFORM_MAX_PATH];
-		int boss = FF2_GetBossIndex(client);
-		if(boss != -1)
+		if(!IsClientInGame(client) || !IsPlayerAlive(client)) return;
+
+		if(IsTank[client])
 		{
-			FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 8, path, sizeof(path));
-
-			if(path[0] == '\0') return Plugin_Continue;
-
-			if (!StrContains(sound, "player/footsteps/", false))
+			if(WalkingSoundCooldown[client] > GetGameTime())
 			{
-				if (!StrContains(sound, "1.wav", false))
-				{
-					StopSound(Ent, SNDCHAN_AUTO, sound);
+				int boss = FF2_GetBossIndex(client);
+				if(boss == -1) return;
 
-					sound = path;
-					EmitSoundToAll(sound, client, _, 20);
+				char path[PLATFORM_MAX_PATH];
+				FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 8, path, sizeof(path));
 
-					return Plugin_Changed;
-				}
+				if(path[0] == '\0') return;
+
+				WalkingSoundCooldown[client] = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 9, 4.0);
+				EmitSoundToAll(path, client, _, 20);
 			}
 		}
-
 	}
-
-	return Plugin_Continue;
 }
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
@@ -196,6 +187,7 @@ void CheckAbilities()
 		IsTank[client] = false;
 
 		RocketCooldown[client] = 0.0;
+		WalkingSoundCooldown[client] = 0.0;
 
 	    if((boss=FF2_GetBossIndex(client)) != -1)
 	    {

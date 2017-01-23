@@ -304,7 +304,7 @@ void DisableTimeStop(int boss)
 							SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
 						}
 					}
-					else if(!StrContains(classname, "tf_projectile_", false))
+					else if(!StrContains(classname, "tf_projectile_", false) || IsValidClient(entity))
 					{
 						continue;
 					}
