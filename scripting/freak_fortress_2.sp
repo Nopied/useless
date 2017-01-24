@@ -4202,7 +4202,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}*/
 		case 265:  //Stickybomb Jumper
 		{
-			new Handle:itemOverride=PrepareItemHandle(item, _, 265, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -4.0 ; 280 ; 4");
+			new Handle:itemOverride=PrepareItemHandle(item, _, 265, "89 ; 0.2 ; 96 ; 1.6 ; 120 ; 99999.0 ; 3 ; 1.0 ; 89 ; -6.0 ; 280 ; 4 ; 477 ; 1.0");
 				//241: No reload penalty
 			if(itemOverride!=INVALID_HANDLE)
 			{

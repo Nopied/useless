@@ -34,7 +34,7 @@ public OnPluginStart()
 	g_flCvarSpawnDelay = GetConVarFloat(g_hCvarSpawnDelay);
 	HookConVarChange(g_hCvarSpawnDelay, OnConVarChange);
 
-	g_hCvarBombDamage = CreateConVar("sm_minibombs_damage", "35.0", "How much damage should a minibomb do?", _, true, 0.0);
+	g_hCvarBombDamage = CreateConVar("sm_minibombs_damage", "25.0", "How much damage should a minibomb do?", _, true, 0.0);
 	g_flCvarBombDamage = GetConVarFloat(g_hCvarBombDamage);
 	HookConVarChange(g_hCvarBombDamage, OnConVarChange);
 }
@@ -102,6 +102,7 @@ public Action:Timer_SetProps(Handle:timer, any:entity)
 				if(ent2 != -1)
 				{
 					SetEntPropEnt(ent2, Prop_Data, "m_hThrower", client);
+					SetEntPropEnt(ent2, Prop_Send, "m_hOwnerEntity", GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"));
 					SetEntProp(ent2, Prop_Send, "m_iTeamNum", clientteam);
 					SetEntProp(ent2, Prop_Send, "m_bCritical", true);
 					SetEntPropFloat(ent2, Prop_Send, "m_flModelScale", 0.8);

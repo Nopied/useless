@@ -16,6 +16,7 @@ bool IsSnowStorm[MAXPLAYERS+1];
 
 int top[MAXPLAYERS+1];
 bool loserTop[MAXPLAYERS+1];
+bool IsAFK[MAXPLAYERS+1];
 int lastDamage;
 int BGMCount;
 
@@ -292,7 +293,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     else if(GetGameState() == Game_SuddenDeath
     && !IsBossTeam(client))
     {
-        timeleft += 30.0;
+        timeleft += 15.0;
     }
 
     return Plugin_Continue;
@@ -314,6 +315,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
         NoEnemyTime[client] = 0.0;
         TeleportTime[client] = 0.0;
         loserTop[client] = false;
+        IsAFK[client] = false;
     }
 
     SetGameState(Game_None);
@@ -435,7 +437,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     {
         if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
         {
-            timeleft += 30.0 + (float(FF2_GetClientDamage(client)) / 60.0);
+            timeleft += 15.0 + (float(FF2_GetClientDamage(client)) / 100.0);
         }
     }
 
@@ -684,6 +686,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
 
     IsLastMan[client] = true;
     NoEnemyTime[client] = GetGameTime() + 12.0;
+    IsAFK[client] = true;
 
     if(!AlreadyLastmanSpawned[client] && spawnPlayer)
     {
@@ -707,6 +710,17 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
   if((GetGameState() != Game_LastManStanding && !IsFakeLastManStanding)
   || !IsLastMan[client]
   || !IsPlayerAlive(client) ) return Plugin_Continue;
+
+  if(GetGameState() == Game_LastManStanding)
+  {
+      if(NoEnemyTime[client] > GetGameTime())
+      {
+          if(IsAFK[client] && buttons > 0)
+          {
+              IsAFK[client] = false;
+          }
+      }
+  }
 
   if(buttons & IN_ATTACK2 && IsWeaponSlotActive(client, 1)) // && GetPlayerWeaponSlot(client, 2) == GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"))
   {
@@ -978,6 +992,15 @@ public void StatusTimer(int client)
                 }
             }
         }
+    }
+    else if(GetGameState() == Game_LastManStanding && NoEnemyTime[client] <= GetGameTime())
+    {
+        NoEnemyTime[client] = GetGameTime() + 0.1;
+        if(IsAFK[client])
+        {
+            PassLastMan(client);
+        }
+        IsAFK[client] = false;
     }
 
     if(WeaponCannotUseTime[client] > GetGameTime())
