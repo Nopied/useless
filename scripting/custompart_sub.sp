@@ -229,9 +229,16 @@ public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
 {
     if(IsPlayerAlive(client))
     {
+        char path[PLATFORM_MAX_PATH];
+        float clientPos[3];
+        GetClientEyePosition(client, clientPos);
+
         if(partIndex == 24)
         {
             CreateLaser(client);
+            RandomSound("Laser_Hit", path, sizeof(path));
+
+            EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
         }
     }
 
