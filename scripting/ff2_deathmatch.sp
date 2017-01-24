@@ -995,12 +995,12 @@ public void StatusTimer(int client)
     }
     else if(GetGameState() == Game_LastManStanding && NoEnemyTime[client] <= GetGameTime())
     {
-        NoEnemyTime[client] = GetGameTime() + 0.1;
         if(IsAFK[client])
         {
+            NoEnemyTime[client] = GetGameTime() + 0.1;
             PassLastMan(client);
+            IsAFK[client] = false;
         }
-        IsAFK[client] = false;
     }
 
     if(WeaponCannotUseTime[client] > GetGameTime())
