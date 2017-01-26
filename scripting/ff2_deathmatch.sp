@@ -832,7 +832,10 @@ public Action OnTimer(Handle timer)
 
     if(action == Plugin_Continue)
     {
-        timeleft -= 0.1;
+        if(GetGameState() == Game_None || GetGameState() == Game_SuddenDeath)
+            timeleft -= 0.1 * float(OnlyParisLeft()+1);
+        else
+            timeleft -= 0.1;
     }
     else if(action == Plugin_Changed)
     {
@@ -1085,6 +1088,10 @@ public void OnClientPostAdminCheck(int client)
 
 public void OnClientDisconnect(int client)
 {
+    if(GetGameState() == Game_LastManStanding && IsLastMan[client])
+    {
+        PassLastMan(client);
+    }
     if(IsLastMan[client] || IsBoss(client))
     {
         IsLastMan[client] = false;
@@ -1893,6 +1900,31 @@ stock int FindPlayerBack(int client, int index)
 		}
 	}
 	return -1;
+}
+
+stock int OnlyParisLeft()
+{
+	int scouts;
+	int BossTeam = FF2_GetBossTeam();
+
+	for(int client=0; client<=MaxClients; client++)
+	{
+		if(IsValidClient(client) && IsPlayerAlive(client) && GetClientTeam(client) != BossTeam)
+		{
+			if(TF2_GetPlayerClass(client) == TFClass_Scout
+			|| (TF2_GetPlayerClass(client) == TFClass_Soldier && GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 237)
+			|| (TF2_GetPlayerClass(client) == TFClass_Spy && (TF2_IsPlayerInCondition(client, TFCond_Cloaked) || TF2_IsPlayerInCondition(client, TFCond_Stealthed)))
+			)
+			{
+				scouts++;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	}
+	return scouts;
 }
 
 GameMode GetGameState()

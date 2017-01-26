@@ -5610,7 +5610,7 @@ public Action:ClientTimer(Handle:timer)
 				}
 			}
 
-			if(RedAlivePlayers==1 && !TF2_IsPlayerInCondition(client, TFCond_Cloaked))
+			if(RedAlivePlayers==1 && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !TF2_IsPlayerInCondition(client, TFCond_Stealthed))
 			{
 				TF2_AddCondition(client, TFCond_HalloweenCritCandy, 0.3);
 				if(class==TFClass_Engineer && weapon==GetPlayerWeaponSlot(client, TFWeaponSlot_Primary) && StrEqual(classname, "tf_weapon_sentry_revenge", false))
@@ -6116,7 +6116,7 @@ public Action:BossTimer(Handle:timer)
 
 		if(BossCharge[boss][0]<100.0)
 		{
-			BossCharge[boss][0]+=OnlyScoutsLeft()*0.2;
+			BossCharge[boss][0]+=OnlyParisLeft()*0.2;
 			if(BossCharge[boss][0]>100.0)
 			{
 				BossCharge[boss][0]=100.0;
@@ -6153,20 +6153,23 @@ public Action:Timer_BotRage(Handle:timer, any:bot)
 	}
 }
 
-stock OnlyScoutsLeft()
+stock OnlyParisLeft()
 {
 	new scouts;
 	for(new client; client<=MaxClients; client++)
 	{
 		if(IsValidClient(client) && IsPlayerAlive(client) && GetClientTeam(client)!=BossTeam)
 		{
-			if(TF2_GetPlayerClass(client)!=TFClass_Scout)
+			if(TF2_GetPlayerClass(client) == TFClass_Scout
+			|| (TF2_GetPlayerClass(client) == TFClass_Soldier && GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 237)
+			|| (TF2_GetPlayerClass(client) == TFClass_Spy && (TF2_IsPlayerInCondition(client, TFCond_Cloaked) || TF2_IsPlayerInCondition(client, TFCond_Stealthed)))
+			)
 			{
-				return 0;
+				scouts++;
 			}
 			else
 			{
-				scouts++;
+				return 0;
 			}
 		}
 	}

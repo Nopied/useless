@@ -56,12 +56,14 @@ public void OnGameFrame()
 				if(boss == -1) return;
 
 				char path[PLATFORM_MAX_PATH];
+				float clientPos[3];
+				GetClientEyePosition(client, clientPos);
 				FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 8, path, sizeof(path));
 
 				if(path[0] == '\0') return;
 
 				WalkingSoundCooldown[client] = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 9, 4.0);
-				EmitSoundToAll(path, client, _, 20);
+				EmitSoundToAll(path, client, _, 40, _, _, _, client, clientPos);
 			}
 		}
 	}
@@ -189,6 +191,14 @@ void CheckAbilities()
 		RocketCooldown[client] = 0.0;
 		WalkingSoundCooldown[client] = 0.0;
 
+		if(IsClientInGame(client))
+		{
+			AcceptEntityInput(client, "ClearCustomModelRotation", client);
+
+			SetVariantBool(false);
+			AcceptEntityInput(client, "SetCustomModelRotates", client);
+		}
+
 	    if((boss=FF2_GetBossIndex(client)) != -1)
 	    {
 	      	if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
@@ -207,8 +217,20 @@ void CheckAbilities()
 				SetOverlay(client, "Effects/combine_binocoverlay");
 				SDKHook(client, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(client, SDKHook_Touch, OnTankTouch);
-			}
 
+				Handle BossKV = FF2_GetSpecialKV(boss);
+				char modelPath[PLATFORM_MAX_PATH];
+				if(BossKV != INVALID_HANDLE)
+				{
+					KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
+
+					if(modelPath[0] != '\0')
+					{
+						SetVariantString(modelPath);
+						AcceptEntityInput(client, "SetCustomModel");
+					}
+				}
+			}
 		}
   }
 
@@ -328,7 +350,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			SetOverlay(client, "Effects/combine_binocoverlay");
 
 			int ent = -1;
-			float range = 50.0;
+			float range = 75.0;
 			float clientPos[3];
 			float targetPos[3];
 			GetClientEyePosition(client, clientPos);
@@ -420,6 +442,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			float Distance;
 			Handle TraceRay;
+			bool modelChange = false;
 
 			GetClientEyePosition(client, StartOrigin);
 			GetClientEyeAngles(client, StartAngle);
@@ -427,11 +450,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			GetAngleVectors(StartAngle, Velocity, vecrt, NULL_VECTOR);
 			NormalizeVector(Velocity, Velocity);
 
-			tempAngle[0] = 40.0;
+			tempAngle[0] = 50.0;
 			tempAngle[1] = StartAngle[1];
 			tempAngle[2] = StartAngle[2];
 
-			for(int y = 40; y >= -40; y--)
+			for(int y = 50; y >= -50; y--)
 			{
 				tempAngle[0] -= 1.0;
 
@@ -465,11 +488,81 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					Velocity[0] *= 180.0;
 
 					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
+					modelChange = true;
 
 					break;
 				}
 			}
+
+			if(modelChange)
+			{
+				char Input[100];
+
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", StartAngle[0], StartAngle[1], StartAngle[2]);
+
+				SetVariantBool(true);
+				AcceptEntityInput(client, "SetCustomModelRotates");
+
+				SetVariantString(Input);
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+				ActivateEntity(client);
+
+				SetEntProp(client, Prop_Send, "m_bIsPlayerSimulated", 1);
+				SetEntProp(client, Prop_Send, "m_bAnimatedEveryTick", 1);
+				SetEntProp(client, Prop_Send, "m_bSimulatedEveryTick", 1);
+				SetEntProp(client, Prop_Send, "m_bClientSideAnimation", 1);
+				SetEntProp(client, Prop_Send, "m_bClientSideFrameReset", 0);
+			}
+
+			else
+			{
+				char Input[100];
+
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", 0.0, StartAngle[1], StartAngle[2]);
+
+				SetVariantString(Input);
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+				AcceptEntityInput(client, "ClearCustomModelRotation", client);
+				SetVariantBool(false);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+				ActivateEntity(client);
+
+				SetEntProp(client, Prop_Send, "m_bIsPlayerSimulated", 1);
+				SetEntProp(client, Prop_Send, "m_bAnimatedEveryTick", 1);
+				SetEntProp(client, Prop_Send, "m_bSimulatedEveryTick", 1);
+				SetEntProp(client, Prop_Send, "m_bClientSideAnimation", 1);
+				SetEntProp(client, Prop_Send, "m_bClientSideFrameReset", 0);
+			}
 		}
+		else if(GetEntityFlags(client) & FL_ONGROUND)
+		{
+			float StartAngle[3];
+			GetClientEyeAngles(client, StartAngle);
+
+			char Input[100];
+
+			Format(Input, sizeof(Input), "%.1f %.1f %.1f", 0.0, StartAngle[1], StartAngle[2]);
+
+			SetVariantString(Input);
+			AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+			AcceptEntityInput(client, "ClearCustomModelRotation", client);
+
+			SetVariantBool(false);
+			AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+			ActivateEntity(client);
+
+			SetEntProp(client, Prop_Send, "m_bIsPlayerSimulated", 1);
+			SetEntProp(client, Prop_Send, "m_bAnimatedEveryTick", 1);
+			SetEntProp(client, Prop_Send, "m_bSimulatedEveryTick", 1);
+			SetEntProp(client, Prop_Send, "m_bClientSideAnimation", 1);
+			SetEntProp(client, Prop_Send, "m_bClientSideFrameReset", 0);
+		}
+
 	}
 
   	return Plugin_Continue;
