@@ -7479,7 +7479,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							KvRewind(BossKV[Special[boss]]);
 							KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-							damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.12)/(255.0/85.0));
+							damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.07)/(255.0/85.0));
 							damagetype|=DMG_CRIT;
 
 							if(bIsGroundMarket)
@@ -7624,7 +7624,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					new Float:sliencedTime=6.0; // TODO: 광역변수.
 					new bool:slienced=false;
 
-					damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.12)/(255.0/85.0));
+					damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.075)/(255.0/85.0));
 					if(bIsFacestab)
 					{
 						damage /= 2.0;
