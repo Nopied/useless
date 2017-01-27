@@ -2,6 +2,7 @@
 #include <sdktools>
 #include <sdkhooks>
 #include <tf2_stocks>
+#include <record_client>
 #include <morecolors>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
@@ -22,24 +23,12 @@ public void OnPluginStart2()
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
-  int client=GetClientOfUserId(GetEventInt(event, "userid"));
-
-  if(FF2_HasAbility(FF2_GetBossIndex(client), this_plugin_name, "ff2_freddykrueger"))
-  {
-    SetEntPropFloat(client, Prop_Send, "m_fadeMinDist", 54.0);
-    SetEntPropFloat(client, Prop_Send, "m_fadeMaxDist", 124.0);
-  }
+  int client = GetClientOfUserId(GetEventInt(event, "userid"));
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-  int client=GetClientOfUserId(GetEventInt(event, "userid"));
-
-  if(FF2_HasAbility(FF2_GetBossIndex(client), this_plugin_name, "ff2_freddykrueger"))
-  {
-    SetEntPropFloat(client, Prop_Send, "m_fadeMinDist", 0.0);
-    SetEntPropFloat(client, Prop_Send, "m_fadeMaxDist", 0.0);
-  }
+  int client = GetClientOfUserId(GetEventInt(event, "userid"));
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)

@@ -3864,7 +3864,7 @@ EquipBoss(boss)
 			}
 			else
 			{
-				Format(attributes, sizeof(attributes), "68 ; %i ; 2 ; 3.1 ; 252 ; 0.75 ; 259 ; 1.0", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2);
+				Format(attributes, sizeof(attributes), "68 ; %i ; 2 ; 3.1 ; 259 ; 1.0", TF2_GetPlayerClass(client)==TFClass_Scout ? 1 : 2);
 					//68: +2 cap rate
 					//2: x3.1 damage
 			}

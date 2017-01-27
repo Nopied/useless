@@ -191,13 +191,18 @@ void CheckAbilities()
 		RocketCooldown[client] = 0.0;
 		WalkingSoundCooldown[client] = 0.0;
 
+
 		if(IsClientInGame(client))
 		{
-			AcceptEntityInput(client, "ClearCustomModelRotation", client);
+			char model[PLATFORM_MAX_PATH];
 
-			SetVariantBool(false);
-			AcceptEntityInput(client, "SetCustomModelRotates", client);
+			GetClientModel(client, model, sizeof(model));
+			SetVariantString(model);
+			AcceptEntityInput(client, "SetCustomModel");
+
+			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 		}
+
 
 	    if((boss=FF2_GetBossIndex(client)) != -1)
 	    {
@@ -228,8 +233,10 @@ void CheckAbilities()
 					{
 						SetVariantString(modelPath);
 						AcceptEntityInput(client, "SetCustomModel");
+						SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 					}
 				}
+
 			}
 		}
   }
@@ -488,7 +495,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					Velocity[0] *= 180.0;
 
 					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
-					modelChange = true;
+					 modelChange = true;
 
 					break;
 				}
@@ -496,6 +503,19 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			if(modelChange)
 			{
+				Handle BossKV = FF2_GetSpecialKV(boss);
+				char modelPath[PLATFORM_MAX_PATH];
+				if(BossKV != INVALID_HANDLE)
+				{
+					KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
+
+					if(modelPath[0] != '\0')
+					{
+						SetVariantString(modelPath);
+						AcceptEntityInput(client, "SetCustomModel");
+					}
+				}
+
 				char Input[100];
 
 				Format(Input, sizeof(Input), "%.1f %.1f %.1f", StartAngle[0], StartAngle[1], StartAngle[2]);
@@ -506,63 +526,82 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				SetVariantString(Input);
 				AcceptEntityInput(client, "SetCustomModelRotation", client);
 
-				ActivateEntity(client);
-
-				SetEntProp(client, Prop_Send, "m_bIsPlayerSimulated", 1);
-				SetEntProp(client, Prop_Send, "m_bAnimatedEveryTick", 1);
-				SetEntProp(client, Prop_Send, "m_bSimulatedEveryTick", 1);
-				SetEntProp(client, Prop_Send, "m_bClientSideAnimation", 1);
-				SetEntProp(client, Prop_Send, "m_bClientSideFrameReset", 0);
+				// SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 			}
 
 			else
 			{
+
+				Handle BossKV = FF2_GetSpecialKV(boss);
+				char modelPath[PLATFORM_MAX_PATH];
+				if(BossKV != INVALID_HANDLE)
+				{
+					KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
+
+					if(modelPath[0] != '\0')
+					{
+						SetVariantString(modelPath);
+						AcceptEntityInput(client, "SetCustomModel");
+					}
+				}
+
 				char Input[100];
 
-				Format(Input, sizeof(Input), "%.1f %.1f %.1f", 0.0, StartAngle[1], StartAngle[2]);
+				tempAngle[0] = StartAngle[0] - StartAngle[0];
+				tempAngle[1] = StartAngle[1] - StartAngle[1];
+				tempAngle[2] = StartAngle[2] - StartAngle[2];
+
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
 				SetVariantString(Input);
 				AcceptEntityInput(client, "SetCustomModelRotation", client);
 
-				AcceptEntityInput(client, "ClearCustomModelRotation", client);
 				SetVariantBool(false);
 				AcceptEntityInput(client, "SetCustomModelRotates", client);
 
 				ActivateEntity(client);
 
-				SetEntProp(client, Prop_Send, "m_bIsPlayerSimulated", 1);
-				SetEntProp(client, Prop_Send, "m_bAnimatedEveryTick", 1);
-				SetEntProp(client, Prop_Send, "m_bSimulatedEveryTick", 1);
-				SetEntProp(client, Prop_Send, "m_bClientSideAnimation", 1);
-				SetEntProp(client, Prop_Send, "m_bClientSideFrameReset", 0);
+				SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 			}
+
 		}
 		else if(GetEntityFlags(client) & FL_ONGROUND)
 		{
-			float StartAngle[3];
-			GetClientEyeAngles(client, StartAngle);
+			Handle BossKV = FF2_GetSpecialKV(boss);
+			char modelPath[PLATFORM_MAX_PATH];
+			if(BossKV != INVALID_HANDLE)
+			{
+				KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
+
+				if(modelPath[0] != '\0')
+				{
+					SetVariantString(modelPath);
+					AcceptEntityInput(client, "SetCustomModel");
+				}
+			}
 
 			char Input[100];
+			float StartAngle[3];
+			float tempAngle[3];
 
-			Format(Input, sizeof(Input), "%.1f %.1f %.1f", 0.0, StartAngle[1], StartAngle[2]);
+			GetClientEyeAngles(client, StartAngle);
+
+			tempAngle[0] = StartAngle[0] - StartAngle[0];
+			tempAngle[1] = StartAngle[1];
+			tempAngle[2] = StartAngle[2];
+
+			Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
 			SetVariantString(Input);
 			AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-			AcceptEntityInput(client, "ClearCustomModelRotation", client);
 
 			SetVariantBool(false);
 			AcceptEntityInput(client, "SetCustomModelRotates", client);
 
 			ActivateEntity(client);
 
-			SetEntProp(client, Prop_Send, "m_bIsPlayerSimulated", 1);
-			SetEntProp(client, Prop_Send, "m_bAnimatedEveryTick", 1);
-			SetEntProp(client, Prop_Send, "m_bSimulatedEveryTick", 1);
-			SetEntProp(client, Prop_Send, "m_bClientSideAnimation", 1);
-			SetEntProp(client, Prop_Send, "m_bClientSideFrameReset", 0);
+			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 		}
-
 	}
 
   	return Plugin_Continue;
