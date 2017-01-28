@@ -3,8 +3,12 @@
 #include <record_client>
 
 int clientRecording;
-int maxMegaByte;
+int maxByte;
+
 Handle outputFile;
+
+char recordingFilePath[PLATFORM_MAX_PATH];
+char outputFilePath[PLATFORM_MAX_PATH];
 
 public Plugin:myinfo = {
 	name = "JRecord",
@@ -46,26 +50,35 @@ public Native_GetStringData(Handle plugin, numParams)
 }
 
 
-bool StartRecord(int client, int megaByte, char[] pathAndFilename)
+bool StartRecord(int client, int byte, char[] pathAndFilename)
 {
 	if(MaxClients < client || 0 > client || !IsClientInGame(client) || IsClientInGame(clientRecording))
 		return false;
 
 	clientRecording = client;
+	maxByte = byte;
 
 	decl String:path[PLATFORM_MAX_PATH];
+
 	BuildPath(Path_SM, path, PLATFORM_MAX_PATH, "data/%s", pathAndFilename);
+	strcopy(outputFilePath, sizeof(outputFilePath), path);
+
+	BuildPath(Path_SM,path,PLATFORM_MAX_PATH,"recording/%s", pathAndFilename);
+	strcopy(recordingFilePath, sizeof(recordingFilePath), path);
 
 	LogMessage("녹화 중... (%s)", path);
 
 	outputFile = OpenFile(path, "w+");
 
 	if(outputFile == INVALID_HANDLE){
-		LogError(client, "An error occured while creating the file");
+		LogError("An error occured while creating the file");
 		clientRecording = 0;
+		return false;
 	}else{
 		WriteFileString(outputFile, "xloc,yloc,zloc,xvel,yvel,zvel,pitch,yaw,roll,buttons\n", false);
 	}
+
+	return true;
 }
 
 void StopRecord()
@@ -73,9 +86,11 @@ void StopRecord()
 	clientRecording = 0;
 	if(outputFile !=  INVALID_HANDLE){
 		CloseHandle(outputFile);
+		strcopy(outputFilePath, sizeof(outputFilePath), "");
+		LogMessage("녹화가 멈췄습니다.");
 	}
 
-	LogMessage("녹화가 멈췄습니다.");
+
 }
 
 public OnPluginStart(){
@@ -124,7 +139,8 @@ public Action:Command_ToggleRecord(client, args){
 
 
 public OnGameFrame(){
-	if(IsClientInGame(clientRecording) && IsPlayerAlive(clientRecording)){
+	if(0 < clientRecording && clientRecording <= MaxClients && IsClientInGame(clientRecording) && IsPlayerAlive(clientRecording)
+	&& FileSize(recordingFilePath) < maxByte){ //
 		decl Float:angles[3];
 		decl Float:velocity[3];
 		decl Float:position[3];

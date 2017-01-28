@@ -4,7 +4,6 @@
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
-// #include <ff2_ams>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
@@ -22,7 +21,6 @@ public Plugin myinfo = {
 #define INACTIVE 100000000.0
 
 int envFog=-1;
-bool AMSOnly[MAXPLAYERS+1];
 float fogDuration[MAXPLAYERS+1]=INACTIVE;
 
 public void OnPluginStart2()
@@ -41,30 +39,23 @@ public void OnPluginStart2()
 	}
 }
 
-public Action OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
+public Action OnPlayerSpawn(Handle event, const char[] name, bool dontBroadcast)
 {
-	// int client = (event.GetInt("userid"));
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	int boss;
 	bool activateFog = false;
 
-	if(!IsValidEntity(envFog)) return Plugin_Continue;
+	if(!IsValidClient(client) || !IsValidEntity(envFog)) return Plugin_Continue;
 
 	for(int target = 1; target <= MaxClients; target++)
 	{
 		if(IsClientInGame(target) && (boss = FF2_GetBossIndex(target)) != -1
 		&& FF2_HasAbility(boss, this_plugin_name, "fog_fx"))
-			activateFog = true;
-	}
-
-	if(activateFog)
-		for(int target = 1; target <= MaxClients; target++)
 		{
-			if(IsClientInGame(target))
-			{
-				SetVariantString("MyFog");
-				AcceptEntityInput(target, "SetFogController");
-			}
+			SetVariantString("MyFog");
+			AcceptEntityInput(client, "SetFogController");
 		}
+	}
 
 	return Plugin_Continue;
 }
@@ -108,16 +99,10 @@ public void HookAbilities()
 		AcceptEntityInput(client, "SetFogController");
 
 		fogDuration[client]=INACTIVE;
-		AMSOnly[client]=false;
 
 		int boss=FF2_GetBossIndex(client);
 		if(boss>=0)
 		{
-			if(FF2_HasAbility(boss, this_plugin_name, "rage_fog_fx") && FF2_HasAbility(boss, "ff2_sarysapub3", "ability_management_system"))
-			{
-				AMSOnly[client]=true;
-				// AMS_InitSubability(boss, client, this_plugin_name, "rage_fog_fx", "FOG");
-			}
 			if(FF2_HasAbility(boss, this_plugin_name, "fog_fx"))
 			{
 				int fogcolor[3][3];
@@ -156,8 +141,8 @@ public void HookAbilities()
 
 public void FF2_OnAbility2(int boss,const char[] plugin_name,const char[] ability_name,int status)
 {
-	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
-	if(StrEqual(ability_name, "rage_fog_fx", false) && !AMSOnly[client])
+	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+	if(StrEqual(ability_name, "rage_fog_fx", false))
 	{
 		FOG_Invoke(client);
 	}
@@ -175,13 +160,13 @@ public void FOG_Invoke(int client)
 	int boss=FF2_GetBossIndex(client);
 
 	// fog color
-	fogcolor[0][0]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 2, 255);
-	fogcolor[0][1]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 3, 255);
-	fogcolor[0][2]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 4, 255);
+	fogcolor[0][0] = FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 2, 255);
+	fogcolor[0][1] = FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 3, 255);
+	fogcolor[0][2] = FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 4, 255);
 	// fog color 2
-	fogcolor[1][0]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 5, 255);
-	fogcolor[1][1]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 6, 255);
-	fogcolor[1][2]=FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 7, 255);
+	fogcolor[1][0] = FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 5, 255);
+	fogcolor[1][1] = FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 6, 255);
+	fogcolor[1][2] = FF2_GetAbilityArgument(boss, this_plugin_name, "rage_fog_fx", 7, 255);
 	// fog start
 	float fogstart=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_fog_fx", 8, 64.0);
 	// fog end
@@ -196,7 +181,7 @@ public void FOG_Invoke(int client)
 
 	if(fogDuration[client]!=INACTIVE)
 	{
-		fogDuration[client]+=FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_fog_fx", 11, 5.0);
+		fogDuration[client] += FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_fog_fx", 11, 5.0);
 	}
 	else
 	{
@@ -257,14 +242,22 @@ int StartFog(int fogblend, int fogcolor[3], int fogcolor2[3], float fogstart=64.
         DispatchSpawn(iFog);
 
         AcceptEntityInput(iFog, "TurnOn");
+
+		return iFog;
 	}
-	return iFog;
+
+	return -1;
 }
 
 public Action RemoveEntity(Handle timer, any entid)
 {
 	int entity = EntRefToEntIndex(entid);
-	if (IsValidEdict(entity) && entity > MaxClients)
+
+	if (IsValidEntity(entity) && entity > MaxClients)
 		AcceptEntityInput(entity, "Kill");
-	entid=-1;
+}
+
+stock bool IsValidClient(int client)
+{
+	return (0 < client && client <= MaxClients && IsClientInGame(client));
 }

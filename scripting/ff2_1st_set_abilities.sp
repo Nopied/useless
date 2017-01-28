@@ -906,7 +906,7 @@ public Action:OnPlayerDeath(Handle:event, const String:name[], bool:dontBroadcas
 		}
 	}
 
-	if(CloneOwnerIndex[client]!=-1 && GetClientTeam(client)==BossTeam)  //Switch clones back to the other team after they die
+	if(CloneOwnerIndex[client]!=-1 && TF2_GetClientTeam(client) != TFTeam_Spectator)  //Switch clones back to the other team after they die
 	{
 		CloneOwnerIndex[client]=-1;
 		FF2_SetFF2flags(client, FF2_GetFF2flags(client) & ~FF2FLAG_CLASSTIMERDISABLED);

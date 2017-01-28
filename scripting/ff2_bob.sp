@@ -18,6 +18,7 @@ public Plugin myinfo=
 public void OnPluginStart2()
 {
     HookEvent("arena_round_start", OnRoundStart);
+    HookEvent("teamplay_round_active", OnRoundStart);
 }
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
@@ -80,70 +81,8 @@ public void OnProjectileSpawn(int entity)
                     FF2_SetAmmo(client, weapon, 0, GetEntProp(weapon, Prop_Send, "m_iClip1") + 1);
                 }
             }
-
-            CreateTimer(0.05, OnStuckTest, EntIndexToEntRef(entity), TIMER_FLAG_NO_MAPCHANGE);
         }
     }
-}
-
-public Action OnStuckTest(Handle timer, int entRef)
-{
-    int entity = EntRefToEntIndex(entRef);
-    if(IsValidEntity(entity))
-    {
-        int client = IsEntityStuck(entity);
-        if(IsValidClient(client) && IsBossTeam(client))
-        {
-            CPrintToChat(client, "kicking sentry");
-            KickEntity(client, entity);
-        }
-
-        CreateTimer(0.05, OnStuckTest, EntIndexToEntRef(entity), TIMER_FLAG_NO_MAPCHANGE);
-    }
-}
-
-stock int IsEntityStuck(int entity) // Copied from Chdata's FFF
-{
-	float vecOrigin[3], playerOrigin[3];
-	float propsize = 150.0;
-	GetEntPropVector(entity, Prop_Send, "m_vecOrigin", vecOrigin);
-
-	for(int client = 1; client <= MaxClients; client++)
-	{
-		if(IsClientInGame(client) && IsPlayerAlive(client))
-		{
-			GetEntPropVector(client, Prop_Send, "m_vecOrigin", playerOrigin);
-
-			if(CheckCollision(vecOrigin, playerOrigin, propsize))
-				return client;
-		}
-	}
-
-	return -1;
-}
-
-stock bool CheckCollision(float cylinderOrigin[3], float colliderOrigin[3], float maxDistance)// (float cylinderOrigin[3], float colliderOrigin[3], float maxDistance, float zMin, float zMax)
-{
-	return GetVectorDistance(cylinderOrigin, colliderOrigin) <= maxDistance;
-}
-
-
-void KickEntity(int client, int entity)
-{
-	float clientEyeAngles[3];
-	float vecrt[3];
-	float angVector[3];
-
-	GetClientEyeAngles(client, clientEyeAngles);
-	GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
-	NormalizeVector(angVector, angVector);
-
-	angVector[0] *= 1200.0;
-	angVector[1] *= 1200.0;
-	angVector[2] *= 1200.0;
-
-	TeleportEntity(entity, NULL_VECTOR, clientEyeAngles, angVector);
-
 }
 
 public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abilityName, int status)

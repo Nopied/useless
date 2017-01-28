@@ -1,7 +1,7 @@
 
 
 // false = 이미 녹화가 진행 중인 경우, 클라이언트가 정상이 아님
-native bool Record_StartRecord(int client, int megaByte, char[] pathAndFilename);
+native bool Record_StartRecord(int client, int byte, char[] pathAndFilename);
 
 native void Record_StopRecord();
 

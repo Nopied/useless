@@ -37,6 +37,8 @@ int g_nEntityBounce[MAX_EDICTS];
 public void OnPluginStart2()
 {
 	HookEvent("arena_round_start", OnRoundStart);
+	HookEvent("teamplay_round_active", OnRoundStart);
+	
 	HookEvent("player_spawn", OnPlayerSpawn);
 }
 
@@ -222,21 +224,6 @@ void CheckAbilities()
 				SetOverlay(client, "Effects/combine_binocoverlay");
 				SDKHook(client, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(client, SDKHook_Touch, OnTankTouch);
-
-				Handle BossKV = FF2_GetSpecialKV(boss);
-				char modelPath[PLATFORM_MAX_PATH];
-				if(BossKV != INVALID_HANDLE)
-				{
-					KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
-
-					if(modelPath[0] != '\0')
-					{
-						SetVariantString(modelPath);
-						AcceptEntityInput(client, "SetCustomModel");
-						SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
-					}
-				}
-
 			}
 		}
   }
@@ -495,7 +482,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					Velocity[0] *= 180.0;
 
 					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
-					 modelChange = true;
+					modelChange = true;
 
 					break;
 				}
@@ -503,17 +490,13 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			if(modelChange)
 			{
-				Handle BossKV = FF2_GetSpecialKV(boss);
 				char modelPath[PLATFORM_MAX_PATH];
-				if(BossKV != INVALID_HANDLE)
-				{
-					KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
+				GetClientModel(client, modelPath, sizeof(modelPath));
 
-					if(modelPath[0] != '\0')
-					{
-						SetVariantString(modelPath);
-						AcceptEntityInput(client, "SetCustomModel");
-					}
+				if(modelPath[0] != '\0')
+				{
+					SetVariantString(modelPath);
+					AcceptEntityInput(client, "SetCustomModel", client);
 				}
 
 				char Input[100];
@@ -521,7 +504,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				Format(Input, sizeof(Input), "%.1f %.1f %.1f", StartAngle[0], StartAngle[1], StartAngle[2]);
 
 				SetVariantBool(true);
-				AcceptEntityInput(client, "SetCustomModelRotates");
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
 
 				SetVariantString(Input);
 				AcceptEntityInput(client, "SetCustomModelRotation", client);
@@ -531,25 +514,20 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			else
 			{
-
-				Handle BossKV = FF2_GetSpecialKV(boss);
 				char modelPath[PLATFORM_MAX_PATH];
-				if(BossKV != INVALID_HANDLE)
-				{
-					KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
+				GetClientModel(client, modelPath, sizeof(modelPath));
 
-					if(modelPath[0] != '\0')
-					{
-						SetVariantString(modelPath);
-						AcceptEntityInput(client, "SetCustomModel");
-					}
+				if(modelPath[0] != '\0')
+				{
+					SetVariantString(modelPath);
+					AcceptEntityInput(client, "SetCustomModel", client);
 				}
 
 				char Input[100];
 
-				tempAngle[0] = StartAngle[0] - StartAngle[0];
-				tempAngle[1] = StartAngle[1] - StartAngle[1];
-				tempAngle[2] = StartAngle[2] - StartAngle[2];
+				tempAngle[0] = 0.0;
+				tempAngle[1] = StartAngle[1];
+				tempAngle[2] = StartAngle[2];
 
 				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
@@ -559,25 +537,19 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				SetVariantBool(false);
 				AcceptEntityInput(client, "SetCustomModelRotates", client);
 
-				ActivateEntity(client);
-
 				SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 			}
 
 		}
 		else if(GetEntityFlags(client) & FL_ONGROUND)
 		{
-			Handle BossKV = FF2_GetSpecialKV(boss);
 			char modelPath[PLATFORM_MAX_PATH];
-			if(BossKV != INVALID_HANDLE)
-			{
-				KvGetString(BossKV, "model", modelPath, sizeof(modelPath), "");
+			GetClientModel(client, modelPath, sizeof(modelPath));
 
-				if(modelPath[0] != '\0')
-				{
-					SetVariantString(modelPath);
-					AcceptEntityInput(client, "SetCustomModel");
-				}
+			if(modelPath[0] != '\0')
+			{
+				SetVariantString(modelPath);
+				AcceptEntityInput(client, "SetCustomModel", client);
 			}
 
 			char Input[100];
@@ -586,7 +558,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			GetClientEyeAngles(client, StartAngle);
 
-			tempAngle[0] = StartAngle[0] - StartAngle[0];
+			tempAngle[0] = 0.0;
 			tempAngle[1] = StartAngle[1];
 			tempAngle[2] = StartAngle[2];
 
