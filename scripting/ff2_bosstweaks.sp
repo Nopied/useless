@@ -39,8 +39,8 @@ public OnMapStart()
 
 public OnPluginStart2()
 {
-	HookEvent("arena_round_start", Event_RoundStart, EventHookMode_PostNoCopy);
-	HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_start", Event_RoundStart_Pre, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
 	AddNormalSoundHook(SoundHook);
 	g_bHitboxAvailable = ((FindSendPropInfo("CBasePlayer", "m_vecSpecifiedSurroundingMins") != -1) && FindSendPropInfo("CBasePlayer", "m_vecSpecifiedSurroundingMaxs") != -1);
 	decl String:szDir[64];
@@ -63,9 +63,15 @@ public OnClientDisconnect(client)
 
 public Action:FF2_OnAbility2(index,const String:plugin_name[],const String:ability_name[],action)
 {
+
 }
 
-public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
+public Action:Event_RoundStart_Pre(Handle event, const char[] name, bool dont)
+{
+	CreateTimer(10.4, Event_RoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action:Event_RoundStart(Handle timer)
 {
 	g_headscale = 0.0;
 

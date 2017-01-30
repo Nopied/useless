@@ -1395,6 +1395,11 @@ public Action:OnPlayerHealed(Handle:event, const String:name[], bool:dont)
 	if(CheckRoundState() != 1)
 		return Plugin_Continue;
 
+	if(IsBoss(healer) && IsBossYou[healer])
+	{
+		BossHealth[GetBossIndex(healer)] += healed;
+	}
+
 	Damage[healer] += healed;
 	return Plugin_Continue;
 }
@@ -3786,7 +3791,7 @@ public Action:MessageTimer(Handle:timer)
 					strcopy(lives, 2, "");
 				}
 
-				if(IsBossYou[boss])
+				if(IsBossYou[client])
 				{
 					GetYouSpecialString(client, specialApproach, sizeof(specialApproach));
 					Format(text, sizeof(text), "%s\n%t", text, "ff2_start_you", Boss[boss], BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), lives, specialApproach);
@@ -3978,7 +3983,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	if(StrEqual(bossName, "You", true) ||
 	StrEqual(bossName, "당신", true))
 	{
-		IsBossYou[boss]=true;
+		IsBossYou[client] = true;
 	}
 	// BossLives[boss]=BossLivesMax[boss];
 	// BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
@@ -4008,7 +4013,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
 	TF2_RemovePlayerDisguise(client);
 
-	if(!IsBossYou[boss])
+	if(!IsBossYou[client])
 		TF2_SetPlayerClass(client, TFClassType:KvGetNum(BossKV[Special[boss]], "class", 1), _, !GetEntProp(client, Prop_Send, "m_iDesiredPlayerClass") ? true : false);
 	SDKHook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);  //Temporary:  Used to prevent boss overheal
 
@@ -4027,7 +4032,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 			FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
 		}
 	}
-	if(IsBossYou[boss])
+	if(IsBossYou[client])
 	{
 		FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
 		FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
@@ -4045,7 +4050,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	}
 
 	new entity=-1;
-	if(!IsBossYou[boss])
+	if(!IsBossYou[client])
 	{
 		while((entity=FindEntityByClassname2(entity, "tf_wear*"))!=-1)
 		{
@@ -4066,7 +4071,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		}
 	}
 
-	if(!IsBossYou[boss])
+	if(!IsBossYou[client])
 	{
 		entity=-1;
 		while((entity=FindEntityByClassname2(entity, "tf_powerup_bottle"))!=-1)
@@ -4078,7 +4083,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 		}
 	}
 
-	if(!IsBossYou[boss])
+	if(!IsBossYou[client])
 		EquipBoss(boss);
 
 	KSpreeCount[boss]=0;
@@ -4614,7 +4619,7 @@ public Action:MakeNotBoss(Handle:timer, any:userid)
 public Action:CheckItems(Handle:timer, any:userid)
 {
 	new client=GetClientOfUserId(userid);
-	if(!IsValidClient(client) || !IsPlayerAlive(client) || CheckRoundState()==2 || (IsBoss(client) && !IsBossYou[GetBossIndex(client)]) || (FF2flags[client] & FF2FLAG_ALLOWSPAWNINBOSSTEAM))
+	if(!IsValidClient(client) || !IsPlayerAlive(client) || CheckRoundState()==2 || (IsBoss(client) && !IsBossYou[client]) || (FF2flags[client] & FF2FLAG_ALLOWSPAWNINBOSSTEAM))
 	{
 		return Plugin_Continue;
 	}
@@ -4955,7 +4960,7 @@ public Action:Command_GetHP(client)  //TODO: This can rarely show a very large n
 				}
 				new String:diffItem[50];
 				GetDifficultyString(BossDiff[boss], diffItem, sizeof(diffItem));
-				if(IsBossYou[boss])
+				if(IsBossYou[target])
 				{
 					new String:playerName[50];
 					GetClientName(target, playerName, sizeof(playerName));
@@ -4965,7 +4970,7 @@ public Action:Command_GetHP(client)  //TODO: This can rarely show a very large n
 				else
 					Format(text, sizeof(text), "%s\n%t", text, "ff2_hp", name, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1), BossHealthMax[boss], lives, (!IsFakeClient(target) ? diffItem : "BOT"));
 
-				if(IsBossYou[boss])
+				if(IsBossYou[target])
 				{
 					new String:playerName[50];
 					GetClientName(target, playerName, sizeof(playerName));
@@ -6003,7 +6008,7 @@ public Action:BossTimer(Handle:timer)
 
 		}
 
-		if(IsBossYou[boss])
+		if(IsBossYou[client])
 		{
 			new weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 			if(weapon == GetPlayerWeaponSlot(client, TFWeaponSlot_Melee) || FF2ServerFlag & FF2SERVERFLAG_ISLASTMAN)
@@ -6085,7 +6090,7 @@ public Action:BossTimer(Handle:timer)
 					new String:diffItem[50];
 					GetDifficultyString(BossDiff[boss2], diffItem, sizeof(diffItem));
 
-					if(IsBossYou[boss2])
+					if(IsBossYou[target])
 					{
 						new String:playerName[50];
 						GetClientName(target, playerName, sizeof(playerName));
@@ -7123,7 +7128,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 	{
 		if(IsBoss(client))
 		{
-			if(IsBossYou[GetBossIndex(client)] && attacker > 0)
+			if(IsBossYou[client] && attacker > 0)
 			{
 				BossHealth[GetBossIndex(client)] -= RoundFloat(damage);
 				return Plugin_Continue;

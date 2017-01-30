@@ -23,12 +23,17 @@ int RecordMinionOwner[MAXPLAYERS+1];
 
 public void OnPluginStart2()
 {
-    HookEvent("arena_round_start", OnRoundStart);
+    HookEvent("teamplay_round_start", OnRoundStart_Pre);
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Pre);
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Post);
 }
 
-public Action OnRoundStart(Handle event, const char[] name, bool dont)
+public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
+{
+    CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action OnRoundStart(Handle timer)
 {
   	CheckAbilities();
 }

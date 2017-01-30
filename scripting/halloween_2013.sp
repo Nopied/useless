@@ -220,8 +220,8 @@ public Action:FF2_OnAbility2(index,const String:plugin_name[],const String:abili
 
 public OnPluginStart2()
 {
-	HookEvent("teamplay_round_active", event_round_active, EventHookMode_PostNoCopy);			// I guess this is for noaml maps?
-	HookEvent("arena_round_start", event_round_active, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_start", event_round_active_pre, EventHookMode_PostNoCopy);			// I guess this is for noaml maps?
+	HookEvent("arena_round_start", event_round_active_arena_pre, EventHookMode_PostNoCopy);
 
 	HookEvent("teamplay_round_win", event_round_end, EventHookMode_PostNoCopy);
 	HookEvent("player_death", event_player_death, EventHookMode_Pre);
@@ -260,6 +260,16 @@ public OnPluginStart2()
 	g_bSdkStarted = TF2_SdkStartup();
 
 	gh_ItemLocations = CreateArray();
+}
+
+public Action event_round_active_pre(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	CreateTimer(10.4, event_round_active, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action event_round_active_arena_pre(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	CreateTimer(10.4, event_round_active, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public OnMapStart()
@@ -303,7 +313,7 @@ public OnClientPutInServer(client)
 	SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
 }
 
-public event_round_active(Handle:event, const String:name[], bool:dontBroadcast)
+public Action event_round_active(Handle:timer)
 {
 	g_boss = 0;
 	gb_predator = gb_Doom = gb_Skulls = gb_Ash = gb_Hidden = false;

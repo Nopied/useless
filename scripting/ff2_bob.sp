@@ -12,13 +12,23 @@ public Plugin myinfo=
     name="Freak Fortress 2 : Bob's Abilities",
     author="Nopied",
     description="....",
-    version="2016_10_17",
+    version="2017_01_30",
 };
 
 public void OnPluginStart2()
 {
     HookEvent("arena_round_start", OnRoundStart);
-    HookEvent("teamplay_round_active", OnRoundStart);
+    HookEvent("teamplay_round_start", OnRoundStart_Pre);
+}
+
+public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
+{
+    CreateTimer(10.4, CheckAbilityTimer, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action CheckAbilityTimer(Handle timer)
+{
+    CheckAbility();
 }
 
 public Action OnRoundStart(Handle event, const char[] name, bool dont)

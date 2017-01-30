@@ -329,8 +329,8 @@ public OnPluginStart2()
 	AMS_HUDHandle = CreateHudSynchronizer();
 	AMS_HUDReplaceHandle = CreateHudSynchronizer();
 
-	HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
-	HookEvent("arena_round_start", Event_RoundStart, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_start", Event_RoundStart_Pre, EventHookMode_PostNoCopy);
 	PrecacheSound(NOPE_AVI);
 	for (new i = 0; i < MAX_PLAYERS_ARRAY; i++) // MAX_PLAYERS_ARRAY is correct here, this one time
 		NULL_BLACKLIST[i] = false;
@@ -342,7 +342,12 @@ public OnPluginStart2()
 	}
 }
 
-public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
+public Action Event_RoundStart_Pre(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	CreateTimer(10.4, Event_RoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action:Event_RoundStart(Handle timer)
 {
 	RoundInProgress = true;
 
@@ -600,75 +605,81 @@ public Action:Timer_PostRoundStartInits(Handle:timer)
 
 public Action:Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	RoundInProgress = false;
+
 
 	// special initialize here, since this can't be done in RoundStart.
 	// it is intended that this is always done.
-	AMS_RemoveSpellsFromAll();
 
-	if (AMS_ActiveThisRound)
+	if(RoundInProgress)
 	{
-		AMS_ActiveThisRound = false;
-		RemoveCommandListener(AMS_MedicCommand, "voicemenu");
-		for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
-			FF2_SetFF2flags(clientIdx, FF2_GetFF2flags(clientIdx) & (~FF2FLAG_HUDDISABLED));
-	}
+		AMS_RemoveSpellsFromAll();
 
-	if (SNW_ActiveThisRound)
-	{
-		SNW_ActiveThisRound = false;
-
-		for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
+		if (AMS_ActiveThisRound)
 		{
-			if (IsClientInGame(clientIdx))
-				SDKUnhook(clientIdx, SDKHook_OnTakeDamage, SNW_OnTakeDamage);
+			AMS_ActiveThisRound = false;
+			RemoveCommandListener(AMS_MedicCommand, "voicemenu");
+			for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
+				FF2_SetFF2flags(clientIdx, FF2_GetFF2flags(clientIdx) & (~FF2FLAG_HUDDISABLED));
 		}
-	}
 
-	if (FP_ActiveThisRound)
-	{
-		FP_ActiveThisRound = false;
-
-		for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
+		if (SNW_ActiveThisRound)
 		{
-			if (IsClientInGame(clientIdx) && FP_CanUse[clientIdx])
-				SDKUnhook(clientIdx, SDKHook_OnTakeDamageAlive, FP_OnTakeDamageAlive);
-		}
-	}
+			SNW_ActiveThisRound = false;
 
-	if (FDR_ActiveThisRound)
-	{
-		FDR_ActiveThisRound = false;
-
-		for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
-		{
-			if (IsClientInGame(clientIdx) && FDR_CanUse[clientIdx])
-			{
-				SDKUnhook(clientIdx, SDKHook_PreThink, FDR_PreThink);
-				SDKUnhook(clientIdx, SDKHook_OnTakeDamage, FDR_OnTakeDamage);
-			}
-		}
-	}
-
-	if (DSD_ActiveThisRound)
-	{
-		DSD_ActiveThisRound = false;
-
-		for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
-		{
-			if (DSD_CanUse[clientIdx])
+			for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
 			{
 				if (IsClientInGame(clientIdx))
-					SDKUnhook(clientIdx, SDKHook_OnTakeDamage, DSD_OnTakeDamage);
+					SDKUnhook(clientIdx, SDKHook_OnTakeDamage, SNW_OnTakeDamage);
+			}
+		}
 
-				if (DSD_ActiveUntil[clientIdx] != FAR_FUTURE && DSD_ReplaySpeed[clientIdx] > 0.0)
+		if (FP_ActiveThisRound)
+		{
+			FP_ActiveThisRound = false;
+
+			for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
+			{
+				if (IsClientInGame(clientIdx) && FP_CanUse[clientIdx])
+					SDKUnhook(clientIdx, SDKHook_OnTakeDamageAlive, FP_OnTakeDamageAlive);
+			}
+		}
+
+		if (FDR_ActiveThisRound)
+		{
+			FDR_ActiveThisRound = false;
+
+			for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
+			{
+				if (IsClientInGame(clientIdx) && FDR_CanUse[clientIdx])
 				{
-					SetConVarFloat(cvarTimeScale, 1.0);
-					DSD_UpdateClientCheatValue(0);
+					SDKUnhook(clientIdx, SDKHook_PreThink, FDR_PreThink);
+					SDKUnhook(clientIdx, SDKHook_OnTakeDamage, FDR_OnTakeDamage);
+				}
+			}
+		}
+
+		if (DSD_ActiveThisRound)
+		{
+			DSD_ActiveThisRound = false;
+
+			for (new clientIdx = 1; clientIdx < MAX_PLAYERS; clientIdx++)
+			{
+				if (DSD_CanUse[clientIdx])
+				{
+					if (IsClientInGame(clientIdx))
+						SDKUnhook(clientIdx, SDKHook_OnTakeDamage, DSD_OnTakeDamage);
+
+					if (DSD_ActiveUntil[clientIdx] != FAR_FUTURE && DSD_ReplaySpeed[clientIdx] > 0.0)
+					{
+						SetConVarFloat(cvarTimeScale, 1.0);
+						DSD_UpdateClientCheatValue(0);
+					}
 				}
 			}
 		}
 	}
+
+	RoundInProgress = false;
 }
 
 public Action:FF2_OnAbility2(bossIdx, const String:plugin_name[], const String:ability_name[], status)

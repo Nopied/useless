@@ -72,7 +72,7 @@ public void OnPluginStart()
 {
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
-    HookEvent("arena_round_start", OnRoundStart, EventHookMode_Post);
+    HookEvent("teamplay_round_start", OnRoundStart_Pre);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
     // TODO: pass 커맨드 구현.
 
@@ -83,6 +83,11 @@ public void OnPluginStart()
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
+}
+
+public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
+{
+    CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public void OnMapStart()
@@ -99,7 +104,7 @@ public Action CheckLastMan(int client, int args)
 {
     if(args != 1)
 	{
-		CReplyToCommand(client, "{yellow}[CP]{default} Usage: !checklastman <target>");
+		CReplyToCommand(client, "{olive}[FF2]{default} Usage: !checklastman <target>");
 		return Plugin_Handled;
 	}
 
@@ -235,7 +240,7 @@ void PassLastMan(int client)
     }
 }
 
-public Action OnRoundStart(Handle event, const char[] name, bool dont)
+public Action OnRoundStart(Handle timer)
 {
     if(FF2_GetRoundState() != 1) return Plugin_Continue;
 

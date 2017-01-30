@@ -25,10 +25,9 @@ float fogDuration[MAXPLAYERS+1]=INACTIVE;
 
 public void OnPluginStart2()
 {
-	HookEvent("arena_round_start", Event_RoundStart);
-	HookEvent("teamplay_round_active", Event_RoundStart); // for non-arena maps
+	// HookEvent("arena_round_start", Event_RoundStart);
+	HookEvent("teamplay_round_start", Event_RoundStart_Pre); // for non-arena maps
 
-	HookEvent("arena_win_panel", Event_RoundEnd);
 	HookEvent("teamplay_round_win", Event_RoundEnd); // for non-arena maps
 
 	HookEvent("player_spawn", OnPlayerSpawn);
@@ -54,13 +53,20 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dontBroadcast)
 		{
 			SetVariantString("MyFog");
 			AcceptEntityInput(client, "SetFogController");
+
+			break;
 		}
 	}
 
 	return Plugin_Continue;
 }
 
-public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
+public Action Event_RoundStart_Pre(Event event, const char[] name, bool dontBroadcast)
+{
+	CreateTimer(10.4, Event_RoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action Event_RoundStart(Handle timer)
 {
 	HookAbilities();
 }

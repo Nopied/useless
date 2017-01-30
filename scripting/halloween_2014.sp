@@ -8,7 +8,7 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 #include <tf2items>
-// 
+//
 #include "characters/halloween_framework.inc"
 
 #undef REQUIRE_PLUGIN
@@ -85,8 +85,8 @@ public OnPluginStart2()
 {
     HookEvent("teamplay_round_start", event_round_start, EventHookMode_PostNoCopy);
 
-    HookEvent("teamplay_round_active", event_round_active, EventHookMode_PostNoCopy);
-    HookEvent("arena_round_start", event_round_active, EventHookMode_PostNoCopy);
+    // HookEvent("teamplay_round_active", event_round_active, EventHookMode_PostNoCopy);
+    // HookEvent("arena_round_start", event_round_active, EventHookMode_PostNoCopy);
 
     HookEvent("teamplay_round_win", event_round_end, EventHookMode_PostNoCopy);
 
@@ -153,6 +153,7 @@ public event_round_start(Handle:event, const String:name[], bool:dontBroadcast)
         gf_RageTime[i] = 0.0;
     }
 
+    CreateTimer(10.4, event_round_active, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 GetBossVars()
@@ -184,7 +185,7 @@ GetBossVars()
     g_bosstype = 0;
 }
 
-public event_round_active(Handle:event, const String:name[], bool:dontBroadcast)
+public Action event_round_active(Handle:timer)
 {
     GetBossVars();
 

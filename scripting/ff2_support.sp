@@ -36,10 +36,14 @@ int g_nEntityBounce[MAX_EDICTS];
 
 public void OnPluginStart2()
 {
-	HookEvent("arena_round_start", OnRoundStart);
-	HookEvent("teamplay_round_active", OnRoundStart);
-	
+	HookEvent("teamplay_round_start", OnRoundStart_Pre);
+
 	HookEvent("player_spawn", OnPlayerSpawn);
+}
+
+public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
+{
+    CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public void OnGameFrame()
@@ -170,7 +174,7 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 
 }
 
-public Action OnRoundStart(Handle event, const char[] name, bool dont)
+public Action OnRoundStart(Handle timer)
 {
   	CheckAbilities();
 
@@ -534,9 +538,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				SetVariantString(Input);
 				AcceptEntityInput(client, "SetCustomModelRotation", client);
 
-				SetVariantBool(false);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
-
 				SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 			}
 
@@ -566,11 +567,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			SetVariantString(Input);
 			AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-			SetVariantBool(false);
-			AcceptEntityInput(client, "SetCustomModelRotates", client);
-
-			ActivateEntity(client);
 
 			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 		}

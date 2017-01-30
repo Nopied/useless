@@ -308,8 +308,8 @@ PrintRageWarning()
 #define CMD_FORCE_RAGE "rage"
 public OnPluginStart2()
 {
-	HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
-	HookEvent("arena_round_start", Event_RoundStart, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_start", Event_RoundStart_Pre, EventHookMode_PostNoCopy);
 	PrecacheSound(NOPE_AVI); // DO NOT DELETE IN FUTURE MOD PACKS
 
 	SH_NormalHUDHandle = CreateHudSynchronizer(); // All you need to use ShowSyncHudText is to initialize this handle once in OnPluginStart()
@@ -324,7 +324,12 @@ public OnPluginStart2()
 	}
 }
 
-public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
+public Action Event_RoundStart_Pre(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	CreateTimer(10.4, Event_RoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action:Event_RoundStart(Handle timer)
 {
 	// in case round end isn't executing...
 	// I'm keeping this around. it's a paranoia add in case for example a Stripper-made arena map is receiving the wrong events
