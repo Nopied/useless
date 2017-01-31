@@ -95,7 +95,14 @@ public void OnMapStart()
   if(MusicKV != INVALID_HANDLE)
   {
     CloseHandle(MusicKV);
-    MusicKV=INVALID_HANDLE;
+    MusicKV = INVALID_HANDLE;
+  }
+
+  if(DrawGameTimer != INVALID_HANDLE && timeleft > 0.0)
+  {
+      timeleft = 0.0;
+      KillTimer(DrawGameTimer);
+      DrawGameTimer = INVALID_HANDLE;
   }
   PrecacheMusic();
 }
