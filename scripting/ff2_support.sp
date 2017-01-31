@@ -194,30 +194,31 @@ void CheckAbilities()
 
   for(client=1; client<=MaxClients; client++)
   {
-	    Sub_SaxtonReflect[client] = false;
+		if(IsClientInGame(client))
+		{
+			if(IsTank[client])
+			{
+				SetOverlay(client, "");
+
+				SetVariantBool(false);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+				SetVariantString("0 0 0");
+
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+				SDKUnhook(client, SDKHook_StartTouch, OnTankTouch);
+				SDKUnhook(client, SDKHook_Touch, OnTankTouch);
+			}
+		}
+
+		Sub_SaxtonReflect[client] = false;
 		CBS_Abilities[client] = false;
 		NoJump[client] = false;
 		IsTank[client] = false;
 
 		RocketCooldown[client] = 0.0;
 		WalkingSoundCooldown[client] = 0.0;
-
-
-		if(IsClientInGame(client))
-		{
-			SetOverlay(client, "");
-
-			SDKUnhook(client, SDKHook_StartTouch, OnTankTouch);
-			SDKUnhook(client, SDKHook_Touch, OnTankTouch);
-
-			char model[PLATFORM_MAX_PATH];
-
-			GetClientModel(client, model, sizeof(model));
-			SetVariantString(model);
-			AcceptEntityInput(client, "SetCustomModel");
-
-			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
-		}
 
 
 	    if((boss=FF2_GetBossIndex(client)) != -1)
@@ -236,6 +237,18 @@ void CheckAbilities()
 			{
 				IsTank[client] = true;
 				SetOverlay(client, "Effects/combine_binocoverlay");
+
+				char model[PLATFORM_MAX_PATH];
+
+				GetClientModel(client, model, sizeof(model));
+				SetVariantString(model);
+				AcceptEntityInput(client, "SetCustomModel");
+
+				SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
+
+				SetVariantBool(true);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
+
 				SDKHook(client, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(client, SDKHook_Touch, OnTankTouch);
 			}
@@ -496,100 +509,96 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				char modelPath[PLATFORM_MAX_PATH];
 				GetClientModel(client, modelPath, sizeof(modelPath));
 
-				if(modelPath[0] != '\0')
-				{
-					SetVariantString(modelPath);
-					AcceptEntityInput(client, "SetCustomModel", client);
+				SetVariantString(modelPath);
+				AcceptEntityInput(client, "SetCustomModel", client);
 
-					char Input[100];
+				char Input[100];
 
-					tempAngle[0] = -80.0;
-					tempAngle[1] = StartAngle[1];
-					tempAngle[2] = StartAngle[2];
+				tempAngle[0] = StartAngle[0] > 0.0 ? 0.0 : StartAngle[0];
+				tempAngle[1] = StartAngle[1];
+				tempAngle[2] = StartAngle[2];
 
-					Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
-					PrintCenterText(client, "%s 모델 변경.", Input);
+				PrintCenterText(client, "%s 모델 변경.", Input);
 
-					SetVariantBool(true);
-					AcceptEntityInput(client, "SetCustomModelRotates", client);
+				SetVariantBool(true);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
 
-					SetVariantString(Input);
-					AcceptEntityInput(client, "SetCustomModelRotation", client);
+				SetVariantString(Input);
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
 
-				}
+				RequestFrame(ClassAniTimer, client);
+
 			}
 			else // 모델 초기화.
 			{
 				char modelPath[PLATFORM_MAX_PATH];
 				GetClientModel(client, modelPath, sizeof(modelPath));
 
-				if(modelPath[0] != '\0')
-				{
-					SetVariantString(modelPath);
-					AcceptEntityInput(client, "SetCustomModel", client);
+				SetVariantString(modelPath);
+				AcceptEntityInput(client, "SetCustomModel", client);
 
-					char Input[100];
+				PrintCenterText(client, "모델 초기화.");
 
-					tempAngle[0] = -179.0;
-					tempAngle[1] = StartAngle[1];
-					tempAngle[2] = StartAngle[2];
+				char Input[100];
 
-					Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+				tempAngle[0] = 0.0;
+				tempAngle[1] = StartAngle[1];
+				tempAngle[2] = StartAngle[2];
 
-					PrintCenterText(client, "%s 모델 초기화.", Input);
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
-					SetVariantString(Input);
-					AcceptEntityInput(client, "SetCustomModelRotation", client);
+				SetVariantBool(true);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
 
-					SetVariantBool(false);
-					AcceptEntityInput(client, "SetCustomModelRotates");
+				SetVariantString(Input);
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
 
-					SetVariantString(modelPath);
-					AcceptEntityInput(client, "SetCustomModel", client);
+				RequestFrame(ClassAniTimer, client);
 
-					SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
-				}
 			}
 		}
 		else if(IsTank[client]) // 모델 초기화.
 		{
+			// char Input[100];
 			char modelPath[PLATFORM_MAX_PATH];
-			GetClientModel(client, modelPath, sizeof(modelPath));
-
-			if(modelPath[0] != '\0')
-			{
-				SetVariantString(modelPath);
-				AcceptEntityInput(client, "SetCustomModel", client);
-			}
-
-			char Input[100];
 			float StartAngle[3];
 			float tempAngle[3];
 
 			GetClientEyeAngles(client, StartAngle);
-
-			tempAngle[0] = -1.0;
-			tempAngle[1] = StartAngle[1];
-			tempAngle[2] = StartAngle[2];
-
-			Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
-			PrintCenterText(client, "%s 모델 초기화.", Input);
-
-			SetVariantString(Input);
-			AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-			SetVariantBool(false);
-			AcceptEntityInput(client, "SetCustomModelRotates");
+			GetClientModel(client, modelPath, sizeof(modelPath));
 
 			SetVariantString(modelPath);
 			AcceptEntityInput(client, "SetCustomModel", client);
 
-			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
+			char Input[100];
+
+			tempAngle[0] = 0.0;
+			tempAngle[1] = StartAngle[1];
+			tempAngle[2] = StartAngle[2];
+
+			Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+
+			PrintCenterText(client, "모델 초기화.");
+
+			SetVariantBool(true);
+			AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+			SetVariantString(Input);
+			AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+			RequestFrame(ClassAniTimer, client);
 		}
 	}
 
   	return Plugin_Continue;
+}
+
+public void ClassAniTimer(int client)
+{
+	if(IsClientInGame(client))
+		SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 }
 
 public bool TraceRayNoPlayer(int iEntity, int iMask, any iData)
