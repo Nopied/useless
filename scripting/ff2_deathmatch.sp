@@ -96,7 +96,7 @@ public void OnMapStart()
   {
     CloseHandle(MusicKV);
     MusicKV = INVALID_HANDLE;
-  }
+  } //
 
   if(DrawGameTimer != INVALID_HANDLE && timeleft > 0.0)
   {

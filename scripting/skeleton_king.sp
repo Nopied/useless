@@ -586,7 +586,7 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
 	}
 	for(new victim=1;victim<=MaxClients;victim++)
 	{
-		if (!IsValidClient(victim) || GetClientTeam(victim)==BossTeam)
+		if (!IsValidClient(victim) || GetClientTeam(victim)==BossTeam || IsPlayerAlive(victim))
 			continue;
 
 		GetEntPropVector(victim, Prop_Send, "m_vecOrigin", position2);
@@ -600,8 +600,8 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
                         boss,
                         damage);
 
-			FF2_SetBossMaxHealth(FF2_GetBossIndex(boss), FF2_GetBossMaxHealth(FF2_GetBossIndex(boss)) + RoundFloat(damage));
-			FF2_SetBossHealth(FF2_GetBossIndex(boss), FF2_GetBossHealth(FF2_GetBossIndex(boss)) + RoundFloat(damage));
+			FF2_SetBossMaxHealth(FF2_GetBossIndex(boss), FF2_GetBossMaxHealth(FF2_GetBossIndex(boss)) + 800);
+			FF2_SetBossHealth(FF2_GetBossIndex(boss), FF2_GetBossHealth(FF2_GetBossIndex(boss)) + 800);
 		}
 	}
 	return Plugin_Continue;
