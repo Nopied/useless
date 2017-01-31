@@ -795,7 +795,7 @@ void SwitchWeaponForTick(int entity)
     int count;
     bool hasThis = false;
 
-    if(IsValidClient(owner))
+    if(IsValidClient(owner) && IsValidEntity(entity))
     {
         for(int slot=0; slot < 5; slot++)
         {
@@ -804,13 +804,13 @@ void SwitchWeaponForTick(int entity)
 
             if(IsValidEntity(weapon))
             {
-                if(weapon == entity)
+                if(itemAddress != Address_Null && TF2Attrib_GetValue(itemAddress) >= 1.0) // 226
                 {
-                    hasThis = true;
                     continue;
                 }
-                else if(itemAddress != Address_Null && TF2Attrib_GetValue(itemAddress) >= 1.0) // 226
+                else if(weapon == entity)
                 {
+                    hasThis = true;
                     continue;
                 }
 
@@ -824,6 +824,15 @@ void SwitchWeaponForTick(int entity)
 
             SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", slotWeapon[random]);
             SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", entity);
+
+            if(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon") != entity)
+            {
+                SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
+                SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
+                SetEntPropFloat(owner, Prop_Send, "m_flNextAttack", GetGameTime());
+                
+                Debug("무기 변경 ERROR! %N, slotWeapon[random] = %i, random = %i, entity = %i", owner, slotWeapon[random], random, entity);
+            }
         }
     }
 

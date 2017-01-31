@@ -109,16 +109,20 @@ public void OnSpawn(int entity)
 	if(CBS_Abilities[ owner > MaxClients || owner <= 0 ? 0 : owner ])
 	{
 		int observer;
-		float opPos[3];
+		char angleString[80];
 		float opAng[3];
 
 		IsEntityCanReflect[entity]=true;
 		g_nEntityBounce[entity]=0;
-		GetEntPropVector(entity,Prop_Data,"m_vecOrigin",opPos);
+		// GetEntPropVector(entity,Prop_Data,"m_vecOrigin",opPos);
 		GetEntPropVector(entity,Prop_Data, "m_angAbsRotation", opAng);
+		Format(angleString, sizeof(angleString), "%.1f %.1f %.1f",
+		opAng[0],
+		opAng[1],
+		opAng[2]);
 
 		observer = CreateEntityByName("info_observer_point");
-		DispatchKeyValue(observer, "Angles", "90 0 0");
+		DispatchKeyValue(observer, "Angles", angleString);
 		DispatchKeyValue(observer, "TeamNum", "0");
 		DispatchKeyValue(observer, "StartDisabled", "0");
 		DispatchSpawn(observer);
@@ -187,6 +191,7 @@ void CheckAbilities()
   int client, boss;
   AllLastmanStanding = false;
   AttackAndDef = false;
+
   for(client=1; client<=MaxClients; client++)
   {
 	    Sub_SaxtonReflect[client] = false;
@@ -200,6 +205,11 @@ void CheckAbilities()
 
 		if(IsClientInGame(client))
 		{
+			SetOverlay(client, "");
+
+			SDKUnhook(client, SDKHook_StartTouch, OnTankTouch);
+			SDKUnhook(client, SDKHook_Touch, OnTankTouch);
+
 			char model[PLATFORM_MAX_PATH];
 
 			GetClientModel(client, model, sizeof(model));
@@ -261,10 +271,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 {
 	if(FF2_GetRoundState() != 1)
 	{
-		if(0 < client && client <= MaxClients && IsClientInGame(client))
-		{
-			SetOverlay(client, "");
-		}
 		return Plugin_Continue;
 	}
 
@@ -286,7 +292,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			// float targetEndPos[3];
 			float vecrt[3];
 			float angVector[3];
-			char classname[60];
 
 			GetEntPropVector(client, Prop_Send, "m_vecOrigin", clientPos);
 			GetClientEyeAngles(client, clientEyeAngles);
@@ -315,19 +320,13 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					{
 						SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
 					}
-					GetEntityClassname(ent, classname, sizeof(classname)); //
-					if(StrEqual(classname, "tf_projectile_pipe", true))
+					if(HasEntProp(ent, Prop_Send, "m_hThrower"))
 					{
-						SetEntPropEnt(ent, Prop_Send, "m_hThrower", client); // m_hDeflectOwner
-						SetEntPropEnt(ent, Prop_Send, "m_hDeflectOwner", client);
+						SetEntPropEnt(ent, Prop_Send, "m_hThrower", client);
 					}
-
-					SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
-
-					if(!StrEqual(classname, "tf_projectile_syringe", true))
+					if(HasEntProp(ent, Prop_Send, "m_hDeflectOwner"))
 					{
-						SetEntProp(ent, Prop_Send, "m_bCritical", 1);
-						SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
+						SetEntPropEnt(ent, Prop_Send, "m_hDeflectOwner", client);
 					}
 
 					GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
@@ -357,7 +356,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		    {
 		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
 
-		      if(GetVectorDistance(targetPos, clientPos) <= range)
+		      if(GetVectorDistance(clientPos, targetPos) <= range)
 		      {
 		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
 		      }
@@ -367,7 +366,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		    {
 		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
 
-		      if(GetVectorDistance(targetPos, clientPos) <= range)
+		      if(GetVectorDistance(clientPos, targetPos) <= range)
 		      {
 		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
 		      }
@@ -378,12 +377,12 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		    {
 		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
 
-		      if(GetVectorDistance(targetPos, clientPos) <= range)
+		      if(GetVectorDistance(clientPos, targetPos) <= range)
 		      {
 		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
 		      }
 		    }
-		}//
+		}
 
 		if(buttons & IN_ATTACK2 && IsTank[client] && GetGameTime() > RocketCooldown[client])
 		{
@@ -501,22 +500,26 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				{
 					SetVariantString(modelPath);
 					AcceptEntityInput(client, "SetCustomModel", client);
+
+					char Input[100];
+
+					tempAngle[0] = -80.0;
+					tempAngle[1] = StartAngle[1];
+					tempAngle[2] = StartAngle[2];
+
+					Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+
+					PrintCenterText(client, "%s 모델 변경.", Input);
+
+					SetVariantBool(true);
+					AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+					SetVariantString(Input);
+					AcceptEntityInput(client, "SetCustomModelRotation", client);
+
 				}
-
-				char Input[100];
-
-				Format(Input, sizeof(Input), "%.1f %.1f %.1f", StartAngle[0], StartAngle[1], StartAngle[2]);
-
-				SetVariantBool(true);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
-
-				SetVariantString(Input);
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-				// SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 			}
-
-			else
+			else // 모델 초기화.
 			{
 				char modelPath[PLATFORM_MAX_PATH];
 				GetClientModel(client, modelPath, sizeof(modelPath));
@@ -525,24 +528,31 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				{
 					SetVariantString(modelPath);
 					AcceptEntityInput(client, "SetCustomModel", client);
+
+					char Input[100];
+
+					tempAngle[0] = -179.0;
+					tempAngle[1] = StartAngle[1];
+					tempAngle[2] = StartAngle[2];
+
+					Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+
+					PrintCenterText(client, "%s 모델 초기화.", Input);
+
+					SetVariantString(Input);
+					AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+					SetVariantBool(false);
+					AcceptEntityInput(client, "SetCustomModelRotates");
+
+					SetVariantString(modelPath);
+					AcceptEntityInput(client, "SetCustomModel", client);
+
+					SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 				}
-
-				char Input[100];
-
-				tempAngle[0] = 0.0;
-				tempAngle[1] = StartAngle[1];
-				tempAngle[2] = StartAngle[2];
-
-				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
-
-				SetVariantString(Input);
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-				SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 			}
-
 		}
-		else if(GetEntityFlags(client) & FL_ONGROUND)
+		else if(IsTank[client]) // 모델 초기화.
 		{
 			char modelPath[PLATFORM_MAX_PATH];
 			GetClientModel(client, modelPath, sizeof(modelPath));
@@ -559,14 +569,21 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			GetClientEyeAngles(client, StartAngle);
 
-			tempAngle[0] = 0.0;
+			tempAngle[0] = -1.0;
 			tempAngle[1] = StartAngle[1];
 			tempAngle[2] = StartAngle[2];
 
 			Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+			PrintCenterText(client, "%s 모델 초기화.", Input);
 
 			SetVariantString(Input);
 			AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+			SetVariantBool(false);
+			AcceptEntityInput(client, "SetCustomModelRotates");
+
+			SetVariantString(modelPath);
+			AcceptEntityInput(client, "SetCustomModel", client);
 
 			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 		}

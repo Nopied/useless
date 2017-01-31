@@ -537,7 +537,7 @@ public OnPluginStart2()
 	// almost every hook here was moved out, to only activate when it's Blitzkrieg's turn.
 	HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Pre);
 	HookEvent("teamplay_round_start", Event_TeamplayRoundStart, EventHookMode_PostNoCopy);
-	HookEvent("arena_round_start", OnRoundStart, EventHookMode_PostNoCopy);
+	// HookEvent("arena_round_start", OnRoundStart, EventHookMode_PostNoCopy);
 	HookEvent("arena_win_panel", OnRoundEnd, EventHookMode_PostNoCopy);
 	for (new i = 1; i <= MaxClients; i++)
 	{
@@ -570,7 +570,9 @@ public OnPluginStart2()
 
 public void Event_TeamplayRoundStart(Event event, const char[] name, bool dontBroadcast)
 {
-	Blitzkrieg_FindBlitzkriegAt=GetEngineTime()+0.6;
+	Blitzkrieg_FindBlitzkriegAt = GetEngineTime() + 0.6;
+
+	CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
@@ -673,7 +675,7 @@ public Action:OnDeflectObject(Handle:event, const String:name[], bool:dontBroadc
 	}
 
 }
-public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast)
+public Action:OnRoundStart(Handle timer)
 {
 	Blitzkrieg_HookAbilities();
 }
@@ -2402,6 +2404,7 @@ public Blitz_Tick(Float:curTime)
 public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBonus, &Float:JumpPower)
 {
 	// disable goombas entirely in a water arena
+	/*
 	if (BMO_ActiveThisRound && RoundInProgress)
 	{
 		if (BMO_Flags & BMO_FLAG_NO_GOOMBAS)
@@ -2414,6 +2417,7 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 			return Plugin_Changed;
 		}
 	}
+	*/
 
 	return Plugin_Continue;
 }

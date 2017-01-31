@@ -327,8 +327,8 @@ PrintRageWarning()
 #define CMD_FORCE_RAGE "rage"
 public OnPluginStart2()
 {
-	HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
-	HookEvent("arena_round_start", Event_RoundStart, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
+	HookEvent("teamplay_round_start", Event_RoundStart_Pre, EventHookMode_PostNoCopy);
 
 	if (DEBUG_FORCE_RAGE)
 	{
@@ -337,7 +337,12 @@ public OnPluginStart2()
 	}
 }
 
-public Action:Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
+public Action:Event_RoundStart_Pre(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	CreateTimer(10.4, Event_RoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action:Event_RoundStart(Handle:timer)
 {
 	RoundInProgress = true;
 
@@ -1301,7 +1306,7 @@ public WA_CreateRocket(owner, Float:position[3], Float:angle[3])
 	// deploy!
 	TeleportEntity(rocket, position, angle, spawnVelocity);
 	SetEntProp(rocket, Prop_Send, "m_bCritical", false); // no random crits
-	SetEntDataFloat(rocket, FindSendPropOffs(classname, "m_iDeflected") + 4, damage, true); // credit to voogru
+	SetEntDataFloat(rocket, FindSendPropInfo(classname, "m_iDeflected") + 4, damage, true); // credit to voogru
 	SetEntProp(rocket, Prop_Send, "m_nSkin", 0); // set skin to red team's
 	SetEntPropEnt(rocket, Prop_Send, "m_hOwnerEntity", owner);
 	SetVariantInt(MercTeam);

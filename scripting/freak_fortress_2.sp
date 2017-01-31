@@ -1398,9 +1398,13 @@ public Action:OnPlayerHealed(Handle:event, const String:name[], bool:dont)
 	if(IsBoss(healer) && IsBossYou[healer])
 	{
 		BossHealth[GetBossIndex(healer)] += healed;
+		UpdateHealthBar();
+	}
+	else if(!IsBoss(healer))
+	{
+		Damage[healer] += healed;
 	}
 
-	Damage[healer] += healed;
 	return Plugin_Continue;
 }
 
@@ -5827,7 +5831,7 @@ public Action:BossTimer(Handle:timer)
 		}
 
 		//
-		if(!IsBossYou[boss])
+		if(!IsBossYou[client])
 		{
 			if(BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1) > BossHealthMax[boss])
 				SetEntPropFloat(client, Prop_Data, "m_flMaxspeed", BossSpeed[Special[boss]]+0.7);
@@ -10227,8 +10231,9 @@ public Native_GetBossHealth(Handle:plugin, numParams)
 
 public Native_SetBossHealth(Handle:plugin, numParams)
 {
-	UpdateHealthBar();
 	BossHealth[GetNativeCell(1)]=GetNativeCell(2);
+
+	UpdateHealthBar();
 }
 
 public Native_GetBossMaxHealth(Handle:plugin, numParams)
