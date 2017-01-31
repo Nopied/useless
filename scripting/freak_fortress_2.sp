@@ -6882,12 +6882,13 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		SetEventInt(event, "damageamount", damage);
 	}
 
-	if(BossHealth[boss] - damage <= 0 && BossDiff[boss] > 1) // TODO: 특정인만 가능하게.
+	if(BossHealth[boss] - damage < 1 && BossDiff[boss] > 1) // TODO: 특정인만 가능하게.
 	{
 		// changeResult = true;
-		BossCharge[boss][0] = 100.0;
+		// BossCharge[boss][0] = 100.0;
 		BossDiff[boss] = 1;
 		FormulaBossHealth(boss, false);
+
 		SetEntityHealth(client, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1));
 
 		CPrintToChatAll("{olive}[FF2]{default} 이 보스는 {red}보스 스탠타드 플레이{default}가 활성화된 상태입니다. '{green}보통{default}' 난이도로 되돌아가 다시 싸웁니다!");
@@ -10883,6 +10884,9 @@ FormulaBossHealth(boss, bool:includeHealth=true)
 		  BossLives[boss]--;
 		}
 	}
+
+	if(BossHealth[boss] < 1)
+		BossHealth[boss] = 100;
 }
 
 UpdateHealthBar()
