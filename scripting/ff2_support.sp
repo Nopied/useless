@@ -23,7 +23,10 @@ public Plugin myinfo=
 bool Sub_SaxtonReflect[MAXPLAYERS+1];
 bool CBS_Abilities[MAXPLAYERS+1];
 bool IsTank[MAXPLAYERS+1];
-bool NoJump[MAXPLAYERS+1];
+
+bool CanWallWalking[MAXPLAYERS+1];
+bool DoingWallWalking[MAXPLAYERS+1];
+bool CoolingWallWalking[MAXPLAYERS+1];
 
 float RocketCooldown[MAXPLAYERS+1];
 
@@ -199,7 +202,6 @@ void CheckAbilities()
 			if(IsTank[client])
 			{
 				SetOverlay(client, "");
-
 				SetVariantBool(false);
 				AcceptEntityInput(client, "SetCustomModelRotates", client);
 
@@ -210,11 +212,40 @@ void CheckAbilities()
 				SDKUnhook(client, SDKHook_StartTouch, OnTankTouch);
 				SDKUnhook(client, SDKHook_Touch, OnTankTouch);
 			}
+			if(CanWallWalking[client])
+			{
+				float StartAngle[3];
+				float tempAngle[3];
+				char Input[100];
+
+				GetClientEyeAngles(client, StartAngle);
+
+				tempAngle[0] = 0.0;
+				tempAngle[1] = StartAngle[1];
+				tempAngle[2] = StartAngle[2];
+
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+
+				SetVariantBool(true);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+				SetVariantString(Input);
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+				RequestFrame(ClassAniTimer, client);
+
+				SetVariantBool(false);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
+			}
 		}
 
 		Sub_SaxtonReflect[client] = false;
 		CBS_Abilities[client] = false;
-		NoJump[client] = false;
+
+		CanWallWalking[client] = false;
+		DoingWallWalking[client] = false;
+		CoolingWallWalking[client] = false;
+
 		IsTank[client] = false;
 
 		RocketCooldown[client] = 0.0;
@@ -231,8 +262,8 @@ void CheckAbilities()
 				AllLastmanStanding = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_attackanddef"))
 				AttackAndDef = true;
-			if(FF2_HasAbility(boss, this_plugin_name, "tank_nojump"))
-				NoJump[client] = true;
+			if(FF2_HasAbility(boss, this_plugin_name, "Wallwalking"))
+				CanWallWalking[client] = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_tank"))
 			{
 				IsTank[client] = true;
@@ -424,6 +455,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			if(IsValidEntity(rocket))
 			{
 				int weapon2 = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+
 				TF2Attrib_SetByDefIndex(weapon2, 521, 0.0); //642
 				TF2Attrib_SetByDefIndex(weapon2, 642, 3.0);
 				TF2Attrib_SetByDefIndex(weapon2, 99, 1.0);
@@ -440,7 +472,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		}
 
 		if((buttons & IN_FORWARD || buttons & IN_LEFT || buttons & IN_RIGHT)
-		&& IsTank[client])
+		&& CanWallWalking[client])
 		{
 		 	bool NearWall = false;
 			float StartOrigin[3];
@@ -452,7 +484,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			float Distance;
 			Handle TraceRay;
-			bool modelChange = false;
 
 			GetClientEyePosition(client, StartOrigin);
 			GetClientEyeAngles(client, StartAngle);
@@ -498,97 +529,54 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					Velocity[0] *= 180.0;
 
 					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
-					modelChange = true;
+
+					DoingWallWalking[client] = NearWall;
 
 					break;
 				}
 			}
-
-			if(modelChange)
-			{
-				char modelPath[PLATFORM_MAX_PATH];
-				GetClientModel(client, modelPath, sizeof(modelPath));
-
-				SetVariantString(modelPath);
-				AcceptEntityInput(client, "SetCustomModel", client);
-
-				char Input[100];
-
-				tempAngle[0] = StartAngle[0] > 0.0 ? 0.0 : StartAngle[0];
-				tempAngle[1] = StartAngle[1];
-				tempAngle[2] = StartAngle[2];
-
-				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
-
-				PrintCenterText(client, "%s 모델 변경.", Input);
-
-				SetVariantBool(true);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
-
-				SetVariantString(Input);
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-				RequestFrame(ClassAniTimer, client);
-
-			}
-			else // 모델 초기화.
-			{
-				char modelPath[PLATFORM_MAX_PATH];
-				GetClientModel(client, modelPath, sizeof(modelPath));
-
-				SetVariantString(modelPath);
-				AcceptEntityInput(client, "SetCustomModel", client);
-
-				PrintCenterText(client, "모델 초기화.");
-
-				char Input[100];
-
-				tempAngle[0] = 0.0;
-				tempAngle[1] = StartAngle[1];
-				tempAngle[2] = StartAngle[2];
-
-				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
-
-				SetVariantBool(true);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
-
-				SetVariantString(Input);
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-				RequestFrame(ClassAniTimer, client);
-
-			}
 		}
-		else if(IsTank[client]) // 모델 초기화.
+
+		if(CanWallWalking[client] && !CoolingWallWalking[client]) // 모델 초기화.
 		{
-			// char Input[100];
-			char modelPath[PLATFORM_MAX_PATH];
 			float StartAngle[3];
 			float tempAngle[3];
-
 			GetClientEyeAngles(client, StartAngle);
-			GetClientModel(client, modelPath, sizeof(modelPath));
 
-			SetVariantString(modelPath);
-			AcceptEntityInput(client, "SetCustomModel", client);
+			if(DoingWallWalking[client] || !(GetEntityFlags(client) & FL_ONGROUND))
+			{
+				CoolingWallWalking[client] = false;
+				tempAngle[0] = StartAngle[0] > 0.0 ? 0.0 : StartAngle[0];
+			}
+			else
+			{
+				CoolingWallWalking[client] = true;
+				tempAngle[0] = 0.0;
+			}
 
-			char Input[100];
-
-			tempAngle[0] = 0.0;
 			tempAngle[1] = StartAngle[1];
 			tempAngle[2] = StartAngle[2];
 
-			Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+			if(CoolingWallWalking[client])
+			{
+				char Input[100];
 
-			PrintCenterText(client, "모델 초기화.");
+				char modelPath[PLATFORM_MAX_PATH];
+				GetClientModel(client, modelPath, sizeof(modelPath));
 
-			SetVariantBool(true);
-			AcceptEntityInput(client, "SetCustomModelRotates", client);
+				SetVariantString(modelPath);
+				AcceptEntityInput(client, "SetCustomModel", client);
 
-			SetVariantString(Input);
-			AcceptEntityInput(client, "SetCustomModelRotation", client);
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
-			RequestFrame(ClassAniTimer, client);
+				SetVariantBool(true);
+				AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+				SetVariantString(Input);
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+				RequestFrame(ClassAniTimer, client);
+			}
 		}
 	}
 

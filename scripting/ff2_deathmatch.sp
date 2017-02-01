@@ -445,7 +445,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     AlreadyLastmanSpawned[client] = false;
 
     if((GetGameState() == Game_SuddenDeath || GetGameState() == Game_None)
-    && !IsBossTeam(client) && IsBossTeam(attacker))
+    && !IsBossTeam(client))
     {
         if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
         {

@@ -108,6 +108,7 @@ stock bool IsBossTeam(int client)
 stock void UpdateEntityHitbox(const int client, const float fScale)
 {
     static const Float:vecTF2PlayerMin[3] = { -50.5, -70.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 50.5,  70.5, 80.0 };
+    // static const Float:vecTF2PlayerMin[3] = { -24.5, -24.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 24.5,  24.5, 83.0 };
 
     decl Float:vecScaledPlayerMin[3], Float:vecScaledPlayerMax[3];
 

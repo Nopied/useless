@@ -143,6 +143,8 @@ new bool:NoticedAbilityTimeEnd[MAXPLAYERS+1][8];
 new bool:DEVmode=false;
 
 new timeleft;
+new AFKTime;
+new bool:IsBossDoing[MAXPLAYERS+1];
 
 new Handle:cvarVersion;
 new Handle:cvarPointDelay;
@@ -3295,12 +3297,15 @@ public Action:StartBossTimer(Handle:timer)
 	playing=0;
 	for(new client=1; client<=MaxClients; client++)
 	{
+		IsBossDoing[client] = false;
 		if(IsValidClient(client) && !IsBoss(client) && IsPlayerAlive(client))
 		{
 			playing++;
 			CreateTimer(0.15, MakeNotBoss, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);  //TODO:  Is this needed?
 		}
 	}
+
+	AFKTime = GetGameTime() + 8.0;
 
 	CreateTimer(0.2, BossTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(0.2, CheckAlivePlayers, 0, TIMER_FLAG_NO_MAPCHANGE);
@@ -3312,6 +3317,21 @@ public Action:StartBossTimer(Handle:timer)
 	{
 		SetControlPoint(false);
 	}
+	return Plugin_Continue;
+}
+
+public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+{
+	if(CheckRoundState() != 1) return Plugin_Continue;
+
+	if(IsBoss(client) && AFKTime > GetGameTime())
+	{
+		if(buttons > 0)
+		{
+			IsBossDoing[client] = true;
+		}
+	}
+
 	return Plugin_Continue;
 }
 
@@ -5828,6 +5848,11 @@ public Action:BossTimer(Handle:timer)
 		else if(FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
 		{
 			BossCharge[boss][0]=0.0;
+		}
+
+		if(GetGameTime() >= AFKTime && !IsBossDoing[client])
+		{
+			KickClientEx(client, "보스인 상태에서 잠수가 감지되어 퇴장됩니다..");
 		}
 
 		//
