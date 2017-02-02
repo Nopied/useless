@@ -48,7 +48,7 @@ public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 {
     CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
-
+/*
 public void OnGameFrame()
 {
 	if(FF2_GetRoundState() != 1) return;
@@ -77,6 +77,7 @@ public void OnGameFrame()
 		}
 	}
 }
+*/
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
@@ -202,17 +203,11 @@ void CheckAbilities()
 			if(IsTank[client])
 			{
 				SetOverlay(client, "");
-				SetVariantBool(false);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
-
-				SetVariantString("0 0 0");
-
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
 
 				SDKUnhook(client, SDKHook_StartTouch, OnTankTouch);
 				SDKUnhook(client, SDKHook_Touch, OnTankTouch);
 			}
-			if(CanWallWalking[client])
+			if(IsTank[client]) // TODO: 개별화
 			{
 				float StartAngle[3];
 				float tempAngle[3];
@@ -251,9 +246,12 @@ void CheckAbilities()
 		RocketCooldown[client] = 0.0;
 		WalkingSoundCooldown[client] = 0.0;
 
-
 	    if((boss=FF2_GetBossIndex(client)) != -1)
 	    {
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_wallwalking"))
+			{
+				CanWallWalking[client] = true;
+			}
 	      	if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
 	        	Sub_SaxtonReflect[client] = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
@@ -262,23 +260,37 @@ void CheckAbilities()
 				AllLastmanStanding = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_attackanddef"))
 				AttackAndDef = true;
-			if(FF2_HasAbility(boss, this_plugin_name, "Wallwalking"))
-				CanWallWalking[client] = true;
+
+
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_tank"))
 			{
 				IsTank[client] = true;
 				SetOverlay(client, "Effects/combine_binocoverlay");
 
 				char model[PLATFORM_MAX_PATH];
+				float StartAngle[3];
+				float tempAngle[3];
+				GetClientEyeAngles(client, StartAngle);
 
 				GetClientModel(client, model, sizeof(model));
 				SetVariantString(model);
-				AcceptEntityInput(client, "SetCustomModel");
+				AcceptEntityInput(client, "SetCustomModel", client);
 
-				SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
+				char Input[100];
+
+				tempAngle[0] = 0.0;
+				tempAngle[1] = StartAngle[1];
+				tempAngle[2] = StartAngle[2];
+
+				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
 				SetVariantBool(true);
 				AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+				SetVariantString(Input);
+				AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+				RequestFrame(ClassAniTimer, client);
 
 				SDKHook(client, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(client, SDKHook_Touch, OnTankTouch);
@@ -472,7 +484,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		}
 
 		if((buttons & IN_FORWARD || buttons & IN_LEFT || buttons & IN_RIGHT)
-		&& CanWallWalking[client])
+		&& IsTank[client])
 		{
 		 	bool NearWall = false;
 			float StartOrigin[3];
@@ -537,27 +549,26 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			}
 		}
 
-		if(CanWallWalking[client] && !CoolingWallWalking[client]) // 모델 초기화.
+		if(IsTank[client])
 		{
 			float StartAngle[3];
 			float tempAngle[3];
 			GetClientEyeAngles(client, StartAngle);
 
-			if(DoingWallWalking[client] || !(GetEntityFlags(client) & FL_ONGROUND))
+			if(DoingWallWalking[client])
 			{
 				CoolingWallWalking[client] = false;
 				tempAngle[0] = StartAngle[0] > 0.0 ? 0.0 : StartAngle[0];
 			}
-			else
+			else if(GetEntityFlags(client) & FL_ONGROUND)
 			{
-				CoolingWallWalking[client] = true;
 				tempAngle[0] = 0.0;
 			}
 
 			tempAngle[1] = StartAngle[1];
 			tempAngle[2] = StartAngle[2];
 
-			if(CoolingWallWalking[client])
+			if(!CoolingWallWalking[client])
 			{
 				char Input[100];
 
@@ -576,6 +587,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				AcceptEntityInput(client, "SetCustomModelRotation", client);
 
 				RequestFrame(ClassAniTimer, client);
+
+				if(GetEntityFlags(client) & FL_ONGROUND)
+				{
+					CoolingWallWalking[client] = true;
+				}
 			}
 		}
 	}

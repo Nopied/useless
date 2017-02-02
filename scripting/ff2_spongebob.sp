@@ -13,16 +13,73 @@ public Plugin myinfo=
     version="2017_02_01",
 };
 
+bool CanResize[MAXPLAYERS+1];
+
 public void OnPluginStart2()
 {
-
+    HookEvent("arena_round_start", OnRoundStart);
+    HookEvent("teamplay_round_start", OnRoundStart_Pre);
 }
+
+public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
+{
+    CreateTimer(10.4, CheckAbilityTimer, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action OnRoundStart(Handle event, const char[] name, bool dont)
+{
+  CheckAbility();
+}
+
+public Action CheckAbilityTimer(Handle timer)
+{
+    CheckAbility();
+}
+
+void CheckAbility()
+{
+    int client, boss;
+
+    for(client=1; client<=MaxClients; client++)
+    {
+        if(CanResize[client])
+        {
+            SDKUnhook(client, SDKHook_PreThinkPost, ResizeTimer);
+        }
+
+        CanResize[client] = false;
+
+        if((boss=FF2_GetBossIndex(client)) != -1)
+        {
+            if(FF2_HasAbility(boss, this_plugin_name, "ff2_spongebob"))
+            {
+                CanResize[client] = true;
+
+                SDKHook(client, SDKHook_PreThinkPost, ResizeTimer);
+            }
+
+        }
+    }
+}
+
+public void ResizeTimer(int client)
+{
+    if(FF2_GetRoundState() != 1) return;
+
+    if(CanResize[client])
+    {
+        TryResize(FF2_GetBossIndex(client));
+    }
+    else
+        SDKUnhook(client, SDKHook_PreThinkPost, ResizeTimer);
+}
+
 
 public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abilityName, int status)
 {
     if(StrEqual(abilityName, "ff2_spongebob", true))
     {
-        TryResize(boss);
+        PrintCenterText(GetClientOfUserId(FF2_GetBossUserId(boss)), "앉기: 천천히 신체 사이즈 줄이기");
     }
 }
 
@@ -30,14 +87,48 @@ void TryResize(int boss)
 {
     int client = GetClientOfUserId(FF2_GetBossUserId(boss));
     float currentSize = GetEntPropFloat(client, Prop_Send, "m_flModelScale");
+    float niceSize;
 
-    // float niceSize;
     float minSize = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_spongebob", 1, 0.3);
     float maxSize = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_spongebob", 2, 5.0);
 
     float clientPos[3];
     GetClientEyePosition(client, clientPos);
 
+    if(GetClientButtons(client) & IN_DUCK)
+    {
+        niceSize = currentSize - 0.02;
+        if(niceSize < minSize)
+            niceSize = minSize;
+
+        SetEntPropFloat(client, Prop_Send, "m_flModelScale", niceSize);
+        UpdateEntityHitbox(client, niceSize*3.8);
+    }
+    else
+    {
+        niceSize = currentSize + 0.02;
+        if(niceSize > maxSize)
+            niceSize = maxSize;
+
+        if(IsSpotSafe(client, clientPos, niceSize) && !IsPlayerStuck(client))
+        {
+            SetEntPropFloat(client, Prop_Send, "m_flModelScale", niceSize);
+            UpdateEntityHitbox(client, niceSize*3.8);
+
+            if(IsPlayerStuck(client))
+            {
+                niceSize = currentSize - 0.3;
+                if(niceSize < minSize)
+                    niceSize = minSize;
+
+                SetEntPropFloat(client, Prop_Send, "m_flModelScale", niceSize);
+                UpdateEntityHitbox(client, niceSize*3.8);
+            }
+        }
+
+    }
+
+    /*
     for(float suar = maxSize; suar >= minSize; suar -= 0.05)
     {
         if(IsSpotSafe(client, clientPos, suar) && !IsPlayerStuck(client))
@@ -52,6 +143,7 @@ void TryResize(int boss)
             break;
         }
     }
+    */
 }
 
 stock bool:IsPlayerStuck(iEntity)
@@ -68,8 +160,8 @@ stock bool:IsPlayerStuck(iEntity)
 
 stock void UpdateEntityHitbox(const int client, const float fScale)
 {
-    // static const Float:vecTF2PlayerMin[3] = { -50.5, -70.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 50.5,  70.5, 80.0 };
-    static const Float:vecTF2PlayerMin[3] = { -24.5, -24.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 24.5,  24.5, 83.0 };
+     static const Float:vecTF2PlayerMin[3] = { -50.5, -70.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 50.5,  70.5, 120.0 };
+    // static const Float:vecTF2PlayerMin[3] = { -24.5, -24.5, 0.0 }, Float:vecTF2PlayerMax[3] = { 24.5,  24.5, 83.0 };
 
     decl Float:vecScaledPlayerMin[3], Float:vecScaledPlayerMax[3];
 
@@ -103,7 +195,7 @@ public bool IsSpotSafe(clientIdx, float playerPos[3], float sizeMultiplier)
 	mins[2] = 0.0;
 	maxs[0] = 24.0 * sizeMultiplier;
 	maxs[1] = 24.0 * sizeMultiplier;
-	maxs[2] = 82.0 * sizeMultiplier;
+	maxs[2] = 83.0 * sizeMultiplier;
 
 	// the eight 45 degree angles and center, which only checks the z offset
 	if (!Resize_TestResizeOffset(playerPos, mins[0], mins[1], maxs[2])) return false;

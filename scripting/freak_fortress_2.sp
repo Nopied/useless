@@ -1482,8 +1482,8 @@ public Action:Listener_Say(client, const String:command[], argc)
 		HelpPanelClass(client);
 	}
 
-	else if(StrEqual("you", chat[2], true) ||
-	StrEqual("너", chat[2], true))
+	else if(!StrContains("you", chat[2], false) ||
+	!StrContains("너", chat[2], false))
 	{
 		char specialtext[2][100];
 		ExplodeString(chat[2], " ", specialtext, sizeof(specialtext), sizeof(specialtext[]));
@@ -6907,7 +6907,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		SetEventInt(event, "damageamount", damage);
 	}
 
-	if(BossHealth[boss] - damage < 1 && BossDiff[boss] > 1) // TODO: 특정인만 가능하게.
+	if(BossHealth[boss] - damage < 1 && BossDiff[boss] > 1 && FF2_GetGameState() != Game_LastManStanding) // TODO: 특정인만 가능하게.
 	{
 		// changeResult = true;
 		// BossCharge[boss][0] = 100.0;
