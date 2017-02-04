@@ -458,6 +458,10 @@ public void CP_OnGetPart_Post(int client, int partIndex)
             Debug("보스가 아닌데 이 파츠를 흭득함.");
         }
     }
+    else if(partIndex == 25)
+    {
+        TF2_AddCondition(client, TFCond_DisguisedAsDispenser, TFCondDuration_Infinite);
+    }
 }
 
 public void CP_OnActivedPart(int client, int partIndex)
@@ -560,6 +564,22 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 
             RemoveToSomeWeapon(client, 54, 0.3);
         }
+
+        else if(partIndex == 21)
+        {
+            if(TF2_IsPlayerInCondition(client, TFCond_MarkedForDeath))
+            {
+                TF2_RemoveCondition(client, TFCond_MarkedForDeath);
+            }
+        }
+
+        else if(partIndex == 25)
+        {
+            if(TF2_IsPlayerInCondition(client, TFCond_DisguisedAsDispenser))
+            {
+                TF2_RemoveCondition(client, TFCond_DisguisedAsDispenser);
+            }
+        }
     }
     else
     {
@@ -650,6 +670,14 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
         if(CP_IsPartActived(client, 21))
         {
             TF2_AddCondition(client, TFCond_MarkedForDeath, TFCondDuration_Infinite);
+        }
+    }
+
+    if(condition == TFCond_DisguisedAsDispenser)
+    {
+        if(CP_IsPartActived(client, 25))
+        {
+            TF2_AddCondition(client, TFCond_DisguisedAsDispenser, TFCondDuration_Infinite);
         }
     }
 }
@@ -830,7 +858,7 @@ void SwitchWeaponForTick(int entity)
                 SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
                 SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
                 SetEntPropFloat(owner, Prop_Send, "m_flNextAttack", GetGameTime());
-                
+
                 Debug("무기 변경 ERROR! %N, slotWeapon[random] = %i, random = %i, entity = %i", owner, slotWeapon[random], random, entity);
             }
         }

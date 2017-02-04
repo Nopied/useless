@@ -1429,6 +1429,9 @@ public Action:Listener_Say(client, const String:command[], argc)
 	}
 	chat[strlen(chat)-1]='\0';
 
+	char specialtext[2][100];
+	ExplodeString(chat[2], " ", specialtext, sizeof(specialtext), sizeof(specialtext[]));
+
 	if(StrEqual("프리크", chat[2], true) ||
 	StrEqual("ㄹㄹ2", chat[2], true))
 	{
@@ -1482,12 +1485,10 @@ public Action:Listener_Say(client, const String:command[], argc)
 		HelpPanelClass(client);
 	}
 
-	else if(!StrContains("you", chat[2], false) ||
-	!StrContains("너", chat[2], false))
+	else if(StrEqual("you", specialtext[0], true) ||
+	StrEqual("너", specialtext[0], true))
 	{
-		char specialtext[2][100];
-		ExplodeString(chat[2], " ", specialtext, sizeof(specialtext), sizeof(specialtext[]));
-		SetYouSpecialString(client, specialtext[1]);
+		SetYouSpecialString(client, chat[strlen(specialtext[0])+3]);
 	}
 	return handleChat ? Plugin_Handled : Plugin_Continue;
 }
@@ -4369,6 +4370,17 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 				item=itemOverride;
 				return Plugin_Changed;
 			}
+		}
+	}
+
+	if(TF2_GetPlayerClass(client)==TFClass_Spy && (!StrContains(classname, "tf_weapon_invis", false)) && iItemDefinitionIndex == 59)
+	{
+		new Handle:itemOverride = PrepareItemHandle(item, _, _, "729 ; 0.1");
+
+		if(itemOverride!=INVALID_HANDLE)
+		{
+			item=itemOverride;
+			return Plugin_Changed;
 		}
 	}
 

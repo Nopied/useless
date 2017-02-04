@@ -37,10 +37,34 @@ public void OnPluginStart2()
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+
+	if(FF2_GetRoundState() != 1)    return Plugin_Continue;
+
 	if( g_flTimeStop > GetGameTime() || (g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime()))
 	{
-		SDKUnhook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
-		SDKHook(GetClientOfUserId(GetEventInt(event, "userid")), SDKHook_OnTakeDamage, OnTakeDamage);
+		g_nEntityMovetype[client] = view_as<int>(GetEntityMoveType(client));
+		SetEntityMoveType(client, MOVETYPE_NONE);
+
+		TF2_AddCondition(client, TFCond_HalloweenKartNoTurn, -1.0);
+
+		SetEntProp(client, Prop_Send, "m_bIsPlayerSimulated", 0);
+		SetEntProp(client, Prop_Send, "m_bSimulatedEveryTick", 0);
+		SetEntProp(client, Prop_Send, "m_bAnimatedEveryTick", 0);
+		SetEntProp(client, Prop_Send, "m_bClientSideAnimation", 0);
+		SetEntProp(client, Prop_Send, "m_bClientSideFrameReset", 1);
+
+		SetEntPropFloat(client, Prop_Send, "m_flNextAttack", GetGameTime()+10000.0);
+
+		int weapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+		SetEntProp(weapon, Prop_Send, "m_bIsPlayerSimulated", 0);
+		SetEntProp(weapon, Prop_Send, "m_bAnimatedEveryTick", 0);
+		SetEntProp(weapon, Prop_Send, "m_bSimulatedEveryTick", 0);
+		SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 0);
+		SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 1);
+
+		SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+		SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 	}
 }
 
@@ -133,6 +157,21 @@ void Rage_TimeStop(int boss)
 
 public void RageTimer(int client)
 {
+	if(FF2_GetRoundState() != 1)
+	{
+		if(g_flTimeStopCooling != -1.0)
+		{
+			g_flTimeStopCooling = -1.0;
+		}
+		else if(g_flTimeStop != -1.0)
+		{
+			g_flTimeStop = -1.0;
+			DisableTimeStop(FF2_GetBossIndex(client));
+		}
+
+		SDKUnhook(client, SDKHook_PreThinkPost, RageTimer);
+	}
+
 	if(g_flTimeStopCooling <= GetGameTime() && g_flTimeStopCooling != -1.0)
 	{
 		EnableTimeStop(FF2_GetBossIndex(client));
@@ -181,7 +220,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
 void EnableTimeStop(int boss)
 {
 	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
-	float abilityDuration = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 1, 10.0);
+	// float abilityDuration = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 1, 10.0);
 	char classname[60];
 
 	for(int entity=1; entity <= MAXENTITIES; entity++)
@@ -194,7 +233,7 @@ void EnableTimeStop(int boss)
 					SetClientOverlay(entity, "debug/yuv");
 					if(IsPlayerAlive(entity))
 					{
-							TF2_AddCondition(entity, TFCond_HalloweenKartNoTurn, abilityDuration);
+							TF2_AddCondition(entity, TFCond_HalloweenKartNoTurn, -1.0);
 
 							SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 0);
 							SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 0);
@@ -258,30 +297,35 @@ void DisableTimeStop(int boss)
 
 			if(IsValidClient(entity))
 			{
-					SetClientOverlay(entity, "");
-					SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 1);
-					SetEntProp(entity, Prop_Send, "m_bAnimatedEveryTick", 1);
-					SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 1);
-					SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 1);
-					SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
+				if(TF2_IsPlayerInCondition(entity, TFCond_HalloweenKartNoTurn))
+				{
+					TF2_RemoveCondition(entity, TFCond_HalloweenKartNoTurn);
+				}
 
-					SetEntPropFloat(entity, Prop_Send, "m_flNextAttack", GetGameTime());
-					SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+				SetClientOverlay(entity, "");
+				SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 1);
+				SetEntProp(entity, Prop_Send, "m_bAnimatedEveryTick", 1);
+				SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 1);
+				SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 1);
+				SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
 
-					if(IsPlayerAlive(entity))
-					{
-						int weapon = GetEntPropEnt(entity, Prop_Send, "m_hActiveWeapon");
-						SetEntProp(weapon, Prop_Send, "m_bIsPlayerSimulated", 1);
-						SetEntProp(weapon, Prop_Send, "m_bAnimatedEveryTick", 1);
-						SetEntProp(weapon, Prop_Send, "m_bSimulatedEveryTick", 1);
-						SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 1);
-						SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 0);
+				SetEntPropFloat(entity, Prop_Send, "m_flNextAttack", GetGameTime());
+				SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 
-						SDKHooks_TakeDamage(entity, client, client, g_flTimeStopDamage[entity], DMG_GENERIC, -1);
-						TF2_RemoveCondition(entity, TFCond_MarkedForDeath);
-					}
+				if(IsPlayerAlive(entity))
+				{
+					int weapon = GetEntPropEnt(entity, Prop_Send, "m_hActiveWeapon");
+					SetEntProp(weapon, Prop_Send, "m_bIsPlayerSimulated", 1);
+					SetEntProp(weapon, Prop_Send, "m_bAnimatedEveryTick", 1);
+					SetEntProp(weapon, Prop_Send, "m_bSimulatedEveryTick", 1);
+					SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 1);
+					SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 0);
 
-					g_flTimeStopDamage[entity] = 0.0;
+					SDKHooks_TakeDamage(entity, client, client, g_flTimeStopDamage[entity], DMG_GENERIC, -1);
+					TF2_RemoveCondition(entity, TFCond_MarkedForDeath);
+				}
+
+				g_flTimeStopDamage[entity] = 0.0;
 			}
 
 			if(IsValidEntity(entity))

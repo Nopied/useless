@@ -9,6 +9,7 @@
 #include <freak_fortress_2>
 #include <POTRY>
 
+bool RoundRunning;
 bool IsFakeLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
 bool AlreadyLastmanSpawned[MAXPLAYERS+1];
@@ -28,6 +29,7 @@ Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 
 Handle OnTimerFor;
 
+float NoTimerHudTime;
 float NoEnemyTime[MAXPLAYERS+1];
 float WeaponCannotUseTime[MAXPLAYERS+1];
 float TeleportTime[MAXPLAYERS+1];
@@ -87,7 +89,11 @@ public void OnPluginStart()
 
 public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 {
-    CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+    if(!RoundRunning)
+    {
+        CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+        RoundRunning = true;
+    }
 }
 
 public void OnMapStart()
@@ -98,7 +104,10 @@ public void OnMapStart()
     MusicKV = INVALID_HANDLE;
   } //
 
-  if(DrawGameTimer != INVALID_HANDLE && timeleft > 0.0)
+  RoundRunning = false;
+  NoTimerHudTime = 0.0;
+
+  if(DrawGameTimer != INVALID_HANDLE)
   {
       timeleft = 0.0;
       KillTimer(DrawGameTimer);
@@ -251,6 +260,7 @@ public Action OnRoundStart(Handle timer)
 {
     if(FF2_GetRoundState() != 1) return Plugin_Continue;
 
+    NoTimerHudTime = GetGameTime() + 10.0;
     for(int target = 1; target <= MaxClients; target++)
     {
         NoEnemyTime[target] = 0.0;
@@ -313,6 +323,9 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
+    RoundRunning = false;
+    NoTimerHudTime = 0.0;
+
     for(int client = 1; client <= MaxClients; client++)
     {
         if(IsClientInGame(client))
@@ -854,17 +867,17 @@ public Action OnTimer(Handle timer)
         timeleft = tempTimeleft;
     }
 
-
-  	SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
-  	for(new client = 1; client <= MaxClients; client++)
-  	{
-  		if(IsValidClient(client))
-  		{
-  			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
-  		}
-  	}
-
-
+    if(NoTimerHudTime <= GetGameTime())
+    {
+        SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
+      	for(new client = 1; client <= MaxClients; client++)
+      	{
+      		if(IsValidClient(client))
+      		{
+      			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
+      		}
+      	}
+    }
 
     if(GetGameState() == Game_SuddenDeath)
     {

@@ -64,14 +64,18 @@ void CheckAbility()
 
 public void ResizeTimer(int client)
 {
-    if(FF2_GetRoundState() != 1) return;
-
-    if(CanResize[client])
+    if(FF2_GetRoundState() == 1 && IsClientInGame(client) && IsPlayerAlive(client))
     {
-        TryResize(FF2_GetBossIndex(client));
+        int boss = FF2_GetBossIndex(client);
+        if(boss != -1 && CanResize[client] && FF2_GetAbilityDuration(boss, 0) <= 0.0)
+        {
+            TryResize(boss);
+        }
     }
     else
+    {
         SDKUnhook(client, SDKHook_PreThinkPost, ResizeTimer);
+    }
 }
 
 
@@ -82,6 +86,38 @@ public Action FF2_OnAbility2(int boss, const char[] pluginName, const char[] abi
         PrintCenterText(GetClientOfUserId(FF2_GetBossUserId(boss)), "앉기: 천천히 신체 사이즈 줄이기");
     }
 }
+
+public Action:FF2_OnBossAbilityTime(boss, String:abilityName[], slot, &Float:abilityDuration, &Float:abilityCooldown)
+{
+    if(FF2_HasAbility(boss, this_plugin_name, "rage_spongebob") && slot == 0 && abilityDuration > 0.0)
+    {
+        int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+        float currentSize = GetEntPropFloat(client, Prop_Send, "m_flModelScale");
+        float niceSize;
+        float maxSize = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_spongebob", 2, 10.0);
+
+        float clientPos[3];
+        GetClientEyePosition(client, clientPos);
+
+        niceSize = currentSize + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_spongebob", 1, 0.1);
+        if(niceSize > maxSize)
+            niceSize = maxSize;
+
+        SetEntPropFloat(client, Prop_Send, "m_flModelScale", niceSize);
+        UpdateEntityHitbox(client, niceSize*5.8);
+
+        if(IsPlayerStuck(client, true))
+        {
+            int target = TR_GetEntityIndex();
+
+            if(IsValidClient(target) && IsPlayerAlive(target))
+            {
+                SDKHooks_TakeDamage(target, client, client, 10.0, DMG_SLASH, -1);
+            }
+        }
+    }
+}
+
 
 void TryResize(int boss)
 {
@@ -102,7 +138,7 @@ void TryResize(int boss)
             niceSize = minSize;
 
         SetEntPropFloat(client, Prop_Send, "m_flModelScale", niceSize);
-        UpdateEntityHitbox(client, niceSize*3.8);
+        UpdateEntityHitbox(client, niceSize*5.8);
     }
     else
     {
@@ -110,19 +146,19 @@ void TryResize(int boss)
         if(niceSize > maxSize)
             niceSize = maxSize;
 
-        if(IsSpotSafe(client, clientPos, niceSize) && !IsPlayerStuck(client))
+        if(IsSpotSafe(client, clientPos, niceSize) && !IsPlayerStuck(client, false))
         {
             SetEntPropFloat(client, Prop_Send, "m_flModelScale", niceSize);
-            UpdateEntityHitbox(client, niceSize*3.8);
+            UpdateEntityHitbox(client, niceSize*5.8);
 
-            if(IsPlayerStuck(client))
+            if(IsPlayerStuck(client, false))
             {
                 niceSize = currentSize - 0.3;
                 if(niceSize < minSize)
                     niceSize = minSize;
 
                 SetEntPropFloat(client, Prop_Send, "m_flModelScale", niceSize);
-                UpdateEntityHitbox(client, niceSize*3.8);
+                UpdateEntityHitbox(client, niceSize*5.8);
             }
         }
 
@@ -146,7 +182,7 @@ void TryResize(int boss)
     */
 }
 
-stock bool:IsPlayerStuck(iEntity)
+stock bool:IsPlayerStuck(iEntity, bool findTarget=false)
 {
     decl Float:vecMin[3], Float:vecMax[3], Float:vecOrigin[3];
 
@@ -154,8 +190,25 @@ stock bool:IsPlayerStuck(iEntity)
     GetEntPropVector(iEntity, Prop_Send, "m_vecMaxs", vecMax);
     GetEntPropVector(iEntity, Prop_Send, "m_vecOrigin", vecOrigin);
 
-    TR_TraceHullFilter(vecOrigin, vecOrigin, vecMin, vecMax, MASK_SOLID, TraceAnything, iEntity);
+    if(!findTarget)
+    {
+        TR_TraceHullFilter(vecOrigin, vecOrigin, vecMin, vecMax, MASK_SOLID, TraceAnything, iEntity);
+    }
+    else
+    {
+        TR_TraceHullFilter(vecOrigin, vecOrigin, vecMin, vecMax, MASK_SOLID, TraceRayPlayerOnly, iEntity);
+    }
     return (TR_DidHit());
+}
+
+public bool:TraceRayPlayerOnly(iEntity, iMask, any:iData)
+{
+    return (IsValidClient(iEntity) && IsValidClient(iData) && iEntity != iData);
+}
+
+stock bool:IsValidClient(iClient)
+{
+    return bool:(0 < iClient && iClient <= MaxClients && IsClientInGame(iClient));
 }
 
 stock void UpdateEntityHitbox(const int client, const float fScale)
