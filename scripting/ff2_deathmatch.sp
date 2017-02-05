@@ -1239,7 +1239,7 @@ stock void GiveLastManWeapon(int client)
     }
     case TFClass_Medic:
     {
-      SpawnWeapon(client, "tf_weapon_syringegun_medic", 36, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 17 ; 0.12 ; 97 ; 1.3");
+      SpawnWeapon(client, "tf_weapon_crossbow", 305, 0, 2, "2 ; 1.6 ; 17 ; 0.22 ; 4 ; 7.0 ; 6 ; 0.55 ; 97 ; 0.55");
       SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0");
       SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 2, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0 ; 26 ; 150 ; 107 ; 1.10");
       // 17: 적중 시 우버차지

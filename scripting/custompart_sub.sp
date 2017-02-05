@@ -6,6 +6,7 @@
 #include <tf2_stocks>
 #include <tf2attributes>
 #include <tf2items>
+#include <beskeleton>
 #include <freak_fortress_2>
 #include <custompart>
 #include <POTRY>
@@ -461,6 +462,10 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     else if(partIndex == 25)
     {
         TF2_AddCondition(client, TFCond_DisguisedAsDispenser, TFCondDuration_Infinite);
+    }
+    else if(partIndex == 26)
+    {
+        BeSkeletonKing_MakeSkeleton(client);
     }
 }
 
