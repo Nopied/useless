@@ -30,10 +30,15 @@ ArrayList MaterialsModelNum;
 int slotWeaponEntityRef[MAXPLAYERS+1][5];
 bool slotWeaponEntityRefChanged[MAXPLAYERS+1][5];
 
+#define	MAX_EDICT_BITS	12
+#define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
+
+int g_Target[MAX_EDICTS+1];
+bool CanHoming[MAX_EDICTS+1];
+
 public void OnPluginStart()
 {
     HookEvent("player_death", OnPlayerDeath);
-    // HookEvent("teamplay_round_start", OnRoundStart);
     HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
 
     MaterialsModelNum = new ArrayList(100);
@@ -42,6 +47,39 @@ public void OnPluginStart()
 public void OnMapStart()
 {
     CheckPartConfigFile();
+}
+
+public void OnGameFrame()
+{
+    if(FF2_GetRoundState() != 1) return;
+
+    for(int entity=1; entity<=MAX_EDICTS; entity++)
+    {
+        if(IsValidEntity(entity))
+        {
+            if(CanHoming[entity])
+            {
+                int target = g_Target[entity];
+                float proPos[3];
+                GetEntPropVector(entity, Prop_Send, "m_vecOrigin", proPos);
+                float entPos[3];
+                GetEntPropVector(target, Prop_Send, "m_vecOrigin", entPos);
+
+            	if(HomingProjectile_IsValidTarget(target, entity, GetEntProp(entity, Prop_Send, "m_iTeamNum")) && CanSeeTarget(proPos, entPos, target, GetEntProp(entity, Prop_Send, "m_iTeamNum")))
+            	{
+            		HomingProjectile_TurnToTarget(target, entity);
+            	}
+            }
+        }
+    }
+}
+
+public void OnEntityDestroyed(int entity)
+{
+    if(0 < entity) return;
+
+    g_Target[entity] = -1;
+    CanHoming[entity] = false;
 }
 
 public int TF2Items_OnGiveNamedItem_Post(int client, char[] classname, int itemDefinitionIndex, int itemLevel, int itemQuality, int entityIndex)
@@ -70,7 +108,6 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
             slotWeaponEntityRef[client][slot] = EntIndexToEntRef(weapon);
         }
     }
-
 
     return Plugin_Continue;
 
@@ -221,10 +258,33 @@ public void OnEntitySpawned(int entity)
 
                 FF2_SetClientDamage(owner, FF2_GetClientDamage(owner) + 20);
                 TeleportEntity(prop, pos, ang, velocity);
+
+                entity = prop;
             }
+        }
+
+        if(CP_IsPartActived(owner, 27))
+        {
+            g_Target[entity] = TurretThink(owner);
+            // Debug("g_Target[%i] = %i", entity, g_Target[entity]);
+            CanHoming[entity] = true;
         }
     }
 }
+/*
+public Action ProjectileThinkHook(int entity, int client)					// rtd 0.4 (going to use sdkhooks, more conservative than gameframe)
+{
+	// new target = GetEntProp(entity, Prop_Send, "m_nForceBone");
+
+	int target = g_Target[entity];
+	if(HomingProjectile_IsValidTarget(target, entity, GetEntProp(entity, Prop_Send, "m_iTeamNum")))
+	{
+		HomingProjectile_TurnToTarget(target, entity);
+	}
+
+	return Plugin_Continue;
+}
+*/
 
 public Action CP_OnActivedPartTime(int client, int partIndex, float &duration)
 {
@@ -1346,4 +1406,188 @@ stock bool IsBossTeam(int client)
 stock bool IsValidClient(int client)
 {
     return (0<client && client<=MaxClients && IsClientInGame(client));
+}
+
+int TurretThink(client)										// Shoulder cannon AI
+{
+	decl Float:turretpos[3], Float:playerpos[3], Float:anglevector[3], Float:targetvector[3], Float:angles[3], Float:vecrt[3]; // , Float:ang;
+	decl playerarray[MAXPLAYERS+1];
+	int playercount;
+
+	GetClientEyePosition(client, turretpos);
+
+    /*
+	GetClientEyeAngles(client, angles);
+
+	GetAngleVectors(angles, anglevector, vecrt, NULL_VECTOR);
+
+	turretpos[0] += anglevector[0]*-10.0 + vecrt[0]*15.0;											// set the turret's position to the client's shoulder
+	turretpos[1] += anglevector[1]*-10.0 + vecrt[1]*15.0;
+	turretpos[2] += anglevector[2]*-10.0 + vecrt[2]*15.0;
+
+	TR_TraceRayFilter(turretpos, angles, MASK_SOLID, RayType_Infinite, TraceRayDontHitSelf, client);
+	TR_GetEndPosition(targetvector);
+
+	NormalizeVector(anglevector, anglevector);
+    */
+
+	for(int player = 1; player <= MaxClients; player++)
+	{
+		if(player != client && IsClientInGame(player) && IsPlayerAlive(player))
+		{
+			GetClientEyePosition(player, playerpos);
+			// playerpos[2] -= 30.0;
+			if(GetVectorDistance(turretpos, playerpos) < 10000.0)
+			{
+				// MakeVectorFromPoints(turretpos, playerpos, targetvector);
+				// NormalizeVector(targetvector, targetvector);
+
+
+                playerarray[playercount] = player;
+                playercount++;
+
+				//ang = RadToDeg(ArcCosine(GetVectorDotProduct(targetvector, anglevector)));
+
+                /*
+				if(ang <= 20.0)
+				{
+					playerarray[playercount] = player;
+					playercount++;
+				}
+                */
+			}
+		}
+	}
+
+	if(playercount > 0)
+	{
+		return playerarray[GetRandomInt(0, playercount-1)];
+	}
+
+    return -1;
+}
+
+bool:HomingProjectile_IsValidTarget(client, iProjectile, iTeam)	// Test if projectile can "see" intended target still
+{
+	// if(client >= 1 && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client) && GetClientTeam(client) != iTeam)
+    if(client >= 1 && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client))
+	{
+		if(TF2_IsPlayerInCondition(client, TFCond_Cloaked)) return false;
+
+		if(TF2_IsPlayerInCondition(client, TFCond_Disguised) && GetEntProp(client, Prop_Send, "m_nDisguiseTeam") == iTeam)
+		{
+			return false;
+		}
+
+		new Float:flStart[3];
+		GetClientEyePosition(client, flStart);
+		new Float:flEnd[3];
+		GetEntPropVector(iProjectile, Prop_Send, "m_vecOrigin", flEnd);
+
+		new Handle:hTrace = TR_TraceRayFilterEx(flStart, flEnd, MASK_SOLID, RayType_EndPoint, TraceFilterHoming, iProjectile);
+		if(hTrace != INVALID_HANDLE)
+		{
+			if(TR_DidHit(hTrace))
+			{
+				CloseHandle(hTrace);
+				return false;
+			}
+
+			CloseHandle(hTrace);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+public bool:TraceFilterHoming(entity, contentsMask, any:iProjectile)	// we want to hit everything except clients and the missile itself
+{
+	if(entity == iProjectile || (entity >= 1 && entity <= MaxClients))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+HomingProjectile_TurnToTarget(client, iProjectile)					// update projectile position
+{
+	new Float:flTargetPos[3];
+	GetClientAbsOrigin(client, flTargetPos);
+	new Float:flRocketPos[3];
+	GetEntPropVector(iProjectile, Prop_Send, "m_vecOrigin", flRocketPos);
+
+	new Float:flRocketVel[3];
+	GetEntPropVector(iProjectile, Prop_Data, "m_vecAbsVelocity", flRocketVel);
+
+	flTargetPos[2] += 30 + Pow(GetVectorDistance(flTargetPos, flRocketPos), 2.0) / 10000;
+
+	new Float:flNewVec[3];
+	SubtractVectors(flTargetPos, flRocketPos, flNewVec);
+	NormalizeVector(flNewVec, flNewVec);
+
+	new Float:flAng[3];
+	GetVectorAngles(flNewVec, flAng);
+
+	ScaleVector(flNewVec, 350.0);
+
+	TeleportEntity(iProjectile, NULL_VECTOR, flAng, flNewVec);
+}
+
+bool:CanSeeTarget(Float:startpos[3], Float:targetpos[3], target, bossteam)		// Tests to see if vec1 > vec2 can "see" target
+{
+	TR_TraceRayFilter(startpos, targetpos, MASK_SOLID, RayType_EndPoint, TraceRayFilterClients, target);
+
+	if(TR_GetEntityIndex() == target)
+	{
+		if(TF2_GetPlayerClass(target) == TFClass_Spy)							// if they are a spy, do extra tests (coolrocket stuff?)
+		{
+			if(TF2_IsPlayerInCondition(target, TFCond_Cloaked))				// if they are cloaked
+			{
+				if(TF2_IsPlayerInCondition(target, TFCond_CloakFlicker)		// check if they are partially visible
+					|| TF2_IsPlayerInCondition(target, TFCond_OnFire)
+					|| TF2_IsPlayerInCondition(target, TFCond_Jarated)
+					|| TF2_IsPlayerInCondition(target, TFCond_Milked)
+					|| TF2_IsPlayerInCondition(target, TFCond_Bleeding))
+				{
+					return true;
+				}
+
+				return false;
+			}
+			if(TF2_IsPlayerInCondition(target, TFCond_Disguised) && GetEntProp(target, Prop_Send, "m_nDisguiseTeam") == bossteam)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+public bool:TraceRayDontHitSelf(entity, mask, any:data)
+{
+	return entity != data;
+}
+
+public bool:TraceRayFilterClients(entity, mask, any:data)
+{
+	if(entity > 0 && entity <=MaxClients)					// only hit the client we're aiming at
+	{
+		if(entity == data)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
