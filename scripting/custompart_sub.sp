@@ -60,15 +60,25 @@ public void OnGameFrame()
             if(CanHoming[entity])
             {
                 int target = g_Target[entity];
-                float proPos[3];
-                GetEntPropVector(entity, Prop_Send, "m_vecOrigin", proPos);
-                float entPos[3];
-                GetEntPropVector(target, Prop_Send, "m_vecOrigin", entPos);
 
-            	if(HomingProjectile_IsValidTarget(target, entity, GetEntProp(entity, Prop_Send, "m_iTeamNum")) && CanSeeTarget(proPos, entPos, target, GetEntProp(entity, Prop_Send, "m_iTeamNum")))
-            	{
-            		HomingProjectile_TurnToTarget(target, entity);
-            	}
+                if(IsValidClient(target))
+                {
+                    /*
+                    float proPos[3];
+                    GetEntPropVector(entity, Prop_Send, "m_vecOrigin", proPos);
+                    float entPos[3];
+                    GetEntPropVector(target, Prop_Send, "m_vecOrigin", entPos);
+                    */
+
+                    HomingProjectile_TurnToTarget(target, entity);
+
+                    /*
+                	if(HomingProjectile_IsValidTarget(target, entity, GetEntProp(entity, Prop_Send, "m_iTeamNum")))
+                	{
+                		HomingProjectile_TurnToTarget(target, entity);
+                	}
+                    */
+                }
             }
         }
     }
@@ -76,7 +86,7 @@ public void OnGameFrame()
 
 public void OnEntityDestroyed(int entity)
 {
-    if(0 < entity) return;
+    if(0 > entity) return;
 
     g_Target[entity] = -1;
     CanHoming[entity] = false;
@@ -1408,53 +1418,24 @@ stock bool IsValidClient(int client)
     return (0<client && client<=MaxClients && IsClientInGame(client));
 }
 
-int TurretThink(client)										// Shoulder cannon AI
+int TurretThink(client)
 {
-	decl Float:turretpos[3], Float:playerpos[3], Float:anglevector[3], Float:targetvector[3], Float:angles[3], Float:vecrt[3]; // , Float:ang;
+	decl Float:turretpos[3], Float:playerpos[3];
 	decl playerarray[MAXPLAYERS+1];
 	int playercount;
 
 	GetClientEyePosition(client, turretpos);
-
-    /*
-	GetClientEyeAngles(client, angles);
-
-	GetAngleVectors(angles, anglevector, vecrt, NULL_VECTOR);
-
-	turretpos[0] += anglevector[0]*-10.0 + vecrt[0]*15.0;											// set the turret's position to the client's shoulder
-	turretpos[1] += anglevector[1]*-10.0 + vecrt[1]*15.0;
-	turretpos[2] += anglevector[2]*-10.0 + vecrt[2]*15.0;
-
-	TR_TraceRayFilter(turretpos, angles, MASK_SOLID, RayType_Infinite, TraceRayDontHitSelf, client);
-	TR_GetEndPosition(targetvector);
-
-	NormalizeVector(anglevector, anglevector);
-    */
 
 	for(int player = 1; player <= MaxClients; player++)
 	{
 		if(player != client && IsClientInGame(player) && IsPlayerAlive(player))
 		{
 			GetClientEyePosition(player, playerpos);
-			// playerpos[2] -= 30.0;
+
 			if(GetVectorDistance(turretpos, playerpos) < 10000.0)
 			{
-				// MakeVectorFromPoints(turretpos, playerpos, targetvector);
-				// NormalizeVector(targetvector, targetvector);
-
-
                 playerarray[playercount] = player;
                 playercount++;
-
-				//ang = RadToDeg(ArcCosine(GetVectorDotProduct(targetvector, anglevector)));
-
-                /*
-				if(ang <= 20.0)
-				{
-					playerarray[playercount] = player;
-					playercount++;
-				}
-                */
 			}
 		}
 	}
