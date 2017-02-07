@@ -23,7 +23,7 @@
 #tryinclude <freak_fortress_2_extras>
 #include <ff2_dynamic_defaults>
 #undef REQUIRE_PLUGIN
-#tryinclude <revivemarkers>
+// #tryinclude <revivemarkers>
 #tryinclude <goomba>
 #define REQUIRE_PLUGIN
 
@@ -156,13 +156,13 @@ new Handle:counterHUD;
 new Handle:StatHUDS;
 
 // Integration Mode (Wolvan's revive markers plugin)
-#if defined _revivemarkers_included_
+//#if defined _revivemarkers_included_
 // new bool:IntegrationMode = false;
 // new Handle:cvarHaleVisibility, cvalHaleVisibility;
 // new Handle:cvarTeamRestrict, cvalTeamRestrict;
 //new Handle:cvarVisibility, cvalVisibility;
 // new Handle:cvarNoRestrict, cvalNoRestrict;
-#endif
+//#endif
 
 new String:BOuttro[PLATFORM_MAX_PATH];
 
@@ -577,12 +577,14 @@ public void Event_TeamplayRoundStart(Event event, const char[] name, bool dontBr
 
 public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 {
+	/*
 	#if defined _revivemarkers_included_
 	MarkNativeAsOptional("SpawnRMarker");
 	MarkNativeAsOptional("DespawnRMarker");
 	MarkNativeAsOptional("SetReviveCount");
 	MarkNativeAsOptional("setDecayTime");
 	#endif
+	*/
 }
 /*
 public OnLibraryAdded(const String: name[])
@@ -615,7 +617,7 @@ public Blitz_AddHooks()
 	HookEvent("teamplay_broadcast_audio", OnAnnounce, EventHookMode_Pre);
 	HookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
 	HookEvent("player_changeclass", OnChangeClass);
-	HookEvent("object_deflected", OnDeflectObject);
+	// HookEvent("object_deflected", OnDeflectObject);
 	AddCommandListener(BlitzHelp, "ff2_classinfo");
 	AddCommandListener(BlitzHelp, "ff2classinfo");
 	AddCommandListener(BlitzHelp, "hale_classinfo");
@@ -638,7 +640,7 @@ public Blitz_RemoveHooks()
 	UnhookEvent("teamplay_broadcast_audio", OnAnnounce, EventHookMode_Pre);
 	UnhookEvent("player_death", OnPlayerDeath, EventHookMode_Pre);
 	UnhookEvent("player_changeclass", OnChangeClass);
-	UnhookEvent("object_deflected", OnDeflectObject);
+	// UnhookEvent("object_deflected", OnDeflectObject);
 	RemoveCommandListener(BlitzHelp, "ff2_classinfo");
 	RemoveCommandListener(BlitzHelp, "ff2classinfo");
 	RemoveCommandListener(BlitzHelp, "hale_classinfo");
@@ -648,7 +650,7 @@ public Blitz_RemoveHooks()
 
 	hooksEnabled = false;
 }
-
+/*
 public Action:OnDeflectObject(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	new client = GetClientOfUserId(GetEventInt(event, "userid"));
@@ -673,8 +675,9 @@ public Action:OnDeflectObject(Handle:event, const String:name[], bool:dontBroadc
 		}
 		deflected[client]++;
 	}
-
 }
+*/
+
 public Action:OnRoundStart(Handle timer)
 {
 	Blitzkrieg_HookAbilities();
@@ -915,11 +918,13 @@ public Blitzkrieg_HookAbilities()
 						{
 							ReadCenterText(bossIdx, "blitzkrieg_phrases", 53, statHUD[client]);
 						}
+						/*
 						ReadCenterText(bossIdx, "blitzkrieg_phrases", arg+54, BHS_NoMoreRevives[client]);
 						if(!BHS_NoMoreRevives[client])
 						{
 							ReadCenterText(bossIdx, "blitzkrieg_phrases", 54, BHS_NoMoreRevives[client]);
 						}
+						*/
 					}
 				}
 
@@ -3329,7 +3334,7 @@ stock void RemoveReanimator(int client)
 	Blitz_MoveReviveMarkerAt[client] = FAR_FUTURE;
 	reviveMarker[client] = INVALID_ENTREF;
 }
-
+/*
 stock void DropReviveMarker(int client)
 {
 	switch(MaxClientRevives)
@@ -3362,6 +3367,7 @@ stock void DropReviveMarker(int client)
 		}
 	}
 }
+*/
 
 stock bool IsInstanceOf(int entity, const char[] desiredClassname)
 {
@@ -3940,6 +3946,8 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 
 	int iWeapon = TF2Items_GiveNamedItem(client, hItem);
 	CloseHandle(hItem);
+
+	EquipPlayerWeapon(client, iWeapon);
 
 	SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", iWeapon);
 	return iWeapon;

@@ -307,10 +307,12 @@ public void OnRollermineThink(int iEnt, int client)
 				MakeVectorFromPoints(flEntPos, flClientPos, flDirection);
 				// flDirection[2] = 0.0;
 
+				/*
 				if(flDirection[2] < 0.0)
 					flDirection[2] = 0.0;
 				else
 					flDirection[2] += 20.0;
+				*/
 
 				NormalizeVector(flDirection, flDirection);
 
