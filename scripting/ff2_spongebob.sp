@@ -112,7 +112,24 @@ public Action:FF2_OnBossAbilityTime(boss, String:abilityName[], slot, &Float:abi
 
             if(IsValidClient(target) && IsPlayerAlive(target))
             {
-                SDKHooks_TakeDamage(target, client, client, 10.0, DMG_SLASH, -1);
+                SDKHooks_TakeDamage(target, client, client, 100.0, DMG_SLASH, -1);
+            }
+        }
+
+        float ratius = niceSize * 12.0;
+        float targetPos[3];
+        clientPos[2] += niceSize * 12.0;
+
+        for(int target=1; target<=MaxClients; target++)
+        {
+            if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(target) != GetClientTeam(client))
+            {
+                GetClientEyePosition(target, targetPos);
+
+                if(GetVectorDistance(clientPos, targetPos) <= ratius)
+                {
+                    SDKHooks_TakeDamage(target, client, client, 20.0, DMG_SLASH, -1);
+                }
             }
         }
     }

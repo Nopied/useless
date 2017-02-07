@@ -3788,7 +3788,7 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 	TF2Items_SetItemIndex(hItem, index);
 	TF2Items_SetLevel(hItem, difficulty);
 	TF2Items_SetQuality(hItem, 5);
-
+	/*
 	switch(difficulty)
 	{
 		case 1: // Easy
@@ -3861,9 +3861,13 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 		case 9001: RNGDamage = 100.01, RNGSpeed = 100.01; // OVER 9000
 		default: RNGDamage = (float(difficulty))/GetRandomFloat(2.0,6.0), RNGSpeed = (float(difficulty))/GetRandomFloat(2.0,6.0); // Pure RNG
 		}
+		*/
+
+	RNGDamage = GetRandomFloat(1.5,2.5), RNGSpeed = GetRandomFloat(2.0,6.0);
 
 	if(!isBarrage)
 	{
+		/*
 		switch(difficulty) // Spread
 		{
 			case 6: RNGSpread = GetRandomFloat(1.0, 5.0); // Insane
@@ -3872,9 +3876,12 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 			case 9: RNGSpread = GetRandomFloat(20.0, 30.0); // Total Blitzkrieg
 			case 420, 777, 999, 1337, 9001: RNGSpread = GetRandomFloat(30.0, 60.0); // Novelty Levels
 		}
+		*/
+		RNGSpread = GetRandomFloat(1.0, 5.0);
 	}
 	else
 	{
+		/*
 		switch(difficulty) // Spread
 		{
 			case 1,2,3,4: RNGSpread = GetRandomFloat(10.0, 20.0); // Easy - Difficult
@@ -3882,9 +3889,11 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 			case 9: RNGSpread = GetRandomFloat(30.0, 50.0); // Total Blitzkrieg
 			case 420, 777, 999, 1337, 9001: RNGSpread = GetRandomFloat(30.0, 60.0); // Novelty Levels
 		}
+		*/
+		RNGSpread = GetRandomFloat(1.0, 5.0);
 	}
 
-	TF2Items_SetAttribute(hItem, 0, 97, 0.0); // Reload Speed
+	TF2Items_SetAttribute(hItem, 0, 97, 0.02); // Reload Speed
 	TF2Items_SetAttribute(hItem, 1, isBarrage && RNGesus ? 521 : 542, 1.0); // Mini-Projectiles
 	TF2Items_SetAttribute(hItem, 2, 413, 1.0); // Press & Hold to reload
 	TF2Items_SetAttribute(hItem, 3, 2025, 3.0); //Is Pro Killstreak
@@ -3900,6 +3909,7 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 	if (BMO_ActiveThisRound)
 	{
 		float radius = 1.0;
+		/*
 		switch(DifficultyLevel)
 		{
 			case 420: radius = 5.2;
@@ -3909,6 +3919,8 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 			case 9001: radius = 100.01;
 			default: radius = (DifficultyLevel == 1 ? 0.5 : ((float(DifficultyLevel)-1)/float(DifficultyLevel)));
 		}
+		*/
+		radius = 2.5;
 		if (BMO_Flags & BMO_FLAG_STACK_RADIUS)
 		{
 			if (index == 127)
@@ -3928,12 +3940,6 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 
 	int iWeapon = TF2Items_GiveNamedItem(client, hItem);
 	CloseHandle(hItem);
-
-	#if defined _FF2_Extras_included
-	PrepareWeapon(client, iWeapon);
-	#else
-	EquipPlayerWeapon(client, iWeapon);
-	#endif
 
 	SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", iWeapon);
 	return iWeapon;

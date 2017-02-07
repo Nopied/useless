@@ -10,6 +10,7 @@
 #include <freak_fortress_2>
 #include <custompart>
 #include <POTRY>
+#include <InspectControl>
 
 #define PLUGIN_NAME "CustomPart Subplugin"
 #define PLUGIN_AUTHOR "Nopied◎"
@@ -47,6 +48,15 @@ public void OnPluginStart()
 public void OnMapStart()
 {
     CheckPartConfigFile();
+}
+
+public Action IC_OnGetInspectActivity(int weapon, int stage, int originalactivity, int &newactivity)
+{
+     PrintToChatAll("weapon %i stage %i originalactivity %i", weapon, stage, originalactivity);
+
+     // newactivity = 1700;
+
+     return Plugin_Continue;
 }
 
 public void OnGameFrame()
@@ -444,7 +454,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     if(partIndex == 10) // "파츠 멀티 슬릇"
     {
-        CP_SetClientMaxSlot(client, CP_GetClientMaxSlot(client) + 2);
+        CP_SetClientMaxSlot(client, CP_GetClientMaxSlot(client) + 5);
     }
 
     else if(partIndex == 2) // "체력 강화제"
@@ -592,7 +602,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 
         if(partIndex == 10)
         {
-            CP_SetClientMaxSlot(client, CP_GetClientMaxSlot(client) - 2);
+            CP_SetClientMaxSlot(client, CP_GetClientMaxSlot(client) - 5);
         }
 
         else if(partIndex == 2) // "체력 강화제"
