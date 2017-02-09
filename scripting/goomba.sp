@@ -209,10 +209,6 @@ public GoombaStomp(Handle:hPlugin, numParams)
     {
         return false;
     }
-    if(numParams < 2 || numParams > 5)
-    {
-        return false;
-    }
 
     // Retrieve the parameters
     new client = GetNativeCell(1);
@@ -221,8 +217,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     new Float:damageMultiplier = GetConVarFloat(g_Cvar_DamageLifeMultiplier);
     new Float:damageBonus = GetConVarFloat(g_Cvar_DamageAdd);
     new Float:jumpPower = GetConVarFloat(g_Cvar_JumpPower);
-    new combo = GetNativeCellRef(6);
-
+    /*
     switch(numParams)
     {
         case 3:
@@ -232,6 +227,11 @@ public GoombaStomp(Handle:hPlugin, numParams)
         case 5:
             jumpPower = GetNativeCellRef(5);
     }
+    */
+    damageMultiplier = GetNativeCellRef(3);
+    damageBonus = GetNativeCellRef(4);
+    jumpPower = GetNativeCellRef(5);
+    new combo = GetNativeCell(6);
 
     new Float:modifiedDamageMultiplier = damageMultiplier;
     new Float:modifiedDamageBonus = damageBonus;
@@ -247,7 +247,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     Call_PushFloatRef(modifiedDamageMultiplier);
     Call_PushFloatRef(modifiedDamageBonus);
     Call_PushFloatRef(modifiedJumpPower);
-    Call_PushCellRef(combo);
+    Call_PushCellRef(modifiedCombo);
     Call_Finish(stompForwardResult);
 
     if(stompForwardResult == Plugin_Changed)

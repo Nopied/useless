@@ -5894,7 +5894,7 @@ public Action:BossTimer(Handle:timer)
 			BossCharge[boss][0]=0.0;
 		}
 
-		if(GetGameTime() >= AFKTime && !IsBossDoing[client])
+		if(!IsFakeClient(client) && GetGameTime() >= AFKTime && !IsBossDoing[client])
 		{
 			KickClientEx(client, "보스인 상태에서 잠수가 감지되어 퇴장됩니다..");
 			continue;

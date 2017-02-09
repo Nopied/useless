@@ -57,7 +57,7 @@ forward OnStompPost(attacker, victim, Float:damageMultiplier, Float:damageBonus,
  * @param    jumpPower          Jump power of the rebound (default: goomba_rebound_power)
  * @return                      True if the stomp was successful, false otherwise.
  */
-native bool:GoombaStomp(attacker, victim, Float:damageMultiplier, Float:damageBonus, Float:jumpPower, int combo);
+native bool:GoombaStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBonus, &Float:jumpPower, int combo);
 
 /**
  * @param attacker          Player doing the stomp
