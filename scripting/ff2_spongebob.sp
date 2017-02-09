@@ -118,7 +118,6 @@ public Action:FF2_OnBossAbilityTime(boss, String:abilityName[], slot, &Float:abi
 
         float ratius = niceSize * 12.0;
         float targetPos[3];
-        clientPos[2] += niceSize * 12.0;
 
         for(int target=1; target<=MaxClients; target++)
         {

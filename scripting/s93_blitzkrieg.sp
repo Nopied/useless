@@ -3869,7 +3869,7 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 		}
 		*/
 
-	RNGDamage = GetRandomFloat(1.5,2.5), RNGSpeed = GetRandomFloat(2.0,6.0);
+	RNGDamage = GetRandomFloat(1.5,2.5), RNGSpeed = GetRandomFloat(0.5, 0.8);
 
 	if(!isBarrage)
 	{

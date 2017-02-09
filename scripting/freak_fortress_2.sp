@@ -143,7 +143,7 @@ new bool:NoticedAbilityTimeEnd[MAXPLAYERS+1][8];
 new bool:DEVmode=false;
 
 new timeleft;
-new AFKTime;
+new Float:AFKTime;
 new bool:IsBossDoing[MAXPLAYERS+1];
 
 new Handle:cvarVersion;
@@ -4186,10 +4186,23 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}
 		case 224:  //L'etranger
 		{
-			new Handle:itemOverride=PrepareItemHandle(item, _, _, "85 ; 0.5 ; 157 ; 1.0 ; 253 ; 1.0");
+			new Handle:itemOverride=PrepareItemHandle(item, _, _, "1 ; 0.8 ; 166 ; -8 ; 85 ; 0.5 ; 157 ; 1.0 ; 253 ; 1.0");
 				//85: +50% time needed to regen cloak
 				//157: +1 second needed to fully disguise
 				//253: +1 second needed to fully cloak
+
+				/*
+				case 224:  // 이방인
+				{
+					new Handle:itemOverride=PrepareItemHandle(item, _, _, "1 ; 0.8 ; 166 ; 8 ; 83 ; 0.6");
+						//179: Crit instead of mini-critting
+					if(itemOverride!=INVALID_HANDLE)
+					{
+						item=itemOverride;
+						return Plugin_Changed;
+					}
+				}
+				*/
 			if(itemOverride!=INVALID_HANDLE)
 			{
 				item=itemOverride;
@@ -4198,7 +4211,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 		}
 		case 239, 1084, 1100:  //GRU, Festive GRU, Bread Bite
 		{
-			new Handle:itemOverride=PrepareItemHandle(item, _, _, "1 ; 0.5 ; 107 ; 1.5 ; 128 ; 1 ; 191 ; -7 ; 772 ; 1.5", true);
+			new Handle:itemOverride=PrepareItemHandle(item, _, _, "1 ; 0.5 ; 107 ; 1.5 ; 128 ; 1 ; 772 ; 1.5", true);
 				//1: -50% damage
 				//107: +50% move speed
 				//128: Only when weapon is active
@@ -4371,11 +4384,30 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 				return Plugin_Changed;
 			}
 		}
+		case 460:  // 집행자
+		{
+			new Handle:itemOverride=PrepareItemHandle(item, _, _, "2 ; 1.3 ; 166 ; -20");
+				//179: Crit instead of mini-critting
+			if(itemOverride!=INVALID_HANDLE)
+			{
+				item=itemOverride;
+				return Plugin_Changed;
+			}
+		}
 	}
 
-	if(TF2_GetPlayerClass(client)==TFClass_Spy && (!StrContains(classname, "tf_weapon_invis", false)) && iItemDefinitionIndex == 59)
+	if(TF2_GetPlayerClass(client)==TFClass_Spy && (!StrContains(classname, "tf_weapon_invis", false)))
 	{
-		new Handle:itemOverride = PrepareItemHandle(item, _, _, "729 ; 0.1");
+		new Handle:itemOverride;
+
+		if(iItemDefinitionIndex == 59)
+		{
+			itemOverride = PrepareItemHandle(item, _, _, "729 ; 0.1 ; 50 ; 1.5");
+		}
+		else
+		{
+			itemOverride = PrepareItemHandle(item, _, _, "50 ; 0.8");
+		}
 
 		if(itemOverride!=INVALID_HANDLE)
 		{
@@ -5865,10 +5897,11 @@ public Action:BossTimer(Handle:timer)
 		if(GetGameTime() >= AFKTime && !IsBossDoing[client])
 		{
 			KickClientEx(client, "보스인 상태에서 잠수가 감지되어 퇴장됩니다..");
+			continue;
 		}
 
 		//
-		if(!IsBossYou[client])
+		if(!IsBossYou[client] && IsBoss(client))
 		{
 			if(BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1) > BossHealthMax[boss])
 				SetEntPropFloat(client, Prop_Data, "m_flMaxspeed", BossSpeed[Special[boss]]+0.7);
@@ -7351,19 +7384,44 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						{
 							if(TF2_IsPlayerInCondition(attacker, TFCond_CritCola) || TF2_IsPlayerInCondition(attacker, TFCond_Buffed))
 							{
-								damage*=2.2;
+								damage*=3.0;
 							}
 							else
 							{
-								if(index!=230 || BossCharge[boss][0]>90.0)  //Sydney Sleeper
+								new Float:clientPos[3];
+								new Float:attackerPos[3];
+								GetClientEyePosition(client, clientPos);
+								GetClientEyePosition(attacker, attackerPos);
+
+								if(GetVectorDistance(clientPos, attackerPos) > 700.0)
 								{
-									damage*=damagecustom & TF_CUSTOM_HEADSHOT ? 3.0 : 2.5;
+									damagetype|=DMG_PREVENT_PHYSICS_FORCE;
+								}
+
+								if(index!=230)  //Sydney Sleeper
+								{
+									damage *= damagecustom == TF_CUSTOM_HEADSHOT ? 3.5 : 1.8;
 								}
 								else
 								{
-									damage*=damagecustom & TF_CUSTOM_HEADSHOT ? 3.0 : 2.5;
+									if(damagecustom & TF_CUSTOM_HEADSHOT)
+									{
+										BossCharge[boss][0] -= 8.0;
+
+										if(BossCharge[boss][0] < 0.0)
+										{
+											BossCharge[boss][0] = 0.0;
+										}
+									}
+
+									damage*=damagecustom == TF_CUSTOM_HEADSHOT ? 3.5 : 1.8;
 								}
 							}
+							return Plugin_Changed;
+						}
+						else
+						{
+							damage *= damagecustom == TF_CUSTOM_HEADSHOT ? 1.5 : 1.0;
 							return Plugin_Changed;
 						}
 					}
@@ -7374,7 +7432,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					new String:inflictorClassname[64];
 					GetEntityClassname(inflictor, inflictorClassname, sizeof(inflictorClassname));
 
-					if(!StrContains(inflictorClassname, "tf_projectile_stun_ball"))
+					if(!StrContains(inflictorClassname, "tf_projectile_stun_ball", false))
 					{
 						new Handle:datapack = CreateDataPack();
 						// attacker, entindex, victim
@@ -7575,8 +7633,8 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							PrintHintText(attacker, "%t", index==307 ? "Ullapool" : "Market Gardener");  //You just market-gardened the boss!
 							PrintHintText(client, "%t", index==307 ? "Ullapooled" : "Market Gardened");  //You just got market-gardened!
 
-							CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, index==307 ? "울라풀 막대 공격" : bIsGroundMarket ? "지면 마켓가든" : "마켓가든", bossName, RoundFloat(damage*(255.0/85.0)));
 
+							CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, index==307 ? "울라풀 막대 공격" : bIsGroundMarket ? "지면 마켓가든" : "마켓가든", bossName, RoundFloat(damage*(255.0/85.0)), Marketed[attacker]);
 							EmitSoundToClient(attacker, "player/doubledonk.wav", _, _, _, _, 0.6, _, _, position, _, false);
 							EmitSoundToClient(client, "player/doubledonk.wav", _, _, _, _, 0.6, _, _, position, _, false);
 
@@ -7814,7 +7872,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					KvRewind(BossKV[Special[boss]]);
 					KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-					CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, bIsFacestab ? "페이스스탭" : "백스탭", bossName, RoundFloat(damage*(255.0/85.0)));
+					CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, bIsFacestab ? "페이스스탭" : "백스탭", bossName, RoundFloat(damage*(255.0/85.0)), Stabbed[attacker]);
 					if(slienced) CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_slienced", RoundFloat(BossAbilityCooldown[boss][0]));
 					return Plugin_Changed;
 				}
@@ -7957,7 +8015,7 @@ public Action:TF2_OnPlayerTeleport(client, teleporter, &bool:result)
 	return Plugin_Continue;
 }
 
-public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBonus, &Float:JumpPower)
+public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBonus, &Float:JumpPower, &combo)
 {
 	if(!Enabled || !IsValidClient(attacker) || !IsValidClient(victim) || attacker==victim)
 	{
@@ -7998,7 +8056,7 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 			SetEventInt(hStreak, "attacker", GetClientUserId(attacker));
 			SetEventInt(hStreak, "userid", GetClientUserId(victim));
 			SetEventInt(hStreak, "death_flags", TF_DEATHFLAG_DEADRINGER);
-			SetEventInt(hStreak, "kill_streak_wep", ++GoombaCount[attacker]);
+			SetEventInt(hStreak, "kill_streak_wep", combo);
 			FireEvent(hStreak);
 		}
 
@@ -8011,13 +8069,13 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 		KvRewind(BossKV[Special[GetBossIndex(victim)]]);
 		KvGetString(BossKV[Special[GetBossIndex(victim)]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-		CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "굼바 스톰프", bossName, !TF2_IsPlayerInCondition(attacker, TFCond_Buffed) ? 180 : 239); // 굼바 데미지는 굼바 플러그인에서 고정데미지로 정함.
+		CPrintToChatAll("{olive}[FF2]{default} %t", "Someone_do", playerName, "굼바 스톰프", bossName, !TF2_IsPlayerInCondition(attacker, TFCond_Buffed) ? 180*combo : 243*combo, combo); // 굼바 데미지는 굼바 플러그인에서 고정데미지로 정함.
 		return Plugin_Changed;
 	}
 	return Plugin_Continue;
 }
 
-public OnStompPost(attacker, victim, Float:damageMultiplier, Float:damageBonus, Float:jumpPower)
+public OnStompPost(attacker, victim, Float:damageMultiplier, Float:damageBonus, Float:jumpPower, combo)
 {
 	if(Enabled && IsBoss(victim))
 	{

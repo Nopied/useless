@@ -17,6 +17,7 @@ new Handle:g_Cvar_BonkedImun = INVALID_HANDLE;
 new Handle:g_Cvar_FriendlyFire = INVALID_HANDLE;
 
 new Goomba_SingleStomp[MAXPLAYERS+1] = 0;
+new Goomba_Combo[MAXPLAYERS+1];
 
 #define PL_NAME "Goomba Stomp TF2"
 #define PL_DESC "Goomba Stomp TF2 plugin"
@@ -53,6 +54,7 @@ public OnPluginStart()
 
     AutoExecConfig(true, "goomba.tf");
 
+    HookEvent("player_spawn", OnPlayerSpawn);
     HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
 
     // Support for plugin late loading
@@ -63,6 +65,13 @@ public OnPluginStart()
             OnClientPutInServer(client);
         }
     }
+}
+
+public Action:OnPlayerSpawn(Handle:event, const String:name[], bool:dontBroadcast)
+{
+    new client = GetClientOfUserId(GetEventInt(event, "userid"));
+
+    Goomba_Combo[client] = 1;
 }
 
 public OnConfigsExecuted()
@@ -119,13 +128,14 @@ public Action:OnStartTouch(client, other)
 
                             if(immunityResult == GOOMBA_IMMUNFLAG_NONE)
                             {
-                                if(GoombaStomp(client, other))
+                                if(GoombaStomp(client, other, 0.0, 0.0, 0.0, Goomba_Combo[client]))
                                 {
+                                    Goomba_Combo[client]++;
                                     PlayStompReboundSound(client);
                                     EmitStompParticles(other);
                                 }
                                 Goomba_SingleStomp[client] = 1;
-                                CreateTimer(0.5, SinglStompTimer, client);
+                                CreateTimer(0.1, SinglStompTimer, client);
                             }
                             else if(immunityResult & GOOMBA_IMMUNFLAG_VICTIM)
                             {

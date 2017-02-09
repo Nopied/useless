@@ -97,8 +97,8 @@ public OnPluginStart()
 
     HookEventEx("post_inventory_application", Event_LockerTouch);
 
-    g_hForwardOnStomp = CreateGlobalForward("OnStomp", ET_Event, Param_Cell, Param_Cell, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef);
-    g_hForwardOnStompPost = CreateGlobalForward("OnStompPost", ET_Ignore, Param_Cell, Param_Cell, Param_Float, Param_Float, Param_Float);
+    g_hForwardOnStomp = CreateGlobalForward("OnStomp", ET_Event, Param_Cell, Param_Cell, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef, Param_CellByRef);
+    g_hForwardOnStompPost = CreateGlobalForward("OnStompPost", ET_Ignore, Param_Cell, Param_Cell, Param_Float, Param_Float, Param_Float, Param_Cell);
 
     // sv_tags stuff
     sv_tags = FindConVar("sv_tags");
@@ -221,6 +221,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     new Float:damageMultiplier = GetConVarFloat(g_Cvar_DamageLifeMultiplier);
     new Float:damageBonus = GetConVarFloat(g_Cvar_DamageAdd);
     new Float:jumpPower = GetConVarFloat(g_Cvar_JumpPower);
+    new combo = GetNativeCellRef(6);
 
     switch(numParams)
     {
@@ -235,6 +236,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     new Float:modifiedDamageMultiplier = damageMultiplier;
     new Float:modifiedDamageBonus = damageBonus;
     new Float:modifiedJumpPower = jumpPower;
+    new modifiedCombo = combo;
 
     // Launch forward
     decl Action:stompForwardResult;
@@ -245,6 +247,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     Call_PushFloatRef(modifiedDamageMultiplier);
     Call_PushFloatRef(modifiedDamageBonus);
     Call_PushFloatRef(modifiedJumpPower);
+    Call_PushCellRef(combo);
     Call_Finish(stompForwardResult);
 
     if(stompForwardResult == Plugin_Changed)
@@ -252,6 +255,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
         damageMultiplier = modifiedDamageMultiplier;
         damageBonus = modifiedDamageBonus;
         jumpPower = modifiedJumpPower;
+        combo = modifiedCombo;
     }
     else if(stompForwardResult == Plugin_Handled)
     {
@@ -278,7 +282,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     SDKHooks_TakeDamage(victim,
                         client,
                         client,
-                        180.0, // 675.0
+                        180.0*float(combo), // 675.0
                         DMG_PREVENT_PHYSICS_FORCE | DMG_CRUSH | DMG_ALWAYSGIB);
 
     Goomba_Fakekill[victim] = 0;
@@ -290,6 +294,7 @@ public GoombaStomp(Handle:hPlugin, numParams)
     Call_PushFloat(damageMultiplier);
     Call_PushFloat(damageBonus);
     Call_PushFloat(jumpPower);
+    Call_PushCell(combo);
     Call_Finish();
 
     return true;

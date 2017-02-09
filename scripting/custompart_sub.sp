@@ -521,6 +521,9 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         AddToSlotWeapon(client, 0, 32, 1.0);
         AddToSlotWeapon(client, 0, 356, 1.0);
 
+        AddToSlotWeapon(client, 0, 162, 2.0);
+        AddToSlotWeapon(client, 0, 164, 2.0);
+
         AddToSomeWeapon(client, 54, -0.3);
     }
     else if(partIndex == 21)
