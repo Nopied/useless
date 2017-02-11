@@ -550,6 +550,12 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     {
         BeSkeletonKing_MakeSkeleton(client);
     }
+    else if(partIndex == 28)
+    {
+        int boss = FF2_GetBossIndex(client);
+        if(boss != -1)
+            FF2_SetBossMaxRageCharge(boss, FF2_GetBossMaxRageCharge(boss) + 100.0);
+    }
 }
 
 public void CP_OnActivedPart(int client, int partIndex)

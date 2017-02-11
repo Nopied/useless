@@ -469,6 +469,10 @@ native FF2_GetFF2Userflags(int client);
 
 native FF2_SetFF2Userflags(int client, int flags);
 
+native Float:FF2_GetBossMaxRageCharge(int boss);
+
+native FF2_SetBossMaxRageCharge(int boss, float maxCharge);
+
 /**
  * FF2_ONABILITY IS KNOWN TO BE BUGGED AND WILL NOT BE FIXED TO PRESERVE BACKWARDS COMPATABILITY.  DO NOT USE IT.
  * Called when a Boss uses an ability (Rage, jump, teleport, etc)

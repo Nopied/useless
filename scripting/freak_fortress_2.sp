@@ -126,6 +126,7 @@ new Float:BossAbilityDuration[MAXPLAYERS+1][8];
 new Float:BossAbilityDurationMax[MAXPLAYERS+1][8];
 
 new Float:BossCharge[MAXPLAYERS+1][8];
+new Float:BossMaxRageCharge[MAXPLAYERS+1];
 new bool:IsBossYou[MAXPLAYERS+1];
 new Stabbed[MAXPLAYERS+1];
 new Marketed[MAXPLAYERS+1];
@@ -1161,6 +1162,8 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	CreateNative("FF2_SetAbilityDuration", Native_SetAbilityDuration);
 	CreateNative("FF2_GetAbilityCooldown", Native_GetAbilityCooldown);
 	CreateNative("FF2_SetAbilityCooldown", Native_SetAbilityCooldown);
+	CreateNative("FF2_GetBossMaxRageCharge", Native_GetBossMaxRageCharge);
+	CreateNative("FF2_SetBossMaxRageCharge", Native_SetBossMaxRageCharge);
 
 	PreAbility=CreateGlobalForward("FF2_PreAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell, Param_CellByRef);  //Boss, plugin name, ability name, slot, enabled
 	OnAbility=CreateGlobalForward("FF2_OnAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell);  //Boss, plugin name, ability name, status
@@ -4113,6 +4116,7 @@ public Action:MakeBoss(Handle:timer, any:boss)
 
 	KSpreeCount[boss]=0;
 	BossCharge[boss][0]=0.0;
+	BossMaxRageCharge[boss] = 100.0;
 
 
 	// BossHealthMax[boss]=RoundFloat(float(BossHealth[boss])/float(BossLivesMax[boss]))+1; // TODO: wat.
@@ -5594,7 +5598,7 @@ public Action:ClientTimer(Handle:timer)
 						else
 						{
 							new ragemeter = RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0));
-							Format(temp, sizeof(temp), "%s | %t", temp, "observer_rage_meter", RoundFloat(BossCharge[boss][0]), 100, ragemeter, BossRageDamage[boss]);
+							Format(temp, sizeof(temp), "%s | %t", temp, "observer_rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), ragemeter, BossRageDamage[boss]);
 						}
 						FF2_ShowSyncHudText(client, rageHUD, "%s", temp);
 						continue;
@@ -5887,11 +5891,12 @@ public Action:BossTimer(Handle:timer)
 		validBoss=true;
 		if(DEVmode)
 		{
-			BossCharge[boss][0]=100.0;
+			BossCharge[boss][0]=BossMaxRageCharge[boss];
 		}
 		else if(FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
 		{
 			BossCharge[boss][0]=0.0;
+			BossMaxRageCharge[boss]=0.0;
 		}
 
 		if(!IsFakeClient(client) && GetGameTime() >= AFKTime && !IsBossDoing[client])
@@ -5922,8 +5927,9 @@ public Action:BossTimer(Handle:timer)
 			FF2_ShowSyncHudText(client, livesHUD, "%t", "Boss Lives Left", BossLives[boss], BossLivesMax[boss]);
 		}
 
-		if(RoundFloat(BossCharge[boss][0])==100.0)
+		if(BossCharge[boss][0] >= 100.0)
 		{
+			bool isUpgradeRage = BossCharge[boss][0] >= 200.0 ? true : false;
 			if(IsFakeClient(client) && !(FF2flags[client] & FF2FLAG_BOTRAGE))
 			{
 				CreateTimer(1.0, Timer_BotRage, boss, TIMER_FLAG_NO_MAPCHANGE);
@@ -5941,14 +5947,14 @@ public Action:BossTimer(Handle:timer)
 					new String:temp2[30];
 					if(BossAbilityDuration[boss][0] > 0.0)
 					{
-						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
+						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 						Format(temp2, sizeof(temp2), "%.1f", BossAbilityDuration[boss][0]);
 						SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
 						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss][0], temp2);
 					}
 					else if(BossAbilityCooldown[boss][0] > 0.0)
 					{
-						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
+						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 						Format(temp2, sizeof(temp2), "%.1f", BossAbilityCooldown[boss][0]);
 						SetHudTextParams(-1.0, 0.83, 0.15, 255, 255, 255, 255);
 						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_cooldown_easy", temp2);
@@ -5956,7 +5962,17 @@ public Action:BossTimer(Handle:timer)
 				}
 				else
 				{
-					Format(temp, sizeof(temp), "%t", "do_rage");
+					Format(temp, sizeof(temp), "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
+
+					if(BossCharge[boss][0] >= 200.0)
+					{
+						Format(temp, sizeof(temp), "%s | %t", temp, "do_upgrade_rage");
+					}
+					else
+					{
+						Format(temp, sizeof(temp), "%s | %t", temp, "do_rage");
+					}
+
 				}
 				if(DEVmode)
 				{
@@ -6011,19 +6027,19 @@ public Action:BossTimer(Handle:timer)
 
 				if(BossAbilityDuration[boss][0] > 0.0)
 				{
-					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
+					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 					Format(temp, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
 					SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
 					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss][0], temp);
 				}
 				else if(BossAbilityCooldown[boss][0] > 0.0)
 				{
-					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
+					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 					Format(temp, sizeof(temp), "%.1f", BossAbilityCooldown[boss][0]);
 					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_cooldown_easy", temp);
 				}
 			}
-			else	FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
+			else	FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 		}
 
 
@@ -6193,12 +6209,12 @@ public Action:BossTimer(Handle:timer)
 			}
 		}
 
-		if(BossCharge[boss][0]<100.0)
+		if(BossCharge[boss][0]<BossMaxRageCharge[boss])
 		{
-			BossCharge[boss][0]+=OnlyParisLeft()*0.2;
-			if(BossCharge[boss][0]>100.0)
+			BossCharge[boss][0] += OnlyParisLeft()*0.2;
+			if(BossCharge[boss][0] > BossMaxRageCharge[boss])
 			{
-				BossCharge[boss][0]=100.0;
+				BossCharge[boss][0] = BossMaxRageCharge[boss];
 			}
 		}
 
@@ -6337,13 +6353,16 @@ public Action:OnCallForMedic(client, const String:command[], args)
 		return Plugin_Continue;
 	}
 
-	if(RoundFloat(BossCharge[boss][0])==100)
+	if(RoundFloat(BossCharge[boss][0])>=100)
 	{
-		if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0 || FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
+		bool doUpgradeRage = (RoundFloat(BossCharge[boss][0]) >= 200) ? true : false;
+		bool hasUpgradeRage = false;
+		if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0 || (!DEVmode && FF2flags[client] & FF2FLAG_NOTALLOW_RAGE))
 		{
 			CPrintToChat(client, "{olive}[FF2]{default} %t", "ff2_can_not_rage");
 			return Plugin_Continue;
 		}
+
 		decl String:ability[10], String:lives[MAXRANDOMS][3];
 
 		for(new i=1; i<MAXRANDOMS; i++)
@@ -6363,6 +6382,13 @@ public Action:OnCallForMedic(client, const String:command[], args)
 					decl String:abilityName[64], String:pluginName[64];
 					KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
 					KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+					if(doUpgradeRage)
+					{
+						if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) <= 0)
+							continue;
+						else
+							hasUpgradeRage = true;
+					}
 					if(!UseAbility(abilityName, pluginName, boss, 0))
 					{
 						return Plugin_Continue;
@@ -6378,6 +6404,14 @@ public Action:OnCallForMedic(client, const String:command[], args)
 							decl String:abilityName[64], String:pluginName[64];
 							KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
 							KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+
+							if(doUpgradeRage)
+							{
+								if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) <= 0)
+									continue;
+								else
+									hasUpgradeRage = true;
+							}
 							if(!UseAbility(abilityName, pluginName, boss, 0))
 							{
 								return Plugin_Continue;
@@ -6388,6 +6422,64 @@ public Action:OnCallForMedic(client, const String:command[], args)
 				}
 			}
 		}
+
+		if(doUpgradeRage && !hasUpgradeRage)
+		{
+			for(new i=1; i<MAXRANDOMS; i++)
+			{
+				Format(ability, sizeof(ability), "ability%i", i);
+				KvRewind(BossKV[Special[boss]]);
+				if(KvJumpToKey(BossKV[Special[boss]], ability))
+				{
+					if(KvGetNum(BossKV[Special[boss]], "arg0", 0))
+					{
+						continue;
+					}
+
+					KvGetString(BossKV[Special[boss]], "life", ability, sizeof(ability));
+					if(!ability[0])
+					{
+						decl String:abilityName[64], String:pluginName[64];
+						KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
+						KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+
+						if(!UseAbility(abilityName, pluginName, boss, 0))
+						{
+							return Plugin_Continue;
+						}
+					}
+					else
+					{
+						new count=ExplodeString(ability, " ", lives, MAXRANDOMS, 3);
+						for(new j; j<count; j++)
+						{
+							if(StringToInt(lives[j])==BossLives[boss])
+							{
+								decl String:abilityName[64], String:pluginName[64];
+								KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
+								KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+
+								if(!UseAbility(abilityName, pluginName, boss, 0))
+								{
+									return Plugin_Continue;
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if(doUpgradeRage && hasUpgradeRage)
+		{
+			BossCharge[boss][0] -= 200.0;
+		}
+		else
+		{
+			BossCharge[boss][0] -= 100.0;
+		}
+
 
 		new Float:position[3];
 		new Float:victimPos[3];
@@ -6701,12 +6793,12 @@ public Action:OnObjectDeflected(Handle:event, const String:name[], bool:dontBroa
 	}
 
 	new boss=GetBossIndex(GetClientOfUserId(GetEventInt(event, "ownerid")));
-	if(boss!=-1 && BossCharge[boss][0]<100.0)
+	if(boss!=-1 && BossCharge[boss][0] < BossMaxRageCharge[boss])
 	{
 		BossCharge[boss][0]+=7.0;  //TODO: Allow this to be customizable
-		if(BossCharge[boss][0]>100.0)
+		if(BossCharge[boss][0] > BossMaxRageCharge[boss])
 		{
-			BossCharge[boss][0]=100.0;
+			BossCharge[boss][0] = BossMaxRageCharge[boss];
 		}
 	}
 	return Plugin_Continue;
@@ -7064,6 +7156,11 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 	BossHealth[boss]-=damage;
 	BossCharge[boss][0]+=damage*100.0/BossRageDamage[boss];
 
+	if(BossCharge[boss][0] > BossMaxRageCharge[boss])
+	{
+		BossCharge[boss][0] = BossMaxRageCharge[boss];
+	}
+
 	if(!(FF2ServerFlag & FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE)) Damage[attacker]+=damage;
 
 	new healers[MAXPLAYERS];
@@ -7134,9 +7231,9 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		}
 	}
 
-	if(BossCharge[boss][0]>100.0)
+	if(BossCharge[boss][0] > BossMaxRageCharge[boss])
 	{
-		BossCharge[boss][0]=100.0;
+		BossCharge[boss][0] = BossMaxRageCharge[boss];
 	}
 	// return changeResult ? Plugin_Handled : Plugin_Continue;
 	return Plugin_Continue;
@@ -7943,9 +8040,9 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							damage*=5;
 						}
 
-						if(BossCharge[boss][0]>100.0)
+						if(BossCharge[boss][0] > BossMaxRageCharge[boss])
 						{
-							BossCharge[boss][0]=100.0;
+							BossCharge[boss][0] = BossMaxRageCharge[boss];
 						}
 						return Plugin_Changed;
 					}
@@ -7956,9 +8053,9 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 				}
 			}
 
-			if(BossCharge[boss][0]>100.0)
+			if(BossCharge[boss][0] > BossMaxRageCharge[boss])
 			{
-				BossCharge[boss][0]=100.0;
+				BossCharge[boss][0] = BossMaxRageCharge[boss];
 			}
 		}
 		else
@@ -10131,7 +10228,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 		FF2flags[Boss[boss]]&=~FF2FLAG_BOTRAGE;
 		Call_PushCell(3);  //Status - we're assuming here a rage ability will always be in use if it gets called
 		Call_Finish(action);
-		BossCharge[boss][slot]=0.0;
+		// BossCharge[boss][slot]=0.0;
 	}
 	else
 	{
@@ -10694,6 +10791,16 @@ public Native_GetAbilityCooldown(Handle:plugin, numParams)
 public Native_SetAbilityCooldown(Handle:plugin, numParams)
 {
 	BossAbilityCooldown[GetNativeCell(1)][GetNativeCell(3)]=GetNativeCell(2);
+}
+// Native_GetBossMaxRageCharge
+public Native_GetBossMaxRageCharge(Handle:plugin, numParams)
+{
+	return _:BossMaxRageCharge[GetNativeCell(1)];
+}
+
+public Native_SetBossMaxRageCharge(Handle:plugin, numParams)
+{
+	BossMaxRageCharge[GetNativeCell(1)]=GetNativeCell(2);
 }
 
 public Action:VSH_OnIsSaxtonHaleModeEnabled(&result)
