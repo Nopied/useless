@@ -952,7 +952,7 @@ void SwitchWeaponForTick(int entity)
             SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", slotWeapon[random]);
 
             weapon = GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon");
-            if(IsValidEntity(weapon))
+            if(IsValidEntity(weapon) && weapon > 0)
             {
                 SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
                 SetEntPropFloat(weapon, Prop_Send, "m_flNextSecondaryAttack", GetGameTime());

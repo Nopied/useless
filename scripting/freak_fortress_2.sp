@@ -5900,8 +5900,8 @@ public Action:BossTimer(Handle:timer)
 		}
 		else if(FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
 		{
-			BossCharge[boss][0]=0.0;
-			BossMaxRageCharge[boss]=0.0;
+			BossCharge[boss][0] = 0.0;
+			BossMaxRageCharge[boss] = 0.0;
 		}
 
 		if(!IsFakeClient(client) && GetGameTime() >= AFKTime && !IsBossDoing[client])
@@ -6047,10 +6047,12 @@ public Action:BossTimer(Handle:timer)
 			else	FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 		}
 
+		Handle slotNamePack = CreateArray();
 		for(new slot=0; slot<9; slot++)
 		{
+			ClearArray(slotNamePack);
 			// bool skiploop = false;
-			Handle slotNamePack = CreateArray();
+
 			new slotNameCount = 0;
 
 			for(new i=1; ; i++)
@@ -6118,9 +6120,6 @@ public Action:BossTimer(Handle:timer)
 			{
 				continue;
 			}
-
-
-
 			// Format(temp, sizeof(temp), "%s", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss]);
 
 			for(int count=0; count<slotNameCount; count++)
@@ -6150,8 +6149,8 @@ public Action:BossTimer(Handle:timer)
 				  	}
 				}
 			}
-			CloseHandle(slotNamePack);
 		}
+		CloseHandle(slotNamePack);
 
 		if(IsBossYou[client])
 		{
@@ -10380,13 +10379,13 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 				Call_PushCell(2);  //Status
 				Call_Finish(action);
 				new Float:charge=100.0*0.2/GetAbilityArgumentFloat(boss, plugin_name, ability_name, 1, 1.5);
-				if(BossCharge[boss][slot]+charge < BossMaxRageCharge[boss])
+				if(BossCharge[boss][slot]+charge<100.0)
 				{
 					BossCharge[boss][slot]+=charge;
 				}
 				else
 				{
-					BossCharge[boss][slot] = BossMaxRageCharge[boss];
+					BossCharge[boss][slot]=100.0;
 				}
 			}
 			else

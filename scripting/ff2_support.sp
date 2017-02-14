@@ -244,6 +244,15 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 	}
 }
 
+ public Action FF2_OnBossAbilityTime(int boss, char[] abilityName, int slot, float &abilityDuration, float &abilityCooldown)
+ {
+	 int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+
+	 if(StrEqual(abilityName, "ff2_CBS_upgrade_rage") && abilityDuration > 0.0)
+	 {
+		 CBS_UpgradeRage[client] = true;
+	 }
+ }
 public Action FF2_OnAbilityTimeEnd(int boss, int slot, char[] abilityName)
 {
 	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
