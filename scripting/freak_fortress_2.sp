@@ -118,14 +118,18 @@ new BossHealthLast[MAXPLAYERS+1];
 new BossLives[MAXPLAYERS+1];
 new BossLivesMax[MAXPLAYERS+1];
 new BossRageDamage[MAXPLAYERS+1];
-new String:BossAbilityName[MAXPLAYERS+1][8][52];
+// new String:BossRageName[MAXPLAYERS+1][9][68];
 
-new Float:BossAbilityCooldown[MAXPLAYERS+1][8];
-new Float:BossAbilityCooldownMax[MAXPLAYERS+1][8];
-new Float:BossAbilityDuration[MAXPLAYERS+1][8];
-new Float:BossAbilityDurationMax[MAXPLAYERS+1][8];
+new String:BossRageName[MAXPLAYERS+1][68];
+new String:BossUpgradeRageName[MAXPLAYERS+1][68];
+new bool:IsUpgradeRage[MAXPLAYERS+1];
 
-new Float:BossCharge[MAXPLAYERS+1][8];
+new Float:BossAbilityCooldown[MAXPLAYERS+1][9];
+new Float:BossAbilityCooldownMax[MAXPLAYERS+1][9];
+new Float:BossAbilityDuration[MAXPLAYERS+1][9];
+new Float:BossAbilityDurationMax[MAXPLAYERS+1][9];
+
+new Float:BossCharge[MAXPLAYERS+1][9];
 new Float:BossMaxRageCharge[MAXPLAYERS+1];
 new bool:IsBossYou[MAXPLAYERS+1];
 new Stabbed[MAXPLAYERS+1];
@@ -1175,7 +1179,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnLoseLife=CreateGlobalForward("FF2_OnLoseLife", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell);  //Boss, lives left, max lives
 	OnAlivePlayersChanged=CreateGlobalForward("FF2_OnAlivePlayersChanged", ET_Hook, Param_Cell, Param_Cell);  //Players, bosses
 	OnAbilityTime=CreateGlobalForward("FF2_OnBossAbilityTime", ET_Hook, Param_Cell, Param_String, Param_Cell, Param_FloatByRef, Param_FloatByRef);
-	OnAbilityTimeEnd=CreateGlobalForward("FF2_OnAbilityTimeEnd", ET_Hook, Param_Cell, Param_Cell);
+	OnAbilityTimeEnd=CreateGlobalForward("FF2_OnAbilityTimeEnd", ET_Hook, Param_Cell, Param_Cell, Param_String);
 	OnPlayBoss=CreateGlobalForward("FF2_OnPlayBoss", ET_Hook, Param_Cell, Param_Cell); // client, bossindex
 	OnTakePercentDamage=CreateGlobalForward("FF2_OnTakePercentDamage", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell, Param_FloatByRef); // victim, attacker, damagetype, damage
 	OnTakePercentDamagePost=CreateGlobalForward("FF2_OnTakePercentDamage_Post", ET_Hook, Param_Cell, Param_Cell, Param_Cell, Param_Cell); // victim, attacker, damagetype, damage
@@ -3019,7 +3023,7 @@ public Action:OnRoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 				isBossAlive=true;
 			}
 
-			for(new slot=0; slot<8; slot++)
+			for(new slot=0; slot<9; slot++)
 			{
 				BossCharge[boss][slot]=0.0;
 				BossAbilityDuration[boss][slot]=0.0;
@@ -4016,7 +4020,8 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	// BossLives[boss]=BossLivesMax[boss];
 	// BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
 	// BossHealthLast[boss]=BossHealth[boss];
-	KvGetString(BossKV[Special[boss]], "ability_name", BossAbilityName[boss][0], sizeof(BossAbilityName[][]));
+	KvGetString(BossKV[Special[boss]], "ability_name", BossRageName[boss], sizeof(BossRageName[]));
+	KvGetString(BossKV[Special[boss]], "upgrade_ability_name", BossUpgradeRageName[boss], sizeof(BossUpgradeRageName[]));
 
 	for(int slot=0; slot<8; slot++)
 	{
@@ -5587,7 +5592,7 @@ public Action:ClientTimer(Handle:timer)
 							if(BossAbilityDuration[boss][0] > 0.0)
 							{
 								Format(temp2, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
-								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_duration", BossAbilityName[boss][0], temp2);
+								Format(temp, sizeof(temp), "%s | %t", temp, "rage_meter_duration", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss], temp2);
 							}
 							else if(BossAbilityCooldown[boss][0]>0.0)
 							{
@@ -5950,7 +5955,7 @@ public Action:BossTimer(Handle:timer)
 						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 						Format(temp2, sizeof(temp2), "%.1f", BossAbilityDuration[boss][0]);
 						SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
-						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss][0], temp2);
+						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_duration", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss], temp2);
 					}
 					else if(BossAbilityCooldown[boss][0] > 0.0)
 					{
@@ -6030,7 +6035,7 @@ public Action:BossTimer(Handle:timer)
 					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 					Format(temp, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
 					SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
-					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_duration", BossAbilityName[boss][0], temp);
+					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_duration", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss], temp);
 				}
 				else if(BossAbilityCooldown[boss][0] > 0.0)
 				{
@@ -6042,10 +6047,45 @@ public Action:BossTimer(Handle:timer)
 			else	FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 		}
 
-
-		new String:temp[80];
-		for(new slot=0; slot<8; slot++)
+		for(new slot=0; slot<9; slot++)
 		{
+			bool skiploop = false;
+			Handle slotNamePack = CreateDataPack();
+			new slotNameCount = 0;
+
+			for(new i=1; ; i++)
+			{
+				decl String:ability[10];
+				Format(ability, sizeof(ability), "ability%i", i);
+				KvRewind(BossKV[Special[boss]]);
+				if(KvJumpToKey(BossKV[Special[boss]], ability))
+				{
+					// decl String:plugin_name[64];
+					// KvGetString(BossKV[Special[boss]], "plugin_name", plugin_name, sizeof(plugin_name));
+					new targetSlot = KvGetNum(BossKV[Special[boss]], "arg0", 0);
+					// new buttonmode=KvGetNum(BossKV[Special[boss]], "buttonmode", 0);
+					if(targetSlot == slot)
+					{
+						decl String:ability_name[64];
+						slotNameCount++;
+						KvGetString(BossKV[Special[boss]], "name", ability_name, sizeof(ability_name));
+						WritePackString(slotNamePack, ability_name);
+					}
+					else
+					{
+						skiploop = true;
+						continue;
+					}
+					// UseAbility(ability_name, plugin_name, boss, slot, buttonmode);
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			ResetPack(slotNamePack);
+
 			if(BossAbilityDuration[boss][slot] > 0.0)
 			{
 				BossAbilityDuration[boss][slot]-=0.2;
@@ -6059,43 +6099,66 @@ public Action:BossTimer(Handle:timer)
 
 					if(IsPlayerAlive(client))
 					{
-						Call_StartForward(OnAbilityTimeEnd);
-						Call_PushCell(boss);
-						Call_PushCell(slot);
-						Call_Finish();
+						for(int count=0; count<slotNameCount; count++)
+						{
+							new String:abilityName[64];
+
+							ReadPackString(slotNamePack, abilityName, sizeof(abilityName));
+
+							Call_StartForward(OnAbilityTimeEnd);
+							Call_PushCell(boss);
+							Call_PushCell(slot);
+							Call_PushStringEx(abilityName, sizeof(abilityName), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+							Call_Finish();
+						}
+
 					}
 				}
-				BossAbilityCooldown[boss][slot]-=0.2;
+				BossAbilityCooldown[boss][slot] -= 0.2;
 			}
 			else
 			{
 				continue;
 			}
 
-			Format(temp, sizeof(temp), "%s", BossAbilityName[boss][slot]);
-
-			new Float:temp2=BossAbilityDuration[boss][slot];
-			new Float:temp3=BossAbilityCooldown[boss][slot];
-			new Action:action;
-
-			Call_StartForward(OnAbilityTime);
-			Call_PushCell(boss);
-			Call_PushStringEx(temp, sizeof(temp), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
-			Call_PushCell(slot);
-			Call_PushFloatRef(temp2);
-			Call_PushFloatRef(temp3);
-			Call_Finish(action);
-
-			switch(action)
+			if(skiploop)
 			{
-				case Plugin_Changed:
-				{
-					BossAbilityDuration[boss][slot]=temp2;
-					BossAbilityCooldown[boss][slot]=temp3;
-					Format(BossAbilityName[boss][slot], sizeof(BossAbilityName[][]), "%s", temp);
-			  	}
+				CloseHandle(slotNamePack);
+				continue;
 			}
 
+			// Format(temp, sizeof(temp), "%s", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss]);
+
+			ResetPack(slotNamePack);
+
+			for(int count=0; count<slotNameCount; count++)
+			{
+				new Float:temp2=BossAbilityDuration[boss][slot];
+				new Float:temp3=BossAbilityCooldown[boss][slot];
+				new String:abilityName[64];
+				new Action:action;
+
+				ReadPackString(slotNamePack, abilityName, sizeof(abilityName));
+
+				Call_StartForward(OnAbilityTime);
+				Call_PushCell(boss);
+				Call_PushStringEx(abilityName, sizeof(abilityName), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+				Call_PushCell(slot);
+				Call_PushFloatRef(temp2);
+				Call_PushFloatRef(temp3);
+				Call_Finish(action);
+
+				switch(action)
+				{
+					case Plugin_Changed:
+					{
+						BossAbilityDuration[boss][slot]=temp2;
+						BossAbilityCooldown[boss][slot]=temp3;
+						// Format(BossRageName[boss], sizeof(BossRageName[]), "%s", temp);
+				  	}
+				}
+			}
+			CloseHandle(slotNamePack);
 		}
 
 		if(IsBossYou[client])
@@ -6389,6 +6452,11 @@ public Action:OnCallForMedic(client, const String:command[], args)
 						else
 							hasUpgradeRage = true;
 					}
+					else
+					{
+						if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
+							continue;
+					}
 					if(!UseAbility(abilityName, pluginName, boss, 0))
 					{
 						return Plugin_Continue;
@@ -6411,6 +6479,11 @@ public Action:OnCallForMedic(client, const String:command[], args)
 									continue;
 								else
 									hasUpgradeRage = true;
+							}
+							else
+							{
+								if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
+									continue;
 							}
 							if(!UseAbility(abilityName, pluginName, boss, 0))
 							{
@@ -6473,10 +6546,18 @@ public Action:OnCallForMedic(client, const String:command[], args)
 
 		if(doUpgradeRage && hasUpgradeRage)
 		{
+			IsUpgradeRage[boss] = true;
+			KvRewind(BossKV[Special[boss]]);
+			BossAbilityDuration[boss][0] = KvGetFloat(BossKV[Special[boss]], "upgrade_ability_duration");
 			BossCharge[boss][0] -= 200.0;
 		}
 		else
 		{
+			IsUpgradeRage[boss] = false;
+			BossAbilityDuration[boss][0] = BossAbilityDurationMax[boss][0];
+
+			if(doUpgradeRage)
+				CPrintToChat(client, "{olive}[FF2]{default} 이 보스에게 강화분노가 등록되지 않아서 일반 분노로 대체됩니다!");
 			BossCharge[boss][0] -= 100.0;
 		}
 
@@ -6511,7 +6592,6 @@ public Action:OnCallForMedic(client, const String:command[], args)
 		{
 			BossAbilityCooldown[boss][0]=BossAbilityCooldownMax[boss][0];
 		}
-		BossAbilityDuration[boss][0]=BossAbilityDurationMax[boss][0];
 
 		decl String:sound[PLATFORM_MAX_PATH];
 		if(RandomSoundAbility("sound_ability", sound, sizeof(sound), boss))
@@ -7665,6 +7745,15 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							TF2_RemoveCondition(attacker, TFCond_OnFire);
 						}
 					}
+					case 460: // 집행자
+					{
+						float cloakmeter = GetEntPropFloat(attacker, Prop_Send, "m_flCloakMeter") - 8.0;
+						if(cloakmeter < 0.0)
+						{
+							cloakmeter = 0.0;
+						}
+						SetEntPropFloat(attacker, Prop_Send, "m_flCloakMeter", cloakmeter);
+					}
 					case 307, 416:  //Market Gardener (courtesy of Chdata) and 울라풀 막대
 					{
 						if(FF2Userflags[attacker] & FF2USERFLAG_ALLOW_GROUNDMARKET || TF2_IsPlayerInCondition(attacker, TFCond_BlastJumping)) //TFCond_BlastJumping
@@ -7809,6 +7898,8 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					{
 						SetEntPropFloat(attacker, Prop_Send, "m_flChargeMeter", 100.0);
 					}
+
+
 					/*case 1104:  //Air Strike-moved to OnPlayerHurt for now since OTD doesn't display the actual damage :/
 					{
 						static Float:airStrikeDamage;
@@ -8617,6 +8708,17 @@ stock GetAbilityArgument(index,const String:plugin_name[],const String:ability_n
 		Format(s,10,"ability%i",i);
 		if(KvJumpToKey(BossKV[Special[index]],s))
 		{
+			if(IsUpgradeRage[index])
+			{
+				if(KvGetNum(BossKV[Special[index]], "is_upgrade_rage", 0) <= 0)
+					continue;
+			}
+			else
+			{
+				if(KvGetNum(BossKV[Special[index]], "is_upgrade_rage", 0) > 0)
+					continue;
+			}
+
 			decl String:ability_name2[64];
 			KvGetString(BossKV[Special[index]], "name",ability_name2,64);
 			if(strcmp(ability_name,ability_name2))
@@ -8649,6 +8751,17 @@ stock Float:GetAbilityArgumentFloat(index,const String:plugin_name[],const Strin
 		Format(s,10,"ability%i",i);
 		if(KvJumpToKey(BossKV[Special[index]],s))
 		{
+			if(IsUpgradeRage[index])
+			{
+				if(KvGetNum(BossKV[Special[index]], "is_upgrade_rage", 0) <= 0)
+					continue;
+			}
+			else
+			{
+				if(KvGetNum(BossKV[Special[index]], "is_upgrade_rage", 0) > 0)
+					continue;
+			}
+
 			decl String:ability_name2[64];
 			KvGetString(BossKV[Special[index]], "name",ability_name2,64);
 			if(strcmp(ability_name,ability_name2))
@@ -8685,6 +8798,17 @@ stock GetAbilityArgumentString(index,const String:plugin_name[],const String:abi
 		Format(s,10,"ability%i",i);
 		if(KvJumpToKey(BossKV[Special[index]],s))
 		{
+			if(IsUpgradeRage[index])
+			{
+				if(KvGetNum(BossKV[Special[index]], "is_upgrade_rage", 0) <= 0)
+					continue;
+			}
+			else
+			{
+				if(KvGetNum(BossKV[Special[index]], "is_upgrade_rage", 0) > 0)
+					continue;
+			}
+			
 			decl String:ability_name2[64];
 			KvGetString(BossKV[Special[index]], "name",ability_name2,64);
 			if(strcmp(ability_name,ability_name2))

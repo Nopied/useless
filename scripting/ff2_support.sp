@@ -22,6 +22,7 @@ public Plugin myinfo=
 
 bool Sub_SaxtonReflect[MAXPLAYERS+1];
 bool CBS_Abilities[MAXPLAYERS+1];
+bool CBS_UpgradeRage[MAXPLAYERS+1];
 bool IsTank[MAXPLAYERS+1];
 
 bool CanWallWalking[MAXPLAYERS+1];
@@ -48,36 +49,6 @@ public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 {
     CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
-/*
-public void OnGameFrame()
-{
-	if(FF2_GetRoundState() != 1) return;
-
-	for(int client=1; client<=MaxClients; client++)
-	{
-		if(!IsClientInGame(client) || !IsPlayerAlive(client)) return;
-
-		if(IsTank[client])
-		{
-			if(WalkingSoundCooldown[client] > GetGameTime())
-			{
-				int boss = FF2_GetBossIndex(client);
-				if(boss == -1) return;
-
-				char path[PLATFORM_MAX_PATH];
-				float clientPos[3];
-				GetClientEyePosition(client, clientPos);
-				FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 8, path, sizeof(path));
-
-				if(path[0] == '\0') return;
-
-				WalkingSoundCooldown[client] = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 9, 4.0);
-				EmitSoundToAll(path, client, _, 40, _, _, _, client, clientPos);
-			}
-		}
-	}
-}
-*/
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
@@ -109,8 +80,12 @@ public Action OnStartTouch(int entity, int other)
 
 public void OnSpawn(int entity)
 {
+	IsEntityCanReflect[entity] = false;
 	int owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
-	if(CBS_Abilities[ owner > MaxClients || owner <= 0 ? 0 : owner ])
+
+	if(!IsValidClient(owner)) return;
+
+	if(CBS_Abilities[owner])
 	{
 		int observer;
 		char angleString[80];
@@ -134,7 +109,60 @@ public void OnSpawn(int entity)
 		SetVariantString("!activator");
 		AcceptEntityInput(observer, "SetParent", entity);
 	}
-	else IsEntityCanReflect[entity] = false;
+
+	if(CBS_UpgradeRage[owner])
+	{
+		float opAng[3];
+		float opPos[3];
+		float tempAng[3];
+		float tempVelocity[3];
+		float opVelocity[3];
+
+		int boss = FF2_GetBossIndex(owner);
+		int arrowCount = FF2_GetAbilityArgument(boss, this_plugin_name, "ff2_CBS_upgrade_rage", 1, 5);
+
+		GetEntPropVector(entity, Prop_Send, "m_vecOrigin", opPos);
+		GetEntPropVector(entity, Prop_Data, "m_angAbsRotation", opAng);
+		GetEntPropVector(entity, Prop_Data, "m_vecAbsVelocity", opVelocity);
+
+		float arrowSpeed = GetVectorLength(opVelocity);
+
+		for(int count=0; count < arrowCount; count++)
+		{
+			tempAng[0] = opAng[0] + GetRandomFloat(-5.0, 5.0);
+			tempAng[1] = opAng[1] + GetRandomFloat(-5.0, 5.0);
+			tempAng[2] = opAng[2] + GetRandomFloat(-5.0, 5.0);
+
+			GetVectorAngles(tempAng, tempVelocity);
+
+			tempVelocity[0] *= arrowSpeed;
+			tempVelocity[1] *= arrowSpeed;
+			tempVelocity[2] *= arrowSpeed;
+
+			int arrow = CreateEntityByName("tf_projectile_arrow");
+			if(!IsValidEntity(arrow)) break;
+
+			SetEntPropEnt(arrow, Prop_Send, "m_hOwnerEntity", owner);
+			SetEntProp(arrow,    Prop_Send, "m_bCritical",  0);
+			SetEntProp(arrow,    Prop_Send, "m_iTeamNum", GetClientTeam(owner));
+			// SetEntData(arrow, FindSendPropInfo("CTFProjectile_Arrow" , "m_nSkin"), (iTeam-2), 1, true);
+
+			SetEntDataFloat(arrow,
+				FindSendPropInfo("CTFProjectile_Arrow" , "m_iDeflected") + 4,
+				100.0,
+				true); // set damage
+
+			TeleportEntity(arrow, opAng, tempAng, tempVelocity);
+
+			DispatchSpawn(arrow);
+
+			SetVariantInt(GetClientTeam(owner));
+			AcceptEntityInput(arrow, "TeamNum", -1, -1, 0);
+
+			SetVariantInt(GetClientTeam(owner));
+			AcceptEntityInput(arrow, "SetTeam", -1, -1, 0);
+		}
+	}
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
@@ -180,6 +208,20 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 		}
 	}
 
+	if(StrEqual(ability_name, "ff2_CBS_upgrade_rage"))
+	{
+		CBS_UpgradeRage[client] = true;
+	}
+}
+
+public Action FF2_OnAbilityTimeEnd(int boss, int slot, char[] abilityName)
+{
+	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+
+	if(StrEqual(abilityName, "ff2_CBS_upgrade_rage"))
+	{
+		CBS_UpgradeRage[client] = false;
+	}
 }
 
 public Action OnRoundStart(Handle timer)
@@ -236,6 +278,7 @@ void CheckAbilities()
 
 		Sub_SaxtonReflect[client] = false;
 		CBS_Abilities[client] = false;
+		CBS_UpgradeRage[client] = false;
 
 		CanWallWalking[client] = false;
 		DoingWallWalking[client] = false;

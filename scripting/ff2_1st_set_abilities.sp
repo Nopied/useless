@@ -10,7 +10,7 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
-#define CBS_MAX_ARROWS 9
+#define CBS_MAX_ARROWS 13
 
 #define SOUND_SLOW_MO_START "replay/enterperformancemode.wav"  //Used when Ninja Spy enters slow mo
 #define SOUND_SLOW_MO_END "replay/exitperformancemode.wav"  //Used when Ninja Spy exits slow mo
@@ -501,7 +501,7 @@ Rage_Bow(boss)
 {
 	new client=GetClientOfUserId(FF2_GetBossUserId(boss));
 	TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
-	new weapon=SpawnWeapon(client, "tf_weapon_compound_bow", 1005, 100, 5, "6 ; 0.5 ; 37 ; 0.0 ; 280 ; 19");
+	new weapon=SpawnWeapon(client, "tf_weapon_compound_bow", 1005, 100, 5, "2 ; 2.0 ; 6 ; 0.5 ; 37 ; 0.0 ; 280 ; 19");
 	SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", weapon);
 	new TFTeam:team=(FF2_GetBossTeam()==_:TFTeam_Blue ? TFTeam_Red:TFTeam_Blue);
 

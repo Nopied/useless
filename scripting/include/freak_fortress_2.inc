@@ -563,7 +563,7 @@ forward Action:FF2_OnAlivePlayersChanged(players, bosses);
 
 forward Action:FF2_OnBossAbilityTime(boss, String:abilityName[], slot, &Float:abilityDuration, &Float:abilityCooldown);
 
-forward Action:FF2_OnAbilityTimeEnd(boss, slot);
+forward Action:FF2_OnAbilityTimeEnd(boss, slot, String:abilityName[]);
 
 forward Action:FF2_OnPlayBoss(int client, int bossIndex);
 

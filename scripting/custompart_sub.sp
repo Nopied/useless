@@ -944,7 +944,16 @@ void SwitchWeaponForTick(int entity)
         {
             int random = GetRandomInt(0, count-1);
 
+            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
+            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
+            SetEntPropFloat(owner, Prop_Send, "m_flNextAttack", GetGameTime());
+
             SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", slotWeapon[random]);
+
+            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
+            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
+            SetEntPropFloat(owner, Prop_Send, "m_flNextAttack", GetGameTime());
+
             SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", entity);
 
             if(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon") != entity)

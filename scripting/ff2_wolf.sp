@@ -97,11 +97,11 @@ stock bool CanSeeTarget(int client, int target)
 	return didhit;
 }
 
-public Action FF2_OnAbilityTimeEnd(int boss, int slot)
+public Action FF2_OnAbilityTimeEnd(int boss, int slot, String:abilityName[])
 {
 	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
-	if(slot == 0)
+	if(StrEqual(abilityName, "wolf_deflecter", true))
 	{
 		SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 22.5);
 	}
@@ -143,10 +143,58 @@ public Action OnStartTouch(int entity, int other)
 	if (other <= MaxClients)
 		return Plugin_Continue;
 
-	SDKHook(entity, SDKHook_Touch, OnTouch);
+	char classname[60];
+	GetEntityClassname(other, classname, sizeof(classname));
+	// Debug(classname);
+
+	if(GetEntPropEnt(other, Prop_Send, "m_hOwnerEntity") != GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")
+	&& !StrContains(classname, "tf_projectile_"))
+	{
+		float RocketPos[3];
+	  	float RocketAng[3];
+	  	float RocketVec[3];
+	  	float TargetPos[3];
+	  	float TargetVec[3];
+	  	float MiddleVec[3];
+		// Debug("ppp");
+
+	  	GetPlayerEyeEnd(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"), TargetPos);
+
+	  	GetEntPropVector( other, Prop_Data, "m_vecAbsOrigin", RocketPos );
+	  	GetEntPropVector( other, Prop_Data, "m_angRotation", RocketAng );
+	  	GetEntPropVector( other, Prop_Data, "m_vecAbsVelocity", RocketVec );
+
+	  	float RocketSpeed = GetVectorLength( RocketVec );
+	  	SubtractVectors( TargetPos, RocketPos, TargetVec );
+	  	NormalizeVector( TargetVec, RocketVec );
+	  	AddVectors( RocketVec, TargetVec, MiddleVec );
+	  	NormalizeVector( RocketVec, RocketVec );
+	  	GetVectorAngles( RocketVec, RocketAng );
+	  	//SetEntPropVector( other, Prop_Data, "m_angRotation", RocketAng );
+
+	  	ScaleVector( RocketVec, RocketSpeed );
+		TeleportEntity(other, NULL_VECTOR, RocketAng, RocketVec);
+
+		SetEntPropEnt(other, Prop_Send, "m_hOwnerEntity", GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
+		SetEntProp(other, Prop_Send, "m_iTeamNum", GetEntProp(entity, Prop_Send, "m_iTeamNum"));
+
+		if(HasEntProp(other, Prop_Send, "m_bTouched"))
+			SetEntProp(other, Prop_Send, "m_bTouched", 0);
+
+		if(HasEntProp(other, Prop_Send, "m_iDeflected"))
+			SetEntProp(other, Prop_Send, "m_iDeflected", 1);
+
+		int boss = FF2_GetBossIndex(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity"));
+		FF2_SetAbilityDuration(boss, FF2_GetAbilityDuration(boss) - 3.0);
+
+		return Plugin_Handled;
+	}
+	return Plugin_Continue;
+
+	// SDKHook(entity, SDKHook_Touch, OnTouch);
 	return Plugin_Handled;
 }
-
+/*
 public Action OnTouch(int entity, int other)
 {
 	char classname[60];
@@ -176,13 +224,7 @@ public Action OnTouch(int entity, int other)
   		NormalizeVector( TargetVec, RocketVec );
 
   		AddVectors( RocketVec, TargetVec, MiddleVec );
-/*
-  		for( int j=0; j < iAccuracy-2; j++ )
-		{
-  			AddVectors( RocketVec, MiddleVec, MiddleVec );
-  			AddVectors( RocketVec, MiddleVec, RocketVec );
-  		}
-*/
+
   		NormalizeVector( RocketVec, RocketVec );
 
   		GetVectorAngles( RocketVec, RocketAng );
@@ -208,6 +250,7 @@ public Action OnTouch(int entity, int other)
 	}
 	return Plugin_Continue;
 }
+*/
 
 public void GetEyeEndPos(int client, float max_distance, float endPos[3])
 {
