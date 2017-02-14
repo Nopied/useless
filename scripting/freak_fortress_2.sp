@@ -5896,7 +5896,7 @@ public Action:BossTimer(Handle:timer)
 		validBoss=true;
 		if(DEVmode)
 		{
-			BossCharge[boss][0]=BossMaxRageCharge[boss];
+			BossCharge[boss][0] = BossMaxRageCharge[boss];
 		}
 		else if(FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
 		{
@@ -6049,8 +6049,8 @@ public Action:BossTimer(Handle:timer)
 
 		for(new slot=0; slot<9; slot++)
 		{
-			bool skiploop = false;
-			Handle slotNamePack = CreateDataPack();
+			// bool skiploop = false;
+			Handle slotNamePack = CreateArray();
 			new slotNameCount = 0;
 
 			for(new i=1; ; i++)
@@ -6069,11 +6069,11 @@ public Action:BossTimer(Handle:timer)
 						decl String:ability_name[64];
 						slotNameCount++;
 						KvGetString(BossKV[Special[boss]], "name", ability_name, sizeof(ability_name));
-						WritePackString(slotNamePack, ability_name);
+						PushArrayString(slotNamePack, ability_name);
 					}
 					else
 					{
-						skiploop = true;
+						// skiploop = true;
 						continue;
 					}
 					// UseAbility(ability_name, plugin_name, boss, slot, buttonmode);
@@ -6083,8 +6083,6 @@ public Action:BossTimer(Handle:timer)
 					break;
 				}
 			}
-
-			ResetPack(slotNamePack);
 
 			if(BossAbilityDuration[boss][slot] > 0.0)
 			{
@@ -6103,7 +6101,7 @@ public Action:BossTimer(Handle:timer)
 						{
 							new String:abilityName[64];
 
-							ReadPackString(slotNamePack, abilityName, sizeof(abilityName));
+							GetArrayString(slotNamePack, count, abilityName, sizeof(abilityName));
 
 							Call_StartForward(OnAbilityTimeEnd);
 							Call_PushCell(boss);
@@ -6121,15 +6119,9 @@ public Action:BossTimer(Handle:timer)
 				continue;
 			}
 
-			if(skiploop)
-			{
-				CloseHandle(slotNamePack);
-				continue;
-			}
+
 
 			// Format(temp, sizeof(temp), "%s", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss]);
-
-			ResetPack(slotNamePack);
 
 			for(int count=0; count<slotNameCount; count++)
 			{
@@ -6138,7 +6130,7 @@ public Action:BossTimer(Handle:timer)
 				new String:abilityName[64];
 				new Action:action;
 
-				ReadPackString(slotNamePack, abilityName, sizeof(abilityName));
+				GetArrayString(slotNamePack, count, abilityName, sizeof(abilityName));
 
 				Call_StartForward(OnAbilityTime);
 				Call_PushCell(boss);
@@ -8808,7 +8800,7 @@ stock GetAbilityArgumentString(index,const String:plugin_name[],const String:abi
 				if(KvGetNum(BossKV[Special[index]], "is_upgrade_rage", 0) > 0)
 					continue;
 			}
-			
+
 			decl String:ability_name2[64];
 			KvGetString(BossKV[Special[index]], "name",ability_name2,64);
 			if(strcmp(ability_name,ability_name2))
@@ -10388,13 +10380,13 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 				Call_PushCell(2);  //Status
 				Call_Finish(action);
 				new Float:charge=100.0*0.2/GetAbilityArgumentFloat(boss, plugin_name, ability_name, 1, 1.5);
-				if(BossCharge[boss][slot]+charge<100.0)
+				if(BossCharge[boss][slot]+charge < BossMaxRageCharge[boss])
 				{
 					BossCharge[boss][slot]+=charge;
 				}
 				else
 				{
-					BossCharge[boss][slot]=100.0;
+					BossCharge[boss][slot] = BossMaxRageCharge[boss];
 				}
 			}
 			else

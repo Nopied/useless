@@ -114,6 +114,7 @@ public void OnSpawn(int entity)
 	{
 		float opAng[3];
 		float opPos[3];
+		float tempPos[3];
 		float tempAng[3];
 		float tempVelocity[3];
 		float opVelocity[3];
@@ -122,16 +123,41 @@ public void OnSpawn(int entity)
 		int arrowCount = FF2_GetAbilityArgument(boss, this_plugin_name, "ff2_CBS_upgrade_rage", 1, 5);
 
 		GetEntPropVector(entity, Prop_Send, "m_vecOrigin", opPos);
-		GetEntPropVector(entity, Prop_Data, "m_angAbsRotation", opAng);
-		GetEntPropVector(entity, Prop_Data, "m_vecAbsVelocity", opVelocity);
+		GetEntPropVector(entity, Prop_Send, "m_angRotation", opAng);
+		GetEntPropVector(entity, Prop_Data, "m_vecVelocity", opVelocity);
 
 		float arrowSpeed = GetVectorLength(opVelocity);
 
+		float Random = 10.0;
+		float Random2 = Random*-1;
+		int counter = 0;
+
 		for(int count=0; count < arrowCount; count++)
 		{
-			tempAng[0] = opAng[0] + GetRandomFloat(-5.0, 5.0);
-			tempAng[1] = opAng[1] + GetRandomFloat(-5.0, 5.0);
-			tempAng[2] = opAng[2] + GetRandomFloat(-5.0, 5.0);
+			tempAng[0] = opAng[0] + GetRandomFloat(Random2,Random);
+			tempAng[1] = opAng[1] + GetRandomFloat(Random2,Random);
+			// avoid unwanted collision
+			int i2 = count%4;
+			switch(i2)
+			{
+				case 0:
+				{
+					counter++;
+					tempPos[0] = opPos[0] + counter;
+				}
+				case 1:
+				{
+					tempPos[1] = opPos[1] + counter;
+				}
+				case 2:
+				{
+					tempPos[0] = opPos[0] - counter;
+				}
+				case 3:
+				{
+					tempPos[1] = opPos[1] - counter;
+				}
+			}
 
 			GetVectorAngles(tempAng, tempVelocity);
 
@@ -142,25 +168,29 @@ public void OnSpawn(int entity)
 			int arrow = CreateEntityByName("tf_projectile_arrow");
 			if(!IsValidEntity(arrow)) break;
 
+			Debug("arrow = %i", arrow);
+
+			IsEntityCanReflect[arrow] = true;
+
 			SetEntPropEnt(arrow, Prop_Send, "m_hOwnerEntity", owner);
 			SetEntProp(arrow,    Prop_Send, "m_bCritical",  0);
 			SetEntProp(arrow,    Prop_Send, "m_iTeamNum", GetClientTeam(owner));
 			// SetEntData(arrow, FindSendPropInfo("CTFProjectile_Arrow" , "m_nSkin"), (iTeam-2), 1, true);
-
+/*
 			SetEntDataFloat(arrow,
 				FindSendPropInfo("CTFProjectile_Arrow" , "m_iDeflected") + 4,
 				100.0,
 				true); // set damage
-
-			TeleportEntity(arrow, opAng, tempAng, tempVelocity);
-
-			DispatchSpawn(arrow);
 
 			SetVariantInt(GetClientTeam(owner));
 			AcceptEntityInput(arrow, "TeamNum", -1, -1, 0);
 
 			SetVariantInt(GetClientTeam(owner));
 			AcceptEntityInput(arrow, "SetTeam", -1, -1, 0);
+*/
+			DispatchSpawn(arrow);
+
+			TeleportEntity(arrow, tempPos, tempAng, tempVelocity);
 		}
 	}
 }

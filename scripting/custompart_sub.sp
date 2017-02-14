@@ -943,16 +943,21 @@ void SwitchWeaponForTick(int entity)
         if(hasThis)
         {
             int random = GetRandomInt(0, count-1);
+            int weapon = GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon");
 
-            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
-            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
+            SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
+            SetEntPropFloat(weapon, Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
             SetEntPropFloat(owner, Prop_Send, "m_flNextAttack", GetGameTime());
 
             SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", slotWeapon[random]);
 
-            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
-            SetEntPropFloat(GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
-            SetEntPropFloat(owner, Prop_Send, "m_flNextAttack", GetGameTime());
+            weapon = GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon");
+            if(IsValidEntity(weapon))
+            {
+                SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
+                SetEntPropFloat(weapon, Prop_Send, "m_flNextSecondaryAttack", GetGameTime());
+                SetEntPropFloat(owner, Prop_Send, "m_flNextAttack", GetGameTime());
+            }
 
             SetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon", entity);
 

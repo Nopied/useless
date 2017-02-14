@@ -206,8 +206,8 @@ bool:AreValidStompTargets(client, victim)
         return false;
     }
 
-    bool IsBoss = (FF2_GetBossIndex(client) != -1);
-    if(IsBoss)
+    bool IsBossTeam = (FF2_GetBossTeam() == GetClientTeam(client));
+    if(IsBossTeam)
     {
         return false;
     }
