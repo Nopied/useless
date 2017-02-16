@@ -247,7 +247,7 @@ native Float:FF2_GetRageDist(boss=0, const String:pluginName[]="", const String:
  * @param abilityName 	Name of ability
  * @return				True if the boss has this ability, false if it doesn't
  */
-native bool:FF2_HasAbility(boss, const String:pluginName[], const String:abilityName[]);
+native bool:FF2_HasAbility(boss, const String:pluginName[], const String:abilityName[], bool:IsUpgradeRage = false);
 
 /**
  * Determines how the Boss should use a certain ability

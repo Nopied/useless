@@ -175,13 +175,13 @@ public void OnSpawn(int entity)
 			SetEntPropEnt(arrow, Prop_Send, "m_hOwnerEntity", owner);
 			SetEntProp(arrow,    Prop_Send, "m_bCritical",  0);
 			SetEntProp(arrow,    Prop_Send, "m_iTeamNum", GetClientTeam(owner));
-			// SetEntData(arrow, FindSendPropInfo("CTFProjectile_Arrow" , "m_nSkin"), (iTeam-2), 1, true);
-/*
+
 			SetEntDataFloat(arrow,
 				FindSendPropInfo("CTFProjectile_Arrow" , "m_iDeflected") + 4,
 				100.0,
 				true); // set damage
-
+			// SetEntData(arrow, FindSendPropInfo("CTFProjectile_Arrow" , "m_nSkin"), (iTeam-2), 1, true);
+/*
 			SetVariantInt(GetClientTeam(owner));
 			AcceptEntityInput(arrow, "TeamNum", -1, -1, 0);
 
@@ -238,7 +238,7 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 		}
 	}
 
-	if(StrEqual(ability_name, "ff2_CBS_upgrade_rage"))
+	if(StrEqual(ability_name, "ff2_CBS_upgrade_rage", true))
 	{
 		CBS_UpgradeRage[client] = true;
 	}
@@ -248,7 +248,7 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
  {
 	 int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
-	 if(StrEqual(abilityName, "ff2_CBS_upgrade_rage") && abilityDuration > 0.0)
+	 if(StrEqual(abilityName, "ff2_CBS_upgrade_rage", true) && abilityDuration > 0.0)
 	 {
 		 CBS_UpgradeRage[client] = true;
 	 }

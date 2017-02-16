@@ -128,7 +128,7 @@ public Action:OnStartTouch(client, other)
 
                             if(immunityResult == GOOMBA_IMMUNFLAG_NONE)
                             {
-                                if(GoombaStomp(client, other, 0.0, 0.0, 0.0, Goomba_Combo[client]))
+                                if(GoombaStomp(client, other, 1.0, 0.0, 0.0, Goomba_Combo[client]))
                                 {
                                     Goomba_Combo[client]++;
                                     PlayStompReboundSound(client);

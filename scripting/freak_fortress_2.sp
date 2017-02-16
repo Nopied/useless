@@ -10650,6 +10650,7 @@ public Native_HasAbility(Handle:plugin, numParams)
 	new boss=GetNativeCell(1);
 	GetNativeString(2, pluginName, sizeof(pluginName));
 	GetNativeString(3, abilityName, sizeof(abilityName));
+	new bool:IsUpgradeRage = GetNativeCell(4);
 	if(boss==-1 || Special[boss]==-1 || !BossKV[Special[boss]])
 	{
 		return false;
@@ -10676,6 +10677,16 @@ public Native_HasAbility(Handle:plugin, numParams)
 				KvGetString(BossKV[Special[boss]], "plugin_name", pluginName2, sizeof(pluginName2));
 				if(!pluginName[0] || !pluginName2[0] || StrEqual(pluginName, pluginName2))  //Make sure the plugin names are equal
 				{
+					if(IsUpgradeRage)
+					{
+						if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) <= 0)
+							continue;
+					}
+					else
+					{
+						if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
+							continue;
+					}
 					return true;
 				}
 			}
