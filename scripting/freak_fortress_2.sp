@@ -10650,10 +10650,15 @@ public Native_HasAbility(Handle:plugin, numParams)
 	new boss=GetNativeCell(1);
 	GetNativeString(2, pluginName, sizeof(pluginName));
 	GetNativeString(3, abilityName, sizeof(abilityName));
-	new bool:IsUpgradeRage = GetNativeCell(4);
+	new bool:IsUpgradeRage = false;
 	if(boss==-1 || Special[boss]==-1 || !BossKV[Special[boss]])
 	{
 		return false;
+	}
+
+	if(numParams >= 4)
+	{
+		IsUpgradeRage = GetNativeCell(4);
 	}
 
 	KvRewind(BossKV[Special[boss]]);
