@@ -9,6 +9,25 @@
 #include <freak_fortress_2_subplugin>
 #include <POTRY>
 
+#define SOLID_NONE 0 // no solid model
+#define SOLID_BSP 1 // a BSP tree
+#define SOLID_BBOX 2 // an AABB
+#define SOLID_OBB 3 // an OBB (not implemented yet)
+#define SOLID_OBB_YAW 4 // an OBB, constrained so that it can only yaw
+#define SOLID_CUSTOM 5 // Always call into the entity for tests
+#define SOLID_VPHYSICS 6 // solid vphysics object, get vcollide from the model and collide with that
+
+#define FSOLID_CUSTOMRAYTEST 0x0001 // Ignore solid type + always call into the entity for ray tests
+#define FSOLID_CUSTOMBOXTEST 0x0002 // Ignore solid type + always call into the entity for swept box tests
+#define FSOLID_NOT_SOLID 0x0004 // Are we currently not solid?
+#define FSOLID_TRIGGER 0x0008 // This is something may be collideable but fires touch functions
+#define FSOLID_NOT_STANDABLE 0x0010 // You can't stand on this
+#define FSOLID_VOLUME_CONTENTS 0x0020 // Contains volumetric contents (like water)
+#define FSOLID_FORCE_WORLD_ALIGNED 0x0040 // Forces the collision rep to be world-aligned even if it's SOLID_BSP or SOLID_VPHYSICS
+#define FSOLID_USE_TRIGGER_BOUNDS 0x0080 // Uses a special trigger bounds separate from the normal OBB
+#define FSOLID_ROOT_PARENT_ALIGNED 0x0100 // Collisions are defined in root parent's local coordinate space
+#define FSOLID_TRIGGER_TOUCH_DEBRIS 0x0200 // This trigger will touch debris objects
+
 #define	MAX_EDICT_BITS	12
 #define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
 
@@ -109,7 +128,7 @@ public void OnSpawn(int entity)
 		SetVariantString("!activator");
 		AcceptEntityInput(observer, "SetParent", entity);
 	}
-
+/*
 	if(CBS_UpgradeRage[owner])
 	{
 		float opAng[3];
@@ -181,18 +200,19 @@ public void OnSpawn(int entity)
 				100.0,
 				true); // set damage
 			// SetEntData(arrow, FindSendPropInfo("CTFProjectile_Arrow" , "m_nSkin"), (iTeam-2), 1, true);
-/*
+
 			SetVariantInt(GetClientTeam(owner));
 			AcceptEntityInput(arrow, "TeamNum", -1, -1, 0);
 
 			SetVariantInt(GetClientTeam(owner));
 			AcceptEntityInput(arrow, "SetTeam", -1, -1, 0);
-*/
+
 			DispatchSpawn(arrow);
 
 			TeleportEntity(arrow, tempPos, tempAng, tempVelocity);
 		}
 	}
+	*/
 }
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
@@ -238,29 +258,133 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 		}
 	}
 
-	if(StrEqual(ability_name, "ff2_CBS_upgrade_rage", true))
+	if(StrEqual(ability_name, "ff2_rage_stone"))
 	{
+		CreateStone(boss);
+	}
+/*
+	if(StrEqual(ability_name, "ff2_CBS_upgrade_rage"))
+	{
+		Debug("CBS_UpgradeRage[client] = true");
 		CBS_UpgradeRage[client] = true;
 	}
+*/
 }
+
+void CreateStone(int boss)
+{
+	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+	int stoneCount = FF2_GetAbilityArgument(boss, this_plugin_name, "ff2_rage_stone", 1, 10);
+	float PropVelocity = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_rage_stone", 2, 2000.0);
+	int stoneHealth = FF2_GetAbilityArgument(boss, this_plugin_name, "ff2_rage_stone", 3, 2000);
+	char strModelPath[PLATFORM_MAX_PATH];
+	FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_rage_stone", 4, strModelPath, sizeof(strModelPath));
+
+	for(int count=0; count<stoneCount; count++)
+	{
+		int prop = CreateEntityByName("prop_physics_override");
+		if(IsValidEntity(prop))
+		{
+			Debug("%i", prop);
+			SetEntityModel(prop, strModelPath);
+			SetEntityMoveType(prop, MOVETYPE_VPHYSICS);
+			SetEntProp(prop, Prop_Send, "m_CollisionGroup", 5);
+			SetEntProp(prop, Prop_Send, "m_usSolidFlags", FSOLID_TRIGGER_TOUCH_DEBRIS); // not solid
+			SetEntProp(prop, Prop_Send, "m_nSolidType", SOLID_VPHYSICS); // not solid
+			SetEntProp(prop, Prop_Data, "m_takedamage", 2);
+			SetEntProp(prop, Prop_Data, "m_iMaxHealth", stoneHealth);
+			SetEntProp(prop, Prop_Data, "m_iHealth", stoneHealth);
+			DispatchSpawn(prop);
+
+			float position[3];
+			GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
+
+			float velocity[3];
+
+			velocity[0] = GetRandomFloat(PropVelocity*0.5, PropVelocity*1.5);
+			velocity[1] = GetRandomFloat(PropVelocity*0.5, PropVelocity*1.5);
+			velocity[2] = GetRandomFloat(PropVelocity*0.5, PropVelocity*1.5);
+			NormalizeVector(velocity, velocity);
+
+
+			TeleportEntity(prop, position, NULL_VECTOR, velocity);
+			// TeleportEntity(prop, position, NULL_VECTOR, NULL_VECTOR);
+
+			SDKHook(prop, SDKHook_Touch, OnStoneTouch);
+			SDKHook(prop, SDKHook_StartTouch, OnStoneTouch);
+		}
+		else
+			break;
+	}
+}
+
+
+public Action OnStoneTouch(int entity, int other)
+{
+	if (other > 0 && other <= MaxClients)
+	{
+		float modelScale = GetEntPropFloat(entity, Prop_Send, "m_flModelScale");
+		if(!IsBossTeam(other))
+		{
+			SDKHooks_TakeDamage(other, entity, entity, 30.0, DMG_SLASH, -1);
+		}
+		else
+		{
+			KickEntity(other, entity);
+		}
+
+		if(modelScale-0.08 < 0.1)
+		{
+			AcceptEntityInput(entity, "kill");
+			return Plugin_Continue;
+		}
+		SetEntPropFloat(entity, Prop_Send, "m_flModelScale", modelScale-0.08);
+	}
+
+	return Plugin_Continue;
+}
+
+void KickEntity(int client, int entity)
+{
+	float clientEyeAngles[3];
+	float vecrt[3];
+	float angVector[3];
+
+	GetClientEyeAngles(client, clientEyeAngles);
+	GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
+	NormalizeVector(angVector, angVector);
+
+	angVector[0] *= 1500.0;
+	angVector[1] *= 1500.0;
+	angVector[2] *= 1500.0;
+
+	TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, angVector);
+	// SetEntProp(entity, Prop_Send, "m_CollisionGroup", 2);
+
+}
+
 
  public Action FF2_OnBossAbilityTime(int boss, char[] abilityName, int slot, float &abilityDuration, float &abilityCooldown)
  {
 	 int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
+	 /*
 	 if(StrEqual(abilityName, "ff2_CBS_upgrade_rage", true) && abilityDuration > 0.0)
 	 {
 		 CBS_UpgradeRage[client] = true;
 	 }
+	 */
  }
 public Action FF2_OnAbilityTimeEnd(int boss, int slot, char[] abilityName)
 {
 	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
+	/*
 	if(StrEqual(abilityName, "ff2_CBS_upgrade_rage"))
 	{
 		CBS_UpgradeRage[client] = false;
 	}
+	*/
 }
 
 public Action OnRoundStart(Handle timer)

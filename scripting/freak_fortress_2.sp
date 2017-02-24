@@ -5968,7 +5968,9 @@ public Action:BossTimer(Handle:timer)
 				else
 				{
 					Format(temp, sizeof(temp), "%t", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
+					Format(temp, sizeof(temp), "%s | %t", temp, "do_rage");
 
+					/*
 					if(BossCharge[boss][0] >= 200.0)
 					{
 						Format(temp, sizeof(temp), "%s | %t", temp, "do_upgrade_rage");
@@ -5977,6 +5979,7 @@ public Action:BossTimer(Handle:timer)
 					{
 						Format(temp, sizeof(temp), "%s | %t", temp, "do_rage");
 					}
+					*/
 
 				}
 				if(DEVmode)
@@ -6410,6 +6413,9 @@ public Action:OnCallForMedic(client, const String:command[], args)
 	if(RoundFloat(BossCharge[boss][0])>=100)
 	{
 		bool doUpgradeRage = (RoundFloat(BossCharge[boss][0]) >= 200) ? true : false;
+		//
+		doUpgradeRage = false;
+		//
 		bool hasUpgradeRage = false;
 		if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0 || (!DEVmode && FF2flags[client] & FF2FLAG_NOTALLOW_RAGE))
 		{
