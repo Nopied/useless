@@ -52,6 +52,10 @@ float RocketCooldown[MAXPLAYERS+1];
 
 float WalkingSoundCooldown[MAXPLAYERS+1];
 
+bool IsTravis[MAXPLAYERS];
+float TravisBeamCharge[MAXPLAYERS+1];
+// float TravisBeamCoolTick[MAXPLAYERS+1];
+
 bool IsEntityCanReflect[MAX_EDICTS];
 bool AllLastmanStanding;
 bool AttackAndDef;
@@ -61,7 +65,9 @@ public void OnPluginStart2()
 {
 	HookEvent("teamplay_round_start", OnRoundStart_Pre);
 
-	HookEvent("player_spawn", OnPlayerSpawn);
+	// HookEvent("player_spawn", OnPlayerSpawn);
+
+	HookEvent("player_death", OnPlayerDeath);
 }
 
 public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
@@ -69,9 +75,35 @@ public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
     CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
-public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
 
+	if(!IsValidClient(client) || !IsValidClient(attacker))	return Plugin_Continue;
+
+	if(IsBoss(attacker))
+	{
+		int boss = FF2_GetBossIndex(attacker);
+
+		if(TravisBeamCharge[attacker] >= 70.0)
+		{
+			float neededTimeStop = (100.0 - TravisBeamCharge[attacker]) / 5.0;
+/*
+			if(TIMESTOP_IsTimeStopping())
+			{
+				TIMESTOP_DisableTimeStop();
+			}
+*/
+
+			// TIMESTOP_EnableTimeStop(attacker, 0.1, neededTimeStop);
+		}
+	}
+}
+
+stock bool IsBoss(int client)
+{
+	return FF2_GetBossIndex(client) != -1;
 }
 
 public OnEntityCreated(entity, const String:classname[])
@@ -214,6 +246,10 @@ public void OnSpawn(int entity)
 	}
 	*/
 }
+public Action:FF2_OnPlayBoss(int client, int bossIndex)
+{
+	CheckAbilities(client, true);
+}
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
 {
@@ -275,8 +311,8 @@ void CreateStone(int boss)
 {
 	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 	int stoneCount = FF2_GetAbilityArgument(boss, this_plugin_name, "ff2_rage_stone", 1, 10);
-	float PropVelocity = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_rage_stone", 2, 2000.0);
-	int stoneHealth = FF2_GetAbilityArgument(boss, this_plugin_name, "ff2_rage_stone", 3, 2000);
+	float PropVelocity = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_rage_stone", 2, 10000.0);
+	int stoneHealth = FF2_GetAbilityArgument(boss, this_plugin_name, "ff2_rage_stone", 3, 400);
 	char strModelPath[PLATFORM_MAX_PATH];
 	FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_rage_stone", 4, strModelPath, sizeof(strModelPath));
 
@@ -321,24 +357,88 @@ void CreateStone(int boss)
 
 public Action OnStoneTouch(int entity, int other)
 {
+	float modelScale = GetEntPropFloat(entity, Prop_Send, "m_flModelScale");
+
 	if (other > 0 && other <= MaxClients)
 	{
-		float modelScale = GetEntPropFloat(entity, Prop_Send, "m_flModelScale");
 		if(!IsBossTeam(other))
 		{
-			SDKHooks_TakeDamage(other, entity, entity, 30.0, DMG_SLASH, -1);
+			SDKHooks_TakeDamage(other, entity, entity, 15.0, DMG_SLASH, -1);
 		}
 		else
 		{
 			KickEntity(other, entity);
 		}
 
-		if(modelScale-0.08 < 0.1)
+		if(modelScale-0.008 < 0.1)
 		{
 			AcceptEntityInput(entity, "kill");
 			return Plugin_Continue;
 		}
-		SetEntPropFloat(entity, Prop_Send, "m_flModelScale", modelScale-0.08);
+		SetEntPropFloat(entity, Prop_Send, "m_flModelScale", modelScale-0.008);
+	}
+	else if(other > 0)
+	{
+		float position[3];
+		GetEntPropVector(entity, Prop_Send, "m_vecOrigin", position);
+
+		float otherPosition[3];
+		GetEntPropVector(other, Prop_Send, "m_vecOrigin", otherPosition);
+
+		float goalVector[3], goalOtherVector[3];
+		MakeVectorFromPoints(position, otherPosition, goalVector);
+		MakeVectorFromPoints(otherPosition, position, goalOtherVector);
+
+		NormalizeVector(goalVector, goalVector);
+		ScaleVector(goalVector, -2500.0);
+
+		NormalizeVector(goalOtherVector, goalOtherVector);
+		ScaleVector(goalOtherVector, -2500.0);
+
+		TeleportEntity(entity, position, NULL_VECTOR, goalVector);
+		TeleportEntity(other, position, NULL_VECTOR, goalOtherVector);
+	}
+	else
+	{
+		decl Float:vOrigin[3];
+		GetEntPropVector(entity, Prop_Data, "m_vecOrigin", vOrigin);
+
+		decl Float:vAngles[3];
+		GetEntPropVector(entity, Prop_Data, "m_angRotation", vAngles);
+
+		decl Float:vVelocity[3];
+		GetEntPropVector(entity, Prop_Data, "m_vecAbsVelocity", vVelocity);
+
+		new Handle:trace = TR_TraceRayFilterEx(vOrigin, vAngles, MASK_SHOT, RayType_Infinite, TEF_ExcludeEntity, entity);
+
+		if(!TR_DidHit(trace))
+		{
+			CloseHandle(trace);
+			return Plugin_Continue;
+		}
+
+		decl Float:vNormal[3];
+		TR_GetPlaneNormal(trace, vNormal);
+
+		//PrintToServer("Surface Normal: [%.2f, %.2f, %.2f]", vNormal[0], vNormal[1], vNormal[2]);
+
+		CloseHandle(trace);
+
+		new Float:dotProduct = GetVectorDotProduct(vNormal, vVelocity);
+
+		ScaleVector(vNormal, dotProduct);
+		ScaleVector(vNormal, 2.0);
+
+		decl Float:vBounceVec[3];
+		SubtractVectors(vVelocity, vNormal, vBounceVec);
+
+		decl Float:vNewAngles[3];
+		GetVectorAngles(vBounceVec, vNewAngles);
+
+		//PrintToServer("Angles: [%.2f, %.2f, %.2f] -> [%.2f, %.2f, %.2f]", vAngles[0], vAngles[1], vAngles[2], vNewAngles[0], vNewAngles[1], vNewAngles[2]);
+		//PrintToServer("Velocity: [%.2f, %.2f, %.2f] |%.2f| -> [%.2f, %.2f, %.2f] |%.2f|", vVelocity[0], vVelocity[1], vVelocity[2], GetVectorLength(vVelocity), vBounceVec[0], vBounceVec[1], vBounceVec[2], GetVectorLength(vBounceVec));
+
+		TeleportEntity(entity, NULL_VECTOR, vNewAngles, vBounceVec);
 	}
 
 	return Plugin_Continue;
@@ -368,12 +468,11 @@ void KickEntity(int client, int entity)
  {
 	 int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
-	 /*
-	 if(StrEqual(abilityName, "ff2_CBS_upgrade_rage", true) && abilityDuration > 0.0)
+	 if(StrEqual(abilityName, "ff2_travis", true) && abilityDuration > 0.0)
 	 {
-		 CBS_UpgradeRage[client] = true;
+		 TravisBeamCharge[client] = 100.0;
 	 }
-	 */
+
  }
 public Action FF2_OnAbilityTimeEnd(int boss, int slot, char[] abilityName)
 {
@@ -395,30 +494,35 @@ public Action OnRoundStart(Handle timer)
 		FF2_SetGameState(Game_AttackAndDefense);
 }
 
-void CheckAbilities()
+void CheckAbilities(int client=0, bool onlyforclient=false)
 {
-  int client, boss;
+  int boss;
   AllLastmanStanding = false;
   AttackAndDef = false;
 
-  for(client=1; client<=MaxClients; client++)
+  for(int target=1; target <= MaxClients; target++)
   {
-		if(IsClientInGame(client))
+	  	if(onlyforclient && target != client)
 		{
-			if(IsTank[client])
-			{
-				SetOverlay(client, "");
+			continue;
+		}
 
-				SDKUnhook(client, SDKHook_StartTouch, OnTankTouch);
-				SDKUnhook(client, SDKHook_Touch, OnTankTouch);
+		if(IsClientInGame(target))
+		{
+			if(IsTank[target])
+			{
+				SetOverlay(target, "");
+
+				SDKUnhook(target, SDKHook_StartTouch, OnTankTouch);
+				SDKUnhook(target, SDKHook_Touch, OnTankTouch);
 			}
-			if(IsTank[client]) // TODO: 개별화
+			if(IsTank[target]) // TODO: 개별화
 			{
 				float StartAngle[3];
 				float tempAngle[3];
 				char Input[100];
 
-				GetClientEyeAngles(client, StartAngle);
+				GetClientEyeAngles(target, StartAngle);
 
 				tempAngle[0] = 0.0;
 				tempAngle[1] = StartAngle[1];
@@ -427,60 +531,64 @@ void CheckAbilities()
 				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
 				SetVariantBool(true);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
+				AcceptEntityInput(target, "SetCustomModelRotates", target);
 
 				SetVariantString(Input);
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
+				AcceptEntityInput(target, "SetCustomModelRotation", target);
 
-				RequestFrame(ClassAniTimer, client);
+				RequestFrame(ClassAniTimer, target);
 
 				SetVariantBool(false);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
+				AcceptEntityInput(target, "SetCustomModelRotates", target);
 			}
 		}
 
-		Sub_SaxtonReflect[client] = false;
-		CBS_Abilities[client] = false;
-		CBS_UpgradeRage[client] = false;
+		Sub_SaxtonReflect[target] = false;
+		CBS_Abilities[target] = false;
+		CBS_UpgradeRage[target] = false;
 
-		CanWallWalking[client] = false;
-		DoingWallWalking[client] = false;
-		CoolingWallWalking[client] = false;
+		CanWallWalking[target] = false;
+		DoingWallWalking[target] = false;
+		CoolingWallWalking[target] = false;
 
-		IsTank[client] = false;
+		IsTank[target] = false;
 
-		RocketCooldown[client] = 0.0;
-		WalkingSoundCooldown[client] = 0.0;
+		RocketCooldown[target] = 0.0;
+		WalkingSoundCooldown[target] = 0.0;
 
-	    if((boss=FF2_GetBossIndex(client)) != -1)
+		IsTravis[target] = false;
+		TravisBeamCharge[target] = 0.0;
+
+	    if((boss=FF2_GetBossIndex(target)) != -1)
 	    {
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_wallwalking"))
 			{
-				CanWallWalking[client] = true;
+				CanWallWalking[target] = true;
 			}
 	      	if(FF2_HasAbility(boss, this_plugin_name, "ff2_saxtonreflect"))
-	        	Sub_SaxtonReflect[client] = true;
+	        	Sub_SaxtonReflect[target] = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_CBS_abilities"))
-		    	CBS_Abilities[client] = true;
+		    	CBS_Abilities[target] = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_lastmanstanding"))
 				AllLastmanStanding = true;
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_attackanddef"))
 				AttackAndDef = true;
-
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_travis"))
+				IsTravis[target] = true;
 
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_tank"))
 			{
-				IsTank[client] = true;
-				SetOverlay(client, "Effects/combine_binocoverlay");
+				IsTank[target] = true;
+				SetOverlay(target, "Effects/combine_binocoverlay");
 
 				char model[PLATFORM_MAX_PATH];
 				float StartAngle[3];
 				float tempAngle[3];
-				GetClientEyeAngles(client, StartAngle);
+				GetClientEyeAngles(target, StartAngle);
 
-				GetClientModel(client, model, sizeof(model));
+				GetClientModel(target, model, sizeof(model));
 				SetVariantString(model);
-				AcceptEntityInput(client, "SetCustomModel", client);
+				AcceptEntityInput(target, "SetCustomModel", target);
 
 				char Input[100];
 
@@ -491,15 +599,15 @@ void CheckAbilities()
 				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
 
 				SetVariantBool(true);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
+				AcceptEntityInput(target, "SetCustomModelRotates", target);
 
 				SetVariantString(Input);
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
+				AcceptEntityInput(target, "SetCustomModelRotation", target);
 
-				RequestFrame(ClassAniTimer, client);
+				RequestFrame(ClassAniTimer, target);
 
-				SDKHook(client, SDKHook_StartTouch, OnTankTouch);
-				SDKHook(client, SDKHook_Touch, OnTankTouch);
+				SDKHook(target, SDKHook_StartTouch, OnTankTouch);
+				SDKHook(target, SDKHook_Touch, OnTankTouch);
 			}
 		}
   }
@@ -536,72 +644,93 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		return Plugin_Continue;
 	}
 
-  if(0 < client && client <= MaxClients && IsClientInGame(client))
+  if(0 < client && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client))
   {
 	 	int boss = FF2_GetBossIndex(client);
 
-	    if(buttons & IN_ATTACK && Sub_SaxtonReflect[client])
+	    if(buttons & IN_ATTACK)
 	    {
 			if(GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime()
 			|| GetEntPropFloat(GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack") > GetGameTime())
 				return Plugin_Continue;
 
-			int ent;
-			float clientPos[3];
-			float clientEyeAngles[3];
-			float end_pos[3];
-			float targetPos[3];
-			// float targetEndPos[3];
-			float vecrt[3];
-			float angVector[3];
-
-			GetEntPropVector(client, Prop_Send, "m_vecOrigin", clientPos);
-			GetClientEyeAngles(client, clientEyeAngles);
-			GetEyeEndPos(client, 100.0, end_pos);
-
-			while((ent = FindEntityByClassname(ent, "tf_projectile_*")) != -1)
+			if(Sub_SaxtonReflect[client])
 			{
-				if(GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity") == client)
-				 continue;
+				int ent;
+				float clientPos[3];
+				float clientEyeAngles[3];
+				float end_pos[3];
+				float targetPos[3];
+				// float targetEndPos[3];
+				float vecrt[3];
+				float angVector[3];
 
-				GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+				GetEntPropVector(client, Prop_Send, "m_vecOrigin", clientPos);
+				GetClientEyeAngles(client, clientEyeAngles);
+				GetEyeEndPos(client, 100.0, end_pos);
 
-				if(GetVectorDistance(end_pos, targetPos) <= 100.0)
+				while((ent = FindEntityByClassname(ent, "tf_projectile_*")) != -1)
 				{
-					SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
+					if(GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity") == client)
+					 continue;
 
-					if(HasEntProp(ent, Prop_Send, "m_iTeamNum"))
-					{
-						SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
-					}
-					if(HasEntProp(ent, Prop_Send, "m_bCritical"))
-					{
-						SetEntProp(ent, Prop_Send, "m_bCritical", 1);
-					} // m_iDeflected
-					if(HasEntProp(ent, Prop_Send, "m_iDeflected"))
-					{
-						SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
-					}
-					if(HasEntProp(ent, Prop_Send, "m_hThrower"))
-					{
-						SetEntPropEnt(ent, Prop_Send, "m_hThrower", client);
-					}
-					if(HasEntProp(ent, Prop_Send, "m_hDeflectOwner"))
-					{
-						SetEntPropEnt(ent, Prop_Send, "m_hDeflectOwner", client);
-					}
+					GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
 
-					GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
-					NormalizeVector(angVector, angVector);
+					if(GetVectorDistance(end_pos, targetPos) <= 100.0)
+					{
+						SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
 
-					angVector[0] *= 1500.0;
-					angVector[1] *= 1500.0;
-					angVector[2] *= 1500.0;
+						if(HasEntProp(ent, Prop_Send, "m_iTeamNum"))
+						{
+							SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
+						}
+						if(HasEntProp(ent, Prop_Send, "m_bCritical"))
+						{
+							SetEntProp(ent, Prop_Send, "m_bCritical", 1);
+						} // m_iDeflected
+						if(HasEntProp(ent, Prop_Send, "m_iDeflected"))
+						{
+							SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
+						}
+						if(HasEntProp(ent, Prop_Send, "m_hThrower"))
+						{
+							SetEntPropEnt(ent, Prop_Send, "m_hThrower", client);
+						}
+						if(HasEntProp(ent, Prop_Send, "m_hDeflectOwner"))
+						{
+							SetEntPropEnt(ent, Prop_Send, "m_hDeflectOwner", client);
+						}
 
-					TeleportEntity(ent, NULL_VECTOR, NULL_VECTOR, angVector);
-					EmitSoundToAll("player/flame_out.wav", ent, _, _, _, _, _, ent, targetPos);
+						GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
+						NormalizeVector(angVector, angVector);
+
+						angVector[0] *= 1500.0;
+						angVector[1] *= 1500.0;
+						angVector[2] *= 1500.0;
+
+						TeleportEntity(ent, NULL_VECTOR, NULL_VECTOR, angVector);
+						EmitSoundToAll("player/flame_out.wav", ent, _, _, _, _, _, ent, targetPos);
+					}
 				}
 			}
+
+			if(IsTravis[client])
+			{
+				TravisBeamCharge[client] += FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 1, 2.0);
+
+				if(TravisBeamCharge[client] > 100.0)
+					TravisBeamCharge[client] = 100.0;
+			}
+		}
+
+		if(IsTravis[client])
+		{
+			TravisBeamCharge[client] -= FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 2, 0.01);
+
+			if(TravisBeamCharge[client] < 0.0)
+				TravisBeamCharge[client] = 0.0;
+
+			PrintCenterText(client, "빔 카타나 충전율: %.1f\n무기를 휘둘러 충전", TravisBeamCharge[client]);
 		}
 
 		if(IsTank[client])

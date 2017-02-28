@@ -3,6 +3,7 @@ enum GameMode
     Game_None = 0,
     Game_SuddenDeath,
     Game_LastManStanding,
+    Game_SpecialLastManStanding,
     Game_AttackAndDefense
 };
 
@@ -30,6 +31,12 @@ native void ROLLER_CreateRollerMine(int client, int count=1);
 
 forward Action FF2_OnDeathMatchTimer(float &time);
 
+native bool TIMESTOP_IsTimeStopping();
+
+// 효과음은 알아서.
+native void TIMESTOP_EnableTimeStop(int parent, float warntime=0.0, float stoptime);
+
+native void TIMESTOP_DisableTimeStop();
 /*
 * 이 inc는 존재만 확인하는 용도임.
 */

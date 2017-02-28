@@ -19,7 +19,9 @@ int top[MAXPLAYERS+1];
 bool loserTop[MAXPLAYERS+1];
 bool IsAFK[MAXPLAYERS+1];
 int lastDamage;
+
 int BGMCount;
+int SpecialBGMCount;
 
 float timeleft;
 int noticed;
@@ -466,7 +468,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
     }
 
-    if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding)
+    if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding && GetGameState() != Game_SpecialLastManStanding)
     && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
         SetGameState(Game_LastManStanding);
@@ -590,7 +592,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         );
         CPrintToChatAll("%N님이 {red}강력한 무기{default}를 흭득하셨습니다!",
         winner);
-        PrintCenterTextAll("%N님이 보스와 최후의 결전을 치루게 됩니다!", winner);
+
 
 
         int particle = AttachParticle(winner, "env_snow_stormfront_001");
@@ -607,6 +609,11 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
             SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
         }
 
+        if(timeleft<=0.0)
+            DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+
+        timeleft = 120.0;
+        SetGameState(Game_LastManStanding);
 
         for(int i; i<bossCount; i++)
         {
@@ -623,14 +630,31 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
                 FF2_SetBossMaxHealth(boss, newhealth);
                 FF2_SetBossHealth(boss, newhealth);
             }
+
+            if(FF2_HasAbility(boss, "ff2_support", "ff2_special_lastmanstanding"))
+            {
+                SetGameState(Game_SpecialLastManStanding);
+            }
         }
 
-        if(timeleft<=0.0)
-            DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+        if(GetGameState() == Game_SpecialLastManStanding)
+        {
+            for(int i; i<bossCount; i++)
+            {
+                int boss = FF2_GetBossIndex(bosses[i]);
+
+                FF2_SetBossMaxRageCharge(boss, 1000.0);
+                FF2_SetBossCharge(boss, 0, 400.0);
+            }
+
+            PrintCenterTextAll("%N님이 보스가 됩니다!", winner);
+        }
+        else
+        {
+            PrintCenterTextAll("%N님이 보스와 최후의 결전을 치루게 됩니다!", winner);
+        }
 
         FF2_SetServerFlags(FF2SERVERFLAG_ISLASTMAN|FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER|FF2SERVERFLAG_UNCHANGE_BOSSBGM_SERVER|FF2SERVERFLAG_UNCOLLECTABLE_DAMAGE);
-        timeleft = 120.0;
-        SetGameState(Game_LastManStanding);
 
         if(GetEventInt(event, "userid") == GetClientUserId(winner))
         {
@@ -719,13 +743,92 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
         TF2_RespawnPlayer(client);
     }
 
-    TF2_AddCondition(client, TFCond_Ubercharged, 10.0);
-    TF2_AddCondition(client, TFCond_Stealthed, 10.0);
-    TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
-    GiveLastManWeapon(client);
+    if(GetGameState() == Game_SpecialLastManStanding)
+    {
+        // Debug("Game_SpecialLastManStanding");
+        Handle BossKV;
+        ArrayList nameArray = new ArrayList();
+        int nameArrayCount = 0;
+        char name[120];
+        char bossName[120];
+        int bossCount=0;
 
-    RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
-    RemovePlayerTarge(client);
+        int totalBossHP=0;
+
+        int bosses[MAXPLAYERS+1];
+        for(int target = 1; target <= MaxClients; target++)
+        {
+            if(!IsValidClient(target)) // for bossCount.
+                continue;
+
+            else if(IsBoss(target) && IsPlayerAlive(target))
+            {
+                bosses[bossCount++] = target;
+                int boss = FF2_GetBossIndex(target);
+                totalBossHP += FF2_GetBossHealth(boss);
+
+                continue;
+            }
+        }
+
+        bool equalName = false;
+
+        for (int i=1; (BossKV=FF2_GetSpecialKV(i,true)); i++)
+    	{
+            for(int bossC; bossC<bossCount; bossC++)
+            {
+                int boss = FF2_GetBossIndex(bosses[bossC]);
+                if(boss == i)
+                {
+                    equalName = true;
+                    break;
+                }
+
+            }
+
+            if(equalName)
+            {
+                continue;
+            }
+
+            // Debug("name = %s, equalName = %s", name, equalName ? "true" : "false");
+
+            if(!equalName)
+            {
+                nameArrayCount++;
+                nameArray.Push(i);
+            }
+    	}
+
+        if(nameArrayCount > 0)
+        {
+            SetRandomSeed(GetTime());
+
+            int random = GetRandomInt(1, nameArrayCount-1);
+            random = nameArray.Get(random);
+            Debug("Game_SpecialLastManStanding: %N %i", client, random);
+            FF2_MakeClientToBoss(client, random);
+
+            int boss = FF2_GetBossIndex(client);
+            FF2_SetBossMaxHealth(boss, totalBossHP);
+            FF2_SetBossHealth(boss, totalBossHP);
+            FF2_SetBossLives(boss, 1);
+            FF2_SetBossCharge(boss, 0, 400.0);
+            FF2_SetBossMaxRageCharge(boss, 1000.0);
+        }
+
+        nameArray.Close();
+    }
+    else
+    {
+        TF2_AddCondition(client, TFCond_Ubercharged, 10.0);
+        TF2_AddCondition(client, TFCond_Stealthed, 10.0);
+        TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
+        GiveLastManWeapon(client);
+
+        RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
+        RemovePlayerTarge(client);
+    }
 
     FF2_SetFF2Userflags(client, FF2_GetFF2Userflags(client) | FF2USERFLAG_ALLOW_FACESTAB | FF2USERFLAG_ALLOW_GROUNDMARKET | FF2USERFLAG_ALLOW_MINIBOMB | ~FF2USERFLAG_NOTALLOW_MINIBOMB);
 }
@@ -1174,6 +1277,42 @@ public Action FF2_OnMusic(char path[PLATFORM_MAX_PATH], float &time, float &volu
         if(StrEqual(name, "snow storm -euphoria-"))
             IsSnowStorm[client] = true;
      }
+     else if(GetGameState() == Game_SpecialLastManStanding && SpecialBGMCount)
+     {
+         int random=GetRandomInt(1, BGMCount);
+         char tempItem[35];
+         char tempPath[PLATFORM_MAX_PATH];
+         char tempArtist[80];
+         char tempName[100];
+
+         KvRewind(MusicKV);
+         if(MusicKV && !selected)
+         {
+             Changed = true;
+
+             KvRewind(MusicKV);
+             if(KvJumpToKey(MusicKV, "sound_special_bgm"))
+             {
+               Format(tempItem, sizeof(tempItem), "time%i", random);
+               time = KvGetFloat(MusicKV, tempItem);
+
+               Format(tempPath, sizeof(tempPath), "path%i", random);
+               KvGetString(MusicKV, tempPath, tempPath, sizeof(tempPath));
+               Format(path, sizeof(path), "%s", tempPath);
+
+               Format(tempArtist, sizeof(tempArtist), "artist%i", random);
+               KvGetString(MusicKV, tempArtist, tempArtist, sizeof(tempArtist));
+               Format(artist, sizeof(artist), "%s", tempArtist);
+
+               Format(tempName, sizeof(tempName), "name%i", random);
+               KvGetString(MusicKV, tempName, tempName, sizeof(tempName));
+               Format(name, sizeof(name), "%s", tempName);
+
+               Format(tempItem, sizeof(tempItem), "volume%i", random);
+               volume=KvGetFloat(MusicKV, tempItem, 1.0);
+             }
+         }
+     }
      return Changed ? Plugin_Changed : Plugin_Continue;
 }
 
@@ -1353,6 +1492,35 @@ void PrecacheMusic()
       PrecacheSound(path, true);
 
       BGMCount++;
+    }
+
+    KvRewind(MusicKV);
+
+    if(!KvJumpToKey(MusicKV, "sound_special_bgm"))
+    {
+      LogMessage("No sound_special_bgm found!");
+      return;
+    }
+
+    for(int i=1; ; i++)
+    {
+      Format(item, sizeof(item), "path%i", i);
+      KvGetString(MusicKV, item, path, sizeof(path), "");
+
+      if(!path[0]) break;
+
+      char temp[PLATFORM_MAX_PATH];
+      Format(temp, sizeof(temp), "sound/%s", path);
+
+      if(!FileExists(temp, true))
+      {
+        LogMessage("파일이 감지되지 않아 path%i에서 검색을 멈췄습니다.", BGMCount);
+        break;
+      }
+      AddFileToDownloadsTable(temp);
+      PrecacheSound(path, true);
+
+      SpecialBGMCount++;
     }
   }
 }

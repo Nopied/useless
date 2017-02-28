@@ -1168,6 +1168,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	CreateNative("FF2_SetAbilityCooldown", Native_SetAbilityCooldown);
 	CreateNative("FF2_GetBossMaxRageCharge", Native_GetBossMaxRageCharge);
 	CreateNative("FF2_SetBossMaxRageCharge", Native_SetBossMaxRageCharge);
+	CreateNative("FF2_MakeClientToBoss", Native_MakeClientToBoss);
 
 	PreAbility=CreateGlobalForward("FF2_PreAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell, Param_CellByRef);  //Boss, plugin name, ability name, slot, enabled
 	OnAbility=CreateGlobalForward("FF2_OnAbility", ET_Hook, Param_Cell, Param_String, Param_String, Param_Cell);  //Boss, plugin name, ability name, status
@@ -3479,7 +3480,10 @@ PlayBGM(client)
 		musicKv=CloneHandle(BossKV[Special[0]]);
 
 	KvRewind(musicKv);
-	if((!selected && BossDiff[MainBoss] >= 5 && KvJumpToKey(musicKv, "sound_hell_bgm")) || KvJumpToKey(musicKv, "sound_bgm"))
+	if(!selected &&
+		((FF2_GetGameState() == Game_SpecialLastManStanding && KvJumpToKey(musicKv, "sound_special_bgm")) || (BossDiff[MainBoss] >= 5 && KvJumpToKey(musicKv, "sound_hell_bgm")))
+	|| KvJumpToKey(musicKv, "sound_bgm")
+	)
 	{
 		// Debug("key: sound_bgm");
 		decl String:music[PLATFORM_MAX_PATH];
@@ -3985,10 +3989,12 @@ public Action:MakeBoss(Handle:timer, any:boss)
 	// FormulaBossHealth
 
 	KvRewind(BossKV[Special[boss]]);
+
 	if(GetClientTeam(client)!=BossTeam)
 	{
 		AssignTeam(client, BossTeam);
 	}
+
 
 	decl String:bossName[64];
 	KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
@@ -4129,6 +4135,156 @@ public Action:MakeBoss(Handle:timer, any:boss)
 
 	if (boss == MainBoss) SetClientQueuePoints(client, 0);
 	return Plugin_Continue;
+}
+
+void MakeClientToBoss(int boss)
+{
+	int client = Boss[boss];
+	if(!IsValidClient(client) || CheckRoundState()==-1)
+	{
+		return;
+	}
+
+	if(!IsPlayerAlive(client))
+	{
+		TF2_RespawnPlayer(client);
+	}
+
+	Call_StartForward(OnPlayBoss);
+	Call_PushCell(client);
+	Call_PushCell(boss);
+	Call_Finish();
+
+	Debug("OnPlayBoss: %N %i", client, boss);
+
+	KvRewind(BossKV[Special[boss]]);
+
+	decl String:bossName[64];
+	KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
+
+	Debug("OnPlayBoss: %s", bossName);
+
+	BossRageDamage[boss]=KvGetNum(BossKV[Special[boss]], "ragedamage", 1900);
+	if(BossRageDamage[boss]<=0)
+	{
+		// KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName));
+		PrintToServer("[FF2 Bosses] Warning: Boss %s's rage damage is 0 or below, setting to 1900", bossName);
+		BossRageDamage[boss]=1900;
+	}
+
+	BossDiff[boss] = GetClientDifficultyCookie(client);
+	FormulaBossHealth(boss);
+
+	if(StrEqual(bossName, "You", true) ||
+	StrEqual(bossName, "당신", true))
+	{
+		IsBossYou[client] = true;
+	}
+	// BossLives[boss]=BossLivesMax[boss];
+	// BossHealth[boss]=BossHealthMax[boss]*BossLivesMax[boss];
+	// BossHealthLast[boss]=BossHealth[boss];
+	KvGetString(BossKV[Special[boss]], "ability_name", BossRageName[boss], sizeof(BossRageName[]));
+	KvGetString(BossKV[Special[boss]], "upgrade_ability_name", BossUpgradeRageName[boss], sizeof(BossUpgradeRageName[]));
+
+	for(int slot=0; slot<8; slot++)
+	{
+	 	char durationItem[20];
+		char cooltimeItem[20];
+
+		if(slot == 0)
+		{
+			Format(durationItem, sizeof(durationItem), "ability_duration");
+			Format(cooltimeItem, sizeof(cooltimeItem), "cooldown");
+		}
+		else
+		{
+			Format(durationItem, sizeof(durationItem), "ability_duration_slot%i", slot);
+			Format(cooltimeItem, sizeof(cooltimeItem), "cooldown_slot%i", slot);
+		}
+
+		BossAbilityDurationMax[boss][slot] = KvGetFloat(BossKV[Special[boss]], durationItem, 5.0);
+		BossAbilityCooldownMax[boss][slot] = KvGetFloat(BossKV[Special[boss]], cooltimeItem, 10.0);
+	}
+
+	SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
+	TF2_RemovePlayerDisguise(client);
+
+	if(!IsBossYou[client])
+		TF2_SetPlayerClass(client, TFClassType:KvGetNum(BossKV[Special[boss]], "class", 1), _, !GetEntProp(client, Prop_Send, "m_iDesiredPlayerClass") ? true : false);
+	SDKHook(client, SDKHook_GetMaxHealth, OnGetMaxHealth);  //Temporary:  Used to prevent boss overheal
+
+	switch(KvGetNum(BossKV[Special[boss]], "pickups", 0))  //Check if the boss is allowed to pickup health/ammo
+	{
+		case 1:
+		{
+			FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS;
+		}
+		case 2:
+		{
+			FF2flags[client]|=FF2FLAG_ALLOW_AMMO_PICKUPS;
+		}
+		case 3:
+		{
+			FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
+		}
+	}
+	if(IsBossYou[client])
+	{
+		FF2flags[client]|=FF2FLAG_NOTALLOW_RAGE;
+		FF2flags[client]|=FF2FLAG_ALLOW_HEALTH_PICKUPS|FF2FLAG_ALLOW_AMMO_PICKUPS;
+	}
+
+	CreateTimer(0.2, MakeModelTimer, boss, TIMER_FLAG_NO_MAPCHANGE);
+	if(!IsVoteInProgress())
+	{
+		HelpPanelBoss();
+	}
+
+	if(!IsPlayerAlive(client))
+	{
+		return;
+	}
+
+	new entity=-1;
+	if(!IsBossYou[client])
+	{
+		while((entity=FindEntityByClassname2(entity, "tf_wear*"))!=-1)
+		{
+			if(IsBoss(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")))
+			{
+				switch(GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex"))
+				{
+					case 493, 233, 234, 241, 280, 281, 282, 283, 284, 286, 288, 362, 364, 365, 536, 542, 577, 599, 673, 729, 791, 839, 5607:  //Action slot items				{
+					{
+						// NOOOOOOOOP
+					}
+					default:
+					{
+						TF2_RemoveWearable(client, entity);
+					}
+				}
+			}
+		}
+	}
+
+	if(!IsBossYou[client])
+	{
+		entity=-1;
+		while((entity=FindEntityByClassname2(entity, "tf_powerup_bottle"))!=-1)
+		{
+			if(IsBoss(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")))
+			{
+				TF2_RemoveWearable(client, entity);
+			}
+		}
+	}
+
+	if(!IsBossYou[client])
+		EquipBoss(boss);
+
+	KSpreeCount[boss]=0;
+	BossCharge[boss][0]=0.0;
+	BossMaxRageCharge[boss] = 100.0;
 }
 
 public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefinitionIndex, &Handle:item)
@@ -10478,6 +10634,59 @@ public Action:Timer_UseBossCharge(Handle:timer, Handle:data)
 public Native_IsEnabled(Handle:plugin, numParams)
 {
 	return Enabled;
+}
+
+public Native_MakeClientToBoss(Handle:plugin, numParams)
+{
+
+	// int goalboss;
+	int client = GetNativeCell(1);
+	int boss = GetNativeCell(2);
+	// char bossName[120];
+	// char name[120];
+	// GetNativeString(2, name, sizeof(name));
+	// bool validBoss = false;
+
+	// Debug("MakeClientToBoss: %N %s", client, name);
+
+	// 	ArrayList bossArray = new ArrayList();
+	// int bossCount=0;
+
+	/*
+	for(new config; config<Specials; config++)
+	{
+		KvRewind(BossKV[config]);
+		KvGetString(BossKV[config], "name", bossName, sizeof(bossName));
+		if(!StrContains(bossName, name, false))
+		{
+			// bossArray.Push(config);
+			// bossCount++;
+			boss = config;
+			// validBoss = true;
+			break;
+		}
+
+		KvGetString(BossKV[config], "filename", bossName, sizeof(bossName));
+		if(!StrContains(bossName, name, false))
+		{
+			// bossArray.Push(config);
+			// bossCount++;
+			boss = config;
+			// validBoss = true;
+			break;
+		}
+	}
+	*/
+	// boss = bossArray.Get(GetRandomInt(0, bossCount-1));
+	IsBossDoing[client] = true;
+	if(boss > 0 && Boss[boss] <= 0)
+	{
+		Boss[boss] = client;
+		Special[boss] = boss;
+
+		Debug("MakeClientToBoss: %N %i", client, boss);
+		MakeClientToBoss(boss);
+	}
 }
 
 public Native_FF2Version(Handle:plugin, numParams)

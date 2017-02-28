@@ -157,7 +157,7 @@ public Action GetMaxHealth(int client, int &MaxHealth)
 {
 	if (client > 0 && client <= MaxClients && IsClientInGame(client))
 	{
-		MaxHealth = 1000;
+		MaxHealth = 300;
 		return Plugin_Changed;
 	}
 
@@ -216,7 +216,7 @@ stock void MakeSkeleton(int client, bool spectator = false)
 
 	SDKHook(client, SDKHook_GetMaxHealth, GetMaxHealth);
 
-	SetEntProp(client, Prop_Send, "m_iHealth", 1000);
+	SetEntProp(client, Prop_Send, "m_iHealth", 300);
 
 	g_bSkeleton[client] = true;
 }

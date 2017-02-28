@@ -3,6 +3,7 @@
 #include <sdkhooks>
 #include <tf2>
 #include <custompart>
+#include <POTRY>
 #include <tf2_stocks>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
@@ -28,12 +29,51 @@ int g_nEntityMovetype[MAXENTITIES+1];
 float g_flTimeStop = -1.0;
 float g_flTimeStopCooling = -1.0;
 
+int g_hTimeStopParent;
 float g_flTimeStopDamage[MAXPLAYERS + 1];
+
+public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
+{
+	CreateNative("TIMESTOP_IsTimeStopping", Native_IsTimeStopping);
+    CreateNative("TIMESTOP_EnableTimeStop", Native_EnableTimeStop);
+    CreateNative("TIMESTOP_DisableTimeStop", Native_DisableTimeStop);
+
+	return APLRes_Success;
+}
+
+public Native_IsTimeStopping(Handle plugin, numParams)
+{
+	return (g_flTimeStop > GetGameTime() || g_flTimeStopCooling > GetGameTime());
+}
+
+public Native_EnableTimeStop(Handle plugin, numParams)
+{
+	SDKHook(GetNativeCell(1), SDKHook_PreThinkPost, RageTimer);
+
+	g_flTimeStopCooling = GetGameTime() + GetNativeCell(2);
+	g_flTimeStop = GetGameTime() + GetNativeCell(3);
+}
+
+public Native_DisableTimeStop(Handle plugin, numParams)
+{
+	DisableTimeStop();
+}
 
 public void OnPluginStart2()
 {
 	HookEvent("player_spawn", OnPlayerSpawn);
+	// HookEvent("teamplay_round_win", OnRoundEnd);
 }
+
+/*
+public Action OnRoundEnd(Handle event, const char[] name, bool dont)
+{
+	if(g_flTimeStop > GetGameTime())
+	{
+		DisableTimeStop();
+	}
+}
+*/
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
@@ -41,7 +81,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 	if(FF2_GetRoundState() != 1)    return Plugin_Continue;
 
-	if( g_flTimeStop > GetGameTime() || (g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime()))
+	if(g_flTimeStop > GetGameTime())
 	{
 		g_nEntityMovetype[client] = view_as<int>(GetEntityMoveType(client));
 		SetEntityMoveType(client, MOVETYPE_NONE);
@@ -63,8 +103,8 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 		SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 0);
 		SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 1);
 
-		SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-		SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+		// SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+		// SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 	}
 }
 
@@ -107,6 +147,17 @@ public Action OnEntitySpawnOnTimeStop(int entity)
 	{
 		g_nEntityMovetype[entity] = view_as<int>(GetEntityMoveType(entity));
 		SetEntityMoveType(entity, MOVETYPE_NONE);
+
+		if(HasEntProp(entity, Prop_Send, "m_bIsPlayerSimulated"))
+			SetEntProp(entity, Prop_Send, "m_bIsPlayerSimulated", 0);
+		if(HasEntProp(entity, Prop_Send, "m_bSimulatedEveryTick"))
+			SetEntProp(entity, Prop_Send, "m_bSimulatedEveryTick", 0);
+		if(HasEntProp(entity, Prop_Send, "m_bAnimatedEveryTick"))
+			SetEntProp(entity, Prop_Send, "m_bAnimatedEveryTick", 0);
+		if(HasEntProp(entity, Prop_Send, "m_bClientSideAnimation"))
+			SetEntProp(entity, Prop_Send, "m_bClientSideAnimation", 0);
+		if(HasEntProp(entity, Prop_Send, "m_bClientSideFrameReset"))
+			SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 1);
 	}
 }
 
@@ -117,6 +168,7 @@ public TF2_OnConditionAdded(client, TFCond:condition)
 		TF2_RemoveCondition(client, condition);
 	}
 }
+
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
 {
@@ -134,17 +186,14 @@ void Rage_TimeStop(int boss)
 			for(int client = 1; client <= MaxClients; client++)
 			{
 				g_flTimeStopDamage[client] = 0.0;
-
-				if(IsClientInGame(client) && IsPlayerAlive(client))
-				{
-					SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-					SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-				}
 			}
 		}
 		g_flTimeStopCooling = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 2, 5.0);
+		g_flTimeStop = GetGameTime()+FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 1, 10.0);
 
 		SDKHook(GetClientOfUserId(FF2_GetBossUserId(boss)), SDKHook_PreThinkPost, RageTimer);
+		SDKUnhook(GetClientOfUserId(FF2_GetBossUserId(boss)), SDKHook_OnTakeDamage, OnTakeDamage);
+		SDKHook(GetClientOfUserId(FF2_GetBossUserId(boss)), SDKHook_OnTakeDamage, OnTakeDamage);
 
 		char sound[PLATFORM_MAX_PATH];
 		FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_timestop", 3, sound, sizeof(sound));
@@ -154,6 +203,7 @@ void Rage_TimeStop(int boss)
 			EmitSoundToAll(sound);
 		}
 }
+
 
 public void RageTimer(int client)
 {
@@ -166,7 +216,7 @@ public void RageTimer(int client)
 		else if(g_flTimeStop != -1.0)
 		{
 			g_flTimeStop = -1.0;
-			DisableTimeStop(FF2_GetBossIndex(client));
+			DisableTimeStop();
 		}
 
 		SDKUnhook(client, SDKHook_PreThinkPost, RageTimer);
@@ -174,14 +224,14 @@ public void RageTimer(int client)
 
 	if(g_flTimeStopCooling <= GetGameTime() && g_flTimeStopCooling != -1.0)
 	{
-		EnableTimeStop(FF2_GetBossIndex(client));
+		EnableTimeStop(client);
 		g_flTimeStopCooling = -1.0;
-		g_flTimeStop = GetGameTime()+FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(client), this_plugin_name, "rage_timestop", 1, 10.0);
+
 	}
 	else if(g_flTimeStop <= GetGameTime() && g_flTimeStop != -1.0)
 	{
 		g_flTimeStop = -1.0;
-		DisableTimeStop(FF2_GetBossIndex(client));
+		DisableTimeStop();
 		SDKUnhook(client, SDKHook_PreThinkPost, RageTimer);
 	}
 }
@@ -217,9 +267,10 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
 	m_bClientSideAnimation
 	m_bClientSideFrameReset
 */
-void EnableTimeStop(int boss)
+void EnableTimeStop(int client)
 {
-	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
+	int boss = FF2_GetBossIndex(client);
+	g_hTimeStopParent = client;
 	// float abilityDuration = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "rage_timestop", 1, 10.0);
 	char classname[60];
 
@@ -276,23 +327,25 @@ void EnableTimeStop(int boss)
 			}
 	}
 
-	char sound[PLATFORM_MAX_PATH];
-	FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_timestop", 4, sound, sizeof(sound));
-
-	if(sound[0] != '\0')
+	if(boss != -1)
 	{
-		EmitSoundToAll(sound);
+		char sound[PLATFORM_MAX_PATH];
+		FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_timestop", 4, sound, sizeof(sound));
+
+		if(sound[0] != '\0')
+		{
+			EmitSoundToAll(sound);
+		}
 	}
 }
 
-void DisableTimeStop(int boss)
+void DisableTimeStop()
 {
-	int client=GetClientOfUserId(FF2_GetBossUserId(boss));
 	char classname[60];
 
 	for(int entity=1; entity<=MAXENTITIES; entity++)
 	{
-			if(entity == client)
+			if(entity == g_hTimeStopParent)
 				continue;
 
 			if(IsValidClient(entity))
@@ -310,7 +363,7 @@ void DisableTimeStop(int boss)
 				SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
 
 				SetEntPropFloat(entity, Prop_Send, "m_flNextAttack", GetGameTime());
-				SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+				SDKUnhook(g_hTimeStopParent, SDKHook_OnTakeDamage, OnTakeDamage);
 
 				if(IsPlayerAlive(entity))
 				{
@@ -321,7 +374,7 @@ void DisableTimeStop(int boss)
 					SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 1);
 					SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 0);
 
-					SDKHooks_TakeDamage(entity, client, client, g_flTimeStopDamage[entity], DMG_GENERIC, -1);
+					SDKHooks_TakeDamage(entity, g_hTimeStopParent, g_hTimeStopParent, g_flTimeStopDamage[entity], DMG_GENERIC, -1);
 					TF2_RemoveCondition(entity, TFCond_MarkedForDeath);
 				}
 
@@ -367,6 +420,8 @@ void DisableTimeStop(int boss)
 			TFObject_Sentry
 			*/
 	}
+
+	g_hTimeStopParent = -1;
 }
 
 stock bool IsBoss(int client)
