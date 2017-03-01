@@ -89,14 +89,13 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 		if(TravisBeamCharge[attacker] >= 70.0)
 		{
 			float neededTimeStop = (100.0 - TravisBeamCharge[attacker]) / 5.0;
-/*
+
 			if(TIMESTOP_IsTimeStopping())
 			{
 				TIMESTOP_DisableTimeStop();
 			}
-*/
 
-			// TIMESTOP_EnableTimeStop(attacker, 0.1, neededTimeStop);
+			TIMESTOP_EnableTimeStop(attacker, 0.1, neededTimeStop);
 		}
 	}
 }
@@ -468,7 +467,7 @@ void KickEntity(int client, int entity)
  {
 	 int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
-	 if(StrEqual(abilityName, "ff2_travis", true) && abilityDuration > 0.0)
+	 if(IsTravis[client] && abilityDuration > 0.0)
 	 {
 		 TravisBeamCharge[client] = 100.0;
 	 }
@@ -718,6 +717,8 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			{
 				TravisBeamCharge[client] += FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 1, 2.0);
 
+				Debug("%.1f%%", TravisBeamCharge[client]);
+
 				if(TravisBeamCharge[client] > 100.0)
 					TravisBeamCharge[client] = 100.0;
 			}
@@ -730,7 +731,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			if(TravisBeamCharge[client] < 0.0)
 				TravisBeamCharge[client] = 0.0;
 
-			PrintCenterText(client, "빔 카타나 충전율: %.1f\n무기를 휘둘러 충전", TravisBeamCharge[client]);
+			PrintCenterText(client, "빔 카타나 충전율: %.1f%%\n무기를 휘둘러 충전", TravisBeamCharge[client]);
 		}
 
 		if(IsTank[client])

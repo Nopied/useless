@@ -436,14 +436,28 @@ public Action CP_OnTouchedPartProp(int client, int &prop)
 public Action CP_OnGetPart(int client, int &prop, int &partIndex)
 {
     int part;
+    bool Changed;
+    bool Handled;
 
     if(CP_IsPartActived(client, 23))
     {
         part = CP_GetClientPart(client, 0);
         partIndex = part;
-        return Plugin_Changed;
+        Changed = true;
+    }
+    if(CP_IsPartActived(client, 29))
+    {
+        Handled = true;
+
+        AcceptEntityInput(prop, "kill", prop);
+
+        int maxHealth = GetEntProp(client, Prop_Data, "m_iMaxHealth");
+        SDKHooks_TakeDamage(client, client, client, float(-(maxHealth/5)), DMG_GENERIC, -1);
+        CP_NoticePart(client, 29);
     }
 
+    if(Handled) return Plugin_Handled;
+    else if(Changed)   return Plugin_Changed;
     return Plugin_Continue;
 }
 
@@ -555,6 +569,22 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         int boss = FF2_GetBossIndex(client);
         if(boss != -1)
             FF2_SetBossMaxRageCharge(boss, FF2_GetBossMaxRageCharge(boss) + 100.0);
+    }
+    else if(partIndex == 30)
+    {
+        for(int slot=0; slot<CP_GetClientMaxSlot(client); slot++)
+        {
+            int part = CP_GetClientPart(client, slot);
+            int randomPart = CP_RandomPart(client, CP_RandomPartRank());
+            if(CP_IsValidPart(part))
+            {
+                CP_OnSlotClear(client, part, false);
+                CP_SetClientPart(client, slot, randomPart);
+                CP_OnGetPart_Post(client, randomPart);
+            }
+        }
+
+        CP_NoticePart(client, partIndex);
     }
 }
 
@@ -943,7 +973,7 @@ void SwitchWeaponForTick(int entity)
         if(hasThis)
         {
             int random = GetRandomInt(0, count-1);
-            int weapon = GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon");
+            weapon = GetEntPropEnt(owner, Prop_Send, "m_hActiveWeapon");
 
             SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()); // FIXME: 이걸 삭제.
             SetEntPropFloat(weapon, Prop_Send, "m_flNextSecondaryAttack", GetGameTime());

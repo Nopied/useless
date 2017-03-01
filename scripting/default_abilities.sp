@@ -28,7 +28,7 @@ new Handle:jumpHUD;
 
 new bool:enableSuperDuperJump[MAXPLAYERS+1];
 new Float:UberRageCount[MAXPLAYERS+1];
-new BossTeam=_:TFTeam_Blue;
+// new BossTeam=_:TFTeam_Blue;
 
 new Handle:cvarOldJump;
 new Handle:cvarBaseJumperStun;
@@ -87,7 +87,7 @@ public Action:OnRoundStart(Handle:event, const String:name[], bool:dontBroadcast
 		UberRageCount[client]=0.0;
 	}
 
-	CreateTimer(0.3, Timer_GetBossTeam, _, TIMER_FLAG_NO_MAPCHANGE);
+	// CreateTimer(0.3, Timer_GetBossTeam, _, TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(9.11, StartBossTimer, _, TIMER_FLAG_NO_MAPCHANGE);  //TODO: Investigate.
 	return Plugin_Continue;
 }
@@ -102,12 +102,13 @@ public Action:StartBossTimer(Handle:timer)  //TODO: What.
 		}
 	}
 }
-
+/*
 public Action:Timer_GetBossTeam(Handle:timer)
 {
 	BossTeam=FF2_GetBossTeam();
 	return Plugin_Continue;
 }
+*/
 
 public Action:FF2_OnAbility2(boss, const String:plugin_name[], const String:ability_name[], status)
 {
@@ -256,7 +257,7 @@ Rage_Stun(const String:ability_name[], boss)
 
 	for(new target=1; target<=MaxClients; target++)
 	{
-		if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(target)!=BossTeam)
+		if(IsClientInGame(target) && IsPlayerAlive(target) && GetClientTeam(target)!=GetClientTeam(client))
 		{
 			GetEntPropVector(target, Prop_Send, "m_vecOrigin", targetPosition);
 			if(!TF2_IsPlayerInCondition(target, TFCond_Ubercharged) && (GetVectorDistance(bossPosition, targetPosition)<=distance))

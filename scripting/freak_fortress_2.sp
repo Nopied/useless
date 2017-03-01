@@ -3481,8 +3481,8 @@ PlayBGM(client)
 
 	KvRewind(musicKv);
 	if(!selected &&
-		((FF2_GetGameState() == Game_SpecialLastManStanding && KvJumpToKey(musicKv, "sound_special_bgm")) || (BossDiff[MainBoss] >= 5 && KvJumpToKey(musicKv, "sound_hell_bgm")))
-	|| KvJumpToKey(musicKv, "sound_bgm")
+		(((FF2_GetGameState() == Game_SpecialLastManStanding && KvJumpToKey(musicKv, "sound_special_bgm")) || (BossDiff[MainBoss] >= 5 && KvJumpToKey(musicKv, "sound_hell_bgm")))
+	|| KvJumpToKey(musicKv, "sound_bgm"))
 	)
 	{
 		// Debug("key: sound_bgm");

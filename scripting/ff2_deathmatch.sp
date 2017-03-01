@@ -1056,6 +1056,12 @@ public Action OnTimer(Handle timer)
                 ForceTeamWin(FF2_GetBossTeam());
                 return Plugin_Stop;
             }
+            else if(GetGameState() == Game_SpecialLastManStanding)
+            {
+                CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 인간이 승리합니다.");
+                ForceTeamWin(view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Blue ? 2 : 3);
+                return Plugin_Stop;
+            }
 
             if(GetGameState() == Game_None)
                 SetGameState(Game_SuddenDeath);
