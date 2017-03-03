@@ -712,7 +712,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					}
 				}
 			}
-
+			/*
 			if(IsTravis[client])
 			{
 				TravisBeamCharge[client] += FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 1, 2.0);
@@ -722,6 +722,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				if(TravisBeamCharge[client] > 100.0)
 					TravisBeamCharge[client] = 100.0;
 			}
+			*/
 		}
 
 		if(IsTravis[client])

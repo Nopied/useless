@@ -238,7 +238,8 @@ Rage_Clone(const String:ability_name[], boss)
 	new health=FF2_GetAbilityArgument(boss, this_plugin_name, ability_name, 11, 0);
 
 	new Float:position[3], Float:velocity[3];
-	GetEntPropVector(GetClientOfUserId(FF2_GetBossUserId(boss)), Prop_Data, "m_vecOrigin", position);
+	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+	GetEntPropVector(client, Prop_Data, "m_vecOrigin", position);
 
 	FF2_GetBossSpecial(boss, bossName, sizeof(bossName));
 
@@ -253,12 +254,13 @@ Rage_Clone(const String:ability_name[], boss)
 
 	new alive, dead;
 	new Handle:players=CreateArray();
+	int bossTeam = GetClientTeam(client);
 	for(new target=1; target<=MaxClients; target++)
 	{
 		if(IsClientInGame(target))
 		{
 			new TFTeam:team=TFTeam:GetClientTeam(target);
-			if(team>TFTeam_Spectator && team!=TFTeam_Blue)
+			if(team>TFTeam_Spectator && team!=bossTeam)
 			{
 				if(IsPlayerAlive(target))
 				{
@@ -283,7 +285,7 @@ Rage_Clone(const String:ability_name[], boss)
 		RemoveFromArray(players, temp);
 
 		FF2_SetFF2flags(clone, FF2_GetFF2flags(clone)|FF2FLAG_ALLOWSPAWNINBOSSTEAM|FF2FLAG_CLASSTIMERDISABLED);
-		ChangeClientTeam(clone, BossTeam);
+		ChangeClientTeam(clone, bossTeam);
 		TF2_RespawnPlayer(clone);
 		CloneOwnerIndex[clone]=boss;
 		TF2_SetPlayerClass(clone, (class ? (TFClassType:class) : (TFClassType:KvGetNum(bossKV[config], "class", 0))), _, false);
@@ -477,7 +479,7 @@ public Action:Timer_Demopan_Rage(Handle:timer, any:count)  //TODO: Make this rag
 		SetCommandFlags("r_screenoverlay", GetCommandFlags("r_screenoverlay") & ~FCVAR_CHEAT);  //Allow normal players to use r_screenoverlay
 		for(new client=1; client<=MaxClients; client++)
 		{
-			if(IsClientInGame(client) && IsPlayerAlive(client) && GetClientTeam(client)!=BossTeam)
+			if(IsClientInGame(client) && IsPlayerAlive(client) && FF2_GetBossIndex(client) == -1)
 			{
 				ClientCommand(client, overlay);
 			}
@@ -503,7 +505,7 @@ Rage_Bow(boss)
 	TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
 	new weapon=SpawnWeapon(client, "tf_weapon_compound_bow", 1005, 100, 5, "2 ; 2.0 ; 6 ; 0.5 ; 37 ; 0.0 ; 280 ; 19");
 	SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", weapon);
-	new TFTeam:team=(FF2_GetBossTeam()==_:TFTeam_Blue ? TFTeam_Red:TFTeam_Blue);
+	new TFTeam:team=(GetClientTeam(client)==_:TFTeam_Blue ? TFTeam_Red:TFTeam_Blue);
 
 	new otherTeamAlivePlayers;
 	for(new target=1; target<=MaxClients; target++)
@@ -519,11 +521,11 @@ Rage_Bow(boss)
 
 public Action:Timer_Prepare_Explosion_Rage(Handle:timer, Handle:data)
 {
-	new boss=ReadPackCell(data);
-	new client=GetClientOfUserId(FF2_GetBossUserId(boss));
-
 	decl String:ability_name[64];
 	ReadPackString(data, ability_name, sizeof(ability_name));
+
+	new boss=ReadPackCell(data);
+	new client=GetClientOfUserId(FF2_GetBossUserId(boss));
 
 	CreateTimer(0.13, Timer_Rage_Explosive_Dance, boss, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 
@@ -900,7 +902,7 @@ public Action:OnPlayerDeath(Handle:event, const String:name[], bool:dontBroadcas
 				FF2_SetFF2flags(target, FF2_GetFF2flags(target) & ~FF2FLAG_CLASSTIMERDISABLED);
 				if(IsClientInGame(target) && GetClientTeam(target)==BossTeam)
 				{
-					ChangeClientTeam(target, (BossTeam==_:TFTeam_Blue) ? (_:TFTeam_Red) : (_:TFTeam_Blue));
+					ChangeClientTeam(target, (GetClientTeam(client)==_:TFTeam_Blue) ? (_:TFTeam_Red) : (_:TFTeam_Blue));
 				}
 			}
 		}
@@ -910,7 +912,7 @@ public Action:OnPlayerDeath(Handle:event, const String:name[], bool:dontBroadcas
 	{
 		CloneOwnerIndex[client]=-1;
 		FF2_SetFF2flags(client, FF2_GetFF2flags(client) & ~FF2FLAG_CLASSTIMERDISABLED);
-		ChangeClientTeam(client, (BossTeam==_:TFTeam_Blue) ? (_:TFTeam_Red) : (_:TFTeam_Blue));
+		ChangeClientTeam(client, (GetClientTeam(client)==_:TFTeam_Blue) ? (_:TFTeam_Red) : (_:TFTeam_Blue));
 	}
 	return Plugin_Continue;
 }

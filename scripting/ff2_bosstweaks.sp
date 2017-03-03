@@ -71,6 +71,136 @@ public Action:Event_RoundStart_Pre(Handle event, const char[] name, bool dont)
 	CreateTimer(10.4, Event_RoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
+public Action FF2_OnPlayBoss(int client, int boss)
+{
+		if (FF2_HasAbility(boss, this_plugin_name, "scalemodel"))
+		{
+			new Float:scale = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "scalemodel", 1);	       	 	//scale
+			if(scale !=0.0)
+			{
+				if(scale==-1.0)
+				{
+					scale=(GetURandomFloat()*(1.3-0.7))+0.7;
+				}
+
+				new Float:curPos[3];
+				GetEntPropVector(client, Prop_Data, "m_vecOrigin", curPos);
+				if(IsSpotSafe(client, curPos, scale)) // The purpose of this is to prevent bosses from getting stuck!
+				{
+					SetEntPropFloat(client, Prop_Send, "m_flModelScale", scale);
+					g_fClientCurrentScale[client] = scale;
+
+					if (g_bHitboxAvailable)
+					{
+						UpdatePlayerHitbox(client);
+					}
+				}
+				else
+				{
+					PrintHintText(client, "You were not scaled %f times to avoid getting stuck!", scale);
+					LogError("[BossTweaks] %N was not scaled %f times to avoid getting stuck!", client, scale);
+				}
+			}
+		}
+
+		if (FF2_HasAbility(boss,this_plugin_name,"scalehead"))
+		{
+			new Float:scale = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "scalehead", 1);	        	//scale
+			if (scale > 0)
+			{
+				g_headscale = scale;
+			}
+			else if (scale == -1.0)
+			{
+				g_headscale = (GetURandomFloat()*(4.0-0.5))+0.5;
+			}
+		}
+
+		if (FF2_HasAbility(boss,this_plugin_name,"footsteps"))
+		{
+			new type = FF2_GetAbilityArgument(0, this_plugin_name, "footsteps", 1);	        			//type
+			if (type > 3 || type < -1)
+			{
+				type = 0;
+			}
+			g_footstepsdb= FF2_GetAbilityArgument(0, this_plugin_name, "footsteps", 2);	        	//volume
+			g_footsteps[client] = type;
+			if (type == -1)
+			{
+				FF2_GetAbilityArgumentString(client, this_plugin_name, "footsteps", 3, g_rightfoot, PLATFORM_MAX_PATH);
+				FF2_GetAbilityArgumentString(client, this_plugin_name, "footsteps", 4, g_leftfoot, PLATFORM_MAX_PATH);
+				PrecacheSound(g_rightfoot);
+				PrecacheSound(g_leftfoot);
+			}
+		}
+
+		if (FF2_HasAbility(boss,this_plugin_name,"colour"))
+		{
+			new r = FF2_GetAbilityArgument(0, this_plugin_name, "colour", 1);	        			//red (0-255)
+			new g = FF2_GetAbilityArgument(0, this_plugin_name, "colour", 2);	        			//green (0-255)
+			new b = FF2_GetAbilityArgument(0, this_plugin_name, "colour", 3);					//blue (0-255)
+			if (r == -1)
+			{
+				r = GetRandomInt(0, 255);
+			}
+			if (g == -1)
+			{
+				g = GetRandomInt(0, 255);
+			}
+			if (b == -1)
+			{
+				b = GetRandomInt(0, 255);
+			}
+			SetEntityRenderColor(client, r, g, b, 192);
+		}
+
+		if (FF2_HasAbility(boss,this_plugin_name,"alpha"))
+		{
+			new a = FF2_GetAbilityArgument(0, this_plugin_name, "alpha", 1);					//alpha (0-255)
+			if (a == -1)
+			{
+				a = GetRandomInt(0, 255);
+			}
+			SetEntityRenderColor(client, _, _, _, a);
+		}
+
+		if (FF2_HasAbility(boss,this_plugin_name,"gravity"))
+		{
+			new Float:gravity = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "gravity", 1);	        	//gravity (0.1 very low, 8.0 very high, (1.0 normal))
+			if (gravity < 0.0)
+			{
+				gravity = 0.0;
+			}
+			SetEntityGravity(client, gravity);
+		}
+
+		if (FF2_HasAbility(boss,this_plugin_name,"message"))
+		{
+			new type = FF2_GetAbilityArgument(0, this_plugin_name, "message", 1);	        			//type
+			new delay = FF2_GetAbilityArgument(0, this_plugin_name, "message", 2);	        			//delay
+			new String:message[PLATFORM_MAX_PATH];
+			FF2_GetAbilityArgumentString(client, this_plugin_name,"message", 3, message, PLATFORM_MAX_PATH);	//message
+
+			new Handle:pack = CreateDataPack();
+			CreateDataTimer(float(delay), ShowMessage, pack);
+			WritePackCell(pack, type);
+			WritePackString(pack, message);
+			ResetPack(pack);
+		}
+
+		if (FF2_HasAbility(boss, this_plugin_name, "fade"))
+		{
+			new Float:fadeMin = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "fade", 1, 54.0);
+			new Float:fadeMax = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "fade", 2, 152.0);
+
+			SetEntPropFloat(client, Prop_Send, "m_fadeMinDist", fadeMin);
+			SetEntPropFloat(client, Prop_Send, "m_fadeMaxDist", fadeMax);
+		}
+
+	}
+
+
+
 public Action:Event_RoundStart(Handle timer)
 {
 	g_headscale = 0.0;

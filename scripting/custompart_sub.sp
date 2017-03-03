@@ -464,7 +464,9 @@ public Action CP_OnGetPart(int client, int &prop, int &partIndex)
 public void CP_OnGetPart_Post(int client, int partIndex)
 {
     float clientPos[3];
+    float clientAngles[3];
     GetClientEyePosition(client, clientPos);
+    GetClientEyeAngles(client, clientAngles);
 
     if(partIndex == 10) // "파츠 멀티 슬릇"
     {
@@ -473,7 +475,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     else if(partIndex == 2) // "체력 강화제"
     {
-        AddToSomeWeapon(client, 26, 50.0);
+        AddAttributeDefIndex(client, 26, 50.0);
         AddToSomeWeapon(client, 109, -0.1);
     }
 
@@ -586,6 +588,33 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
         CP_NoticePart(client, partIndex);
     }
+    else if(partIndex == 31)
+    {
+        float sentryPos[3];
+
+        // int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 1, true, false, false);
+        int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 3, _, _, _, 8);
+
+        int iLink = CreateLink(client);
+
+		SetVariantString("!activator");
+		AcceptEntityInput(sentry, "SetParent", iLink);
+
+		// SetVariantString("flag");
+		// AcceptEntityInput(sentry, "SetParentAttachment", iLink);
+
+		SetEntPropEnt(sentry, Prop_Send, "m_hEffectEntity", iLink);
+
+        sentryPos[0] = clientPos[0];
+        sentryPos[1] = clientPos[1];
+        sentryPos[2] = clientPos[2];
+
+
+        SetEntProp(sentry, Prop_Send, "m_usSolidFlags", 2);
+
+        SetEntPropVector(sentry, Prop_Send, "m_vecOrigin", sentryPos);
+		// SetEntPropVector(target, Prop_Send, "m_angRotation", pAng);
+    }
 }
 
 public void CP_OnActivedPart(int client, int partIndex)
@@ -647,7 +676,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         else if(partIndex == 2) // "체력 강화제"
         {
 /////////////////////////////////// 복사 북여넣기 하기 좋은거!!
-            RemoveToSomeWeapon(client, 26, -50.0);
+            AddAttributeDefIndex(client, 26, -50.0);
 //////////////////////////////////
             RemoveToSomeWeapon(client, 109, 0.1);
         }
@@ -1003,6 +1032,101 @@ void SwitchWeaponForTick(int entity)
     }
 
 
+}
+
+stock int CreateLink(int iClient)
+{
+	int iLink = CreateEntityByName("tf_taunt_prop");
+	DispatchKeyValue(iLink, "targetname", "DispenserLink");
+	DispatchSpawn(iLink);
+
+	char strModel[PLATFORM_MAX_PATH];
+	GetEntPropString(iClient, Prop_Data, "m_ModelName", strModel, PLATFORM_MAX_PATH);
+
+	SetEntityModel(iLink, strModel);
+
+	SetEntProp(iLink, Prop_Send, "m_fEffects", 16|64);
+
+	SetVariantString("!activator");
+	AcceptEntityInput(iLink, "SetParent", iClient);
+
+	SetVariantString("flag");
+	AcceptEntityInput(iLink, "SetParentAttachment", iClient);
+
+	return iLink;
+}
+
+stock int TF2_BuildSentry(int builder, float fOrigin[3], float fAngle[3], int level, bool mini=false, bool disposable=false, bool carried=false, int flags=4)
+{
+	static const float m_vecMinsMini[3] = {-15.0, -15.0, 0.0};
+	float m_vecMaxsMini[3] = {15.0, 15.0, 49.5};
+	static const float m_vecMinsDisp[3] = {-13.0, -13.0, 0.0};
+	float m_vecMaxsDisp[3] = {13.0, 13.0, 42.9};
+
+	int sentry = CreateEntityByName("obj_sentrygun");
+
+	if(IsValidEntity(sentry))
+	{
+		AcceptEntityInput(sentry, "SetBuilder", builder);
+
+		DispatchKeyValueVector(sentry, "origin", fOrigin);
+		DispatchKeyValueVector(sentry, "angles", fAngle);
+
+		if(mini)
+		{
+			SetEntProp(sentry, Prop_Send, "m_bMiniBuilding", 1);
+			SetEntProp(sentry, Prop_Send, "m_iUpgradeLevel", level);
+			SetEntProp(sentry, Prop_Send, "m_iHighestUpgradeLevel", level);
+			SetEntProp(sentry, Prop_Data, "m_spawnflags", flags);
+			// SetEntProp(sentry, Prop_Send, "m_bBuilding", 1);
+            SetEntProp(sentry, Prop_Send, "m_bBuilding", 0);
+			SetEntProp(sentry, Prop_Send, "m_nSkin", level == 1 ? GetClientTeam(builder) : GetClientTeam(builder) - 2);
+			DispatchSpawn(sentry);
+
+			SetVariantInt(100);
+			AcceptEntityInput(sentry, "SetHealth");
+
+			SetEntPropFloat(sentry, Prop_Send, "m_flModelScale", 0.75);
+			SetEntPropVector(sentry, Prop_Send, "m_vecMins", m_vecMinsMini);
+			SetEntPropVector(sentry, Prop_Send, "m_vecMaxs", m_vecMaxsMini);
+		}
+		else if(disposable)
+		{
+			SetEntProp(sentry, Prop_Send, "m_bMiniBuilding", 1);
+			SetEntProp(sentry, Prop_Send, "m_bDisposableBuilding", 1);
+			SetEntProp(sentry, Prop_Send, "m_iUpgradeLevel", level);
+			SetEntProp(sentry, Prop_Send, "m_iHighestUpgradeLevel", level);
+			SetEntProp(sentry, Prop_Data, "m_spawnflags", flags);
+			// SetEntProp(sentry, Prop_Send, "m_bBuilding", 1);
+            SetEntProp(sentry, Prop_Send, "m_bBuilding", 0);
+			SetEntProp(sentry, Prop_Send, "m_nSkin", level == 1 ? GetClientTeam(builder) : GetClientTeam(builder) - 2);
+			DispatchSpawn(sentry);
+
+			SetVariantInt(100);
+			AcceptEntityInput(sentry, "SetHealth");
+
+			SetEntPropFloat(sentry, Prop_Send, "m_flModelScale", 0.60);
+			SetEntPropVector(sentry, Prop_Send, "m_vecMins", m_vecMinsDisp);
+			SetEntPropVector(sentry, Prop_Send, "m_vecMaxs", m_vecMaxsDisp);
+		}
+		else
+		{
+			SetEntProp(sentry, Prop_Send, "m_iUpgradeLevel", level);
+			SetEntProp(sentry, Prop_Send, "m_iHighestUpgradeLevel", level);
+			SetEntProp(sentry, Prop_Data, "m_spawnflags", flags);
+			// SetEntProp(sentry, Prop_Send, "m_bBuilding", 1);
+            SetEntProp(sentry, Prop_Send, "m_bBuilding", 0);
+			SetEntProp(sentry, Prop_Send, "m_nSkin", GetClientTeam(builder) - 2);
+			DispatchSpawn(sentry);
+		}
+
+        // SetEntProp(sentry, Prop_Send, "m_bPlayerControlled", 1);
+        SetEntProp(sentry, Prop_Send, "m_iTeamNum", builder > 0 ? GetClientTeam(builder) : FF2_GetBossTeam());
+
+        return sentry;
+	}
+
+    return -1;
 }
 
 public void GetEyeEndPos(int client, float max_distance, float endPos[3])

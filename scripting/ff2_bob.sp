@@ -35,6 +35,10 @@ public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
   CheckAbility();
 }
+public Action FF2_OnPlayBoss(int client, int boss)
+{
+    CheckAbility();
+}
 
 public void OnEntityCreated(int entity, const char[] classname)
 {
