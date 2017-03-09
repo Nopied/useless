@@ -329,6 +329,160 @@ public Action Event_RoundStart_Pre(Handle:event, const String:name[], bool:dontB
 	CreateTimer(10.4, Event_RoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
+public Action:FF2_OnPlayBoss(int clientIdx, int bossIndex)
+{
+	if(FF2_GetRoundState() == 1)
+	{
+		// all client inits
+		SL_CanUse[clientIdx] = false;
+		SS_CanUse[clientIdx] = false;
+		SB_CanUse[clientIdx] = false;
+		SH_CanUse[clientIdx] = false;
+		SAO_CanUse[clientIdx] = false;
+		SB_FireExpiresAt[clientIdx] = FAR_FUTURE;
+
+		if (SL_EnsureCollision && IsLivingPlayer(clientIdx))
+		{
+			SetEntProp(clientIdx, Prop_Send, "m_CollisionGroup", COLLISION_GROUP_PLAYER);
+			if (PRINT_DEBUG_SPAM)
+				PrintToServer("Ensured correct collision for player %d", clientIdx);
+		}
+
+		// boss-only inits
+		new bossIdx = IsLivingPlayer(clientIdx) ? FF2_GetBossIndex(clientIdx) : -1;
+		if (bossIdx < 0)
+			return Plugin_Continue;
+
+		if ((SL_CanUse[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, SL_STRING)) == true)
+		{
+			PluginActiveThisRound = true;
+			SL_ActiveThisRound = true;
+			SL_IsUsing[clientIdx] = false;
+			SL_OnCooldownUntil[clientIdx] = 0.0;
+			SL_TrySolidifyAt = FAR_FUTURE;
+
+			SL_DesiredKey[clientIdx] = Saxton_GetKey(bossIdx, SL_STRING, 1);
+			SL_Cooldown[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 2);
+			SL_RageCost[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 3);
+			SL_Velocity[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 4);
+			SL_Damage[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 5);
+			SL_DestroyBuildings[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, SL_STRING, 6) == 1;
+			SL_BaseKnockback[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 7);
+			SL_CollisionDistance[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 8);
+			SL_CollisionHeight[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 9);
+			SL_CollisionRadius[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SL_STRING, 10);
+			Saxton_ReadSounds(bossIdx, SL_STRING, 11);
+			ReadSound(bossIdx, SL_STRING, 12, SL_HitSound);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, SL_STRING, 13, SL_HitEffect, MAX_EFFECT_NAME_LENGTH);
+			new bool:pcSuccess = ReadFloatRange(bossIdx, SL_STRING, 14, SS_PitchConstraint[clientIdx]);
+			ReadCenterText(bossIdx, SL_STRING, 16, SL_CooldownError);
+			ReadCenterText(bossIdx, SL_STRING, 17, SL_NotEnoughRageError);
+			ReadCenterText(bossIdx, SL_STRING, 18, SL_InWaterError);
+			ReadCenterText(bossIdx, SL_STRING, 19, SL_WeighdownError);
+
+			// initialize key state
+			SL_KeyDown[clientIdx] = (GetClientButtons(clientIdx) & SL_DesiredKey[clientIdx]) != 0;
+
+			// fix pitch constraint
+			if (!pcSuccess)
+			{
+				SS_PitchConstraint[clientIdx][0] = -90.0;
+				SS_PitchConstraint[clientIdx][1] = 90.0;
+			}
+		}
+
+		if ((SS_CanUse[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, SS_STRING)) == true)
+		{
+			PluginActiveThisRound = true;
+			SS_ActiveThisRound = true;
+			SS_IsUsing[clientIdx] = false;
+			SS_PropEntRef[clientIdx] = INVALID_ENTREF;
+			SS_OnCooldownUntil[clientIdx] = 0.0;
+			SS_PreparingUntil[clientIdx] = FAR_FUTURE;
+			SS_TauntingUntil[clientIdx] = FAR_FUTURE;
+
+			SS_DesiredKey[clientIdx] = Saxton_GetKey(bossIdx, SS_STRING, 1);
+			SS_Cooldown[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 2);
+			SS_RageCost[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 3);
+			SS_ForcedTaunt[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, SS_STRING, 4);
+			SS_PropDelay[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 5);
+			ReadModel(bossIdx, SS_STRING, 6, SS_PropModel);
+			SS_GravityDelay[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 7);
+			SS_GravitySetting[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 8);
+			SS_MaxDamage[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 9);
+			SS_Radius[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 10);
+			SS_DamageDecayExponent[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 11);
+			SS_BuildingDamageFactor[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 12);
+			SS_Knockback[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SS_STRING, 13);
+			Saxton_ReadSounds(bossIdx, SS_STRING, 14);
+			SS_SlamSound(bossIdx, false); // precaches it
+			ReadCenterText(bossIdx, SS_STRING, 16, SS_CooldownError);
+			ReadCenterText(bossIdx, SS_STRING, 17, SS_NotEnoughRageError);
+			ReadCenterText(bossIdx, SS_STRING, 18, SS_NotMidairError);
+			ReadCenterText(bossIdx, SS_STRING, 19, SS_WeighdownError);
+
+			// initialize key state
+			SS_KeyDown[clientIdx] = (GetClientButtons(clientIdx) & SS_DesiredKey[clientIdx]) != 0;
+		}
+
+		if ((SB_CanUse[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, SB_STRING)) == true)
+		{
+			PluginActiveThisRound = true;
+			SB_ActiveThisRound = true;
+			SB_UsingUntil[clientIdx] = FAR_FUTURE;
+			SB_FlameEntRefs[clientIdx][0] = INVALID_ENTREF;
+			SB_FlameEntRefs[clientIdx][1] = INVALID_ENTREF;
+			SB_GiveRageRefund[clientIdx] = false;
+			SB_IsAttack2[clientIdx] = false;
+			SB_LastAttackAvailable[clientIdx] = GetGameTime();
+
+			// not much to load here...
+			SB_Duration[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SB_STRING, 1);
+			SB_Speed[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SB_STRING, 11);
+			SB_TempClass[clientIdx] = TFClassType:FF2_GetAbilityArgument(bossIdx, this_plugin_name, SB_STRING, 13);
+			SB_FireTimeLimit[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SB_STRING, 14);
+
+			SB_Flags[clientIdx] = ReadHexOrDecString(bossIdx, SB_STRING, 19);
+		}
+
+		if ((SH_CanUse[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, SH_STRING)) == true)
+		{
+			PluginActiveThisRound = true;
+			SH_ActiveThisRound = true;
+			SH_NextHUDAt[clientIdx] = GetEngineTime();
+			SH_HUDInterval[clientIdx] = 0.1;
+			if (FF2_HasAbility(bossIdx, "ff2_dynamic_defaults", "dynamic_jump") || FF2_HasAbility(bossIdx, "ff2_dynamic_defaults", "dynamic_teleport"))
+				SH_HUDInterval[clientIdx] = 0.2;
+
+			SH_HudY[clientIdx] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, SH_STRING, 1);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, SH_STRING, 2, SH_HudFormat[clientIdx], SH_MAX_HUD_FORMAT_LENGTH);
+			ReplaceString(SH_HudFormat[clientIdx], SH_MAX_HUD_FORMAT_LENGTH, "\\n", "\n");
+			SH_DisplayHealth[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, SH_STRING, 3) == 1;
+			SH_DisplayRage[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, SH_STRING, 4) == 1;
+			ReadCenterText(bossIdx, SH_STRING, 5, SH_LungeReadyStr);
+			ReadCenterText(bossIdx, SH_STRING, 6, SH_LungeNotReadyStr);
+			ReadCenterText(bossIdx, SH_STRING, 7, SH_SlamReadyStr);
+			ReadCenterText(bossIdx, SH_STRING, 8, SH_SlamNotReadyStr);
+			ReadCenterText(bossIdx, SH_STRING, 9, SH_BerserkReadyStr);
+			ReadCenterText(bossIdx, SH_STRING, 10, SH_BerserkNotReadyStr);
+			SH_NormalColor[clientIdx] = ReadHexOrDecString(bossIdx, SH_STRING, 11);
+			SH_AlertColor[clientIdx] = ReadHexOrDecString(bossIdx, SH_STRING, 12);
+			SH_AlertIfNotReady[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, SH_STRING, 13) == 1;
+			ReadCenterText(bossIdx, SH_STRING, 14, SH_HealthStr);
+			ReadCenterText(bossIdx, SH_STRING, 15, SH_RageStr);
+			SH_AlertOnLowHP[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, SH_STRING, 16) == 1;
+		}
+
+		if ((SAO_CanUse[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, SAO_STRING)) == true)
+		{
+			ReadConditions(bossIdx, SAO_STRING, 1, SAO_LungeConditions[clientIdx]);
+			ReadConditions(bossIdx, SAO_STRING, 2, SAO_SlamConditions[clientIdx]);
+			ReadConditions(bossIdx, SAO_STRING, 3, SAO_BerserkConditions[clientIdx]);
+		}
+	}
+	return Plugin_Continue;
+}
+
 public Action:Event_RoundStart(Handle timer)
 {
 	// in case round end isn't executing...

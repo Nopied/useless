@@ -475,7 +475,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     else if(partIndex == 2) // "체력 강화제"
     {
-        AddAttributeDefIndex(client, 26, 50.0);
+        AddToSomeWeapon(client, 26, 50.0);
         AddToSomeWeapon(client, 109, -0.1);
     }
 
@@ -591,6 +591,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     else if(partIndex == 31)
     {
         float sentryPos[3];
+        // float sentryAngle[3];
 
         // int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 1, true, false, false);
         int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 3, _, _, _, 8);
@@ -605,15 +606,29 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
 		SetEntPropEnt(sentry, Prop_Send, "m_hEffectEntity", iLink);
 
+
         sentryPos[0] = clientPos[0];
         sentryPos[1] = clientPos[1];
-        sentryPos[2] = clientPos[2];
+        sentryPos[2] = clientPos[2] + 18.0;
+
+        /*
+        sentryAngle[0] = clientAngles[0] + 180.0;
+        sentryAngle[1] = clientAngles[1] - 90.0;
+        sentryAngle[2] = clientAngles[2] + 90.0;
+
+        pPos[0] += 30.0;	//This moves it up/down
+		pPos[1] += 40.0;
+
+		pAng[0] += 180.0;
+		pAng[1] -= 90.0;
+		pAng[2] += 90.0;
+        */
 
 
         SetEntProp(sentry, Prop_Send, "m_usSolidFlags", 2);
 
         SetEntPropVector(sentry, Prop_Send, "m_vecOrigin", sentryPos);
-		// SetEntPropVector(target, Prop_Send, "m_angRotation", pAng);
+		// SetEntPropVector(sentry, Prop_Send, "m_angRotation", sentryAngle);
     }
 }
 
@@ -676,7 +691,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         else if(partIndex == 2) // "체력 강화제"
         {
 /////////////////////////////////// 복사 북여넣기 하기 좋은거!!
-            AddAttributeDefIndex(client, 26, -50.0);
+            RemoveToSomeWeapon(client, 26, -50.0);
 //////////////////////////////////
             RemoveToSomeWeapon(client, 109, 0.1);
         }
@@ -949,7 +964,9 @@ void AddAttributeDefIndex(int entity, int defIndex, float value)
     if(itemAddress != Address_Null)
     {
         beforeValue = TF2Attrib_GetValue(itemAddress) + value;
-        TF2Attrib_SetValue(itemAddress, beforeValue);
+        TF2Attrib_RemoveByDefIndex(entity, defIndex);
+
+        TF2Attrib_SetByDefIndex(entity, defIndex, beforeValue);
     }
     else
     {
@@ -961,9 +978,10 @@ void AddAttributeDefIndex(int entity, int defIndex, float value)
         {
             TF2Attrib_SetByDefIndex(entity, defIndex, value + 1.0);
         }
-
-        SwitchWeaponForTick(entity);
     }
+
+    if(!(0 < entity && entity <= MaxClients))
+        SwitchWeaponForTick(entity);
 }
 
 void SwitchWeaponForTick(int entity)
@@ -1050,8 +1068,8 @@ stock int CreateLink(int iClient)
 	SetVariantString("!activator");
 	AcceptEntityInput(iLink, "SetParent", iClient);
 
-	SetVariantString("flag");
-	AcceptEntityInput(iLink, "SetParentAttachment", iClient);
+	// SetVariantString("flag");
+	// AcceptEntityInput(iLink, "SetParentAttachment", iClient);
 
 	return iLink;
 }
