@@ -570,7 +570,10 @@ public Action:AttemptSaySound(client, String:sound[])
 				hpath = GetArrayCell(gh_paths, i);
 				GetArrayString(hpath, GetRandomInt(0, GetArraySize(hpath)-1), buffer, sizeof(buffer));
 
-				DoSaySound(buffer, (flags & SAYSOUND_FLAG_CUSTOMVOLUME) ? (Float:GetArrayCell(gh_volume, i)) : gf_saysound_volume);
+				if(!IsSoundPrecached(buffer))
+					CPrintToChatAll("%s는 캐시되지 않음.", buffer);
+
+				DoSaySound(buffer);
 				CPrintToChatAll("{green}%N{default}: ♫ {green}%s", client, sound);
 
 				if(PushArrayCell(gh_recentsounds, i) >= g_saysound_excludecount)
@@ -625,23 +628,15 @@ DisplayRemainingSounds(client)
 	}
 }
 
-DoSaySound(String:soundfile[], Float:volume)
+DoSaySound(String:soundfile[])
 {
 	// float tempVolume = volume;
 	for(new target = 1; target<=MaxClients; target++)
 	{
 		if(IsClientInGame(target) && !g_clientprefs[target][SAYSOUND_PREF_DISABLED])
 		{
-			if(volume > 1.0)
-			{
-				volume *= 0.5;
-				EmitSoundToClient(target, soundfile);
-				EmitSoundToClient(target, soundfile);
-			}
-			else
-			{
-				EmitSoundToClient(target, soundfile);
-			}
+			EmitSoundToClient(target, soundfile);
+			EmitSoundToClient(target, soundfile);
 			/*
 			if(gb_playingame)
 			{

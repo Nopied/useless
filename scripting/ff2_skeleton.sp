@@ -6,7 +6,7 @@
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
 
-int clientSkeleton[MAXPLAYERS+1];
+int clientSkeleton[MAXPLAYERS+1][MAXPLAYERS+1];
 
 public Plugin myinfo=
 {
@@ -23,22 +23,28 @@ public void OnPluginStart2()
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-  int client=GetClientOfUserId(GetEventInt(event, "userid"));
-  int attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
+      int client=GetClientOfUserId(GetEventInt(event, "userid"));
+      // int attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
 
-  if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER) && IsValidClient(attacker) && FF2_HasAbility(FF2_GetBossIndex(attacker), this_plugin_name, "skeleton_spawner"))
-  {
-    clientSkeleton[client]=SpawnSkeleton(attacker);
-    if(IsValidEntity(clientSkeleton[client]))
-    {
-      float skPos[3];
-      GetClientEyePosition(attacker, skPos);
+      if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
+      {
+          for(int target = 1; target <= MaxClients; target++)
+          {
+              if(FF2_HasAbility(FF2_GetBossIndex(target), this_plugin_name, "skeleton_spawner"))
+              {
+                  clientSkeleton[target][client]=SpawnSkeleton(target);
+                  if(IsValidEntity(clientSkeleton[target][client]))
+                  {
+                    float skPos[3];
+                    GetClientEyePosition(target, skPos);
 
-      skPos[2] -= 10.0;
-      SDKHook(clientSkeleton[client], SDKHook_OnTakeDamage, OnTakeDamage);
-      TeleportEntity(clientSkeleton[client], skPos, NULL_VECTOR, NULL_VECTOR);
-    }
-  }
+                    skPos[2] -= 10.0;
+                    SDKHook(clientSkeleton[target][client], SDKHook_OnTakeDamage, OnTakeDamage);
+                    TeleportEntity(clientSkeleton[target][client], skPos, NULL_VECTOR, NULL_VECTOR);
+                  }
+              }
+          }
+      }
 }
 
 public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
@@ -67,9 +73,9 @@ void ComeOnSkeleton(int boss)
 
   for(int target=1; target<=MaxClients; target++)
   {
-    if(clientSkeleton[target] && IsValidEntity(clientSkeleton[target]))
+    if(clientSkeleton[client][target] && IsValidEntity(clientSkeleton[client][target]))
     {
-      TeleportEntity(clientSkeleton[target], skPos, NULL_VECTOR, NULL_VECTOR);
+      TeleportEntity(clientSkeleton[client][target], skPos, NULL_VECTOR, NULL_VECTOR);
     }
   }
 }

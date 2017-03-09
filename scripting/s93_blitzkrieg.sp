@@ -3869,7 +3869,7 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 		}
 		*/
 
-	RNGDamage = GetRandomFloat(1.5,2.5), RNGSpeed = GetRandomFloat(0.5, 0.8);
+	RNGDamage = GetRandomFloat(0.5, 0.8), RNGSpeed = GetRandomFloat(0.5, 0.8);
 
 	if(!isBarrage)
 	{
@@ -3900,7 +3900,8 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 	}
 
 	TF2Items_SetAttribute(hItem, 0, 97, 0.02); // Reload Speed
-	TF2Items_SetAttribute(hItem, 1, isBarrage && RNGesus ? 521 : 542, 1.0); // Mini-Projectiles
+	// TF2Items_SetAttribute(hItem, 1, isBarrage && RNGesus ? 521 : 542, 1.0); // Mini-Projectiles
+	TF2Items_SetAttribute(hItem, 1, 542, 1.0); // Mini-Projectiles
 	TF2Items_SetAttribute(hItem, 2, 413, 1.0); // Press & Hold to reload
 	TF2Items_SetAttribute(hItem, 3, 2025, 3.0); //Is Pro Killstreak
 	TF2Items_SetAttribute(hItem, 4, 2013, GetRandomFloat(2002.0, 2008.0)); // Killstreaker

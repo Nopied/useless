@@ -3480,12 +3480,15 @@ PlayBGM(client)
 		musicKv=CloneHandle(BossKV[Special[0]]);
 
 	KvRewind(musicKv);
-	if(!selected &&
-		(((FF2_GetGameState() == Game_SpecialLastManStanding && KvJumpToKey(musicKv, "sound_special_bgm")) || (BossDiff[MainBoss] >= 5 && KvJumpToKey(musicKv, "sound_hell_bgm")))
+	if((!selected &&
+		(((FF2_GetGameState() == Game_SpecialLastManStanding && KvJumpToKey(musicKv, "sound_special_bgm")) || (BossDiff[MainBoss] >= 5 && KvJumpToKey(musicKv, "sound_hell_bgm"))))
 	|| KvJumpToKey(musicKv, "sound_bgm"))
 	)
 	{
-		// Debug("key: sound_bgm");
+		new String:keyName[80];
+		KvGetSectionName(musicKv, keyName, sizeof(keyName));
+		Debug("key: %s", keyName);
+
 		decl String:music[PLATFORM_MAX_PATH];
 		new String:artist[80];
 		new String:name[100];

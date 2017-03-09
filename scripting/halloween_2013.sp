@@ -220,8 +220,8 @@ public Action:FF2_OnAbility2(index,const String:plugin_name[],const String:abili
 
 public OnPluginStart2()
 {
-	HookEvent("teamplay_round_start", event_round_active_pre, EventHookMode_PostNoCopy);			// I guess this is for noaml maps?
-	HookEvent("arena_round_start", event_round_active_arena_pre, EventHookMode_PostNoCopy);
+	// HookEvent("teamplay_round_start", event_round_active_pre, EventHookMode_PostNoCopy);			// I guess this is for noaml maps?
+	// HookEvent("arena_round_start", event_round_active_arena_pre, EventHookMode_PostNoCopy);
 
 	HookEvent("teamplay_round_win", event_round_end, EventHookMode_PostNoCopy);
 	HookEvent("player_death", event_player_death, EventHookMode_Pre);
@@ -262,6 +262,7 @@ public OnPluginStart2()
 	gh_ItemLocations = CreateArray();
 }
 
+/*
 public Action event_round_active_pre(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	CreateTimer(10.4, event_round_active, _, TIMER_FLAG_NO_MAPCHANGE);
@@ -271,6 +272,7 @@ public Action event_round_active_arena_pre(Handle:event, const String:name[], bo
 {
 	CreateTimer(10.4, event_round_active, _, TIMER_FLAG_NO_MAPCHANGE);
 }
+*/
 
 public OnMapStart()
 {
@@ -313,6 +315,151 @@ public OnClientPutInServer(client)
 	SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePost);
 }
 
+public Action FF2_OnPlayBoss(int client, int boss)
+{
+	g_boss = boss;
+	gb_predator = gb_Doom = gb_Skulls = gb_Ash = gb_Hidden = false;
+
+	if(FF2_HasAbility( boss, this_plugin_name, "special_predator" ))
+	{				// if there are bots in the game, or the player suicides, this can be invalid... But will succeed 99% of the time
+		if(client && IsClientInGame(client) && IsPlayerAlive(client))
+		{
+			g_boss = client;
+			gb_predator = true;
+
+			gf_CannonDamage = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_predator", 2, 25.0);
+			gf_TrophyTime = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_predator", 3, 10.0);
+			gf_TrophyPct = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_predator", 4, 33.3);
+			gf_CannonDistance = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_predator", 5, 1500.0);
+			gf_CannonDistance *= gf_CannonDistance;
+			gf_CannonSpeed = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_predator", 6, 900.0);
+
+			CreateSprites(g_boss);
+			TF2_RemoveCondition(client, TFCond_Cloaked);
+		}
+	}
+	else if(FF2_HasAbility( boss, this_plugin_name, "special_skulls" ))
+	{
+		if(client && IsClientInGame(client) && IsPlayerAlive(client))
+		{
+			gb_Skulls = true;
+			g_boss = client;
+
+			gf_CannonDamage = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_skulls", 2, 25.0);
+			gf_CannonDistance = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_skulls", 3, 1000.0);
+			gf_CannonDistance *= gf_CannonDistance;
+			gf_IgniteTime = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_skulls", 4, 5.0);
+			gf_CannonSpeed = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_skulls", 5, 800.0);
+
+			g_flameEnt[0] = g_flameEnt[1] = g_flameEnt[2] = INVALID_ENT_REFERENCE;
+			CreateTimer(5.0, Timer_CreateFire, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+		}
+	}
+	else if(FF2_HasAbility( boss, this_plugin_name, "special_ash" ))
+	{
+		if(client && IsClientInGame(client) && IsPlayerAlive(client))
+		{
+			gb_Ash = true;
+			g_boss = client;
+
+			gf_CannonDamage = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_ash", 2, 10.0);		// saw damage?
+
+			new Handle:kv = FF2_GetSpecialKV(0);
+			KvRewind(kv);
+			if(KvJumpToKey(kv, "weapon1"))
+			{
+				KvGetString(kv, "name", gs_bossweaponclassname, 32, "tf_weapon_sword");
+				KvGetString(kv, "attributes", gs_bossweaponattribs, 32, " 2.0 ; 3 ; 68 ");
+				g_bossweaponindex = KvGetNum(kv, "index", 132);
+			}
+
+			CreateTimer(5.0, Timer_CreateChainsaw, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+		}
+	}
+	else if(FF2_HasAbility( boss, this_plugin_name, "special_hidden" ))
+	{
+		if(client && IsClientInGame(client) && IsPlayerAlive(client))
+		{
+			gb_Hidden = true;
+			g_boss = client;
+
+			gf_MinAttach = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_hidden", 1, 10.0);
+			gf_ReattachDelay = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_hidden", 2, 1.0);
+			gf_WallDist = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_hidden", 3, 60.0);
+			gf_WallDist = gf_WallDist * gf_WallDist;
+
+			CreateTimer(5.0, Timer_CreateHidden, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+		}
+	}
+	else if(FF2_HasAbility( boss, this_plugin_name, "special_doom" ))				// can multiboss if you want
+	{
+		if(client && IsClientInGame(client) && IsPlayerAlive(client))
+		{
+			g_BossTeam = GetClientTeam(client);								// could do getff2bossteam but we have this already anyways.
+			gb_Doom = true;
+
+			new itemflags = FF2_GetAbilityArgument(0, this_plugin_name, "special_doom", 1, ITEM_SHOTGUN|ITEM_ROCKETLAUNCHER|ITEM_INVULNERABILITY|ITEM_BERSERK);				// 1, 2, 4, 8, 16
+
+			if(itemflags)
+			{
+				decl String:stuff[6];
+				decl String:morestuff[2][3];
+
+				g_NumItems = 0;
+				if(itemflags & ITEM_SHOTGUN)
+				{
+					FF2_GetAbilityArgumentString(0, this_plugin_name,"special_doom", 5, stuff, 6);
+					ExplodeString(stuff, ";", morestuff, 2, 3);
+					g_ShotGunAmmo[0] = StringToInt(morestuff[0]);
+					g_ShotGunAmmo[1] = StringToInt(morestuff[1]);
+
+					FF2_GetAbilityArgumentString(0, this_plugin_name,"special_doom", 4, g_ShotgunAtt, 128);
+
+					g_ItemArray[g_NumItems] = ITEM_SHOTGUN;
+					g_NumItems++;
+				}
+				if(itemflags & ITEM_ROCKETLAUNCHER)
+				{
+					FF2_GetAbilityArgumentString(0, this_plugin_name,"special_doom", 7, stuff, 6);
+					ExplodeString(stuff, ";", morestuff, 2, 3);
+					g_RocketAmmo[0] = StringToInt(morestuff[0]);
+					g_RocketAmmo[1] = StringToInt(morestuff[1]);
+
+					FF2_GetAbilityArgumentString(0, this_plugin_name,"special_doom", 6, g_RocketAtt, 128);
+
+					g_ItemArray[g_NumItems] = ITEM_ROCKETLAUNCHER;
+					g_NumItems++;
+				}
+				if(itemflags & ITEM_INVULNERABILITY)
+				{
+					g_ItemArray[g_NumItems] = ITEM_INVULNERABILITY;
+					g_NumItems++;
+				}
+				if(itemflags & ITEM_BERSERK)
+				{
+					g_ItemArray[g_NumItems] = ITEM_BERSERK;
+					g_NumItems++;
+				}
+
+				gf_ItemRespawn = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_doom", 2, 30.0);		// time before new one pops once grabbed
+				gf_PowerupDuration = FF2_GetAbilityArgumentFloat(0, this_plugin_name, "special_doom", 3, 10.0);	// length of invuln or berserk
+
+				CacheItemSpawnLocations();
+
+				gb_CanRage = bool:FF2_GetAbilityArgument(0, this_plugin_name, "special_doom", 8, 0);				// block boss from raging?
+			}
+
+			for(new i=1; i<=MaxClients; i++)
+			{
+				if(FF2_GetBossIndex(i) != -1)																	// find all the boss!
+				{
+					CreateTimer(0.3, Timer_DoomguyThink, GetClientUserId(i), TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+				}
+			}
+		}
+	}
+}
+/*
 public Action event_round_active(Handle:timer)
 {
 	g_boss = 0;
@@ -462,6 +609,7 @@ public Action event_round_active(Handle:timer)
 		}
 	}
 }
+*/
 
 public event_round_end(Handle:event, const String:name[], bool:dontBroadcast)
 {
