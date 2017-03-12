@@ -54,20 +54,19 @@ public void OnClientPutInServer(client)
     IsPlayerAdmin[client] = false;
     IsPlayerModer[client] = false;
 
-    AdminId adminid = GetUserAdmin(client);
-    if(adminid != INVALID_ADMIN_ID)
+    // AdminId adminid = GetUserAdmin(client);
+    if(CheckCommandAccess(client, "POTRYUTILL", ADMFLAG_GENERIC))// adminid != INVALID_ADMIN_ID
     {
         // Admin_Config
-        if(!(GetAdminFlags(adminid, Access_Real) & ADMFLAG_RCON))
-        {
-            IsPlayerModer[client] = true;
-            CCC_SetColor(client, CCC_ChatColor, 0xFFFFE0, true);
-        }
-
-        else
+        if(CheckCommandAccess(client, "POTRYUTILL", ADMFLAG_RCON))
         {
             IsPlayerAdmin[client] = true;
             CCC_SetColor(client, CCC_ChatColor, 0xADD8E6, true);
+        }
+        else
+        {
+            IsPlayerModer[client] = true;
+            CCC_SetColor(client, CCC_ChatColor, 0xFFFFE0, true);
         }
     }
 }

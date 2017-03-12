@@ -34,10 +34,10 @@ public OnPluginStart()
 	AddCommandListener(OnSay, "say");
 	AddCommandListener(OnSay, "say_team");
 
-	RegConsoleCmd("sm_thirdperson", Command_TpOn, "Usage: sm_thirdperson");
-	RegConsoleCmd("tp", Command_TpOn, "Usage: sm_thirdperson");
-	RegConsoleCmd("sm_firstperson", Command_TpOff, "Usage: sm_firstperson");
-	RegConsoleCmd("fp", Command_TpOff, "Usage: sm_firstperson");
+	RegAdminCmd("sm_thirdperson", Command_TpOn, ADMFLAG_GENERIC, "Usage: sm_thirdperson");
+	RegAdminCmd("tp", Command_TpOn, ADMFLAG_GENERIC, "Usage: sm_thirdperson");
+	RegAdminCmd("sm_firstperson", Command_TpOff, ADMFLAG_GENERIC, "Usage: sm_firstperson");
+	RegAdminCmd("fp", Command_TpOff, ADMFLAG_GENERIC, "Usage: sm_firstperson");
 
 	clientcookie = RegClientCookie("tp_cookie", "", CookieAccess_Private);
 
@@ -242,7 +242,7 @@ public Action:Command_TpOn(client, args)
 	{
 		if (!GetEntProp(client, Prop_Send, "m_nForceTauntCam"))                  // Spaaaaaaam
 		{
-			PrintToChat(client, "[SM] 3인칭 %s.","켜짐");
+			PrintToChat(client, "[SM] 3인칭: %s.","켜짐");
 		}
 		SetVariantInt(1);
 		AcceptEntityInput(client, "SetForcedTauntCam");
@@ -276,7 +276,7 @@ public Action:Command_TpOff(client, args)
 	{
 		if (GetEntProp(client, Prop_Send, "m_nForceTauntCam"))                   // Check if it's set here, else spam
 		{
-			PrintToChat(client, "[SM] 3인칭 %s","Off");
+			PrintToChat(client, "[SM] 3인칭: %s","꺼짐");
 		}
 		SetVariantInt(0);
 		AcceptEntityInput(client, "SetForcedTauntCam");

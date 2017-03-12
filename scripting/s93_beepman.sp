@@ -49,7 +49,7 @@ float CooldownEndsIn[MAXPLAYERS+1]=INACTIVE;
 
 public void OnPluginStart2() // No bugs pls
 {
-	HookEvent("arena_round_start", Event_RoundStart);
+	HookEvent("teamplay_round_start", Event_RoundStart);
 }
 
 public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
@@ -287,14 +287,14 @@ public Action Timer_Hijack(Handle timer, any buildingIdx) // Grace period ends h
 	int building=EntRefToEntIndex(buildingIdx);
 	if(FF2_GetRoundState()==1 && building>MaxClients)
 	{
-		if ((owner = GetEntDataEnt2(building, FindSendPropOffs("CObjectSentrygun", "m_hBuilder"))) != -1)
+		if ((owner = GetEntDataEnt2(building, FindSendPropInfo("CObjectSentrygun", "m_hBuilder"))) != -1)
 		{
 			SetEntProp(building, Prop_Data, "m_takedamage", 2);
 			SetEntProp(building, Prop_Send, "m_bDisabled", 0);
 			owner=currentBossIdx;
 			float location[3], angle[3];
-			GetEntDataVector(building, FindSendPropOffs("CObjectSentrygun","m_vecOrigin"), location);
-			GetEntDataVector(building, FindSendPropOffs("CObjectSentrygun","m_angRotation"), angle);
+			GetEntDataVector(building, FindSendPropInfo("CObjectSentrygun","m_vecOrigin"), location);
+			GetEntDataVector(building, FindSendPropInfo("CObjectSentrygun","m_angRotation"), angle);
 			TF2_BuildSentry(owner, location, angle, GetEntProp(building, Prop_Send, "m_iUpgradeLevel"), GetEntProp(building, Prop_Send, "m_bMiniBuilding") ? true : false, GetEntProp(building, Prop_Send, "m_bMiniBuilding") ? true : false);
 			AcceptEntityInput(building, "kill");
 		}
