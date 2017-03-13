@@ -662,6 +662,274 @@ public Action:Timer_PostRoundStartInits(Handle:timer)
 	return Plugin_Continue;
 }
 
+public Action:FF2_OnPlayBoss(int clientIdx, int bossIdx)
+{
+	// ROTT weapons
+	RW_CanUse[clientIdx] = false;
+	RW_ActiveMessageIndex[clientIdx] = 0;
+	RW_MessageActiveUntil[clientIdx] = 0.0;
+	RW_ArmorActive[clientIdx] = false;
+	RW_ArmorActiveUntil[clientIdx] = 0.0;
+	RW_GodModeActive[clientIdx] = false;
+	RW_GodModeActiveUntil[clientIdx] = 0.0;
+
+	// ROTT props
+	RP_CanUse[clientIdx] = false;
+	RP_SpecialKeyDown[clientIdx] = false;
+	RP_AltFireKeyDown[clientIdx] = false;
+	RP_ReloadKeyDown[clientIdx] = false;
+	RP_ActiveErrorState[clientIdx] = 0;
+	RP_DisplayErrorUntil[clientIdx] = 0.0;
+	RW_ArmorActive[clientIdx] = false;
+	RW_GodModeActive[clientIdx] = false;
+
+	// infinity pistol
+	RIP_IsUsing[clientIdx] = false;
+
+	// ROTT weapons
+	RW_CanUse[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, RW_STRING);
+	if (RW_CanUse[clientIdx])
+	{
+		PluginActiveThisRound = true;
+		RW_ActiveThisRound = true;
+
+		// the overarching rage props
+		RW_WeaponCount[clientIdx] = min(FF2_GetAbilityArgument(bossIdx, this_plugin_name, RW_STRING, 1), RW_MAX_WEAPONS);
+		RW_WeaponVisibility[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RW_STRING, 2);
+		RW_HomingInterval = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RW_STRING, 3);
+
+		new String:chancesStr[RW_MAX_WEAPONS * 3];
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RW_STRING, 4, chancesStr, 30);
+		new String:chancesStrs[RW_MAX_WEAPONS][4];
+		ExplodeString(chancesStr, ";", chancesStrs, RW_MAX_WEAPONS, 4);
+		for (new i = 0; i < RW_WeaponCount[clientIdx]; i++)
+			RW_WeaponChances[clientIdx][i] = StringToInt(chancesStrs[i]);
+
+		new Float:maxAngleLockOn = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RW_STRING, 5);
+		new Float:maxAngleHome = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RW_STRING, 6);
+		for (new i = 0; i < RW_MAX_GODMODE_SOUNDS; i++)
+			RW_GodModeSounds[i][0] = 0;
+		new String:godModeSounds[(MAX_SOUND_FILE_LENGTH + 1) * RW_MAX_GODMODE_SOUNDS];
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RW_STRING, 7, godModeSounds, sizeof(godModeSounds));
+		ExplodeString(godModeSounds, ";", RW_GodModeSounds, RW_MAX_GODMODE_SOUNDS, MAX_SOUND_FILE_LENGTH);
+		for (new i = 0; i < RW_MAX_GODMODE_SOUNDS; i++)
+			if (strlen(RW_GodModeSounds[i]) > 3)
+				PrecacheSound(RW_GodModeSounds[i]);
+
+		RW_RJIntensityFactor = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RW_STRING, 8);
+
+		// specific weapon info
+		for (new i = 0; i < RW_WeaponCount[clientIdx]; i++)
+		{
+			static String:actualRWIString[40];
+			Format(actualRWIString, 40, "%s%d", RWI_PREFIX, i);
+
+			RWI_Type[i] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, actualRWIString, 1);
+			RWI_Duration[i] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, actualRWIString, 6);
+			RWI_AdditionalProjectiles[i] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, actualRWIString, 7);
+			RWI_HomingDegreesPerSecond[i] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, actualRWIString, 8);
+			RWI_ObsessiveHoming[i] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, actualRWIString, 9) == 1;
+			RWI_NumAdditionalExplosions[i] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, actualRWIString, 10);
+			RWI_ExplosionInterval[i] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, actualRWIString, 11);
+			RWI_RandomDeviationPerSecond[i] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, actualRWIString, 12);
+			RWI_ModelOverrideIdx[i] = ReadModelToInt(bossIdx, actualRWIString, 13);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, actualRWIString, 14, RWI_ParticleOverride[i], MAX_EFFECT_NAME_LENGTH);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, actualRWIString, 15, RW_Messages[i], RW_MAX_MESSAGE_LENGTH);
+			ReplaceString(RW_Messages[i], RW_MAX_MESSAGE_LENGTH, "\\n", "\n");
+			if (PRINT_DEBUG_SPAM)
+				PrintToServer("[sarysapub1] Read in HUD message: %s", RW_Messages[i]);
+
+			// not storing arg 16, but the sound must be precached
+			static String:rageSound[MAX_SOUND_FILE_LENGTH];
+			ReadSound(bossIdx, actualRWIString, 16, rageSound);
+
+			// overrides for lock on and homing angle
+			RWI_LockOnAngle[i] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, actualRWIString, 17);
+			if (RWI_LockOnAngle[i] <= 0.0)
+				RWI_LockOnAngle[i] = maxAngleLockOn;
+			RWI_HomeAngle[i] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, actualRWIString, 18);
+			if (RWI_HomeAngle[i] <= 0.0)
+				RWI_HomeAngle[i] = maxAngleHome;
+		}
+		RW_Messages[RW_INVALID_INDEX] = "Weapon chances didn't add up to 100%.\nNotify your server admin.";
+		RW_Messages[RW_MISSING_MELEE] = "Melee rage missing. Can't give armor.\nNotify your server admin.";
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RW_STRING, 19, RW_Messages[RW_RJ_FAIL], RW_MAX_MESSAGE_LENGTH);
+	}
+
+	// ROTT props
+	RP_CanUse[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, RP_STRING);
+	if (RP_CanUse[clientIdx])
+	{
+		PluginActiveThisRound = true;
+		RP_ActiveThisRound = true;
+		RP_CurrentlySelectedProp[clientIdx] = -1;
+		for (new i = 1; i <= 7; i += 2)
+		{
+			RP_CanDeployProp[clientIdx][i/2] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RP_STRING, i) == 1;
+			RP_PropRageCost[clientIdx][i/2] = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RP_STRING, i+1);
+			if (PRINT_DEBUG_SPAM)
+				PrintToServer("[sarysapub1] Prop %d (actually %d): %d / %f", i, (i/2), RP_CanDeployProp[clientIdx][i/2], RP_PropRageCost[clientIdx][i/2]);
+
+			if (RP_CanDeployProp[clientIdx][i/2] && RP_CurrentlySelectedProp[clientIdx] == -1)
+				RP_CurrentlySelectedProp[clientIdx] = i / 2;
+		}
+		ReadCenterText(bossIdx, RP_STRING, 15, RP_StrNotEnoughRage);
+		ReadCenterText(bossIdx, RP_STRING, 16, RP_StrGroundOnly);
+		ReadCenterText(bossIdx, RP_STRING, 17, RP_StrPlayerBlocking);
+		RP_NoFallDamage = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RP_STRING, 18) == 1;
+		ReadCenterText(bossIdx, RP_STRING, 19, RP_HUDMessage);
+
+		// jump pad info
+		if ((RP_CanDeployProp[clientIdx][PROP_JUMP_PAD] || RP_CanDeployProp[clientIdx][PROP_ANGLE_PAD]) && FF2_HasAbility(bossIdx, this_plugin_name, RPJP_STRING))
+		{
+			RPJP_JumpPadIntensity = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RPJP_STRING, 1);
+			RPJP_JumpPadHealth = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RPJP_STRING, 2);
+			ReadModel(bossIdx, RPJP_STRING, 3, RPJP_JumpPadModel);
+			ReadHull(bossIdx, RPJP_STRING, 4, RPJP_JumpPadCollision);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RPJP_STRING, 5, RP_PropName[PROP_JUMP_PAD], MAX_PROP_NAME_LENGTH);
+
+			ReadSound(bossIdx, RPJP_STRING, 10, RPJP_JumpPadSound);
+
+			RPJP_AnglePadIntensity = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RPJP_STRING, 11);
+			RPJP_AnglePadHealth = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RPJP_STRING, 12);
+			ReadModel(bossIdx, RPJP_STRING, 13, RPJP_AnglePadModel);
+			ReadHull(bossIdx, RPJP_STRING, 14, RPJP_AnglePadCollision);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RPJP_STRING, 15, RP_PropName[PROP_ANGLE_PAD], MAX_PROP_NAME_LENGTH);
+			RPJP_AnglePadDampeningFactor = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RPJP_STRING, 16);
+
+			// also, these
+			RP_EffectTriggerInterval[PROP_JUMP_PAD] = RPJP_EffectTriggerInterval;
+			RP_EffectTriggerInterval[PROP_ANGLE_PAD] = RPJP_EffectTriggerInterval;
+			RP_PropHealth[PROP_JUMP_PAD] = RPJP_JumpPadHealth;
+			RP_PropHealth[PROP_ANGLE_PAD] = RPJP_AnglePadHealth;
+		}
+		else
+		{
+			PrintToServer("[sarysapub1] WARNING: Jump pad and/or angle pad set to enabled but required rage %s missing.", RPJP_STRING);
+			RP_CanDeployProp[clientIdx][PROP_JUMP_PAD] = false;
+			RP_CanDeployProp[clientIdx][PROP_ANGLE_PAD] = false;
+		}
+
+		// slicer and platform info
+		if (RP_CanDeployProp[clientIdx][PROP_SLICER] && FF2_HasAbility(bossIdx, this_plugin_name, RPSP_STRING))
+		{
+			// SLICER
+			RPS_DelayBetweenChecks = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RPSP_STRING, 1);
+			RPS_DamagePerCheck = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RPSP_STRING, 2);
+			RPS_NegatePushForce = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RPSP_STRING, 3) == 1;
+			ReadModel(bossIdx, RPSP_STRING, 4, RPS_SlicerModel);
+			ReadHull(bossIdx, RPSP_STRING, 5, RPS_SlicerCollision);
+			RPS_DelayBeforeDamage = FF2_GetAbilityArgumentFloat(bossIdx, this_plugin_name, RPSP_STRING, 6);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RPSP_STRING, 7, RP_PropName[PROP_SLICER], MAX_PROP_NAME_LENGTH);
+
+			// also, these
+			RP_EffectTriggerInterval[PROP_SLICER] = RPS_DelayBetweenChecks;
+			RP_PropHealth[PROP_SLICER] = 32000;
+
+			// PLATFORM
+			RPP_PlatformHealth = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RPSP_STRING, 11);
+			ReadModel(bossIdx, RPSP_STRING, 12, RPP_PlatformModel);
+			FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RPSP_STRING, 13, RP_PropName[PROP_PLATFORM], MAX_PROP_NAME_LENGTH);
+
+			// also, this
+			RP_PropHealth[PROP_PLATFORM] = RPP_PlatformHealth;
+		}
+		else
+		{
+			PrintToServer("[sarysapub1] WARNING: Slicer and/or platform set to enabled but required rage %s missing.", RPSP_STRING);
+			RP_CanDeployProp[clientIdx][PROP_SLICER] = false;
+			RP_CanDeployProp[clientIdx][PROP_PLATFORM] = false;
+		}
+
+		if (PRINT_DEBUG_INFO)
+			PrintToServer("[sarysapub1] Boss will use ROTT Props, jumppad=%d  45jumppad=%d  slicer=%d  platform=%d", RP_CanDeployProp[clientIdx][PROP_JUMP_PAD], RP_CanDeployProp[clientIdx][PROP_ANGLE_PAD], RP_CanDeployProp[clientIdx][PROP_SLICER], RP_CanDeployProp[clientIdx][PROP_PLATFORM]);
+
+		if (RP_CurrentlySelectedProp[clientIdx] == -1)
+		{
+			RP_CanUse[clientIdx] = false;
+			if (PRINT_DEBUG_INFO)
+				PrintToServer("[sarysapub1] Or not...none of the potential props are enabled.");
+		}
+	}
+
+	if (RW_CanUse[clientIdx] || RP_CanUse[clientIdx])
+	{
+		ROTT_UpdateHUD(clientIdx);
+		ROTT_HudRefreshAt[clientIdx] = GetEngineTime();
+	}
+
+	// SDKHook(clientIdx, SDKHook_OnTakeDamage, ROTTDamageMonitor);
+
+	RIP_IsUsing[clientIdx] = FF2_HasAbility(bossIdx, this_plugin_name, RIP_STRING);
+	if (RIP_IsUsing[clientIdx])
+	{
+		PluginActiveThisRound = true;
+		RIP_ActiveThisRound = true;
+
+		new String:weaponName[MAX_WEAPON_NAME_LENGTH];
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RIP_STRING, 1, weaponName, sizeof(weaponName));
+		new weaponIdx = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RIP_STRING, 2);
+		new String:weaponArgs[MAX_WEAPON_ARG_LENGTH];
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RIP_STRING, 3, weaponArgs, sizeof(weaponArgs));
+		new weaponVisibility = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RIP_STRING, 4);
+
+		SpawnWeapon(clientIdx, weaponName, weaponIdx, 101, 5, weaponArgs, weaponVisibility);
+
+		RIP_NextAwardTime[clientIdx] = GetEngineTime() + RIP_AWARD_INTERVAL;
+		RIP_AwardAmmoCount[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RIP_STRING, 5);
+		RIP_IsPrimary[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RIP_STRING, 6) == 1;
+	}
+
+	// replace the user's melee weapon
+	if (FF2_HasAbility(bossIdx, this_plugin_name, RFM_STRING))
+	{
+		PluginActiveThisRound = true;
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RFM_STRING, 1, RFM_WeaponName[clientIdx], MAX_WEAPON_NAME_LENGTH);
+		RFM_WeaponIdx[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RFM_STRING, 2);
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RFM_STRING, 3, RFM_WeaponArgs[clientIdx], MAX_WEAPON_ARG_LENGTH);
+		RFM_WeaponVisibility[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RFM_STRING, 4);
+
+		TF2_RemoveWeaponSlot(clientIdx, TFWeaponSlot_Melee);
+		new melee = SpawnWeapon(clientIdx, RFM_WeaponName[clientIdx], RFM_WeaponIdx[clientIdx], 101, 5, RFM_WeaponArgs[clientIdx], RFM_WeaponVisibility[clientIdx]);
+		if (IsValidEntity(melee))
+			SetEntPropEnt(clientIdx, Prop_Data, "m_hActiveWeapon", melee);
+	}
+
+	// the above two, but combined. sucks but I have no choice
+	if (FF2_HasAbility(bossIdx, this_plugin_name, RSW_STRING))
+	{
+		// INFINITY PISTOL
+		PluginActiveThisRound = true;
+		RIP_IsUsing[clientIdx] = true;
+		RIP_ActiveThisRound = true;
+
+		new String:weaponName[MAX_WEAPON_NAME_LENGTH];
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RSW_STRING, 1, weaponName, sizeof(weaponName));
+		new weaponIdx = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RSW_STRING, 2);
+		new String:weaponArgs[MAX_WEAPON_ARG_LENGTH];
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RSW_STRING, 3, weaponArgs, sizeof(weaponArgs));
+		new weaponVisibility = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RSW_STRING, 4);
+
+		SpawnWeapon(clientIdx, weaponName, weaponIdx, 101, 5, weaponArgs, weaponVisibility);
+
+		RIP_NextAwardTime[clientIdx] = GetEngineTime() + RIP_AWARD_INTERVAL;
+		RIP_AwardAmmoCount[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RSW_STRING, 5);
+		RIP_IsPrimary[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RSW_STRING, 6) == 1;
+
+		// MELEE WEAPON
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RSW_STRING, 11, RFM_WeaponName[clientIdx], MAX_WEAPON_NAME_LENGTH);
+		RFM_WeaponIdx[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RSW_STRING, 12);
+		FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, RSW_STRING, 13, RFM_WeaponArgs[clientIdx], MAX_WEAPON_ARG_LENGTH);
+		RFM_WeaponVisibility[clientIdx] = FF2_GetAbilityArgument(bossIdx, this_plugin_name, RSW_STRING, 14);
+
+		TF2_RemoveWeaponSlot(clientIdx, TFWeaponSlot_Melee);
+		new melee = SpawnWeapon(clientIdx, RFM_WeaponName[clientIdx], RFM_WeaponIdx[clientIdx], 101, 5, RFM_WeaponArgs[clientIdx], RFM_WeaponVisibility[clientIdx]);
+		if (IsValidEntity(melee))
+			SetEntPropEnt(clientIdx, Prop_Data, "m_hActiveWeapon", melee);
+	}
+
+}
+
 public Action:Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	RoundInProgress = false;
