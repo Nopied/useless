@@ -3441,7 +3441,9 @@ StartMusic(client=0)
 		for(new target; target<=MaxClients; target++)
  		{
  			playBGM[target]=true; // This includes the 0th index
-			CreateTimer(0.0, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+
+			if(target > 0 && IsClientInGame(target))
+				CreateTimer(0.0, Timer_PrepareBGM, GetClientUserId(target), TIMER_FLAG_NO_MAPCHANGE);
  		}
 	}
 	else
@@ -3519,9 +3521,11 @@ PlayBGM(client)
 	|| KvJumpToKey(musicKv, "sound_bgm"))
 	)
 	{
-		new String:keyName[80];
-		KvGetSectionName(musicKv, keyName, sizeof(keyName));
-		Debug("key: %s", keyName);
+		// new String:keyName[80];
+		// KvGetSectionName(musicKv, keyName, sizeof(keyName));
+		// Debug("key: %s", keyName);
+
+		Debug("%N", client);
 
 		new String:music[PLATFORM_MAX_PATH];
 		new String:artist[80];
@@ -3549,7 +3553,7 @@ PlayBGM(client)
 
 			for(int count=1; count<maxIndex; count++)
 			{
-				Format(music, 10, "path%i", index);
+				Format(music, 10, "path%i", count);
 				KvGetString(musicKv, music, music, sizeof(music));
 
 				GetSoundCode(music, code, sizeof(code));
@@ -5635,7 +5639,8 @@ public OnClientPostAdminCheck(client) // OnClientPutInServer
 		playBGM[client]=true;
 	 	if(Enabled)
 	 	{
-	 		CreateTimer(0.0, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+	 		// reateTimer(0.0, Timer_PrepareBGM, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+			StartMusic(client);
 	 	}
 	}
 
@@ -9082,9 +9087,11 @@ public void GetSoundCode(String:musicPath[],  String:codeString[], int buffer)
 	// int boss = MainBoss;
 	// Handle clonedHandle = CloneHandle(BossKV[Special[boss]]);
 	int sizeString = strlen(musicPath);
-	int startcount = buffer - 1;
+	// int startcount = strlen(codeString) - 1;
+	// char code[1];
 
-	Format(codeString, buffer, "%i-", sizeString);
+	Format(codeString, buffer, "%i-%s", sizeString, musicPath[sizeString - 15]);
+	/*
 	for(int count=startcount; count > startcount - 30; count--)
 	{
 		if(strlen(codeString) >= buffer || sizeString < (startcount - count))
@@ -9092,9 +9099,11 @@ public void GetSoundCode(String:musicPath[],  String:codeString[], int buffer)
 			break;
 		}
 
-		int code = view_as<int>(musicPath[count]);
-		Format(codeString, buffer, "%s%i", codeString, code);
+		// int code = view_as<int>(musicPath[count]);
+		Format(code, 1, "%c", musicPath[count]);
+		Format(codeString, buffer, "%s%d", codeString, code);
 	}
+	*/
 }
 
 stock bool:RandomSound(const String:sound[], String:file[], length, boss=0)
@@ -10340,9 +10349,9 @@ public MuteClientBossMusic(Handle:menu, MenuAction:action, client, selection)
 		KvGetString(clonedHandle, temp, temp, sizeof(temp), "");
 		GetSoundCode(temp, code, 100);
 
-		SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, false, code);
+		SetClientSoundOptions(client, SOUNDEXCEPT_MUSIC, !CheckSoundException(client, SOUNDEXCEPT_MUSIC, code) ? true : false, code);
 
-		CPrintToChat(client, "{olive}[FF2]{default} 선택하신 곡을 차단했습니다.");
+		CPrintToChat(client, "{olive}[FF2]{default} 선택하신 곡을 {yellow}%s{default}했습니다.", CheckSoundException(client, SOUNDEXCEPT_MUSIC, code) ? "차단 해체" : "차단");
 
 		if(StrEqual(temp, currentBGM[client], true))
 			StartMusic(client);
