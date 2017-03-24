@@ -775,6 +775,10 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
 
         for (int i=1; (BossKV=FF2_GetSpecialKV(i,true)); i++)
     	{
+            KvRewind(BossKV);
+            if(KvGetNum(BossKV, "ban_vs_bosses") > 0)
+                continue;
+
             for(int bossC; bossC<bossCount; bossC++)
             {
                 int boss = FF2_GetBossIndex(bosses[bossC]);
@@ -810,11 +814,21 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
             FF2_MakeClientToBoss(client, random);
 
             int boss = FF2_GetBossIndex(client);
-            FF2_SetBossMaxHealth(boss, totalBossHP);
-            FF2_SetBossHealth(boss, totalBossHP);
+            FF2_SetBossMaxHealth(boss, totalBossHP/2);
+            FF2_SetBossHealth(boss, totalBossHP/2);
             FF2_SetBossLives(boss, 1);
             FF2_SetBossCharge(boss, 0, 400.0);
             FF2_SetBossMaxRageCharge(boss, 1000.0);
+        }
+        else
+        {
+            TF2_AddCondition(client, TFCond_Ubercharged, 10.0);
+            TF2_AddCondition(client, TFCond_Stealthed, 10.0);
+            TF2_AddCondition(client, TFCond_SpeedBuffAlly, 10.0);
+            GiveLastManWeapon(client);
+
+            RemovePlayerBack(client, {57, 133, 405, 444, 608, 642}, 7);
+            RemovePlayerTarge(client);
         }
 
         nameArray.Close();

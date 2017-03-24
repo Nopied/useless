@@ -276,10 +276,17 @@ public void OnEntitySpawned(int entity)
 
                 CP_PropToPartProp(prop, 0, CP_RandomPartRank(true), true, true, false);
 
-                FF2_SetClientDamage(owner, FF2_GetClientDamage(owner) + 20);
-                TeleportEntity(prop, pos, ang, velocity);
+                if(IsValidEntity(prop))
+                {
+                    FF2_SetClientDamage(owner, FF2_GetClientDamage(owner) + 20);
+                    TeleportEntity(prop, pos, ang, velocity);
 
-                entity = prop;
+                    entity = prop;
+                }
+                else
+                {
+                    return;
+                }
             }
         }
 
@@ -452,7 +459,16 @@ public Action CP_OnGetPart(int client, int &prop, int &partIndex)
         AcceptEntityInput(prop, "kill", prop);
 
         int maxHealth = GetEntProp(client, Prop_Data, "m_iMaxHealth");
-        SDKHooks_TakeDamage(client, client, client, float(-(maxHealth/5)), DMG_GENERIC, -1);
+        int partRank = CP_GetPartPropInfo(prop, Info_Rank);
+
+        if(partRank == view_as<int>(Rank_Another))
+        {
+            SDKHooks_TakeDamage(client, client, client, float((maxHealth/(5 - partRank))), DMG_GENERIC, -1);
+        }
+        else
+        {
+            SDKHooks_TakeDamage(client, client, client, float(-(maxHealth/(5 - partRank))), DMG_GENERIC, -1);
+        }
         CP_NoticePart(client, 29);
     }
 
@@ -481,9 +497,9 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     else if(partIndex == 3) // "근육 강화제"
     {
-        AddToAllWeapon(client, 6, -0.2);
-        AddToAllWeapon(client, 97, -0.2);
-        AddToSomeWeapon(client, 69, -0.5);
+        AddToAllWeapon(client, 6, -0.1);
+        AddToAllWeapon(client, 97, -0.1);
+        AddToSomeWeapon(client, 69, -0.35);
     }
 
     else if(partIndex == 4) // "나노 제트팩"
@@ -628,8 +644,43 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         SetEntProp(sentry, Prop_Send, "m_usSolidFlags", 2);
 
         SetEntPropVector(sentry, Prop_Send, "m_vecOrigin", sentryPos);
+
+        CreateTimer(0.1, LittleEngiDamageTimer, EntIndexToEntRef(sentry), TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 		// SetEntPropVector(sentry, Prop_Send, "m_angRotation", sentryAngle);
     }
+}
+
+public Action LittleEngiDamageTimer(Handle timer, int entRef)
+{
+    int entity = EntRefToEntIndex(entRef)
+
+    if(IsValidEntity(entity))
+    {
+        SDKHooks_TakeDamage(entity, 0, 0, 0.4, DMG_GENERIC, -1);
+    }
+    else
+    {
+        int ent = -1;
+
+        while((ent = FindEntityByClassname(ent, "tf_taunt_prop")) != -1)
+        {
+            if(!HasEntProp(ent, Prop_Send, "moveparent"))
+            {
+                Debug("이거 아님!");
+                break;
+            }
+
+            int owner = GetEntPropEnt(ent, Prop_Send, "moveparent");
+
+            if(owner == entity)
+            {
+                AcceptEntityInput(ent, "kill", ent);
+            }
+        }
+        return Plugin_Stop;
+    }
+
+    return Plugin_Continue;
 }
 
 public void CP_OnActivedPart(int client, int partIndex)
@@ -698,9 +749,9 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
 
         else if(partIndex == 3) // "근육 강화제"
         {
-            RemoveToAllWeapon(client, 6, 0.2);
-            RemoveToAllWeapon(client, 97, 0.2);
-            RemoveToSomeWeapon(client, 69, 0.5);
+            RemoveToAllWeapon(client, 6, 0.1);
+            RemoveToAllWeapon(client, 97, 0.1);
+            RemoveToSomeWeapon(client, 69, 0.35);
         }
 
         else if(partIndex == 4) // "나노 제트팩"
@@ -979,9 +1030,10 @@ void AddAttributeDefIndex(int entity, int defIndex, float value)
             TF2Attrib_SetByDefIndex(entity, defIndex, value + 1.0);
         }
     }
-
+   /*
     if(!(0 < entity && entity <= MaxClients))
         SwitchWeaponForTick(entity);
+    */
 }
 
 void SwitchWeaponForTick(int entity)
