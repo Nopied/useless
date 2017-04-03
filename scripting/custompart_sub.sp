@@ -437,6 +437,9 @@ public Action CP_OnTouchedPartProp(int client, int &prop)
     if(CP_IsPartActived(client, 11))
         return Plugin_Handled;
 
+    if(BeSkeletonKing_IsSkeleton(client))
+        return Plugin_Handled;
+
     return Plugin_Continue;
 }
 
@@ -467,7 +470,7 @@ public Action CP_OnGetPart(int client, int &prop, int &partIndex)
         }
         else
         {
-            SDKHooks_TakeDamage(client, client, client, float(-(maxHealth/(5 - partRank))), DMG_GENERIC, -1);
+            SDKHooks_TakeDamage(client, client, client, float(-(maxHealth/(5 - partRank)) * 4), DMG_GENERIC, -1);
         }
         CP_NoticePart(client, 29);
     }
@@ -640,7 +643,6 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 		pAng[2] += 90.0;
         */
 
-
         SetEntProp(sentry, Prop_Send, "m_usSolidFlags", 2);
 
         SetEntPropVector(sentry, Prop_Send, "m_vecOrigin", sentryPos);
@@ -656,7 +658,12 @@ public Action LittleEngiDamageTimer(Handle timer, int entRef)
 
     if(IsValidEntity(entity))
     {
-        SDKHooks_TakeDamage(entity, 0, 0, 0.4, DMG_GENERIC, -1);
+        int builder = GetEntPropEnt(entity, Prop_Send, "m_hBuilder");
+
+        if(IsPlayerAlive(builder))
+            SDKHooks_TakeDamage(entity, 0, 0, 0.4, DMG_GENERIC, -1);
+        else
+            SDKHooks_TakeDamage(entity, 0, 0, 10000.0, DMG_GENERIC, -1);
     }
     else
     {

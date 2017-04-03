@@ -3562,6 +3562,10 @@ PlayBGM(client)
 				{
 					indexArray[maxCount++] = count;
 				}
+				else
+				{
+					Debug("%N: %s is muted.", client, code);
+				}
 			}
 
 			if(maxCount > 0)
@@ -7753,6 +7757,12 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					damagetype|=DMG_PREVENT_PHYSICS_FORCE;
 				}
 				////////////////
+
+				if(TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
+				{
+					Change=true;
+					damagetype |= ~DMG_CRIT;
+				}
 /*
 				if(BossHealth[boss] - RoundFloat(damage) <= 0 && BossDiff[boss] != 1)
 				{
@@ -7851,6 +7861,14 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							damage *= damagecustom == TF_CUSTOM_HEADSHOT ? 1.5 : 1.0;
 							return Plugin_Changed;
 						}
+					}
+				} // tf_weapon_stickbomb
+				if(!StrContains(classname, "tf_weapon_stickbomb"))
+				{
+					if(damagetype & DMG_CRIT)
+					{
+						Change=true;
+						ScaleVector(damageForce, 0.5);
 					}
 				}
 /*
