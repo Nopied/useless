@@ -1745,7 +1745,7 @@ public void JM_Tick(int iClient, int iButtons, float flTime)
 
 public void AimThink(iClient)
 {
-/*
+
 	int iClosest = GetClosestClient(iClient);
 	if(!IsValidClient(iClosest, true))
 		return;
@@ -1764,7 +1764,7 @@ public void AimThink(iClient)
 
 	ClampAngle(flCamAngle);
 	TeleportEntity(iClient, NULL_VECTOR, flCamAngle, NULL_VECTOR);
-*/
+
 	PrintCenterText(iClient, "지속시간동안 저격소총으로 맞추면 무조건 헤드샷입니다.");
 
 
@@ -1773,6 +1773,33 @@ public void AimThink(iClient)
 	{
 		enableMLG[iClient]=false;
 		SDKUnhook(iClient, SDKHook_PreThink, AimThink);
+	}
+}
+
+public void OnClientWeaponShootPosition(int client, float position[3])
+{
+	if(!IsValidClient(client)) return;
+
+	if(enableMLG[client])
+	{
+		int iClosest = GetClosestClient(client);
+		if(!IsValidClient(iClosest, true))
+			return;
+
+		float flClosestLocation[3], flClientEyePosition[3], flVector[3], flCamAngle[3];
+		GetClientEyePosition(client, flClientEyePosition);
+
+		GetClientAbsOrigin(iClosest, flClosestLocation);
+		flClosestLocation[2] += 43;
+
+		MakeVectorFromPoints(flClosestLocation, flClientEyePosition, flVector);
+
+		GetVectorAngles(flVector, flCamAngle);
+		flCamAngle[0] *= -1.0;
+		flCamAngle[1] += 180.0;
+
+		ClampAngle(flCamAngle);
+		TeleportEntity(client, NULL_VECTOR, flCamAngle, NULL_VECTOR);
 	}
 }
 

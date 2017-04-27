@@ -6,6 +6,7 @@
 #include <morecolors>
 #include <sdkhooks>
 #include <tf2_stocks>
+#include <challengemode>
 #include <tf2items>
 
 #define PLUGIN_NAME "Challenge Mode"
@@ -29,6 +30,8 @@ Handle cvarChatCommand;
 
 int g_iChatCommand=0;
 char g_strChatCommand[42][50];
+
+int SelectedChallengeTarget[MAXPLAYERS+1];
 
 public void OnPluginStart()
 {
@@ -72,7 +75,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 	return Plugin_Continue;
 }
 
-void ViewChallengeMenu(int client, bool passCheckCharge = false)
+void ViewChallengeMenu(int client)
 {
     int charge = GetClientChallengeCharge(client);
 
@@ -90,11 +93,11 @@ void ViewChallengeMenu(int client, bool passCheckCharge = false)
     {
         char name[200];
         GetUnlockString(GetClientChallengeTarget(client), "name", name, sizeof(name));
-        Format(item, sizeof(item), "%s\n설정된 타켓: %s", item, name);
+        Format(item, sizeof(item), "%s\n발동 준비 중인 타켓: %s", item, name);
     }
     else
     {
-        Format(item, sizeof(item), "%s\n설정된 타켓이 없습니다.", item);
+        Format(item, sizeof(item), "%s\n발동 준비 중인 타켓이 없습니다.", item);
     }
 
 
@@ -112,7 +115,7 @@ void ViewChallengeMenu(int client, bool passCheckCharge = false)
     menu.ExitButton = true;
 
     menu.AddItem("help", "이건 무슨 모드죠? (도움말)");
-    menu.AddItem("target delete", "설정된 타켓 제거");
+    menu.AddItem("target delete", "발동 준비 중인 타켓 제거");
 
     for(int count=0; count < totalCount; count++)
     {
@@ -148,8 +151,9 @@ public int ChallengeMenuCallback(Menu menu, MenuAction action, int client, int i
 
                   case 1:
                   {
-                      SetClientChallengeTarget(0);
-                      CPrintToChat(client, "{yellow}[CHALLENGE]{default} 설정된 타켓을 제거하였습니다.");
+                      SetClientChallengeTarget(client, 0);
+                      ViewChallengeMenu(client);
+                      CPrintToChat(client, "{yellow}[CHALLENGE]{default} 발동 준비 중인 타켓을 제거하였습니다.");
                   }
 
                   default:
@@ -158,6 +162,8 @@ public int ChallengeMenuCallback(Menu menu, MenuAction action, int client, int i
                       int[] unlockArray = new int[totalCount];
 
                       GetValidUnlockArray(unlockArray, totalCount);
+
+                      SelectedChallengeTarget[client] = unlockArray[item - 2];
 
                       ViewUnlockInfo(unlockArray[item - 2]);
                   }
@@ -170,15 +176,73 @@ void ViewHelpMessage(int client)
 {
     Menu menu = new Menu(OnSelected);
 
-    menu.SetTitle("챌린지 모드는 서버의 잠겨있는 컨텐츠를 해금하기 위해 거쳐야하는 노-력 컨텐츠입니다.\n블래스터 차징이 100%%일 경우, 선택한 타켓의 유효한 상황에 챌린지 모드가 활성화됩니다.\n그 선택한 타켓의 베리어 HP가 0이 될 경우, 타켓의 내용물을 사용할 수 있습니다.");
+    menu.SetTitle("챌린지 모드는 서버의 잠겨있는 컨텐츠를 해금하기 위해 거쳐야하는 노-력 컨텐츠입니다.\n블래스터 차징이 100%%일 경우, 발동 준비 중인 타켓의 유효한 상황에 챌린지 모드가 활성화됩니다.\n그 선택한 타켓의 베리어 HP가 0이 될 경우, 타켓의 내용물을 해금 및 사용할 수 있습니다.");
     menu.ExitButton = true;
 
     menu.Display(client, MENU_TIME_FOREVER);
 }
 
-void ViewUnlockInfo(int client)
+void ViewUnlockInfo(int client, int unlockIndex)
 {
+    Menu menu = new Menu(UnlockInfoMenuCallback);
+    char item[300];
+    char temp[200];
 
+    GetUnlockString(unlockIndex, "name", temp, sizeof(temp));
+    Format(item, sizeof(item), "선택된 타켓: %s", temp);
+
+    GetUnlockString(unlockIndex, "description", temp, sizeof(temp));
+    Format(item, sizeof(item), "%s\n조건: %s", item, temp);
+
+    GetUnlockString(unlockIndex, "unlocked_description", temp, sizeof(temp));
+    Format(item, sizeof(item), "%s\n보상: %s", item, temp);
+
+    if(GetUnlockBarrierHealth(unlockIndex) > 0)
+    {
+        Format(item, sizeof(item), "%s\n보상: %i", item, );
+    }
+    // if(GetClientBarrierDamage(client, unlockIndex) > 0 )
+
+
+    menu.SetTitle(item);
+    menu.ExitButton = true;
+
+    menu.AddItem("unlock help", "이 타켓의 ");
+    menu.AddItem("target delete", "설정된 타켓 제거");
+
+    menu.Display(client, MENU_TIME_FOREVER);
+}
+
+public int UnlockInfoMenuCallback(Menu menu, MenuAction action, int client, int item)
+{
+    switch(action)
+    {
+          case MenuAction_End:
+          {
+              menu.Close();
+          }
+
+          case MenuAction_Select:
+          {
+              switch(item)
+              {
+                  case 0:
+                  {
+
+                  }
+
+                  case 1:
+                  {
+
+                  }
+
+                  default:
+                  {
+
+                  }
+              }
+          }
+    }
 }
 
 
@@ -372,14 +436,14 @@ float GetUnlockBarrierRank(int index)
 
     return KvGetFloat(ChallengeKV, "barrier_rank", 0.0);
 }
-
+/*
 bool GetUnlockNeedBlaster(int index)
 {
     if(!IsValidUnlock(index))   return false;
 
     return KvGetNum(ChallengeKV, "is_blaster", 0) > 0;
 }
-
+*/
 public void GetUnlockString(int index, const char[] item, char[] resultstr, int buffer)
 {
     if(IsValidUnlock(index))

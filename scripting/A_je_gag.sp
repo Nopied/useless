@@ -15,7 +15,7 @@ public Plugin:myinfo = {
 
 public void OnPluginStart()
 {
-	cvarTimer=CreateConVar("A_je_gag_Timer", "90.0", "A-je...", FCVAR_PLUGIN, true, 0.0);
+	cvarTimer=CreateConVar("A_je_gag_Timer", "90.0", "A-je...", _, true, 0.0);
 
   	g_hGagCookie=RegClientCookie("A_je_gag.cookie", "LOL", CookieAccess_Protected);
 
@@ -72,7 +72,9 @@ public Action:Listener_Say(int client, const char[] command, int argc)
 	GetCmdArgString(chat, sizeof(chat));
 
 	// if(chat[start]=='"') start++;
-	if(strlen(chat)>=2 && (chat[1]=='!' || chat[1]=='/')) start=true; // start++;
+	if(strlen(chat)<3)	return Plugin_Continue;
+
+	if(chat[1]=='!' || chat[1]=='/') start=true; // start++;
 	chat[strlen(chat)-1]='\0';
 
 	if(!start) return Plugin_Continue;

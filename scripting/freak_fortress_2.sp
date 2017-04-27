@@ -1261,6 +1261,7 @@ public OnPluginStart()
 	AddCommandListener(OnCallForMedic, "voicemenu");    //Used to activate rages
 	AddCommandListener(OnSuicide, "explode");           //Used to stop boss from suiciding
 	AddCommandListener(OnSuicide, "kill");              //Used to stop boss from suiciding
+	AddCommandListener(OnSuicide, "spectate");			//Used to stop boss from suiciding
 	AddCommandListener(OnJoinTeam, "jointeam");         //Used to make sure players join the right team
 	AddCommandListener(OnJoinTeam, "autoteam");         //Used to make sure players don't kill themselves and change team
 	AddCommandListener(OnChangeClass, "joinclass");     //Used to make sure bosses don't change class
@@ -3397,7 +3398,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 				if(playBGM[client])
 				{
 					StopMusic(client);
-					PlayBGM(client);
+					RequestFrame(PlayBGM, client); // Naydef: We might start playing the music before it gets stopped
 				}
 				else if(MusicTimer[client]!=INVALID_HANDLE)
 				{
@@ -3421,7 +3422,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 		if(playBGM[client])
 		{
 			StopMusic(client);
-			PlayBGM(client);
+			RequestFrame(PlayBGM, client); // Naydef: We might start playing the music before it gets stopped
 		}
 		else if(MusicTimer[client]!=INVALID_HANDLE)
 		{
@@ -3536,8 +3537,8 @@ PlayBGM(client)
 		new index;
 		do
 		{
-			index++;
-			Format(music, 10, "time%i", index);
+			maxIndex++;
+			Format(music, 10, "time%i", maxIndex);
 		}
 		while(KvGetFloat(musicKv, music)>1);
 
@@ -7378,6 +7379,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		SetEventInt(event, "damageamount", damage);
 	}
 
+	/*
 	if(BossHealth[boss] - damage < 1 && BossDiff[boss] > 1 && FF2_GetGameState() != Game_LastManStanding) // TODO: 특정인만 가능하게.
 	{
 		// changeResult = true;
@@ -7391,6 +7393,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		SetEventInt(event, "damageamount", 0);
 		return Plugin_Changed;
 	}
+	*/
 
 
 	for(new lives=1; lives<BossLives[boss]; lives++)

@@ -2,8 +2,6 @@
 #include <tf2_stocks>
 #include <tf2items>
 
-#pragma newdecls required;
-
 #define MODEL_SKELETON	"models/bots/skeleton_sniper_boss/skeleton_sniper_boss.mdl"
 #define PLUGIN_VERSION	"1.2"
 
@@ -21,6 +19,31 @@ public Plugin myinfo =
 	version = PLUGIN_VERSION,
 	url = ""
 }
+
+public OnEntityCreated(entity, const String:classname[])
+{
+	if(!StrContains(classname, "item_healthkit", false) || !StrContains(classname, "item_ammopack", false) || StrEqual(classname, "tf_ammo_pack"))
+	{
+		SDKHook(entity, SDKHook_Spawn, OnItemSpawned);
+	}
+}
+
+
+public OnItemSpawned(entity)
+{
+	SDKHook(entity, SDKHook_StartTouch, OnPickup);
+	SDKHook(entity, SDKHook_Touch, OnPickup);
+}
+
+public Action:OnPickup(entity, client)  //Thanks friagram!
+{
+	if((0 < client && client <= MaxClients) && g_bSkeleton[client])
+	{
+		return Plugin_Handled;
+	}
+	return Plugin_Continue;
+}
+
 
 public void OnPluginStart()
 {
@@ -157,7 +180,7 @@ public Action GetMaxHealth(int client, int &MaxHealth)
 {
 	if (client > 0 && client <= MaxClients && IsClientInGame(client))
 	{
-		MaxHealth = 300;
+		MaxHealth = 1500;
 		return Plugin_Changed;
 	}
 
@@ -195,7 +218,8 @@ stock void MakeSkeleton(int client, bool spectator = false)
 	TF2Items_SetItemIndex(hWeaponFists, 3);
 	TF2Items_SetQuality(hWeaponFists, 6);
 	TF2Items_SetAttribute(hWeaponFists, 0, 15, 0.0);
-	TF2Items_SetAttribute(hWeaponFists, 1, 5, 1.25);
+	// TF2Items_SetAttribute(hWeaponFists, 1, 5, 1.25); 69
+	TF2Items_SetAttribute(hWeaponFists, 0, 69, 0.01);
 	TF2Items_SetAttribute(hWeaponFists, 2, 402, 1.0);
 	TF2Items_SetNumAttributes(hWeaponFists, 3);
 	int iEntity = TF2Items_GiveNamedItem(client, hWeaponFists);
@@ -216,7 +240,7 @@ stock void MakeSkeleton(int client, bool spectator = false)
 
 	SDKHook(client, SDKHook_GetMaxHealth, GetMaxHealth);
 
-	SetEntProp(client, Prop_Send, "m_iHealth", 300);
+	SetEntProp(client, Prop_Send, "m_iHealth", 1500);
 
 	g_bSkeleton[client] = true;
 }
@@ -369,13 +393,13 @@ public Action TakeDamage(int victim, int &attacker, int &inflictor, float &damag
 
 		if(g_bSkeleton[victim])
 		{
-			damage *= 0.3;
+			damage *= 0.9;
 			bChanged = true;
 		}
 
 		if(g_bSkeleton[attacker])
 		{
-			damage = GetRandomFloat(95.0, 120.0);
+			damage = 175.0;
 			bChanged = true;
 		}
 
@@ -421,6 +445,8 @@ public Action Event_SkeletonDeath(Handle hEvent, char[] name, bool dontBroadcast
 		GetClientAbsOrigin(client, vecOrigin);
 
 		//Drop a Rare spellbook
+
+		/*
 		int spell = CreateEntityByName("tf_spell_pickup");
 		if(IsValidEntity(spell))
 		{
@@ -439,6 +465,7 @@ public Action Event_SkeletonDeath(Handle hEvent, char[] name, bool dontBroadcast
 			SetEntPropEnt(spell, Prop_Send, "m_hOwnerEntity", client);
 			SetEntProp(spell, Prop_Data, "m_nTier", 1);
 		}
+		*/
 	}
 
 	if(attacker > 0 && attacker <= MaxClients && IsClientInGame(attacker) && g_bSkeleton[attacker])

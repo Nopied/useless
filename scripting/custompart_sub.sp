@@ -52,7 +52,7 @@ public void OnMapStart()
 
 public Action IC_OnGetInspectActivity(int weapon, int stage, int originalactivity, int &newactivity)
 {
-     PrintToChatAll("weapon %i stage %i originalactivity %i", weapon, stage, originalactivity);
+     // PrintToChatAll("weapon %i stage %i originalactivity %i", weapon, stage, originalactivity);
 
      // newactivity = 1700;
 
@@ -583,7 +583,22 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     }
     else if(partIndex == 26)
     {
+        for(int slot=0; slot<CP_GetClientMaxSlot(client); slot++)
+        {
+            int part = CP_GetClientPart(client, slot);
+            int randomPart = CP_RandomPart(client, CP_RandomPartRank());
+            if(CP_IsValidPart(part))
+            {
+                CP_OnSlotClear(client, part, false);
+            }
+        }
+        CP_SetClientMaxSlot(client, 2);
+        CP_SetClientPart(client, 0, partIndex);
+        CP_SetClientPart(client, 1, 11);
+
         BeSkeletonKing_MakeSkeleton(client);
+
+        CP_NoticePart(client, partIndex);
     }
     else if(partIndex == 28)
     {
@@ -1199,6 +1214,7 @@ stock int TF2_BuildSentry(int builder, float fOrigin[3], float fAngle[3], int le
 
         // SetEntProp(sentry, Prop_Send, "m_bPlayerControlled", 1);
         SetEntProp(sentry, Prop_Send, "m_iTeamNum", builder > 0 ? GetClientTeam(builder) : FF2_GetBossTeam());
+        SetEntPropEnt(sentry, Prop_Send, "m_hBuilder", builder);
 
         return sentry;
 	}

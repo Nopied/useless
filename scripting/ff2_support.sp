@@ -98,6 +98,8 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 			TIMESTOP_EnableTimeStop(attacker, 0.1, neededTimeStop);
 		}
 	}
+
+	return Plugin_Continue;
 }
 
 stock bool IsBoss(int client)
@@ -608,7 +610,18 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 				SDKHook(target, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(target, SDKHook_Touch, OnTankTouch);
 			}
+/*
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_test_map_rota"))
+			{
+				float StartAngle[3];
+
+				StartAngle[0] = 60.0;
+
+				SetEntPropVector(0, Prop_Data, "m_angRotation", StartAngle);
+			}
+*/
 		}
+
   }
 
 
@@ -633,7 +646,6 @@ public Action OnTankTouch(int entity, int other)
 			SDKHooks_TakeDamage(other, entity, entity, 30.0, DMG_SLASH, -1);
 		}
 	}
-
 }
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
@@ -643,7 +655,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		return Plugin_Continue;
 	}
 
-  if(0 < client && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client))
+  if(IsValidClient(client) && IsPlayerAlive(client))
   {
 	 	int boss = FF2_GetBossIndex(client);
 
