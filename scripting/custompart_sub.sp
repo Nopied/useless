@@ -154,7 +154,20 @@ public void OnClientDisconnect(int client)
 
 public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
+    bool bChange = false;
+    if(IsValidClient(victim))
+    {
+        if(CP_IsPartActived(victim, 35) && IsWeaponSlotActive(victim, TFWeaponSlot_Melee))
+        {
+            damage *= 0.5;
+            bChange = true;
 
+
+            SDKHooks_TakeDamage(victim, attacker, attacker, damage, DMG_GENERIC, -1);
+        }
+    }
+
+    return bChange ? Plugin_Changed : Plugin_Continue;
 }
 
 public Action OnTakeDamageAlive(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
@@ -187,9 +200,9 @@ public void OnTakeDamageAlivePost(int victim, int attacker, int inflictor, float
 
                 if(!IsSpotSafe(victim, targetPos, 1.0))
                 {
-                    CP_SetClientCPFlags(victim, CP_GetClientCPFlags(victim) | CPFLAG_DONOTCLEARSLOT);
-                    TF2_RespawnPlayer(victim);
-                    CP_SetClientCPFlags(victim, CP_GetClientCPFlags(victim) | ~CPFLAG_DONOTCLEARSLOT);
+                    TF2_RespawnPlayer(victim); // TODO: 주변 안전한 지형으로 텔레포트
+
+                    CPrintToChat(victim, "{yellow}[CP]{default} 그런데 끼는 자리로 텔레포트되어서 리스폰됩니다!");
                 }
             }
             else
@@ -671,6 +684,25 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         CreateTimer(0.1, LittleEngiDamageTimer, EntIndexToEntRef(sentry), TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 		// SetEntPropVector(sentry, Prop_Send, "m_angRotation", sentryAngle);
     }
+    else if(partIndex == 32)
+    {
+        AddToSlotWeapon(client, 0, 71, 0.5);
+        AddToSlotWeapon(client, 0, 73, 0.25);
+        AddToSlotWeapon(client, 0, 69, -0.8);
+    }
+    else if(partIndex == 33)
+    {
+        TF2_AddCondition(client, TFCond_BlastImmune, TFCondDuration_Infinite);
+    }
+    else if(partIndex == 34)
+    {
+        AddToSlotWeapon(client, 2, 264, 0.5);
+    }
+    else if(partIndex == 36)
+    {
+        AddToSlotWeapon(client, 2, 2, 1.0);
+        AddToSlotWeapon(client, 2, 6, -0.5);
+    }
 }
 
 public Action LittleEngiDamageTimer(Handle timer, int entRef)
@@ -827,6 +859,46 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
                 TF2_RemoveCondition(client, TFCond_DisguisedAsDispenser);
             }
         }
+        /*
+            else if(partIndex == 32)
+            {
+                AddToSlotWeapon(client, 0, 71, 0.5);
+                AddToSlotWeapon(client, 0, 73, 0.25);
+                AddToSlotWeapon(client, 0, 69, -0.8);
+            }
+            else if(partIndex == 33)
+            {
+                TF2_AddCondition(client, TFCond_BlastImmune, TFCondDuration_Infinite);
+            }
+            else if(partIndex == 34)
+            {
+                AddToSlotWeapon(client, 2, 264, 0.5);
+            }
+            else if(partIndex == 36)
+            {
+                AddToSlotWeapon(client, 2, 2, 1.0);
+                AddToSlotWeapon(client, 2, 6, -0.5);
+            }
+        */
+        else if(partIndex == 32)
+        {
+            AddToSlotWeapon(client, 0, 71, -0.5);
+            AddToSlotWeapon(client, 0, 73, -0.25);
+            AddToSlotWeapon(client, 0, 69, 0.8);
+        }
+        else if(partIndex == 33)
+        {
+            TF2_RemoveCondition(client, TFCond_BlastImmune);
+        }
+        else if(partIndex == 34)
+        {
+            AddToSlotWeapon(client, 2, 264, -0.5);
+        }
+        else if(partIndex == 36)
+        {
+            AddToSlotWeapon(client, 2, 2, -1.0);
+            AddToSlotWeapon(client, 2, 6, 0.5);
+        }
     }
     else
     {
@@ -907,7 +979,10 @@ public void FF2_OnTakePercentDamage_Post(int victim, int attacker, PercentDamage
 
 public void TF2_OnConditionAdded(int client, TFCond condition)
 {
-
+    if(condition == TFCond_SwimmingCurse)
+    {
+        TF2_AddCondition(client, TFCond_HalloweenKartNoTurn, TFCondDuration_Infinite);
+    }
 }
 
 public void TF2_OnConditionRemoved(int client, TFCond condition)
@@ -926,6 +1001,23 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
         {
             TF2_AddCondition(client, TFCond_DisguisedAsDispenser, TFCondDuration_Infinite);
         }
+    }
+
+    if(condition == TFCond_BlastImmune)
+    {
+        if(CP_IsPartActived(client, 33))
+        {
+            TF2_AddCondition(client, condition, TFCondDuration_Infinite);
+        }
+    }
+
+    if(condition == TFCond_SwimmingCurse)
+    {
+        if(CP_IsPartActived(client, 34) && TF2_IsPlayerInCondition(client, TFCond_HalloweenKartNoTurn))
+        {
+            TF2_RemoveCondition(client, TFCond_HalloweenKartNoTurn);
+        }
+        // TF2_AddCondition(client, TFCond_HalloweenKartNoTurn, TFCondDuration_Infinite);
     }
 }
 
@@ -1857,4 +1949,11 @@ public bool:TraceRayFilterClients(entity, mask, any:data)
 	}
 
 	return true;
+}
+
+stock IsWeaponSlotActive(iClient, iSlot)
+{
+    new hActive = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
+    new hWeapon = GetPlayerWeaponSlot(iClient, iSlot);
+    return (hWeapon == hActive);
 }
