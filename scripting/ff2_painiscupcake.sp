@@ -84,15 +84,18 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public Action FF2_OnAbilityTimeEnd(int boss, int slot, String:abilityName[])
 {
-  if(playingSound && slot == 0 && StrEqual(abilityName, "rage_painis", true))
+  if(StrEqual(abilityName, "rage_painis", true))
   {
-    FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_painis", 1, RageSoundPath, sizeof(RageSoundPath));
+    // FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_painis", 1, RageSoundPath, sizeof(RageSoundPath));
 
-    for(int target=1; target<=MaxClients; target++)
-    {
-      if(IsValidClient(target))
-        StopSound(target, SNDCHAN_AUTO, RageSoundPath);
-    }
+	 if(playingSound)
+	 {
+		 for(int target=1; target<=MaxClients; target++)
+	     {
+	       if(IsValidClient(target))
+	         StopSound(target, SNDCHAN_AUTO, RageSoundPath);
+	     }
+	 }
     playingSound=false;
   }
 }
@@ -115,17 +118,18 @@ void PainisRage(int boss)
 
   FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_painis", 1, RageSoundPath, sizeof(RageSoundPath));
 
-  for(int target=1; target<=MaxClients; target++)
-  {
-    if(IsValidClient(target))
-      StopSound(target, SNDCHAN_AUTO, RageSoundPath);
-  }
+  if(playingSound)
+	  for(int target=1; target<=MaxClients; target++)
+	  {
+	    if(IsValidClient(target))
+	      StopSound(target, SNDCHAN_AUTO, RageSoundPath);
+	  }
 
   EmitSoundToAll(RageSoundPath); // KvGetFloat
   TF2_AddCondition(client, TFCond_Ubercharged, abilityDuration);
 
   FF2_SetAbilityDuration(boss, abilityDuration);
-  playingSound=true;
+  // playingSound=true;
 }
 
 stock bool IsValidClient(int client)

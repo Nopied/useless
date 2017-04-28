@@ -82,6 +82,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 	if(!IsValidClient(client) || !IsValidClient(attacker))	return Plugin_Continue;
 
+/*
 	if(IsBoss(attacker))
 	{
 		int boss = FF2_GetBossIndex(attacker);
@@ -98,6 +99,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 			TIMESTOP_EnableTimeStop(attacker, 0.1, neededTimeStop);
 		}
 	}
+	*/
 
 	return Plugin_Continue;
 }

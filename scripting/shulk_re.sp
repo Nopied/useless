@@ -81,7 +81,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 	if(FF2_GetRoundState() != 1)    return Plugin_Continue;
 
-	if(g_flTimeStop > GetGameTime())
+	if(g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime() && g_flTimeStopCooling == -1.0)
 	{
 		g_nEntityMovetype[client] = view_as<int>(GetEntityMoveType(client));
 		SetEntityMoveType(client, MOVETYPE_NONE);
@@ -103,8 +103,8 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 		SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 0);
 		SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 1);
 
-		// SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
-		// SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+		SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+		SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 	}
 }
 
@@ -135,7 +135,7 @@ public Action FF2_OnDeathMatchTimer(float &time)
 
 public void OnEntityCreated(int entity, const char[] classname)
 {
-	if(g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime())
+	if(g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime() && g_flTimeStopCooling == -1.0)
 	{
 		SDKHook(entity, SDKHook_SpawnPost, OnEntitySpawnOnTimeStop);
 	}
@@ -300,6 +300,9 @@ void EnableTimeStop(int client)
 							SetEntProp(weapon, Prop_Send, "m_bSimulatedEveryTick", 0);
 							SetEntProp(weapon, Prop_Send, "m_bClientSideAnimation", 0);
 							SetEntProp(weapon, Prop_Send, "m_bClientSideFrameReset", 1);
+
+							SDKUnhook(entity, SDKHook_OnTakeDamage, OnTakeDamage);
+							SDKHook(entity, SDKHook_OnTakeDamage, OnTakeDamage);
 					}
 			}
 
@@ -363,7 +366,7 @@ void DisableTimeStop()
 				SetEntProp(entity, Prop_Send, "m_bClientSideFrameReset", 0);
 
 				SetEntPropFloat(entity, Prop_Send, "m_flNextAttack", GetGameTime());
-				SDKUnhook(g_hTimeStopParent, SDKHook_OnTakeDamage, OnTakeDamage);
+				SDKUnhook(entity, SDKHook_OnTakeDamage, OnTakeDamage);
 
 				if(IsPlayerAlive(entity))
 				{

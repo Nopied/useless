@@ -3398,7 +3398,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 				if(playBGM[client])
 				{
 					StopMusic(client);
-					RequestFrame(PlayBGM, client); // Naydef: We might start playing the music before it gets stopped
+					PlayBGM(client);
 				}
 				else if(MusicTimer[client]!=INVALID_HANDLE)
 				{
@@ -3422,7 +3422,7 @@ public Action:Timer_PrepareBGM(Handle:timer, any:userid)
 		if(playBGM[client])
 		{
 			StopMusic(client);
-			RequestFrame(PlayBGM, client); // Naydef: We might start playing the music before it gets stopped
+			PlayBGM(client);
 		}
 		else if(MusicTimer[client]!=INVALID_HANDLE)
 		{
@@ -6329,7 +6329,7 @@ public Action:BossTimer(Handle:timer)
 					// new buttonmode=KvGetNum(BossKV[Special[boss]], "buttonmode", 0);
 					if(targetSlot == slot)
 					{
-						decl String:ability_name[64];
+						new String:ability_name[64];
 						slotNameCount++;
 						KvGetString(BossKV[Special[boss]], "name", ability_name, sizeof(ability_name));
 						PushArrayString(slotNamePack, ability_name);

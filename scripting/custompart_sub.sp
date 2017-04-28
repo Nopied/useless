@@ -612,8 +612,14 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         {
             int part = CP_GetClientPart(client, slot);
             int randomPart = CP_RandomPart(client, CP_RandomPartRank());
+
             if(CP_IsValidPart(part))
             {
+                while(randomPart == partIndex)
+                {
+                    randomPart = CP_RandomPart(client, CP_RandomPartRank());
+                }
+
                 CP_OnSlotClear(client, part, false);
                 CP_SetClientPart(client, slot, randomPart);
                 CP_OnGetPart_Post(client, randomPart);
@@ -676,7 +682,7 @@ public Action LittleEngiDamageTimer(Handle timer, int entRef)
         int builder = GetEntPropEnt(entity, Prop_Send, "m_hBuilder");
 
         if(IsPlayerAlive(builder))
-            SDKHooks_TakeDamage(entity, 0, 0, 0.4, DMG_GENERIC, -1);
+            SDKHooks_TakeDamage(entity, 0, 0, 0.6, DMG_GENERIC, -1);
         else
             SDKHooks_TakeDamage(entity, 0, 0, 10000.0, DMG_GENERIC, -1);
     }

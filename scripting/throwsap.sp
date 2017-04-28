@@ -16,6 +16,7 @@ Also credits to the maker of the RMF ability pack, from which playpoints was pro
 #include <sourcemod>
 #include <tf2>
 #include <tf2_stocks>
+#include <freak_fortress_2>
 // #include <freak_fortress_2>
 
 //#define DEBUG_ON
@@ -241,6 +242,15 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 {
     if (!bEnabled || !IsValidClient(client) || !IsPlayerAlive(client)) return Plugin_Continue;
     if (TF2_GetPlayerClass(client) != TFClass_Spy || !IsWeaponSlotActive(client, TFWeaponSlot_Secondary)) return Plugin_Continue;
+
+    int weapon2 = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+    if(!IsValidEntity(weapon2))  return Plugin_Continue;
+
+    char classname[60];
+    GetEntityClassname(weapon2, classname, sizeof(classname));
+    if(StrContains(classname, "tf_weapon_builder") && StrContains(classname, "tf_weapon_sapper"))
+        return Plugin_Continue;
+
     PrintCenterText(client, "마우스 휠이나 재장전 키: 새퍼 던지기");
     if (buttons & (IN_ATTACK3 | IN_RELOAD))
     {
@@ -389,7 +399,10 @@ stock ThrowSapper(client, index)
 
         //SDKHook(sapper, SDKHook_StartTouch, OnStartTouch);
 
-        CreateTimer(5.1, StopSapping, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+        if(IsBoss(client))
+            CreateTimer(30.1, StopSapping, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+        else
+            CreateTimer(10.1, StopSapping, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
         tTimerLoop[client] = CreateTimer(0.2, LoopSapping, GetClientUserId(client), TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
     }
 }
@@ -403,8 +416,9 @@ public Action:LoopSapping(Handle:timer, any:userid)
     new client = GetClientOfUserId(userid);
     if (IsValidClient(client) && ThrownSapperExists(client) && IsPlayerAlive(client))
     {
+        // bool isBoss = IsBoss(client);
         new sapper = GetClientSapper(client);
-        AttachRings(sapper);
+        AttachRings(sapper, IsBoss(client));
 
         new Float:vSapperPos[3];
         GetEntPropVector(sapper, Prop_Data, "m_vecAbsOrigin", vSapperPos);
@@ -415,17 +429,21 @@ public Action:LoopSapping(Handle:timer, any:userid)
         FindAllBuildings(client, "obj_teleporter", vSapperPos);
 
         //If the player who threw it is in range, sap their cloak
-        new Float:vPlayerPos[3];
-        GetEntPropVector(client, Prop_Data, "m_vecAbsOrigin", vPlayerPos);
-        if (GetVectorDistance(vPlayerPos, vSapperPos) <= GetConVarFloat(g_cvSapRadius))
+        if(!IsBoss(client))
         {
-            new Float:flCloak = GetEntPropFloat(client, Prop_Send, "m_flCloakMeter");
+            new Float:vPlayerPos[3];
+            GetEntPropVector(client, Prop_Data, "m_vecAbsOrigin", vPlayerPos);
+            if (GetVectorDistance(vPlayerPos, vSapperPos) <= GetConVarFloat(g_cvSapRadius))
+            {
+                new Float:flCloak = GetEntPropFloat(client, Prop_Send, "m_flCloakMeter");
 
-            flCloak -= 3.0;
-            if (flCloak < 0.0) flCloak = 0.0;
+                flCloak -= 3.0;
+                if (flCloak < 0.0) flCloak = 0.0;
 
-            SetEntPropFloat(client, Prop_Send, "m_flCloakMeter", flCloak);
+                SetEntPropFloat(client, Prop_Send, "m_flCloakMeter", flCloak);
+            }
         }
+
         new TFTeam:team=TF2_GetClientTeam(client);
         for(new i=1; i<=MaxClients; i++)
         {
@@ -433,7 +451,7 @@ public Action:LoopSapping(Handle:timer, any:userid)
           {
             new Float:playerPos[3];
             GetEntPropVector(i, Prop_Data, "m_vecAbsOrigin", playerPos);
-            if(TF2_GetClientTeam(i) != team && GetVectorDistance(playerPos, vSapperPos) <= GetConVarFloat(g_cvSapRadius))
+            if(TF2_GetClientTeam(i) != team && GetVectorDistance(playerPos, vSapperPos) <= (IsBoss(client) ? GetConVarFloat(g_cvSapRadius)*6.0 : GetConVarFloat(g_cvSapRadius)))
             {
               new weapon=GetEntPropEnt(i, Prop_Send, "m_hActiveWeapon");
 
@@ -511,7 +529,7 @@ DestroySapper(userid, sapper)
 }
 
 //Attaches team colored electrical rings to a sapper. Not tested with other entities.
-stock AttachRings(entity)
+stock AttachRings(entity, bool isBoss = false)
 {
     new red[4] = {184, 56, 59, 255};    //These are the same values as Team Spirit paint
     new blue[4] = {88, 133, 162, 255};
@@ -521,7 +539,7 @@ stock AttachRings(entity)
     new Float:vSapperPos[3];
     GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", vSapperPos);
 
-    new Float:radius = GetConVarFloat(g_cvSapRadius);
+    new Float:radius = isBoss ? GetConVarFloat(g_cvSapRadius) * 6.0 : GetConVarFloat(g_cvSapRadius);
 
     if (GetClientTeam(owner) == TEAM_RED)
     {
@@ -552,7 +570,7 @@ stock AttachRings(entity)
 stock FindAllBuildings(client, String:clsname[], Float:vPos[3])
 {
     new ent = -1;
-
+    bool isBoss = IsBoss(client);
     while ((ent = FindEntityByClassname(ent, clsname)) != -1)
     {
         if (!IsValidEntity(ent)) return;
@@ -566,7 +584,7 @@ stock FindAllBuildings(client, String:clsname[], Float:vPos[3])
 
         new bool:bGodMode = (GetEntProp(ent, Prop_Data, "m_takedamage") == 0);
 
-        if (GetVectorDistance(vPos, vFoundPos) <= GetConVarFloat(g_cvSapRadius) && team != GetClientTeam(client))
+        if (GetVectorDistance(vPos, vFoundPos) <= (isBoss ? GetConVarFloat(g_cvSapRadius) * 6.0 : GetConVarFloat(g_cvSapRadius)) && team != GetClientTeam(client))
         {
             if (iIndex != -1) //If we're already targeting it
             {
@@ -810,6 +828,10 @@ stock bool:IsValidClient(i, bool:replay = true)
     return true;
 }
 
+stock bool IsBoss(int client)
+{
+    return FF2_GetBossIndex(client) != -1;
+}
 /*
 public OnEntityCreated(entity, const String:classname[])
 {
