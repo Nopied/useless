@@ -97,11 +97,11 @@ stock bool CanSeeTarget(int client, int target)
 	return didhit;
 }
 
-public Action FF2_OnAbilityTimeEnd(int boss, int slot, String:abilityName[])
+public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
 	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
-	if(StrEqual(abilityName, "wolf_deflecter", true))
+	if(FF2_HasAbility(boss, this_plugin_name, "wolf_deflecter"))
 	{
 		SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 22.5);
 	}
@@ -192,7 +192,6 @@ public Action OnStartTouch(int entity, int other)
 	return Plugin_Continue;
 
 	// SDKHook(entity, SDKHook_Touch, OnTouch);
-	return Plugin_Handled;
 }
 /*
 public Action OnTouch(int entity, int other)

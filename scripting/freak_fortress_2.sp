@@ -35,10 +35,10 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #tryinclude <tf2attributes>
 #define REQUIRE_PLUGIN
 
-#define MAJOR_REVISION "1"
-#define MINOR_REVISION "10"
-#define STABLE_REVISION "14"
-// #define DEV_REVISION "Beta"
+#define MAJOR_REVISION "0"
+#define MINOR_REVISION "8"
+#define STABLE_REVISION "0"
+#define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
 	#define PLUGIN_VERSION MAJOR_REVISION..."."...MINOR_REVISION..."."...STABLE_REVISION  //1.10.14
@@ -1181,7 +1181,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 	OnLoseLife=CreateGlobalForward("FF2_OnLoseLife", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell);  //Boss, lives left, max lives
 	OnAlivePlayersChanged=CreateGlobalForward("FF2_OnAlivePlayersChanged", ET_Hook, Param_Cell, Param_Cell);  //Players, bosses
 	OnAbilityTime=CreateGlobalForward("FF2_OnBossAbilityTime", ET_Hook, Param_Cell, Param_String, Param_Cell, Param_FloatByRef, Param_FloatByRef);
-	OnAbilityTimeEnd=CreateGlobalForward("FF2_OnAbilityTimeEnd", ET_Hook, Param_Cell, Param_Cell, Param_String);
+	OnAbilityTimeEnd=CreateGlobalForward("FF2_OnAbilityTimeEnd", ET_Hook, Param_Cell, Param_Cell);
 	OnPlayBoss=CreateGlobalForward("FF2_OnPlayBoss", ET_Hook, Param_Cell, Param_Cell); // client, bossindex
 	OnTakePercentDamage=CreateGlobalForward("FF2_OnTakePercentDamage", ET_Hook, Param_Cell, Param_CellByRef, Param_Cell, Param_FloatByRef); // victim, attacker, damagetype, damage
 	OnTakePercentDamagePost=CreateGlobalForward("FF2_OnTakePercentDamage_Post", ET_Hook, Param_Cell, Param_Cell, Param_Cell, Param_Cell); // victim, attacker, damagetype, damage
@@ -1899,7 +1899,7 @@ public EnableFF2()
 	if(steamtools)
 	{
 		decl String:gameDesc[64];
-		Format(gameDesc, sizeof(gameDesc), "POTRY");
+		Format(gameDesc, sizeof(gameDesc), "POTRY %s", PLUGIN_VERSION);
 		Steam_SetGameDescription(gameDesc);
 	}
 	#endif
@@ -1965,7 +1965,9 @@ public DisableFF2()
 	#if defined _steamtools_included
 	if(steamtools)
 	{
-		Steam_SetGameDescription("POTRY");
+		decl String:gameDesc[64];
+		Format(gameDesc, sizeof(gameDesc), "POTRY %s", PLUGIN_VERSION);
+		Steam_SetGameDescription(gameDesc);
 	}
 	#endif
 
@@ -3351,7 +3353,7 @@ public Action:StartBossTimer(Handle:timer)
 
 	AFKTime = GetGameTime() + 8.0;
 
-	CreateTimer(0.2, BossTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+	CreateTimer(0.05, BossTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(0.2, CheckAlivePlayers, 0, TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(0.2, StartRound, _, TIMER_FLAG_NO_MAPCHANGE);
 	CreateTimer(0.2, ClientTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
@@ -6200,7 +6202,7 @@ public Action:BossTimer(Handle:timer)
 			}
 			else
 			{
-				SetHudTextParams(-1.0, 0.83, 0.15, 255, 64, 64, 255);
+				SetHudTextParams(-1.0, 0.83, 0.04, 255, 64, 64, 255);
 
 				new String:temp[150];
 				new String:temp3[100];
@@ -6212,14 +6214,14 @@ public Action:BossTimer(Handle:timer)
 					{
 						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 						Format(temp2, sizeof(temp2), "%.1f", BossAbilityDuration[boss][0]);
-						SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
+						SetHudTextParams(-1.0, 0.83, 0.04, 64, 255, 64, 255);
 						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_duration", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss], temp2);
 					}
 					else if(BossAbilityCooldown[boss][0] > 0.0)
 					{
 						Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 						Format(temp2, sizeof(temp2), "%.1f", BossAbilityCooldown[boss][0]);
-						SetHudTextParams(-1.0, 0.83, 0.15, 255, 255, 255, 255);
+						SetHudTextParams(-1.0, 0.83, 0.04, 255, 255, 255, 255);
 						Format(temp, sizeof(temp), "%s %t", temp3, "rage_meter_cooldown_easy", temp2);
 					}
 				}
@@ -6246,7 +6248,7 @@ public Action:BossTimer(Handle:timer)
 				}
 				if(FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
 				{
-					SetHudTextParams(-1.0, 0.83, 0.15, 255, 255, 255, 255);
+					SetHudTextParams(-1.0, 0.83, 0.04, 255, 255, 255, 255);
 					Format(temp, sizeof(temp), "%t", "ff2_notallow_rage");
 				}
 				FF2_ShowSyncHudText(client, rageHUD, "%s", temp);
@@ -6276,14 +6278,14 @@ public Action:BossTimer(Handle:timer)
 		}
 		else
 		{
-			SetHudTextParams(-1.0, 0.83, 0.15, 255, 255, 255, 255);
+			SetHudTextParams(-1.0, 0.83, 0.04, 255, 255, 255, 255);
 			if(DEVmode)
 			{
 				FF2_ShowSyncHudText(client, rageHUD, "%t", "rage_meter_DEVmode");
 			}
 			else if(FF2flags[client] & FF2FLAG_NOTALLOW_RAGE)
 			{
-				SetHudTextParams(-1.0, 0.83, 0.15, 255, 255, 255, 255);
+				SetHudTextParams(-1.0, 0.83, 0.04, 255, 255, 255, 255);
 				FF2_ShowSyncHudText(client, rageHUD, "%t", "ff2_notallow_rage");
 			}
 			else if(BossAbilityDuration[boss][0] > 0.0 || BossAbilityCooldown[boss][0] > 0.0)
@@ -6295,7 +6297,7 @@ public Action:BossTimer(Handle:timer)
 				{
 					Format(temp3, sizeof(temp3), "%t |", "rage_meter", RoundFloat(BossCharge[boss][0]), RoundFloat(BossMaxRageCharge[boss]), RoundFloat(BossCharge[boss][0]*(BossRageDamage[boss]/100.0)), BossRageDamage[boss]);
 					Format(temp, sizeof(temp), "%.1f", BossAbilityDuration[boss][0]);
-					SetHudTextParams(-1.0, 0.83, 0.15, 64, 255, 64, 255);
+					SetHudTextParams(-1.0, 0.83, 0.04, 64, 255, 64, 255);
 					FF2_ShowSyncHudText(client, rageHUD, "%s %t", temp3, "rage_meter_duration", IsUpgradeRage[boss] ? BossUpgradeRageName[boss] : BossRageName[boss], temp);
 				}
 				else if(BossAbilityCooldown[boss][0] > 0.0)
@@ -6309,6 +6311,7 @@ public Action:BossTimer(Handle:timer)
 		}
 
 		Handle slotNamePack = CreateArray();
+
 		for(new slot=0; slot<9; slot++)
 		{
 			ClearArray(slotNamePack);
@@ -6369,7 +6372,6 @@ public Action:BossTimer(Handle:timer)
 							Call_StartForward(OnAbilityTimeEnd);
 							Call_PushCell(boss);
 							Call_PushCell(slot);
-							Call_PushStringEx(abilityName, sizeof(abilityName), SM_PARAM_STRING_UTF8 | SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
 							Call_Finish();
 						}
 
@@ -6418,11 +6420,11 @@ public Action:BossTimer(Handle:timer)
 			new weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 			if(weapon == GetPlayerWeaponSlot(client, TFWeaponSlot_Melee) || FF2ServerFlag & FF2SERVERFLAG_ISLASTMAN)
 			{
-				TF2_AddCondition(client, TFCond_Buffed, 0.22);
+				TF2_AddCondition(client, TFCond_Buffed, 0.06);
 			}
 		}
 
-		SetHudTextParams(-1.0, 0.88, 0.15, 255, 255, 255, 255);
+		SetHudTextParams(-1.0, 0.88, 0.04, 255, 255, 255, 255);
 		SetClientGlow(client, -0.2);
 
 		decl String:lives[MAXRANDOMS][3];
@@ -6526,7 +6528,7 @@ public Action:BossTimer(Handle:timer)
 
 		if(BossCharge[boss][0]<BossMaxRageCharge[boss])
 		{
-			BossCharge[boss][0] += OnlyParisLeft()*0.2;
+			BossCharge[boss][0] += (OnlyParisLeft()*0.2)/4.0;
 			if(BossCharge[boss][0] > BossMaxRageCharge[boss])
 			{
 				BossCharge[boss][0] = BossMaxRageCharge[boss];
@@ -7872,6 +7874,41 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					{
 						Change=true;
 						ScaleVector(damageForce, 0.5);
+					}
+				}
+
+				if (IsValidEntity(inflictor))
+				{
+					GetEntityClassname(inflictor, classname, sizeof(classname));
+					new weaponIdx = (IsValidEntity(weapon) && weapon > MaxClients ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
+					if ((!strcmp("obj_sentrygun", classname)) || weaponIdx == 140) // included wrangler just in case
+					{
+						Change = true;
+
+						new sentryCount = 0;
+						new ent = -1;
+						new clientTeam = GetClientTeam(attacker);
+
+						while((ent = FindEntityByClassname(ent, "obj_sentrygun")) != -1)
+						{
+							if(GetEntProp(ent, Prop_Send, "m_iTeamNum") == clientTeam)
+							{
+								sentryCount++;
+							}
+						}
+
+						if(sentryCount > 4)
+						{
+							damagetype|=DMG_PREVENT_PHYSICS_FORCE;
+						}
+						else if(sentryCount > 1)
+						{
+							ScaleVector(damageForce, 1.0/float(sentryCount));
+						}
+						else
+						{
+							Change = false;
+						}
 					}
 				}
 /*
@@ -10849,7 +10886,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 			{
 				Call_PushCell(2);  //Status
 				Call_Finish(action);
-				new Float:charge=100.0*0.2/GetAbilityArgumentFloat(boss, plugin_name, ability_name, 1, 1.5);
+				new Float:charge=100.0*0.05/GetAbilityArgumentFloat(boss, plugin_name, ability_name, 1, 1.5);
 				if(BossCharge[boss][slot]+charge<100.0)
 				{
 					BossCharge[boss][slot]+=charge;
@@ -10863,7 +10900,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 			{
 				Call_PushCell(1);  //Status
 				Call_Finish(action);
-				BossCharge[boss][slot]+=0.2;
+				BossCharge[boss][slot]+=0.05;
 			}
 		}
 		else if(BossCharge[boss][slot]>0.3)
@@ -10892,7 +10929,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 		{
 			Call_PushCell(1);  //Status
 			Call_Finish(action);
-			BossCharge[boss][slot]+=0.2;
+			BossCharge[boss][slot]+=0.05;
 		}
 		else
 		{

@@ -477,7 +477,7 @@ void KickEntity(int client, int entity)
 	 }
 
  }
-public Action FF2_OnAbilityTimeEnd(int boss, int slot, char[] abilityName)
+public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
 	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 

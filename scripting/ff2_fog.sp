@@ -5,6 +5,7 @@
 #include <sdktools>
 #include <sdkhooks>
 #include <freak_fortress_2>
+#include <morecolors>
 #include <freak_fortress_2_subplugin>
 
 #pragma newdecls required
@@ -30,14 +31,14 @@ public void OnPluginStart2()
 
 	HookEvent("teamplay_round_win", Event_RoundEnd); // for non-arena maps
 
-	HookEvent("player_spawn", OnPlayerSpawn);
+	// HookEvent("player_spawn", OnPlayerSpawn);
 
 	if(FF2_GetRoundState()==1)
 	{
 		HookAbilities();
 	}
 }
-
+/*
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
@@ -51,7 +52,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dontBroadcast)
 		if(IsClientInGame(target) && (boss = FF2_GetBossIndex(target)) != -1
 		&& FF2_HasAbility(boss, this_plugin_name, "fog_fx"))
 		{
-			SetVariantString("MyFog");
+			SetVariantString("FF2Fog");
 			AcceptEntityInput(client, "SetFogController");
 
 			break;
@@ -60,6 +61,25 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dontBroadcast)
 
 	return Plugin_Continue;
 }
+*/
+
+public void OnClientPostAdminCheck(int client)
+{
+	if(!IsValidEntity(envFog)) return;
+
+	int boss;
+	for(int target = 1; target <= MaxClients; target++)
+	{
+		if(IsClientInGame(target) && ((boss = FF2_GetBossIndex(target)) != -1) && FF2_HasAbility(boss, this_plugin_name, "fog_fx"))
+		{
+			SetVariantString("FF2Fog");
+			AcceptEntityInput(client, "SetFogController");
+
+			break;
+		}
+	}
+}
+
 
 public Action Event_RoundStart_Pre(Event event, const char[] name, bool dontBroadcast)
 {
@@ -132,13 +152,20 @@ public void HookAbilities()
 					envFog = StartFog(FF2_GetAbilityArgument(boss, this_plugin_name, "fog_fx", 1, 0), fogcolor[0], fogcolor[1], fogstart, fogend, fogdensity);
 				}
 
-				for (int i = 1; i <= MaxClients; i++)
+				if(IsValidEntity(envFog))
 				{
-					if(IsClientInGame(i))
+					for (int i = 1; i <= MaxClients; i++)
 					{
-						SetVariantString("MyFog");
-						AcceptEntityInput(i, "SetFogController");
+						if(IsClientInGame(i))
+						{
+							SetVariantString("FF2Fog");
+							AcceptEntityInput(i, "SetFogController");
+						}
 					}
+				}
+				else
+				{
+					CPrintToChatAll("{olive}[FF2]{default} 안개 생성을 실패했습니다!");
 				}
 			}
 		}
@@ -195,13 +222,20 @@ public void FOG_Invoke(int client)
 		SDKHook(client, SDKHook_PreThinkPost, FogTimer);
 	}
 
-	for (int i = 1; i <= MaxClients; i++)
+	if(IsValidEntity(envFog))
 	{
-		if(IsClientInGame(i))
+		for (int i = 1; i <= MaxClients; i++)
 		{
-			SetVariantString("MyFog");
-			AcceptEntityInput(i, "SetFogController");
+			if(IsClientInGame(i))
+			{
+				SetVariantString("FF2Fog");
+				AcceptEntityInput(i, "SetFogController");
+			}
 		}
+	}
+	else
+	{
+		CPrintToChatAll("{olive}[FF2]{default} 안개 생성을 실패했습니다!");
 	}
 }
 
@@ -236,7 +270,7 @@ int StartFog(int fogblend, int fogcolor[3], int fogcolor2[3], float fogstart=64.
 	Format(fogcolors[2], sizeof(fogcolors[]), "%i %i %i", fogcolor2[0], fogcolor2[1], fogcolor2[2]);
 	if(IsValidEntity(iFog))
 	{
-        DispatchKeyValue(iFog, "targetname", "MyFog");
+        DispatchKeyValue(iFog, "targetname", "FF2Fog");
         DispatchKeyValue(iFog, "fogenable", "1");
         DispatchKeyValue(iFog, "spawnflags", "1");
         DispatchKeyValue(iFog, "fogblend", fogcolors[0]);

@@ -849,8 +849,7 @@ void EnableLastManStanding(int client, bool spawnPlayer = false)
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
-  if((GetGameState() != Game_LastManStanding && !IsFakeLastManStanding)
-  || !IsLastMan[client]
+  if(!IsLastMan[client]
   || !IsPlayerAlive(client) ) return Plugin_Continue;
 
   if(GetGameState() == Game_LastManStanding)
@@ -863,6 +862,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
           }
       }
   }
+
+  if(GetGameState() != Game_LastManStanding && !IsFakeLastManStanding)
+        return Plugin_Continue;
 
   if(buttons & IN_ATTACK2 && IsWeaponSlotActive(client, 1)) // && GetPlayerWeaponSlot(client, 2) == GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"))
   {

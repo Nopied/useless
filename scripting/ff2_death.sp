@@ -1745,7 +1745,7 @@ public void JM_Tick(int iClient, int iButtons, float flTime)
 
 public void AimThink(iClient)
 {
-
+/*
 	int iClosest = GetClosestClient(iClient);
 	if(!IsValidClient(iClosest, true))
 		return;
@@ -1764,7 +1764,7 @@ public void AimThink(iClient)
 
 	ClampAngle(flCamAngle);
 	TeleportEntity(iClient, NULL_VECTOR, flCamAngle, NULL_VECTOR);
-
+*/
 	PrintCenterText(iClient, "지속시간동안 저격소총으로 맞추면 무조건 헤드샷입니다.");
 
 
@@ -1786,6 +1786,7 @@ public void OnClientWeaponShootPosition(int client, float position[3])
 		if(!IsValidClient(iClosest, true))
 			return;
 
+		/*
 		float flClosestLocation[3], flClientEyePosition[3], flVector[3], flCamAngle[3];
 		GetClientEyePosition(client, flClientEyePosition);
 
@@ -1800,7 +1801,40 @@ public void OnClientWeaponShootPosition(int client, float position[3])
 
 		ClampAngle(flCamAngle);
 		TeleportEntity(client, NULL_VECTOR, flCamAngle, NULL_VECTOR);
+		*/
+		LookAtClient(client, iClosest);
 	}
+}
+
+stock void LookAtClient(int iClient, int iTarget)
+{
+	float fTargetPos[3]; float fTargetAngles[3]; float fClientPos[3]; float fFinalPos[3];
+	GetClientEyePosition(iClient, fClientPos);
+	GetClientEyePosition(iTarget, fTargetPos);
+	GetClientEyeAngles(iTarget, fTargetAngles);
+
+	float fVecFinal[3];
+	AddInFrontOf(fTargetPos, fTargetAngles, 7.0, fVecFinal);
+	MakeVectorFromPoints(fClientPos, fVecFinal, fFinalPos);
+
+	GetVectorAngles(fFinalPos, fFinalPos);
+	TeleportEntity(iClient, NULL_VECTOR, fFinalPos, NULL_VECTOR);
+}
+
+stock void AddInFrontOf(float fVecOrigin[3], float fVecAngle[3], float fUnits, float fOutPut[3])
+{
+	float fVecView[3]; GetViewVector(fVecAngle, fVecView);
+
+	fOutPut[0] = fVecView[0] * fUnits + fVecOrigin[0];
+	fOutPut[1] = fVecView[1] * fUnits + fVecOrigin[1];
+	fOutPut[2] = fVecView[2] * fUnits + fVecOrigin[2];
+}
+
+stock void GetViewVector(float fVecAngle[3], float fOutPut[3])
+{
+	fOutPut[0] = Cosine(fVecAngle[1] / (180 / FLOAT_PI));
+	fOutPut[1] = Sine(fVecAngle[1] / (180 / FLOAT_PI));
+	fOutPut[2] = -Sine(fVecAngle[0] / (180 / FLOAT_PI));
 }
 
 void Abduct(int iClient)
