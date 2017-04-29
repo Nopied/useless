@@ -28,6 +28,7 @@ int g_iShockHaloIndex = -1;
 #define	MAX_EDICT_BITS	12
 #define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
 
+int RollerMineCount;
 int RollerMineTeam[MAX_EDICTS+1];
 
 ConVar g_hRollerSpeed;
@@ -58,15 +59,17 @@ public void OnPluginStart()
 	RegAdminCmd("sm_rollermine", Command_Rollermine, ADMFLAG_ROOT);
 	RegAdminCmd("sm_clearmines", Command_ClearMines, ADMFLAG_ROOT);
 
-	g_hRollerSpeed = CreateConVar("tf2_rollermine_speed", "320", "Rollermine rotation speed");
+	g_hRollerSpeed = CreateConVar("tf2_rollermine_speed", "450", "Rollermine rotation speed");
 	g_hRollerForce = CreateConVar("tf2_rollermine_force", "5000", "Rollermine angular force");
-	g_hRollerDamage = CreateConVar("tf2_rollermine_damage", "45", "Rollermine shock damage");
+	g_hRollerDamage = CreateConVar("tf2_rollermine_damage", "50", "Rollermine shock damage");
 	g_hRollerStunDur = CreateConVar("tf2_rollermine_stunduration", "0.5", "Rollermine stun duration");
 	g_hRollerOpenThreshold = CreateConVar("tf2_rollermine_open_threshold", "256", "Rollermine open threshold");
 	g_hRollerAttackDist = CreateConVar("tf2_rollermine_max_attack_distance", "20000", "Rollermine max attack distance");
 
 	g_hRollerSpeed.AddChangeHook(OnSettingsChanged);
 	g_hRollerForce.AddChangeHook(OnSettingsChanged);
+
+	RollerMineCount = 0;
 
 	CreateConVar("tf2_rollermine_version", PLUGIN_VERSION, "Rollermine spawner version", FCVAR_NOTIFY|FCVAR_DONTRECORD|FCVAR_SPONLY);
 }
@@ -140,6 +143,7 @@ public void OnEntityDestroyed(int entity)
 		GetEntPropString(entity, Prop_Data, "m_iName", strName, sizeof(strName));
 		if(StrContains(strName, "RollerMine") != -1)
 		{
+			RollerMineCount--;
 			StopSound(entity, SNDCHAN_AUTO, "npc/roller/mine/rmine_seek_loop2.wav");
 			StopSound(entity, SNDCHAN_AUTO, "npc/roller/mine/rmine_moveslow_loop1.wav");
 			StopSound(entity, SNDCHAN_AUTO, "npc/roller/mine/rmine_movefast_loop1.wav");
@@ -190,6 +194,8 @@ public Action Command_Rollermine(int client, int args)
 			int iEnt = CreateEntityByName("prop_physics_multiplayer");
 			if(IsValidEntity(iEnt))
 			{
+				RollerMineCount++;
+
 				char strName[64];
 				Format(strName, sizeof(strName), "RollerMine%i", iEnt);
 				DispatchKeyValue(iEnt, "targetname", strName);
@@ -581,6 +587,7 @@ public Native_CreateRollerMine(Handle plugin, numParams)
 	int stat = GetNativeCell(2);
 	for(int count = 0; count < stat; count++)
 	{
-		Command_Rollermine(client, 0);
+		if(RollerMineCount < 40)
+			Command_Rollermine(client, 0);
 	}
 }

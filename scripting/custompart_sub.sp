@@ -351,7 +351,7 @@ void CreateLaser(int client)
     float clientPos[3];
     float clientEyeAngles[3];
     float end_pos[3];
-    float damage = 14.0;
+    float damage = 5.0;
     float range = 65.0;
 
     GetClientEyePosition(client, clientPos);
@@ -536,7 +536,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     else if(partIndex == 7) // "롤러마인"
     {
-        ROLLER_CreateRollerMine(client, 8);
+        ROLLER_CreateRollerMine(client, 2);
     }
 
     else if(partIndex == 13)
@@ -647,7 +647,9 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         // float sentryAngle[3];
 
         // int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 1, true, false, false);
-        int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 3, _, _, _, 8);
+        // int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 3, true, true, false, 8);
+        int sentry = TF2_BuildSentry(client, clientPos, clientAngles, 3, _, _, _, 8); //
+        // TF2_BuildSentry(owner, location, angle, GetEntProp(building, Prop_Send, "m_iUpgradeLevel"), GetEntProp(building, Prop_Send, "m_bMiniBuilding") ? true : false, GetEntProp(building, Prop_Send, "m_bMiniBuilding") ? true : false);
 
         int iLink = CreateLink(client);
 
@@ -714,7 +716,7 @@ public Action LittleEngiDamageTimer(Handle timer, int entRef)
         int builder = GetEntPropEnt(entity, Prop_Send, "m_hBuilder");
 
         if(IsPlayerAlive(builder))
-            SDKHooks_TakeDamage(entity, 0, 0, 0.6, DMG_GENERIC, -1);
+            SDKHooks_TakeDamage(entity, 0, 0, 0.8, DMG_GENERIC, -1);
         else
             SDKHooks_TakeDamage(entity, 0, 0, 10000.0, DMG_GENERIC, -1);
     }
@@ -1313,6 +1315,8 @@ stock int TF2_BuildSentry(int builder, float fOrigin[3], float fAngle[3], int le
         // SetEntProp(sentry, Prop_Send, "m_bPlayerControlled", 1);
         SetEntProp(sentry, Prop_Send, "m_iTeamNum", builder > 0 ? GetClientTeam(builder) : FF2_GetBossTeam());
         SetEntPropEnt(sentry, Prop_Send, "m_hBuilder", builder);
+
+        // SetEntPropFloat(sentry, Prop_Send, "m_flPercentageConstructed", 0.99);
 
         return sentry;
 	}
