@@ -2174,13 +2174,14 @@ public LoadCharacter(const String:character[])
 	}
 	BossKV[Specials]=CreateKeyValues("character");
 	FileToKeyValues(BossKV[Specials], config);
-
+/*
 	new version=KvGetNum(BossKV[Specials], "version", 1);
 	if(version!=StringToInt(MAJOR_REVISION))
 	{
 		LogError("[FF2 Bosses] Character %s is only compatible with FF2 v%i!", character, version);
 		return;
 	}
+*/
 
 	for(new i=1; ; i++)
 	{
@@ -6352,7 +6353,7 @@ public Action:BossTimer(Handle:timer)
 
 			if(BossAbilityDuration[boss][slot] > 0.0)
 			{
-				BossAbilityDuration[boss][slot]-=0.2;
+				BossAbilityDuration[boss][slot]-=0.1;
 				NoticedAbilityTimeEnd[boss][slot]=false;
 			}
 			else if(BossAbilityCooldown[boss][slot] > 0.0)
@@ -6377,7 +6378,7 @@ public Action:BossTimer(Handle:timer)
 
 					}
 				}
-				BossAbilityCooldown[boss][slot] -= 0.2;
+				BossAbilityCooldown[boss][slot] -= 0.1;
 			}
 			else
 			{
@@ -6420,7 +6421,7 @@ public Action:BossTimer(Handle:timer)
 			new weapon=GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 			if(weapon == GetPlayerWeaponSlot(client, TFWeaponSlot_Melee) || FF2ServerFlag & FF2SERVERFLAG_ISLASTMAN)
 			{
-				TF2_AddCondition(client, TFCond_Buffed, 0.06);
+				TF2_AddCondition(client, TFCond_Buffed, 0.1);
 			}
 		}
 
@@ -6528,7 +6529,7 @@ public Action:BossTimer(Handle:timer)
 
 		if(BossCharge[boss][0]<BossMaxRageCharge[boss])
 		{
-			BossCharge[boss][0] += (OnlyParisLeft()*0.2)/4.0;
+			BossCharge[boss][0] += (OnlyParisLeft()*0.2)/3.5;
 			if(BossCharge[boss][0] > BossMaxRageCharge[boss])
 			{
 				BossCharge[boss][0] = BossMaxRageCharge[boss];
@@ -10886,7 +10887,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 			{
 				Call_PushCell(2);  //Status
 				Call_Finish(action);
-				new Float:charge=100.0*0.05/GetAbilityArgumentFloat(boss, plugin_name, ability_name, 1, 1.5);
+				new Float:charge=100.0*0.1/GetAbilityArgumentFloat(boss, plugin_name, ability_name, 1, 1.5);
 				if(BossCharge[boss][slot]+charge<100.0)
 				{
 					BossCharge[boss][slot]+=charge;
@@ -10900,7 +10901,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 			{
 				Call_PushCell(1);  //Status
 				Call_Finish(action);
-				BossCharge[boss][slot]+=0.05;
+				BossCharge[boss][slot]+=0.1;
 			}
 		}
 		else if(BossCharge[boss][slot]>0.3)
@@ -10929,7 +10930,7 @@ bool:UseAbility(const String:ability_name[], const String:plugin_name[], boss, s
 		{
 			Call_PushCell(1);  //Status
 			Call_Finish(action);
-			BossCharge[boss][slot]+=0.05;
+			BossCharge[boss][slot]+=0.1;
 		}
 		else
 		{

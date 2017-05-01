@@ -1765,9 +1765,13 @@ public void AimThink(iClient)
 	ClampAngle(flCamAngle);
 	TeleportEntity(iClient, NULL_VECTOR, flCamAngle, NULL_VECTOR);
 */
+	int iClosest = GetClosestClient(iClient);
+	if(!IsValidClient(iClosest, true))
+		return;
+
+	LookAtClient(iClient, iClosest);
+
 	PrintCenterText(iClient, "지속시간동안 저격소총으로 맞추면 무조건 헤드샷입니다.");
-
-
 
 	if(GetEngineTime() >= MLGRageTime || FF2_GetRoundState() != 1)
 	{
