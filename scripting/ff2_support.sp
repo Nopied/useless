@@ -663,12 +663,12 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 	    if(buttons & IN_ATTACK)
 	    {
-			if(GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime()
-			|| GetEntPropFloat(GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack") > GetGameTime())
-				return Plugin_Continue;
-
 			if(Sub_SaxtonReflect[client])
 			{
+				if(GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime()
+				|| GetEntPropFloat(GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack") > GetGameTime())
+					return Plugin_Continue;
+
 				int ent;
 				float clientPos[3];
 				float clientEyeAngles[3];
@@ -757,7 +757,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			float range = 75.0;
 			float clientPos[3];
 			float targetPos[3];
-			GetClientEyePosition(client, clientPos);
+			GetClientAbsOrigin(client, clientPos);
 
 			while((ent = FindEntityByClassname(ent, "obj_sentrygun")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
 		    {

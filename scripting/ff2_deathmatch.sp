@@ -9,6 +9,8 @@
 #include <freak_fortress_2>
 #include <POTRY>
 
+#define CPGameData "cp_pct"
+
 bool RoundRunning;
 bool IsFakeLastManStanding=false;
 bool IsLastMan[MAXPLAYERS+1];
@@ -31,6 +33,12 @@ Handle DrawGameTimer; // Same FF2's DrawGameTimer.
 
 Handle OnTimerFor;
 
+Handle SDKGetCPPct;
+bool useCPvalue;
+int capTeam;
+int controlpointIndex;
+bool isCapping;
+
 float NoTimerHudTime;
 float NoEnemyTime[MAXPLAYERS+1];
 float WeaponCannotUseTime[MAXPLAYERS+1];
@@ -50,12 +58,20 @@ enum GameMode
 
 GameMode CurrentGame;
 
+static const char OTVoice[][] = {
+    "vo/announcer_overtime.mp3",
+    "vo/announcer_overtime2.mp3",
+    "vo/announcer_overtime3.mp3",
+    "vo/announcer_overtime4.mp3"
+};
+
+
 public Plugin:myinfo=
 {
     name="Freak Fortress 2 : Deathmatch Mod",
     author="Nopied",
     description="....",
-    version="0.1",
+    version="1.3",
 };
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
@@ -87,6 +103,64 @@ public void OnPluginStart()
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
+
+    HookEvent("teamplay_point_startcapture", OnStartCapture);
+    new Handle:hCFG=LoadGameConfigFile(CPGameData);
+    if(hCFG == INVALID_HANDLE)
+    {
+        LogError("Missing gamedata file %s.txt! Will not use CP capture percentage values!", CPGameData);
+        CloseHandle(hCFG);
+        useCPvalue=false;
+        HookEvent("teamplay_capture_broken", OnBreakCapture);
+        return;
+    }
+    StartPrepSDKCall(SDKCall_Entity);
+    PrepSDKCall_SetFromConf(hCFG, SDKConf_Signature, "CTeamControlPoint::GetTeamCapPercentage");
+    PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
+    PrepSDKCall_SetReturnInfo(SDKType_Float, SDKPass_Plain);
+    if((SDKGetCPPct = EndPrepSDKCall()) == INVALID_HANDLE)
+    {
+        LogError("Failed to create SDKCall for CTeamControlPoint::GetTeamCapPercentage signature! Will not use CP capture percentage values!");
+        CloseHandle(hCFG);
+        useCPvalue=false;
+        HookEvent("teamplay_capture_broken", OnBreakCapture);
+        return;
+    }
+    useCPvalue=true;
+    CloseHandle(hCFG);
+}
+
+public Action OnStartCapture(Handle:event, const char[] eventName, bool dontBroadcast)
+{
+    capTeam=GetEventInt(event, "capteam");
+    /*
+    if(useCPvalue)
+    {
+        capTeam=GetEventInt(event, "capteam");
+        return;
+    }
+    */
+
+    if(!isCapping && GetEventInt(event, "capteam")>1)
+    {
+        isCapping=true;
+
+        if(GetGameState() == Game_ControlPointOverTime)
+        {
+            char OTAlerting[PLATFORM_MAX_PATH];
+            strcopy(OTAlerting, sizeof(OTAlerting), OTVoice[GetRandomInt(0, sizeof(OTVoice)-1)]);
+            EmitSoundToAll(OTAlerting);
+        }
+    }
+}
+
+public Action OnBreakCapture(Handle event, const char[] eventName, bool dontBroadcast)
+{
+    if(!GetEventFloat(event, "time_remaining") && isCapping)
+    {
+        capTeam=0;
+        isCapping=false;
+    }
 }
 
 public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
@@ -108,6 +182,11 @@ public void OnMapStart()
 
   RoundRunning = false;
   NoTimerHudTime = 0.0;
+
+  for (new i = 0; i < sizeof(OTVoice); i++)
+  {
+      PrecacheSound(OTVoice[i], true);
+  }
 
   if(DrawGameTimer != INVALID_HANDLE)
   {
@@ -317,7 +396,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
     else if(GetGameState() == Game_SuddenDeath
     && !IsBossTeam(client))
     {
-        timeleft += 15.0;
+        suddendeathDamege = CheckAlivePlayers();
     }
 
     return Plugin_Continue;
@@ -464,7 +543,8 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     {
         if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
         {
-            timeleft += 15.0 + (float(FF2_GetClientDamage(client)) / 100.0);
+            // timeleft += 15.0 + (float(FF2_GetClientDamage(client)) / 100.0);
+            suddendeathDamege = CheckAlivePlayers();
         }
     }
 
@@ -935,6 +1015,52 @@ public Action OnTimer(Handle timer)
 
     char timeDisplay[60];
 
+    if(GetGameState() == Game_ControlPointOverTime)
+    {
+        float captureValue;
+        if(useCPvalue)
+        {
+            captureValue=SDKCall(SDKGetCPPct, controlpointIndex, capTeam);
+            SetHudTextParams(-1.0, 0.17, 0.11, capTeam==2 ? 191 : capTeam==3 ? 90 : 0, capTeam==2 ? 57 : capTeam==3 ? 140 : 0, capTeam==2 ? 28 : capTeam==3 ? 173 : 0, 255, 0);
+            Format(timeDisplay, sizeof(timeDisplay), "OVERTIME (Capture: %d%%)", RoundFloat(captureValue*100));
+
+            if(captureValue<=0.0)
+            {
+                ForceTeamWin(0);
+                capTeam=0;
+                CloseHandle(timeleftHUD);
+                return Plugin_Stop;
+            }
+        }
+        else
+        {
+            SetHudTextParams(-1.0, 0.17, 0.11, 255, 255, 255, 255);
+            Format(timeDisplay, sizeof(timeDisplay), "OVERTIME");
+
+            // capTeam
+
+            if(!isCapping)
+            {
+                ForceTeamWin(0);
+                capTeam=0;
+                CloseHandle(timeleftHUD);
+                return Plugin_Stop;
+            }
+
+        }
+
+        for(new client = 1; client <= MaxClients; client++)
+      	{
+      		if(IsValidClient(client))
+      		{
+      			FF2_ShowSyncHudText(client, timeleftHUD, timeDisplay);
+      		}
+      	}
+
+        CloseHandle(timeleftHUD);
+        return Plugin_Continue;
+    }
+
   	if(RoundFloat(timeleft)/60>9)
   	{
   		IntToString(RoundFloat(timeleft)/60, timeDisplay, sizeof(timeDisplay));
@@ -957,6 +1083,8 @@ public Action OnTimer(Handle timer)
     {
       Format(timeDisplay, sizeof(timeDisplay), "%.1f", timeleft);
     }
+
+
 /*
     if(GetGameState() == Game_None && CheckAlivePlayers() <= 2)
     {
@@ -1020,6 +1148,8 @@ public Action OnTimer(Handle timer)
         }
     }
 
+    CloseHandle(timeleftHUD);
+
     switch(RoundFloat(timeleft))
   	{
   		case 300:
@@ -1074,32 +1204,73 @@ public Action OnTimer(Handle timer)
             }
             else if(GetGameState() == Game_SpecialLastManStanding)
             {
-                CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 인간이 승리합니다.");
-                ForceTeamWin(view_as<TFTeam>(FF2_GetBossTeam()) == TFTeam_Blue ? 2 : 3);
+                CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 무승부로 처리됩니다.");
+                ForceTeamWin(0);
                 return Plugin_Stop;
+            }
+            else if(GetGameState() == Game_ControlPoint)
+            {
+                if(!isCapping)
+                {
+                    CPrintToChatAll("{olive}[FF2]{default} 제한시간이 끝나 무승부로 처리됩니다.");
+                    ForceTeamWin(0);
+
+                    return Plugin_Stop;
+                }
+                else
+                {
+                    SetGameState(Game_ControlPointOverTime);
+                    timeleft = 60.0; // 이 시간으로 고정;
+
+                    char OTAlerting[PLATFORM_MAX_PATH];
+                    strcopy(OTAlerting, sizeof(OTAlerting), OTVoice[GetRandomInt(0, sizeof(OTVoice)-1)]);
+                    EmitSoundToAll(OTAlerting);
+                }
             }
 
             if(GetGameState() == Game_None)
-                SetGameState(Game_SuddenDeath);
+            {
+                controlpointIndex = FindEntityByClassname(controlpointIndex, "team_control_point");
+
+                if(IsValidEntity(controlpointIndex))
+                {
+                    SetGameState(Game_ControlPoint);
+                    timeleft = 90.0;
+                    CPrintToChatAll("{olive}[FF2]{default} 서든데스가 시작되었습니다! 점령지점을 장악하면 승리!");
+                    PrintHintTextToAll("서든데스가 시작되었습니다! \n점령지점을 장악하면 승리!");
+
+                    // SetArenaCapEnableTime(0.0);
+            		SetControlPoint(true);
+                }
+                else
+                    SetGameState(Game_SuddenDeath);
+            }
+
 
             if(GetGameState() == Game_SuddenDeath)
             {
+                /*
                 int loser=GetLowestDamagePlayer();
                 int damage = (FF2_GetClientDamage(loser) / 20) / 10;
                 suddendeathDamege += damage > 2 ? damage : 2;
-                static bool alreadyNotice = false;
 
                 timeleft += 30.0 + (damage*3); // 게임이 중단되는것을 막는 용.
                 ForcePlayerSuicide(loser);
+                */
+                static bool alreadyNotice = false;
+                int loser=GetLowestDamagePlayer();
+                FF2_SetClientGlow(loser, 99999.9);
+                timeleft += 30.0;
+                suddendeathDamege = CheckAlivePlayers();
 
-                CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님이 {olive}데미지가 가장 낮아{default} 사망합니다.\n({orange}데미지: %i{default})", loser, suddendeathDamege);
+                CPrintToChatAll("{olive}[FF2]{default} {red}%N{default}님이 {olive}데미지가 가장 낮아{default} 발각됩니다.\n({orange}데미지: %i{default})", loser, suddendeathDamege);
 
                 if(!alreadyNotice)
                 {
                     alreadyNotice = true;
 
-                    CPrintToChatAll("{olive}[FF2]{default} {red}서든데스{default}가 시작되었습니다! \n보스는 사망한 플레이어의 데미지에 비례해 데미지를 입습니다!");
-                    PrintHintTextToAll("서든데스가 시작되었습니다! \n보스는 사망한 플레이어의 데미지에 비례해 데미지를 입습니다!");
+                    CPrintToChatAll("{olive}[FF2]{default} {red}서든데스{default}가 시작되었습니다! \n보스는 생존한 플레이어의 수에 비례해 데미지를 입습니다!");
+                    PrintHintTextToAll("서든데스가 시작되었습니다! \n보스는 생존한 플레이어의 수에 비례해 데미지를 입습니다!");
                 }
                 return Plugin_Continue;
             }
@@ -1114,7 +1285,7 @@ public Action OnTimer(Handle timer)
   		}
 
     }
-    CloseHandle(timeleftHUD);
+
     return Plugin_Continue;
 }
 
@@ -2201,6 +2372,20 @@ public Native_SetTimeLeft(Handle plugin, numParams)
     if(DrawGameTimer == INVALID_HANDLE)
     {
         DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+    }
+}
+
+stock SetControlPoint(bool:enable)
+{
+    new controlPoint=MaxClients+1;
+    while((controlPoint=FindEntityByClassname2(controlPoint, "team_control_point"))!=-1)
+    {
+        if(controlPoint>MaxClients && IsValidEdict(controlPoint))
+        {
+            AcceptEntityInput(controlPoint, (enable ? "ShowModel" : "HideModel"));
+            SetVariantInt(enable ? 0 : 1);
+            AcceptEntityInput(controlPoint, "SetLocked");
+        }
     }
 }
 

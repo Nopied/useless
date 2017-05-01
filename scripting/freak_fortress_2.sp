@@ -36,7 +36,7 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #define REQUIRE_PLUGIN
 
 #define MAJOR_REVISION "0"
-#define MINOR_REVISION "8"
+#define MINOR_REVISION "9"
 #define STABLE_REVISION "0"
 #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins

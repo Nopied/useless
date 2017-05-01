@@ -3869,7 +3869,7 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 		}
 		*/
 
-	RNGDamage = GetRandomFloat(0.5, 0.8), RNGSpeed = GetRandomFloat(0.5, 0.8);
+	RNGDamage = GetRandomFloat(0.4, 0.6), RNGSpeed = GetRandomFloat(0.5, 0.8);
 
 	if(!isBarrage)
 	{
@@ -3906,8 +3906,8 @@ public int RandomDanmaku(int client, int difficulty, bool isBarrage)
 	TF2Items_SetAttribute(hItem, 3, 2025, 3.0); //Is Pro Killstreak
 	TF2Items_SetAttribute(hItem, 4, 2013, GetRandomFloat(2002.0, 2008.0)); // Killstreaker
 	TF2Items_SetAttribute(hItem, 5, 2014, GetRandomFloat(1.0, 7.0)); // Sheen
-	TF2Items_SetAttribute(hItem, 6, 4, GetRandomFloat(10.0, 60.0)); // Clip Size
-	TF2Items_SetAttribute(hItem, 7, 6, GetRandomFloat(0.0, 0.3)); // Fire rate bonus
+	TF2Items_SetAttribute(hItem, 6, 4, GetRandomFloat(20.0, 45.0)); // Clip Size
+	TF2Items_SetAttribute(hItem, 7, 6, GetRandomFloat(0.1, 0.3)); // Fire rate bonus
 	TF2Items_SetAttribute(hItem, 8, 37, 0.0); // Cannot pick up ammo
 	TF2Items_SetAttribute(hItem, 9, (RNGDamage >= 1.0 ? 2 : 1), RNGDamage); // Damage Bonus/Penalty
 	TF2Items_SetAttribute(hItem, 10, (RNGSpeed >= 1.0 ? 103 : 104), RNGSpeed); // Speed Bonus/Penalty

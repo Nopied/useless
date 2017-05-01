@@ -4,7 +4,9 @@ enum GameMode
     Game_SuddenDeath,
     Game_LastManStanding,
     Game_SpecialLastManStanding,
-    Game_AttackAndDefense
+    Game_AttackAndDefense,
+    Game_ControlPoint,
+    Game_ControlPointOverTime
 };
 
 public bool IsServerPotry()
