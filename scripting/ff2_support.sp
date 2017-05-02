@@ -31,6 +31,8 @@
 #define	MAX_EDICT_BITS	12
 #define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
 
+#define SPRITE 	"materials/sprites/dot.vmt"
+
 public Plugin myinfo=
 {
 	name="Freak Fortress 2: Support",
@@ -56,16 +58,19 @@ bool IsTravis[MAXPLAYERS];
 float TravisBeamCharge[MAXPLAYERS+1];
 // float TravisBeamCoolTick[MAXPLAYERS+1];
 
+int entSpriteRef[MAXPLAYERS+1];
+
 bool IsEntityCanReflect[MAX_EDICTS];
 bool AllLastmanStanding;
 bool AttackAndDef;
+bool enableVagineer;
 int g_nEntityBounce[MAX_EDICTS];
 
 public void OnPluginStart2()
 {
 	HookEvent("teamplay_round_start", OnRoundStart_Pre);
 
-	// HookEvent("player_spawn", OnPlayerSpawn);
+	HookEvent("player_spawn", OnPlayerSpawn);
 
 	HookEvent("player_death", OnPlayerDeath);
 }
@@ -73,6 +78,39 @@ public void OnPluginStart2()
 public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 {
     CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+
+	for(int client = 1; client<=MaxClients; client++)
+	{
+		int viewentity = EntRefToEntIndex(entSpriteRef[client]);
+		if(IsValidEntity(viewentity))
+		{
+			if(IsClientInGame(client))
+				SetClientViewEntity(client, client);
+
+			AcceptEntityInput(viewentity, "kill");
+		}
+	}
+
+}
+
+public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
+{
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+
+	if(!IsValidClient(client))	return Plugin_Continue;
+
+	if(enableVagineer)
+	{
+		float clientPos[3];
+		GetClientEyePosition(client, clientPos);
+
+		int ent = CreateViewEntity(client, clientPos);
+		if(IsValidEntity(ent))
+		{
+			entSpriteRef[client] = EntIndexToEntRef(ent);
+		}
+	}
+
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -80,7 +118,14 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
 
-	if(!IsValidClient(client) || !IsValidClient(attacker))	return Plugin_Continue;
+	if(!IsValidClient(client))	return Plugin_Continue;
+
+	int viewentity = EntRefToEntIndex(entSpriteRef[client]);
+	if(IsValidEntity(viewentity))
+	{
+		SetClientViewEntity(client, client);
+		AcceptEntityInput(viewentity, "kill");
+	}
 
 /*
 	if(IsBoss(attacker))
@@ -502,6 +547,7 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
   int boss;
   AllLastmanStanding = false;
   AttackAndDef = false;
+  enableVagineer = false;
 
   for(int target=1; target <= MaxClients; target++)
   {
@@ -612,6 +658,24 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 				SDKHook(target, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(target, SDKHook_Touch, OnTankTouch);
 			}
+			if(FF2_HasAbility(boss, this_plugin_name, "ff2_vagineer_passive"))
+			{
+				enableVagineer = true;
+				for(int spTarget=1; spTarget <= MaxClients; spTarget++)
+				{
+					if(!IsValidClient(spTarget) || !IsPlayerAlive(spTarget))
+						continue;
+
+					float clientPos[3];
+					GetClientEyePosition(spTarget, clientPos);
+
+					int ent = CreateViewEntity(spTarget, clientPos);
+					if(IsValidEntity(ent))
+					{
+						entSpriteRef[spTarget] = EntIndexToEntRef(ent);
+					}
+				}
+			}
 /*
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_test_map_rota"))
 			{
@@ -657,9 +721,38 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		return Plugin_Continue;
 	}
 
+	bool changed = false;
+
   if(IsValidClient(client) && IsPlayerAlive(client))
   {
 	 	int boss = FF2_GetBossIndex(client);
+
+		if(enableVagineer)
+		{
+			int viewentity = EntRefToEntIndex(entSpriteRef[client]);
+			if(!IsValidEntity(viewentity))
+			{
+				float clientPos[3];
+				GetClientEyePosition(client, clientPos);
+
+				viewentity = CreateViewEntity(client, clientPos);
+			}
+
+			float clientAngles[3];
+			GetClientEyeAngles(client, clientAngles);
+			ScaleVector(clientAngles, -1.0);
+
+			TeleportEntity(viewentity, NULL_VECTOR, clientAngles, NULL_VECTOR);
+
+			/*
+			// 버튼 반대
+
+			if(buttons & IN_FORWARD|IN_BACK)
+			{
+
+			}
+			*/
+		}
 
 	    if(buttons & IN_ATTACK)
 	    {
@@ -977,6 +1070,30 @@ void SetOverlay(int client, const char[] overlay)						// changes a client's scr
 	SetCommandFlags("r_screenoverlay", GetCommandFlags("r_screenoverlay") & ~FCVAR_CHEAT);
 	ClientCommand(client, "r_screenoverlay \"%s\"", overlay);
 	SetCommandFlags("r_screenoverlay", GetCommandFlags("r_screenoverlay") | FCVAR_CHEAT);
+}
+
+int CreateViewEntity(int client, float pos[3])
+{
+	int entity;
+	if((entity = CreateEntityByName("env_sprite")) != -1)
+	{
+		DispatchKeyValue(entity, "model", SPRITE);
+		DispatchKeyValue(entity, "renderamt", "0");
+		DispatchKeyValue(entity, "rendercolor", "0 0 0");
+		DispatchSpawn(entity);
+
+		float angle[3];
+		GetClientEyeAngles(client, angle);
+
+		TeleportEntity(entity, pos, angle, NULL_VECTOR);
+		TeleportEntity(client, NULL_VECTOR, angle, NULL_VECTOR);
+
+		SetVariantString("!activator");
+		AcceptEntityInput(entity, "SetParent", client, entity, 0);
+		SetClientViewEntity(client, entity);
+		return entity;
+	}
+	return -1;
 }
 
 stock int SpawnRocket(int client, float origin[3], float angles[3], float velocity[3], float damage, bool allowcrit)

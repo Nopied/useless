@@ -500,6 +500,19 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     GetClientEyePosition(client, clientPos);
     GetClientEyeAngles(client, clientAngles);
 
+    if(CP_IsPartActived(client, 39))
+    {
+        for(int count=0; count<2; count++)
+        {
+            int slot = CP_FindActiveSlot(client);
+            if(slot == -1)
+                break;
+
+            CP_SetClientPart(client, slot, partIndex);
+            CP_OnGetPart_Post(client, partIndex);
+        }
+    }
+
     if(partIndex == 10) // "파츠 멀티 슬릇"
     {
         CP_SetClientMaxSlot(client, CP_GetClientMaxSlot(client) + 5);
@@ -705,6 +718,11 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         AddToSlotWeapon(client, 2, 2, 1.0);
         AddToSlotWeapon(client, 2, 6, -0.5);
     }
+    else if(partIndex == 37)
+    {
+        AddToAllWeapon(client, 106, -0.3);
+        AddToSomeWeapon(client, 26, -25.0);
+    }
 }
 
 public Action LittleEngiDamageTimer(Handle timer, int entRef)
@@ -761,6 +779,26 @@ public void CP_OnActivedPart(int client, int partIndex)
         RandomSound("NanoBbong", path, sizeof(path));
 
         EmitSoundToAll(path, client, _, _, _, _, _, client, clientPos);
+    }
+    else if(partIndex == 38)
+    {
+        for(int slot=0; slot<CP_GetClientMaxSlot(client); slot++)
+        {
+            int part = CP_GetClientPart(client, slot);
+            int randomPart = CP_RandomPart(client, CP_RandomPartRank());
+
+            if(CP_IsValidPart(part))
+            {
+                while(randomPart == partIndex)
+                {
+                    randomPart = CP_RandomPart(client, CP_RandomPartRank());
+                }
+
+                CP_OnSlotClear(client, part, false);
+                CP_SetClientPart(client, slot, randomPart);
+                CP_OnGetPart_Post(client, randomPart);
+            }
+        }
     }
 
 
@@ -884,9 +922,9 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         */
         else if(partIndex == 32)
         {
-            AddToSlotWeapon(client, 0, 71, -0.5);
-            AddToSlotWeapon(client, 0, 73, -0.25);
-            AddToSlotWeapon(client, 0, 69, 0.8);
+            RemoveToSlotWeapon(client, 0, 71, -0.5);
+            RemoveToSlotWeapon(client, 0, 73, -0.25);
+            RemoveToSlotWeapon(client, 0, 69, 0.8);
         }
         else if(partIndex == 33)
         {
@@ -894,12 +932,17 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         }
         else if(partIndex == 34)
         {
-            AddToSlotWeapon(client, 2, 264, -0.5);
+            RemoveToSlotWeapon(client, 2, 264, -0.5);
         }
         else if(partIndex == 36)
         {
-            AddToSlotWeapon(client, 2, 2, -1.0);
-            AddToSlotWeapon(client, 2, 6, 0.5);
+            RemoveToSlotWeapon(client, 2, 2, -1.0);
+            RemoveToSlotWeapon(client, 2, 6, 0.5);
+        }
+        else if(partIndex == 37)
+        {
+            RemoveToAllWeapon(client, 106, 0.3);
+            RemoveToSomeWeapon(client, 26, 25.0);
         }
     }
     else
