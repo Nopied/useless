@@ -548,7 +548,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         }
     }
 
-    if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding && GetGameState() != Game_SpecialLastManStanding)
+    if((GetGameState() != Game_AttackAndDefense && GetGameState() != Game_LastManStanding && GetGameState() != Game_SpecialLastManStanding && GetGameState() != Game_ControlPoint && GetGameState() != Game_ControlPointOverTime)
     && CheckAlivePlayers() <= 1 && GetClientCount(true) > 2) // 라스트 맨 스탠딩
     {
         SetGameState(Game_LastManStanding);

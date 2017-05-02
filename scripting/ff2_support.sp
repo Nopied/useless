@@ -58,12 +58,12 @@ bool IsTravis[MAXPLAYERS];
 float TravisBeamCharge[MAXPLAYERS+1];
 // float TravisBeamCoolTick[MAXPLAYERS+1];
 
-int entSpriteRef[MAXPLAYERS+1];
+int entSpriteRef[MAXPLAYERS+1] = {-1, ...};
 
 bool IsEntityCanReflect[MAX_EDICTS];
 bool AllLastmanStanding;
 bool AttackAndDef;
-bool enableVagineer;
+bool enableVagineer = false;
 int g_nEntityBounce[MAX_EDICTS];
 
 public void OnPluginStart2()
@@ -73,12 +73,15 @@ public void OnPluginStart2()
 	HookEvent("player_spawn", OnPlayerSpawn);
 
 	HookEvent("player_death", OnPlayerDeath);
+
+	PrecacheGeneric(SPRITE, true);
 }
 
 public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 {
     CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 
+/*
 	for(int client = 1; client<=MaxClients; client++)
 	{
 		int viewentity = EntRefToEntIndex(entSpriteRef[client]);
@@ -90,6 +93,7 @@ public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 			AcceptEntityInput(viewentity, "kill");
 		}
 	}
+*/
 
 }
 
@@ -97,9 +101,10 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 
-	if(!IsValidClient(client))	return Plugin_Continue;
+	if(FF2_GetRoundState() != 1 || !IsValidClient(client))	return Plugin_Continue;
 
-	if(enableVagineer)
+
+	if(enableVagineer && entSpriteRef[client] == -1)
 	{
 		float clientPos[3];
 		GetClientEyePosition(client, clientPos);
@@ -110,6 +115,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 			entSpriteRef[client] = EntIndexToEntRef(ent);
 		}
 	}
+
 
 }
 
@@ -125,6 +131,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 	{
 		SetClientViewEntity(client, client);
 		AcceptEntityInput(viewentity, "kill");
+		entSpriteRef[client] = -1;
 	}
 
 /*
@@ -147,6 +154,21 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 	*/
 
 	return Plugin_Continue;
+}
+
+public void OnClientDisconnect(int client)
+{
+
+	if(entSpriteRef[client] != -1)
+	{
+		int viewentity = EntRefToEntIndex(entSpriteRef[client]);
+		if(IsValidEntity(viewentity))
+		{
+			AcceptEntityInput(viewentity, "kill");
+			entSpriteRef[client] = -1;
+		}
+	}
+
 }
 
 stock bool IsBoss(int client)
@@ -556,6 +578,21 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 			continue;
 		}
 
+		if(entSpriteRef[target] != -1)
+		{
+			int viewentity = EntRefToEntIndex(entSpriteRef[target]);
+			if(IsValidEntity(viewentity))
+			{
+				if(IsClientInGame(target))
+					SetClientViewEntity(target, target);
+				AcceptEntityInput(viewentity, "kill");
+
+				entSpriteRef[target] = -1;
+			}
+		}
+		entSpriteRef[target] = -1;
+
+
 		if(IsClientInGame(target))
 		{
 			if(IsTank[target])
@@ -658,13 +695,17 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 				SDKHook(target, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(target, SDKHook_Touch, OnTankTouch);
 			}
+
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_vagineer_passive"))
 			{
 				enableVagineer = true;
 				for(int spTarget=1; spTarget <= MaxClients; spTarget++)
 				{
 					if(!IsValidClient(spTarget) || !IsPlayerAlive(spTarget))
+					{
+						entSpriteRef[spTarget] = -1;
 						continue;
+					}
 
 					float clientPos[3];
 					GetClientEyePosition(spTarget, clientPos);
@@ -676,6 +717,7 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 					}
 				}
 			}
+
 /*
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_test_map_rota"))
 			{
@@ -727,20 +769,14 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
   {
 	 	int boss = FF2_GetBossIndex(client);
 
-		if(enableVagineer)
+		if(enableVagineer && entSpriteRef[client] != -1)
 		{
 			int viewentity = EntRefToEntIndex(entSpriteRef[client]);
-			if(!IsValidEntity(viewentity))
-			{
-				float clientPos[3];
-				GetClientEyePosition(client, clientPos);
-
-				viewentity = CreateViewEntity(client, clientPos);
-			}
 
 			float clientAngles[3];
 			GetClientEyeAngles(client, clientAngles);
-			ScaleVector(clientAngles, -1.0);
+
+			clientAngles[1] = -179.0;
 
 			TeleportEntity(viewentity, NULL_VECTOR, clientAngles, NULL_VECTOR);
 
