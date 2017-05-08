@@ -23,14 +23,14 @@ public Plugin myinfo = {
   version=PLUGIN_VERSION,
 };
 
-int chatEngineTime;
+// int chatEngineTime;
 
 public void OnAllPluginsLoaded()
 {
     gBot = new DiscordBot(BOT_TOKEN);
     if(gBot != INVALID_HANDLE && gServerChat == INVALID_HANDLE)
     {
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, "This Bot is now online!");
+        //
         // PrintToChatAll("Create a Bot"); //
 
         // gBot.MessageCheckInterval = 3.05;
@@ -42,6 +42,19 @@ public void OnAllPluginsLoaded()
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
+}
+
+public void OnMapStart()
+{
+    if(gBot != INVALID_HANDLE)
+    {
+        char map[50];
+        char message[100];
+        GetCurrentMap(map, sizeof(map));
+        Format(message, sizeof(message), "현재 맵: %s", map);
+
+        gBot.SendMessageToChannelID(SERVER_CHAT_ID, message);
+    }
 }
 
 /*
@@ -100,7 +113,8 @@ public Action Listener_Say(int client, const char[] command, int argc)
         return Plugin_Handled;
 	}
 
-    if(gBot != INVALID_HANDLE && chatEngineTime > GetTime())
+    // if(gBot != INVALID_HANDLE && chatEngineTime < GetTime())
+    if(gBot != INVALID_HANDLE)
     {
         char steamAccount[60];
         char message[300];
@@ -110,7 +124,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, message);
 
-        chatEngineTime = GetTime();
+        // chatEngineTime = GetTime()+1;
     }
 
 
