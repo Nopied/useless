@@ -23,7 +23,7 @@ public Plugin myinfo = {
   version=PLUGIN_VERSION,
 };
 
-float chatEngineTime;
+int chatEngineTime;
 
 public void OnAllPluginsLoaded()
 {
@@ -70,7 +70,7 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
     			//gBot.SendMessageToChannelID(id, "Sending message with DiscordBot.SendMessageToChannelID");
     			//Channel.SendMessage(gBot, "Sending message with DiscordChannel.SendMessage");
 
-    			gBot.StartListeningToChannel(Channel, OnMessage);
+    			// gBot.StartListeningToChannel(Channel, OnMessage);
             }
 		}
 }
@@ -100,7 +100,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
         return Plugin_Handled;
 	}
 
-    if(gBot != INVALID_HANDLE && gServerChat != INVALID_HANDLE && chatEngineTime > GetEngineTime())
+    if(gBot != INVALID_HANDLE && chatEngineTime > GetTime())
     {
         char steamAccount[60];
         char message[300];
@@ -110,7 +110,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, message);
 
-        chatEngineTime = GetEngineTime() + 1.00;
+        chatEngineTime = GetTime();
     }
 
 
