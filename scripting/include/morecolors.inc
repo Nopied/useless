@@ -27,11 +27,11 @@ new CTeamColors[][] = {{0xCCCCCC, 0x4D7942, 0xFF4040}}; // Multi-dimensional arr
 /**
  * Prints a message to a specific client in the chat area.
  * Supports color tags.
- * 
+ *
  * @param client		Client index.
  * @param message		Message (formatting rules).
  * @noreturn
- * 
+ *
  * On error/Errors:		If the client is not connected an error will be thrown.
  */
 stock CPrintToChat(client, const String:message[], any:...) {
@@ -53,7 +53,7 @@ stock CPrintToChat(client, const String:message[], any:...) {
 /**
  * Prints a message to all clients in the chat area.
  * Supports color tags.
- * 
+ *
  * @param client		Client index.
  * @param message		Message (formatting rules).
  * @noreturn
@@ -77,12 +77,12 @@ stock CPrintToChatAll(const String:message[], any:...) {
 /**
  * Prints a message to a specific client in the chat area.
  * Supports color tags and teamcolor tag.
- * 
+ *
  * @param client		Client index.
  * @param author		Author index whose color will be used for teamcolor tag.
  * @param message		Message (formatting rules).
  * @noreturn
- * 
+ *
  * On error/Errors:		If the client or author are not connected an error will be thrown
  */
 stock CPrintToChatEx(client, author, const String:message[], any:...) {
@@ -114,7 +114,7 @@ stock CPrintToChatEx(client, author, const String:message[], any:...) {
  * @param author	  Author index whose color will be used for teamcolor tag.
  * @param message   Message (formatting rules).
  * @noreturn
- * 
+ *
  * On error/Errors:   If the author is not connected an error will be thrown.
  */
 stock CPrintToChatAllEx(author, const String:message[], any:...) {
@@ -141,7 +141,7 @@ stock CPrintToChatAllEx(author, const String:message[], any:...) {
 
 /**
  * Sends a SayText2 usermessage
- * 
+ *
  * @param client	Client to send usermessage to
  * @param message	Message to send
  * @noreturn
@@ -190,7 +190,7 @@ stock CSendMessage(client, const String:message[], author=0) {
  * CPrintToChatAll or CPrintToChatAllEx. It causes those functions
  * to skip the specified client when printing the message.
  * After printing the message, the client will no longer be skipped.
- * 
+ *
  * @param client   Client index
  * @noreturn
  */
@@ -203,7 +203,7 @@ stock CSkipNextClient(client) {
 
 /**
  * Checks if the colors trie is initialized and initializes it if it's not (used internally)
- * 
+ *
  * @return			No return
  */
 stock CCheckTrie() {
@@ -220,7 +220,7 @@ stock CCheckTrie() {
  * @param removeTags	Optional boolean value to determine whether we're replacing tags with colors, or just removing tags, used by CRemoveTags
  * @param maxlen		Optional value for max buffer length, used by CRemoveTags
  * @noreturn
- * 
+ *
  * On error/Errors:		If the client index passed for author is invalid or not in game.
  */
 stock CReplaceColorCodes(String:buffer[], author=0, bool:removeTags=false, maxlen=MAX_BUFFER_LENGTH) {
@@ -245,7 +245,7 @@ stock CReplaceColorCodes(String:buffer[], author=0, bool:removeTags=false, maxle
 	decl String:tag[32], String:buff[32], String:output[maxlen];
 	strcopy(output, maxlen, buffer);
 	// Since the string's size is going to be changing, output will hold the replaced string and we'll search buffer
-	
+
 	new Handle:regex = CompileRegex("{[a-zA-Z0-9]+}");
 	for(new i = 0; i < 1000; i++) { // The RegEx extension is quite flaky, so we have to loop here :/. This loop is supposed to be infinite and broken by return, but conditions have been added to be safe.
 		if(MatchRegex(regex, buffer[cursor]) < 1) {
@@ -259,11 +259,11 @@ stock CReplaceColorCodes(String:buffer[], author=0, bool:removeTags=false, maxle
 		strcopy(buff, sizeof(buff), tag);
 		ReplaceString(buff, sizeof(buff), "{", "");
 		ReplaceString(buff, sizeof(buff), "}", "");
-		
+
 		if(!GetTrieValue(CTrie, buff, value)) {
 			continue;
 		}
-		
+
 		if(removeTags) {
 			ReplaceString(output, maxlen, tag, "", false);
 		} else {
@@ -276,7 +276,7 @@ stock CReplaceColorCodes(String:buffer[], author=0, bool:removeTags=false, maxle
 
 /**
  * Gets a part of a string
- * 
+ *
  * @param input			String to get the part from
  * @param output		Buffer to write to
  * @param maxlen		Max length of output buffer
@@ -298,7 +298,7 @@ stock CSubString(const String:input[], String:output[], maxlen, start, numChars=
 
 /**
  * Converts a string to lowercase
- * 
+ *
  * @param buffer		String to convert
  * @noreturn
  */
@@ -331,7 +331,7 @@ stock bool:CAddColor(const String:name[], color) {
 
 /**
  * Removes color tags from a message
- * 
+ *
  * @param message		Message to remove tags from
  * @param maxlen		Maximum buffer length
  * @noreturn
@@ -342,7 +342,7 @@ stock CRemoveTags(String:message[], maxlen) {
 
 /**
  * Replies to a command with colors
- * 
+ *
  * @param client		Client to reply to
  * @param message		Message (formatting rules)
  * @noreturn
@@ -361,7 +361,7 @@ stock CReplyToCommand(client, const String:message[], any:...) {
 
 /**
  * Replies to a command with colors
- * 
+ *
  * @param client		Client to reply to
  * @param author		Client to use for {teamcolor}
  * @param message		Message (formatting rules)
@@ -381,7 +381,7 @@ stock CReplyToCommandEx(client, author, const String:message[], any:...) {
 
 /**
  * Shows admin activity with colors
- * 
+ *
  * @param client		Client performing an action
  * @param message		Message (formatting rules)
  * @noreturn
@@ -403,7 +403,7 @@ stock CShowActivity(client, const String:message[], any:...) {
 
 /**
  * Shows admin activity with colors
- * 
+ *
  * @param client		Client performing an action
  * @param tag			Tag to prepend to the message (color tags supported)
  * @param message		Message (formatting rules)
@@ -428,7 +428,7 @@ stock CShowActivityEx(client, const String:tag[], const String:message[], any:..
 
 /**
  * Shows admin activity with colors
- * 
+ *
  * @param client		Client performing an action
  * @param tag			Tag to prepend to the message (color tags supported)
  * @param message		Message (formatting rules)
@@ -453,7 +453,7 @@ stock CShowActivity2(client, const String:tag[], const String:message[], any:...
 
 /**
  * Determines whether a color name exists
- * 
+ *
  * @param color			The color name to check
  * @return				True if the color exists, false otherwise
  */
@@ -670,5 +670,6 @@ stock Handle:InitColorTrie() {
 	SetTrieValue(hTrie, "whitesmoke", 0xF5F5F5);
 	SetTrieValue(hTrie, "yellow", 0xFFFF00);
 	SetTrieValue(hTrie, "yellowgreen", 0x9ACD32);
+    SetTrieValue(hTrie, "discord", 0x7289DA);
 	return hTrie;
 }

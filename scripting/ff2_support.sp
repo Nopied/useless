@@ -768,6 +768,60 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
   if(IsValidClient(client) && IsPlayerAlive(client))
   {
 	 	int boss = FF2_GetBossIndex(client);
+		int mainboss = FF2_GetBossIndex(0);
+
+		if(boss == -1 && FF2_HasAbility(mainboss, this_plugin_name, "rage_arrowkeyattack") && FF2_GetAbilityDuration(mainboss) > 0.0)
+		{
+			if(GetEntityFlags(client) & FL_ONGROUND)
+			{
+				float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
+
+				float clientAngles[3];
+
+				float moveFwdAngles[3];
+				float moveRightAngles[3];
+
+				float moveBackAngles[3];
+				float moveLeftAngles[3];
+
+				float totalMoveVelocity[3];
+				GetClientEyeAngles(client, clientAngles);
+
+				clientAngles[2] = 0.0;
+
+				GetAngleVectors(clientAngles, moveFwdAngles, moveRightAngles, NULL_VECTOR);
+
+				for(int count=0; count<3; count++)
+				{
+					moveBackAngles[count] = moveFwdAngles[count] * -1.0;
+					moveLeftAngles[count] = moveBackAngles[count] * -1.0;
+				}
+
+				if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
+				{
+					if(buttons & IN_FORWARD)
+					{
+						AddVectors(totalMoveVelocity, moveBackAngles, totalMoveVelocity);
+					}
+					if(buttons & IN_RIGHT)
+					{
+						AddVectors(totalMoveVelocity, moveLeftAngles, totalMoveVelocity);
+					}
+					if(buttons & IN_LEFT)
+					{
+						AddVectors(totalMoveVelocity, moveRightAngles, totalMoveVelocity);
+					}
+					if(buttons & IN_BACK)
+					{
+						AddVectors(totalMoveVelocity, moveFwdAngles, totalMoveVelocity);
+					}
+
+					ScaleVector(totalMoveVelocity, maxSpeed);
+
+					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, totalMoveVelocity);
+				}
+			}
+		}
 
 		if(enableVagineer && entSpriteRef[client] != -1)
 		{

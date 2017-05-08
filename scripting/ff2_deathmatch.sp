@@ -367,7 +367,7 @@ public Action OnRoundStart(Handle timer)
 
     // SetGameState(Game_AttackAndDefense);
 
-    timeleft = float(CheckAlivePlayers()*12)+45.0;
+    timeleft = float(CheckAlivePlayers()*22)+45.0;
     DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
     return Plugin_Continue;
 }
@@ -2328,7 +2328,7 @@ void SetGameState(GameMode gamemode)
         {
             DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
         }
-        timeleft = float(CheckAlivePlayers() * 12) + 45.0;
+        timeleft = float(CheckAlivePlayers() * 21) + 45.0;
     }
 }
 

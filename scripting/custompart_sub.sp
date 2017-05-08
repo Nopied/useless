@@ -510,6 +510,11 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
             CP_SetClientPart(client, slot, partIndex);
             CP_OnGetPart_Post(client, partIndex);
+
+            if(CP_GetClientPartMaxChargeDamage(client) <= 0)
+            {
+                CP_SetClientPartMaxChargeDamage(client, 1);
+            }
         }
     }
 
@@ -612,19 +617,14 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         for(int slot=0; slot<CP_GetClientMaxSlot(client); slot++)
         {
             int part = CP_GetClientPart(client, slot);
-            int randomPart = CP_RandomPart(client, CP_RandomPartRank());
             if(CP_IsValidPart(part))
             {
                 CP_OnSlotClear(client, part, false);
             }
         }
         CP_SetClientMaxSlot(client, 2);
-        CP_SetClientPart(client, 0, partIndex);
-        CP_SetClientPart(client, 1, 11);
+        RequestFrame(TurnToSkeleton, client);
 
-        BeSkeletonKing_MakeSkeleton(client);
-
-        CP_NoticePart(client, partIndex);
     }
     else if(partIndex == 28)
     {
@@ -722,6 +722,19 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     {
         AddToAllWeapon(client, 106, -0.3);
         AddToSomeWeapon(client, 26, -25.0);
+    }
+}
+
+public void TurnToSkeleton(int client)
+{
+    if(IsClientInGame(client) && IsPlayerAlive(client))
+    {
+        CP_SetClientPart(client, 0, 26);
+        CP_SetClientPart(client, 1, 11);
+
+        BeSkeletonKing_MakeSkeleton(client);
+
+        CP_NoticePart(client, 26);
     }
 }
 

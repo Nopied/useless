@@ -36,8 +36,8 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #define REQUIRE_PLUGIN
 
 #define MAJOR_REVISION "0"
-#define MINOR_REVISION "10"
-#define STABLE_REVISION "1"
+#define MINOR_REVISION "11"
+#define STABLE_REVISION "0"
 #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
@@ -4016,7 +4016,7 @@ EquipBoss(boss)
 
 			if(i == 1)
 			{
-				Format(attributes, sizeof(attributes), "%s ; 252 ; 0.75", attributes);
+				Format(attributes, sizeof(attributes), "%s ; 252 ; 0.5", attributes);
 			}
 
 			new index=KvGetNum(BossKV[Special[boss]], "index");
