@@ -548,8 +548,8 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         AddToAllWeapon(client, 397, 5.0);
         AddToAllWeapon(client, 266, 1.0);
 
-        AddToAllWeapon(client, 2, 0.3);
-        AddToSomeWeapon(client, 54, -0.15);
+        AddToAllWeapon(client, 2, 0.5);
+        AddToSomeWeapon(client, 54, -0.10);
     }
 
     else if(partIndex == 7) // "롤러마인"
@@ -879,8 +879,8 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
             RemoveToAllWeapon(client, 397, -5.0);
             RemoveToAllWeapon(client, 266, -1.0);
 
-            RemoveToAllWeapon(client, 2, -0.3);
-            RemoveToSomeWeapon(client, 54, 0.15);
+            RemoveToAllWeapon(client, 2, -0.5);
+            RemoveToSomeWeapon(client, 54, 0.10);
         }
 
         else if(partIndex == 16)

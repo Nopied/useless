@@ -145,7 +145,7 @@ void TryResize(int boss)
     float maxSize = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_spongebob", 2, 5.0);
 
     float clientPos[3];
-    GetClientEyePosition(client, clientPos);
+    GetClientAbsOrigin(client, clientPos);
 
     if(GetClientButtons(client) & IN_DUCK)
     {

@@ -37,7 +37,7 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 
 #define MAJOR_REVISION "0"
 #define MINOR_REVISION "11"
-#define STABLE_REVISION "0"
+#define STABLE_REVISION "1"
 #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
@@ -8817,6 +8817,11 @@ stock LastBossIndex()
 
 stock GetBossIndex(client)
 {
+	if(client == 0)
+	{
+		return MainBoss;
+	}
+
 	if(client>0 && client<=MaxClients)
 	{
 		for(new boss; boss<=MaxClients; boss++)
