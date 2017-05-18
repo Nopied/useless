@@ -62,10 +62,10 @@ public Native_DisableTimeStop(Handle plugin, numParams)
 public void OnPluginStart2()
 {
 	HookEvent("player_spawn", OnPlayerSpawn);
-	// HookEvent("teamplay_round_win", OnRoundEnd);
+	HookEvent("teamplay_round_win", OnRoundEnd);
 }
 
-/*
+
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
 	if(g_flTimeStop > GetGameTime())
@@ -73,7 +73,7 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 		DisableTimeStop();
 	}
 }
-*/
+
 
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {

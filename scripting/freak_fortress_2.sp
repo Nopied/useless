@@ -36,8 +36,8 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #define REQUIRE_PLUGIN
 
 #define MAJOR_REVISION "0"
-#define MINOR_REVISION "11"
-#define STABLE_REVISION "1"
+#define MINOR_REVISION "12"
+#define STABLE_REVISION "0"
 #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
@@ -2488,6 +2488,10 @@ public Action:Timer_Announce(Handle:timer)
 	{
 		switch(announcecount)
 		{
+			case 0:
+			{
+				CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_last_update", PLUGIN_VERSION, ff2versiondates[maxVersion]);
+			}
 			case 1:
 			{
 				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_1");
@@ -2538,11 +2542,20 @@ public Action:Timer_Announce(Handle:timer)
 			}
 			case 13:
 			{
-				announcecount=0;
-				CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_last_update", PLUGIN_VERSION, ff2versiondates[maxVersion]);
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_13");
 			}
+			case 14:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_14");
+			}
+			case 15:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_15");
+			}
+
 			default:
 			{
+				announcecount=0;
 				CPrintToChatAll("{olive}[FF2]{default} %t", "type_ff2_to_open_menu");
 			}
 		}
@@ -10526,7 +10539,8 @@ void ViewClientMusicMenu(client, bool enableMute = false)
 		else
 			Format(temp, sizeof(temp), "%s - %s", artist, name);
 
-		AddMenuItem(menu, "곡", temp, (!enableMute && (FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BOSSBGM_USER || !CheckSoundException(client, SOUNDEXCEPT_MUSIC, code))) ? ITEMDRAW_DISABLED : 0);
+		AddMenuItem(menu, "곡", temp,
+		(!enableMute && (FF2ServerFlag & FF2SERVERFLAG_UNCHANGE_BGM_USER || !CheckSoundException(client, SOUNDEXCEPT_MUSIC, code))) ? ITEMDRAW_DISABLED : 0);
 		i++;
 	}
 	SetMenuExitButton(menu, true);

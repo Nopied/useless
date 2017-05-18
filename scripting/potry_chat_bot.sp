@@ -194,7 +194,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
             if(matches>1)
             {
-                for(target; target<matches; target++)
+                for(target=0; target<matches; target++)
                 {
                     if(!IsFakeClient(targets[target]))
                     {
@@ -233,11 +233,11 @@ public Action Listener_Say(int client, const char[] command, int argc)
         char discordMessage[300];
         GetCurrentMap(mapName, sizeof(mapName));
         GetClientAuthId(client, AuthId_Steam2, steamAccount, sizeof(steamAccount));
-        Format(discordMessage, sizeof(discordMessage), "현재 맵: %s\n- %N [%s]: %s", mapName, client, steamAccount, specialtext[1]);
+        Format(discordMessage, sizeof(discordMessage), "현재 맵: %s\n- %N [%s]: %s", mapName, client, steamAccount, chat[strlen(specialtext[0])+3]);
 
         gBot.SendMessageToChannelID(SERVER_SUGGESTION_ID, discordMessage);
 
-        CPrintToChat(client, "{discord}[신고]{default} 해당 건의 {yellow}''%s''{default}가 접수되었습니다. 고맙습니다!", specialtext[1]);
+        CPrintToChat(client, "{discord}[신고]{default} 해당 건의 {yellow}''%s''{default}가 접수되었습니다. 고맙습니다!", chat[strlen(specialtext[0])+3]);
         return Plugin_Handled;
     }
 
@@ -288,7 +288,7 @@ void ReportToDiscord(int client, int target, char[] reason)
     GetClientAuthId(client, AuthId_Steam2, steamAccount, sizeof(steamAccount));
     GetClientAuthId(client, AuthId_Steam2, targetSteamAccount, sizeof(targetSteamAccount));
 
-    Format(discordMessage, sizeof(discordMessage), "- 신고자: %N(%s)\n - 신고 대상: %N(%s)\n - 신고 사유: %s\n\n- 발생 시각: %s\n - 발생 맵 이름: %s\n - 신고 대상의 좌표: %.3f, %.3f, %.3f\n - 맵에 낌 유무: %s, ",
+    Format(discordMessage, sizeof(discordMessage), " - 신고자: %N(%s)\n - 신고 대상: %N(%s)\n\n - 신고 사유: %s\n\n - 발생 시각: %s\n - 발생 맵 이름: %s\n - 신고 대상의 좌표: %.3f, %.3f, %.3f\n - 맵에 낌 유무: %s\n - 사람과 낌 유무: %s\n - 생존 유무: %s",
     client, steamAccount,
     target, steamAccount,
     reason,
@@ -296,7 +296,8 @@ void ReportToDiscord(int client, int target, char[] reason)
     mapName,
     targetPos[0], targetPos[1], targetPos[2],
     IsPlayerStuckOnWall ? "네" : "아니요",
-    IsPlayerStuckOnPlayer ? "네" : "아니요"
+    IsPlayerStuckOnPlayer ? "네" : "아니요",
+    IsPlayerAlive(target) ? "네" : "아니요"
     );
 
     gBot.SendMessageToChannelID(SERVER_REPORT_ID, discordMessage);

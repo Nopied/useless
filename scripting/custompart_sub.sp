@@ -468,7 +468,7 @@ public Action CP_OnGetPart(int client, int &prop, int &partIndex)
         partIndex = part;
         Changed = true;
     }
-    if(CP_IsPartActived(client, 29))
+    if(CP_ReplacePartSlot(client, 29, 1))
     {
         Handled = true;
 
@@ -483,7 +483,7 @@ public Action CP_OnGetPart(int client, int &prop, int &partIndex)
         }
         else
         {
-            SDKHooks_TakeDamage(client, client, client, float(-(maxHealth/(5 - partRank)) * 4), DMG_GENERIC, -1);
+            SDKHooks_TakeDamage(client, client, client, float(-(maxHealth/(5 - partRank)) * 12), DMG_GENERIC, -1);
         }
         CP_NoticePart(client, 29);
     }
@@ -502,7 +502,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     if(CP_IsPartActived(client, 39))
     {
-        for(int count=0; count<2; count++)
+        for(int count=0; count<1; count++)
         {
             int slot = CP_FindActiveSlot(client);
             if(slot == -1)
@@ -525,7 +525,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     else if(partIndex == 2) // "체력 강화제"
     {
-        AddToSomeWeapon(client, 26, 50.0);
+        AddToSomeWeapon(client, 26, 70.0);
         AddToSomeWeapon(client, 109, -0.1);
     }
 
@@ -656,6 +656,8 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     }
     else if(partIndex == 31)
     {
+        AddToSlotWeapon(client, 2, 343, 0.2);
+
         float sentryPos[3];
         // float sentryAngle[3];
 
@@ -711,7 +713,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     }
     else if(partIndex == 34)
     {
-        AddToSlotWeapon(client, 2, 264, 0.5);
+        AddToSlotWeapon(client, 2, 264, 0.75);
     }
     else if(partIndex == 36)
     {
@@ -720,7 +722,7 @@ public void CP_OnGetPart_Post(int client, int partIndex)
     }
     else if(partIndex == 37)
     {
-        AddToAllWeapon(client, 106, -0.3);
+        AddToAllWeapon(client, 106, -0.45);
         AddToSomeWeapon(client, 26, -25.0);
     }
 }
@@ -855,8 +857,8 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         else if(partIndex == 2) // "체력 강화제"
         {
 /////////////////////////////////// 복사 북여넣기 하기 좋은거!!
-            RemoveToSomeWeapon(client, 26, -50.0);
-//////////////////////////////////
+            RemoveToSomeWeapon(client, 26, -70.0);
+//////////////////////////////////s
             RemoveToSomeWeapon(client, 109, 0.1);
         }
 
@@ -933,6 +935,10 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
                 AddToSlotWeapon(client, 2, 6, -0.5);
             }
         */
+        else if(partIndex == 31)
+        {
+            RemoveToSlotWeapon(client, 2, 343, -0.2);
+        }
         else if(partIndex == 32)
         {
             RemoveToSlotWeapon(client, 0, 71, -0.5);
@@ -945,7 +951,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         }
         else if(partIndex == 34)
         {
-            RemoveToSlotWeapon(client, 2, 264, -0.5);
+            RemoveToSlotWeapon(client, 2, 264, -0.75);
         }
         else if(partIndex == 36)
         {
@@ -954,7 +960,7 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         }
         else if(partIndex == 37)
         {
-            RemoveToAllWeapon(client, 106, 0.3);
+            RemoveToAllWeapon(client, 106, 0.45);
             RemoveToSomeWeapon(client, 26, 25.0);
         }
     }
@@ -983,8 +989,10 @@ public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageTy
     {
         if(CP_IsPartActived(attacker, 20))
         {
-            blocked = true;
-            TF2_StunPlayer(victim, 3.5, 0.5, TF_STUNFLAGS_SMALLBONK, attacker);
+            // blocked = true;
+            changed = true;
+            damage *= 0.4;
+            TF2_StunPlayer(victim, 7.5, 0.5, TF_STUNFLAGS_SMALLBONK, attacker);
             CP_NoticePart(attacker, 20);
         }
     }
@@ -1039,7 +1047,10 @@ public void TF2_OnConditionAdded(int client, TFCond condition)
 {
     if(condition == TFCond_SwimmingCurse)
     {
-        TF2_AddCondition(client, TFCond_HalloweenKartNoTurn, TFCondDuration_Infinite);
+        if(CP_IsPartActived(client, 34))
+        {
+            TF2_AddCondition(client, TFCond_HalloweenKartNoTurn, TFCondDuration_Infinite);
+        }
     }
 }
 

@@ -84,7 +84,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
-  if(FF2_HasAbility(boss, this_plugin_name, "wolf_deflecter"))
+  if(FF2_HasAbility(boss, this_plugin_name, "rage_painis"))
   {
     // FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_painis", 1, RageSoundPath, sizeof(RageSoundPath));
 

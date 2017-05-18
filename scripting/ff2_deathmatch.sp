@@ -514,11 +514,12 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             TF2_IgnitePlayer(victim, attacker);
         }
 
-        if(damagetype & DMG_BULLET && (TF2_GetPlayerClass(attacker) == TFClass_Sniper || TF2_GetPlayerClass(attacker) == TFClass_Heavy || TF2_GetPlayerClass(attacker) == TFClass_Engineer))
+        if(damagetype & DMG_BULLET && (TF2_GetPlayerClass(attacker) == TFClass_Sniper || TF2_GetPlayerClass(attacker) == TFClass_Engineer))
         {
           changed=true;
           damagetype|=DMG_PREVENT_PHYSICS_FORCE;
-        }
+      }
+
     }
 
     return changed ? Plugin_Changed : Plugin_Continue;

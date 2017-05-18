@@ -36,8 +36,8 @@ public OnPluginStart()
 
 	RegAdminCmd("sm_thirdperson", Command_TpOn, ADMFLAG_GENERIC, "Usage: sm_thirdperson");
 	RegAdminCmd("tp", Command_TpOn, ADMFLAG_GENERIC, "Usage: sm_thirdperson");
-	RegAdminCmd("sm_firstperson", Command_TpOff, ADMFLAG_GENERIC, "Usage: sm_firstperson");
-	RegAdminCmd("fp", Command_TpOff, ADMFLAG_GENERIC, "Usage: sm_firstperson");
+	RegConsoleCmd("sm_firstperson", Command_TpOff, "Usage: sm_firstperson");
+	RegConsoleCmd("fp", Command_TpOff, "Usage: sm_firstperson");
 
 	clientcookie = RegClientCookie("tp_cookie", "", CookieAccess_Private);
 
@@ -258,12 +258,6 @@ public Action:Command_TpOff(client, args)
 {
 	if (!IsClientInGame(client))
 	{
-		return Plugin_Handled;
-	}
-	if (!CheckCommandAccess(client,"sm_thirdperson",0))
-	{
-		ReplyToCommand(client, "[SM] %t.", "No Access");
-
 		return Plugin_Handled;
 	}
 	if (!g_bEnabled)
