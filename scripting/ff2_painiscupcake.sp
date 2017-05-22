@@ -15,7 +15,7 @@ Arg 2=사운드 경로 (먹는 사운드)
 
 Rage_Painis
 Arg 1=사운드 경로
-
+//
 
 */
 
@@ -86,7 +86,7 @@ public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
   if(FF2_HasAbility(boss, this_plugin_name, "rage_painis"))
   {
-    // FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_painis", 1, RageSoundPath, sizeof(RageSoundPath));
+    FF2_GetAbilityArgumentString(boss, this_plugin_name, "rage_painis", 1, RageSoundPath, sizeof(RageSoundPath));
 
 	 if(playingSound)
 	 {
@@ -129,7 +129,7 @@ void PainisRage(int boss)
   TF2_AddCondition(client, TFCond_Ubercharged, abilityDuration);
 
   FF2_SetAbilityDuration(boss, abilityDuration);
-  // playingSound=true;
+  playingSound=true;
 }
 
 stock bool IsValidClient(int client)

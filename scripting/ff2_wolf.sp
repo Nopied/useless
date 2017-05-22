@@ -8,6 +8,7 @@
 #define SOUND_SHIELD "weapons/medi_shield_deploy.wav"
 
 //int PlayerShield[MAXPLAYERS+1];
+//
 
 public Plugin:myinfo=
 {

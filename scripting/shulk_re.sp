@@ -68,7 +68,7 @@ public void OnPluginStart2()
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
 {
-	if(g_flTimeStop > GetGameTime())
+	if(g_flTimeStop > GetGameTime() || g_flTimeStopCooling > GetGameTime())
 	{
 		DisableTimeStop();
 	}

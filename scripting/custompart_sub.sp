@@ -502,12 +502,9 @@ public void CP_OnGetPart_Post(int client, int partIndex)
 
     if(CP_IsPartActived(client, 39))
     {
-        for(int count=0; count<1; count++)
+        int slot;
+        while((slot = CP_FindActiveSlot(client)) != -1)
         {
-            int slot = CP_FindActiveSlot(client);
-            if(slot == -1)
-                break;
-
             CP_SetClientPart(client, slot, partIndex);
             CP_OnGetPart_Post(client, partIndex);
 
@@ -895,6 +892,9 @@ public Action CP_OnSlotClear(int client, int partIndex, bool gotoNextRound)
         {
             RemoveToSlotWeapon(client, 0, 32, -1.0);
             RemoveToSlotWeapon(client, 0, 356, -1.0);
+
+            RemoveToSlotWeapon(client, 0, 162, -2.0);
+            RemoveToSlotWeapon(client, 0, 164, -2.0);
 
             RemoveToSomeWeapon(client, 54, 0.3);
         }

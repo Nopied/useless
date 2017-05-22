@@ -586,7 +586,7 @@ public Action:Timer_Eruption(Handle:hTimer,any:index)
 	}
 	for(new victim=1;victim<=MaxClients;victim++)
 	{
-		if (!IsValidClient(victim) || GetClientTeam(victim)==BossTeam || IsPlayerAlive(victim))
+		if (!IsValidClient(victim) || GetClientTeam(victim)==BossTeam || !IsPlayerAlive(victim))
 			continue;
 
 		GetEntPropVector(victim, Prop_Send, "m_vecOrigin", position2);

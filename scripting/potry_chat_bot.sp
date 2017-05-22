@@ -73,6 +73,10 @@ public void OnMapStart()
         GetCurrentMap(map, sizeof(map));
         Format(discordMessage, sizeof(discordMessage), "현재 맵: %s", map);
 
+        gBot.StopListening();
+
+        gBot.GetGuilds(GuildList, GuildListAll);
+
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 }
@@ -116,6 +120,64 @@ public SourceBans_OnBanPlayer(int client, int target, int time, char[] reason)
     }
 }
 
+public void GuildList(DiscordBot bot, char[] id, char[] name, char[] icon, bool owner, int permissions, any data) {
+	int client = GetClientOfUserId(data);
+	if(client > 0 && IsClientConnected(client) && IsClientInGame(client)) {
+		// PrintToConsole(client, "Guild [%s] [%s] [%s] [%i] [%i]", id, name, icon, owner, permissions);
+		gBot.GetGuildChannels(id, ChannelList, INVALID_FUNCTION, data);
+	}
+}
+
+public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, any data) {
+
+		char name[32];
+		char id[32];
+		Channel.GetID(id, sizeof(id));
+		Channel.GetName(name, sizeof(name));
+		// PrintToConsole(client, "Channel for Guild(%s) - [%s] [%s]", guild, id, name);
+
+		if(StrEqual(id, SERVER_CHAT_ID))
+        {
+			//Send a message with all ways
+			//gBot.SendMessage(Channel, "Sending message with DiscordBot.SendMessage");
+			//gBot.SendMessageToChannelID(id, "Sending message with DiscordBot.SendMessageToChannelID");
+			//Channel.SendMessage(gBot, "Sending message with DiscordChannel.SendMessage");
+
+			gBot.StartListeningToChannel(Channel, OnMessage);
+		}
+}
+
+public void GuildListAll(DiscordBot bot, ArrayList Alid, ArrayList Alname, ArrayList Alicon, ArrayList Alowner, ArrayList Alpermissions, any data) {
+
+		char id[32];
+		char name[64];
+		char icon[128];
+		bool owner;
+		int permissions;
+
+		// PrintToConsole(client, "Dumping Guilds from arraylist");
+
+		for(int i = 0; i < Alid.Length; i++) {
+			GetArrayString(Alid, i, id, sizeof(id));
+			GetArrayString(Alname, i, name, sizeof(name));
+			GetArrayString(Alicon, i, icon, sizeof(icon));
+			owner = GetArrayCell(Alowner, i);
+			permissions = GetArrayCell(Alpermissions, i);
+			// PrintToConsole(client, "Guild: [%s] [%s] [%s] [%i] [%i]", id, name, icon, owner, permissions);
+		}
+}
+
+public void OnMessage(DiscordBot Bot, DiscordChannel Channel, DiscordMessage message) {
+
+    char messageString[120];
+    message.GetContent(messageString, sizeof(messageString));
+
+	PrintToServer("Message from discord: %s", messageString);
+
+	if(StrEqual(messageString, "Ping")) {
+		gBot.SendMessage(Channel, "Pong!");
+	}
+}
 /*
 public void GuildList(DiscordBot bot, char[] id, char[] name, char[] icon, bool owner, int permissions, any data)
 {

@@ -349,6 +349,7 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 		int rocket = SpawnRocket(client, clientEyePos, clientEyeAngles, angVector, FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 6, 90.5), true);
 		if(IsValidEntity(rocket))
 		{
+			SetEntPropFloat(rocket, Prop_Send, "m_flModelScale", 5.0);
 			int weapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 			TF2Attrib_SetByDefIndex(weapon, 521, 1.0);
 			TF2Attrib_SetByDefIndex(weapon, 642, 0.0); // 99
