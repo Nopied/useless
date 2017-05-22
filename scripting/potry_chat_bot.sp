@@ -50,6 +50,7 @@ public void OnAllPluginsLoaded()
     gBot = new DiscordBot(BOT_TOKEN);
     if(gBot != INVALID_HANDLE)
     {
+        // gBot.GetGuilds(GuildList, GuildListAll);
         //
         // PrintToChatAll("Create a Bot"); //
 
@@ -75,7 +76,7 @@ public void OnMapStart()
 
         gBot.StopListening();
 
-        gBot.GetGuilds(GuildList, GuildListAll);
+        // gBot.GetGuilds(GuildList, GuildListAll);
 
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
@@ -121,11 +122,8 @@ public SourceBans_OnBanPlayer(int client, int target, int time, char[] reason)
 }
 
 public void GuildList(DiscordBot bot, char[] id, char[] name, char[] icon, bool owner, int permissions, any data) {
-	int client = GetClientOfUserId(data);
-	if(client > 0 && IsClientConnected(client) && IsClientInGame(client)) {
 		// PrintToConsole(client, "Guild [%s] [%s] [%s] [%i] [%i]", id, name, icon, owner, permissions);
 		gBot.GetGuildChannels(id, ChannelList, INVALID_FUNCTION, data);
-	}
 }
 
 public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, any data) {
@@ -170,13 +168,23 @@ public void GuildListAll(DiscordBot bot, ArrayList Alid, ArrayList Alname, Array
 public void OnMessage(DiscordBot Bot, DiscordChannel Channel, DiscordMessage message) {
 
     char messageString[120];
+    char userName[60];
     message.GetContent(messageString, sizeof(messageString));
 
-	PrintToServer("Message from discord: %s", messageString);
+    DiscordUser user = message.GetAuthor();
+    user.GetUsername(userName, sizeof(userName));
+	// PrintToServer("Message from discord: %s", messageString);
+
+    if(user.IsBot())
+        return;
 
 	if(StrEqual(messageString, "Ping")) {
 		gBot.SendMessage(Channel, "Pong!");
 	}
+    else
+    {
+        CPrintToChatAll("{discord}%s{default}: %s", userName, messageString);
+    }
 }
 /*
 public void GuildList(DiscordBot bot, char[] id, char[] name, char[] icon, bool owner, int permissions, any data)
