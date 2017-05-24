@@ -10,16 +10,14 @@
 #define PLUGIN_DESCRIPTION "Yup. Yup."
 #define PLUGIN_VERSION "00"
 
-#define BOT_TOKEN "MzEwMzQ3MDk5MDAwNjY4MTYw.C_HVNg.ucjrWlpzyMNzlI53OLxPuohL968"
 #define SERVER_CHAT_ID      "309330201421283328"
 #define SERVER_REPORT_ID    "309330342500761600"
 #define SERVER_SUGGESTION_ID    "311741414348161034"
 
 DiscordBot gBot;
-// DiscordChannel gServerChat;
-// DiscordChannel gServerReport;
 
-// ArrayList chatArray;
+Handle TokenCvar;
+char BOT_TOKEN[120];
 
 public Plugin myinfo = {
   name=PLUGIN_NAME,
@@ -45,8 +43,15 @@ bool readyReport[MAXPLAYERS+1];
 */
 // int chatEngineTime;
 
+public void OnPluginStart()
+{
+    TokenCvar = CreateConVar("discord_bot_token", "", "Type DiscordBot Token.");
+}
+
 public void OnAllPluginsLoaded()
 {
+    GetConVarString(TokenCvar, BOT_TOKEN, sizeof(BOT_TOKEN));
+
     gBot = new DiscordBot(BOT_TOKEN);
     if(gBot != INVALID_HANDLE)
     {
@@ -137,7 +142,7 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
 		if(StrEqual(id, SERVER_CHAT_ID))
         {
 			//Send a message with all ways
-			//gBot.SendMessage(Channel, "Sending message with DiscordBot.SendMessage");
+			// gBot.SendMessage(Channel, "Sending message with DiscordBot.SendMessage");
 			//gBot.SendMessageToChannelID(id, "Sending message with DiscordBot.SendMessageToChannelID");
 			//Channel.SendMessage(gBot, "Sending message with DiscordChannel.SendMessage");
 

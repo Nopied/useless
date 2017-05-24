@@ -15,14 +15,12 @@ typedef DiscordGuildChannelsRetrieve = function void (DiscordBot bot, char[] gui
 
 typedef DiscordGuildChannelsRetrieveAll = function void (DiscordBot bot, char[] guild, ArrayList Channels, any data);
 
-/** 
+/**
  * Called when message is received
  * bot/channel/message are all destroyed after callback is sent.
  * You can clone it if need to keep.
  */
-typeset OnChannelMessage { 
-	function void(DiscordBot bot, DiscordChannel channel, DiscordMessage message);
-};
+typedef OnChannelMessage = function void (DiscordBot bot, DiscordChannel channel, DiscordMessage message);
 
 typedef OnGetReactions = function void (DiscordBot bot, ArrayList Users, char[] channelID, const char[] messageID, const char[] emoji, any data);
 
@@ -44,22 +42,22 @@ typedef OnGetMembers = function void(DiscordBot bot, char[] guild, Handle hMembe
 //It's a JSON Handle with the above info TODO stop using natives!
 methodmap DiscordUser < Handle {
 	public native void GetID(char[] buffer, int maxlength);
-	
+
 	public native void GetUsername(char[] buffer, int maxlength);
-	
+
 	public native void GetDiscriminator(char[] buffer, int maxlength);
 	public int GetDiscriminatorInt() {
 		char buffer[16];
 		this.GetDiscriminator(buffer, sizeof(buffer));
 		return StringToInt(buffer);
 	}
-	
+
 	public native void GetAvatar(char[] buffer, int maxlength);
-	
+
 	public native bool IsVerified();
-	
+
 	public native void GetEmail(char[] buffer, int maxlength);
-	
+
 	public native bool IsBot();
 }
 
@@ -69,13 +67,13 @@ methodmap DiscordUser < Handle {
  */
 methodmap DiscordMessage < Handle {
 	public native void GetID(char[] buffer, int maxlength);
-	
+
 	public native bool IsPinned();
-	
+
 	public native DiscordUser GetAuthor();
-	
+
 	public native void GetContent(char[] buffer, int maxlength);
-	
+
 	public native void GetChannelID(char[] buffer, int maxlength);
 }
 
