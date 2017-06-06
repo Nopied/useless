@@ -16,7 +16,8 @@
 
 DiscordBot gBot;
 
-Handle TokenCvar;
+Handle TokenKv = INVALID_HANDLE;
+// Handle TokenCvar;
 char BOT_TOKEN[120];
 
 public Plugin myinfo = {
@@ -45,12 +46,47 @@ bool readyReport[MAXPLAYERS+1];
 
 public void OnPluginStart()
 {
-    TokenCvar = CreateConVar("discord_bot_token", "", "Type DiscordBot Token.");
+    // TokenCvar = CreateConVar("discord_bot_token", "", "Type DiscordBot Token.");
+
+    CheckConfigFile();
+}
+
+void CheckConfigFile()
+{
+    if(TokenKv != INVALID_HANDLE)
+    {
+      CloseHandle(TokenKv);
+      TokenKv = INVALID_HANDLE;
+    }
+
+    char config[PLATFORM_MAX_PATH];
+    char temp[PLATFORM_MAX_PATH];
+    char item[20];
+    char keyName[60];
+    // int count;
+    BuildPath(Path_SM, config, sizeof(config), "configs/discordbot_token.cfg");
+
+    if(!FileExists(config))
+    {
+        SetFailState("[CP] NO CFG FILE! (configs/discordbot_token.cfg)");
+        return;
+    }
+
+    TokenKv = CreateKeyValues("discord");
+
+    if(!FileToKeyValues(TokenKv, config))
+    {
+      SetFailState("[CP] configs/discordbot_token.cfg is broken?!");
+    }
+    KvRewind(TokenKv);
+
+    KvGetString(TokenKv, "bot_token", BOT_TOKEN, sizeof(BOT_TOKEN));
 }
 
 public void OnAllPluginsLoaded()
 {
-    GetConVarString(TokenCvar, BOT_TOKEN, sizeof(BOT_TOKEN));
+    // GetConVarString(TokenCvar, BOT_TOKEN, sizeof(BOT_TOKEN));
+    LogMessage("DiscordBot Token: %s", BOT_TOKEN);
 
     gBot = new DiscordBot(BOT_TOKEN);
     if(gBot != INVALID_HANDLE)
@@ -72,6 +108,7 @@ public void OnAllPluginsLoaded()
 
 public void OnMapStart()
 {
+
     if(gBot != INVALID_HANDLE)
     {
         char map[50];
