@@ -1,23 +1,30 @@
-#include <sourcemod>
+#include <sourcemod> //////////
 #include <discord>
 #include <morecolors>
 #include <sourcebans>
 #include <sdktools>
 #include <sdkhooks>
+#include <SteamWorks>
+#include <smjansson>
 
 #define PLUGIN_NAME "POTRY DiscordBot"
 #define PLUGIN_AUTHOR "Nopied◎"
 #define PLUGIN_DESCRIPTION "Yup. Yup."
 #define PLUGIN_VERSION "00"
 
-#define SERVER_CHAT_ID      "309330201421283328"
-#define SERVER_REPORT_ID    "309330342500761600"
-#define SERVER_SUGGESTION_ID    "311741414348161034"
+char SERVER_CHAT_ID[40];
+char SERVER_REPORT_ID[40];
+char SERVER_SUGGESTION_ID[40];
+char BOT_LOG_ID[40];
+char STEAM_API_KEY[60];
+char SERVER_NAME[100];
+
+char g_strSteamUserAvatar[MAXPLAYERS+1][200];
 
 DiscordBot gBot;
+DiscordChannel gServerChat;
 
 Handle TokenKv = INVALID_HANDLE;
-// Handle TokenCvar;
 char BOT_TOKEN[120];
 
 public Plugin myinfo = {
@@ -27,27 +34,8 @@ public Plugin myinfo = {
   version=PLUGIN_VERSION,
 };
 
-
-/*
-enum ReportType
-{
-    Report_None=0,
-    Report_Suggestion,
-    Report_UseMapExploit,
-    Report_ChatAttack,
-    Report_Another
-};
-
-ReportType PrepareReport[MAXPLAYERS+1];
-int ReportTarget[MAXPLAYERS+1];
-bool readyReport[MAXPLAYERS+1];
-*/
-// int chatEngineTime;
-
 public void OnPluginStart()
 {
-    // TokenCvar = CreateConVar("discord_bot_token", "", "Type DiscordBot Token.");
-
     CheckConfigFile();
 }
 
@@ -81,26 +69,21 @@ void CheckConfigFile()
     KvRewind(TokenKv);
 
     KvGetString(TokenKv, "bot_token", BOT_TOKEN, sizeof(BOT_TOKEN));
+    KvGetString(TokenKv, "server_chat_id", SERVER_CHAT_ID, sizeof(SERVER_CHAT_ID));
+    KvGetString(TokenKv, "server_report_id", SERVER_REPORT_ID, sizeof(SERVER_REPORT_ID));
+    KvGetString(TokenKv, "server_suggestion_id", SERVER_SUGGESTION_ID, sizeof(SERVER_SUGGESTION_ID)); // STEAM_API_KEY
+    KvGetString(TokenKv, "steam_api_key", STEAM_API_KEY, sizeof(STEAM_API_KEY));
+    KvGetString(TokenKv, "server_name", SERVER_NAME, sizeof(SERVER_NAME));
+    KvGetString(TokenKv, "bot_log_id", BOT_LOG_ID, sizeof(BOT_LOG_ID));
 }
 
 public void OnAllPluginsLoaded()
 {
-    // GetConVarString(TokenCvar, BOT_TOKEN, sizeof(BOT_TOKEN));
-    LogMessage("DiscordBot Token: %s", BOT_TOKEN);
-
     gBot = new DiscordBot(BOT_TOKEN);
     if(gBot != INVALID_HANDLE)
     {
-        // gBot.GetGuilds(GuildList, GuildListAll);
-        //
-        // PrintToChatAll("Create a Bot"); //
-
-        // gBot.MessageCheckInterval = 3.05;
-
-    	// gBot.GetGuilds(GuildList);
-        // gBot.StartListeningToChannel(gServerChat, OnMessage);
+    	gBot.GetGuilds(GuildList);
     }
-    // chatArray = new ArrayList();
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
@@ -108,7 +91,6 @@ public void OnAllPluginsLoaded()
 
 public void OnMapStart()
 {
-
     if(gBot != INVALID_HANDLE)
     {
         char map[50];
@@ -118,8 +100,6 @@ public void OnMapStart()
 
         gBot.StopListening();
 
-        // gBot.GetGuilds(GuildList, GuildListAll);
-
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 }
@@ -128,6 +108,15 @@ public void OnClientPostAdminCheck(int client)
 {
     if(gBot != INVALID_HANDLE && !IsFakeClient(client))
     {
+        g_strSteamUserAvatar[client] = "";
+
+        char steamAccount[60];
+        char steamAvatarUrl[200];
+
+        GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+        Format(steamAvatarUrl, sizeof(steamAvatarUrl), "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s", STEAM_API_KEY, steamAccount);
+        PrepareRequest(steamAvatarUrl);
+
         char discordMessage[100];
         Format(discordMessage, sizeof(discordMessage), "%N님이 서버에 입장하셨습니다.", client);
 
@@ -139,6 +128,8 @@ public void OnClientDisconnect(int client)
 {
     if(gBot != INVALID_HANDLE && !IsFakeClient(client))
     {
+        g_strSteamUserAvatar[client] = "";
+
         char discordMessage[100];
         Format(discordMessage, sizeof(discordMessage), "%N님이 서버에서 퇴장하셨습니다.", client);
 
@@ -163,9 +154,9 @@ public SourceBans_OnBanPlayer(int client, int target, int time, char[] reason)
     }
 }
 
-public void GuildList(DiscordBot bot, char[] id, char[] name, char[] icon, bool owner, int permissions, any data) {
-		// PrintToConsole(client, "Guild [%s] [%s] [%s] [%i] [%i]", id, name, icon, owner, permissions);
-		gBot.GetGuildChannels(id, ChannelList, INVALID_FUNCTION, data);
+public void GuildList(DiscordBot bot, char[] id, char[] name, char[] icon, bool owner, int permissions, any data)
+{
+	gBot.GetGuildChannels(id, ChannelList, INVALID_FUNCTION, data);
 }
 
 public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, any data) {
@@ -174,7 +165,6 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
 		char id[32];
 		Channel.GetID(id, sizeof(id));
 		Channel.GetName(name, sizeof(name));
-		// PrintToConsole(client, "Channel for Guild(%s) - [%s] [%s]", guild, id, name);
 
 		if(StrEqual(id, SERVER_CHAT_ID))
         {
@@ -183,6 +173,7 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
 			//gBot.SendMessageToChannelID(id, "Sending message with DiscordBot.SendMessageToChannelID");
 			//Channel.SendMessage(gBot, "Sending message with DiscordChannel.SendMessage");
 
+            gServerChat = view_as<DiscordChannel>(CloneHandle(Channel));
 			gBot.StartListeningToChannel(Channel, OnMessage);
 		}
 }
@@ -228,37 +219,7 @@ public void OnMessage(DiscordBot Bot, DiscordChannel Channel, DiscordMessage mes
         CPrintToChatAll("{discord}%s{default}: %s", userName, messageString);
     }
 }
-/*
-public void GuildList(DiscordBot bot, char[] id, char[] name, char[] icon, bool owner, int permissions, any data)
-{
-    gBot.GetGuildChannels(id, ChannelList);
-}
 
-public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, any data)
-{
-
-		char name[32];
-		char id[32];
-		Channel.GetID(id, sizeof(id));
-		Channel.GetName(name, sizeof(name));
-		// PrintToConsole(client, "Channel for Guild(%s) - [%s] [%s]", guild, id, name);
-
-		if(Channel.IsText)
-        {
-            if(StrEqual(id, SERVER_CHAT_ID))
-            {
-                gServerChat = view_as<DiscordChannel>(CloneHandle(Channel));
-                //Send a discordMessage with all ways
-    			// gBot.SendMessage(Channel, "Sending discordMessage with DiscordBot.SendMessage");
-                // PrintToServer("Find Channel %s", name);
-    			//gBot.SendMessageToChannelID(id, "Sending discordMessage with DiscordBot.SendMessageToChannelID");
-    			//Channel.SendMessage(gBot, "Sending discordMessage with DiscordChannel.SendMessage");
-
-    			// gBot.StartListeningToChannel(Channel, OnMessage);
-            }
-		}
-}
-*/
 public Action Listener_Say(int client, const char[] command, int argc)
 {
 	if(!IsValidClient(client))	return Plugin_Continue;
@@ -353,27 +314,39 @@ public Action Listener_Say(int client, const char[] command, int argc)
         return Plugin_Handled;
     }
 
-    // if(gBot != INVALID_HANDLE && chatEngineTime < GetTime())
-    /*
-    if(readyReport[client])
-    {
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
-        readyReport[client] = false;
-        return Plugin_Handled;
-    }
-    */
-
     if(!handleChat)
     {
+        char discordMessage[400];
+        char serverName[100];
+        char steamUrl[200];
+        char debugUrl[350];
         char steamAccount[60];
-        char discordMessage[300];
 
-        GetClientAuthId(client, AuthId_Steam2, steamAccount, sizeof(steamAccount));
-        Format(discordMessage, sizeof(discordMessage), "- %N [%s]: %s", client, steamAccount, chat[1]);
+        GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+        Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", client, steamAccount);
 
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
 
-        // chatEngineTime = GetTime()+1;
+        // Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
+        Format(discordMessage, sizeof(discordMessage), " - %N (%s):\n  %s", client, steamAccount, chat[1]);
+
+        Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
+
+
+
+    	MessageEmbed Embed = new MessageEmbed();
+
+    	Embed.SetColor("3978097");
+        Embed.SetAuthorData(discordName, g_strSteamUserAvatar[client]);
+    	Embed.SetTitle("");
+        Embed.SetURL(steamUrl);
+        Embed.SetDescription("");
+        Embed.SetData("type", "rich")
+        Embed.AddField(SERVER_NAME, chat[1], true);
+
+        gBot.SendMessageEmbed(gServerChat, Embed);
+
+        gBot.SendMessageToChannelID(BOT_LOG_ID, debugUrl);
+        gBot.SendMessage(gServerChat, discordMessage);
     }
 
 
@@ -387,7 +360,6 @@ void ReportToDiscord(int client, int target, char[] reason)
     char steamAccount[60];
     char targetSteamAccount[60];
     char mapName[80];
-    // char dayString[80];
     char timeString[60];
     float targetPos[3];
     GetClientAbsOrigin(target, targetPos);
@@ -415,6 +387,102 @@ void ReportToDiscord(int client, int target, char[] reason)
     gBot.SendMessageToChannelID(SERVER_REPORT_ID, discordMessage);
 }
 
+stock Handle PrepareRequest(char[] url, EHTTPMethod method=k_EHTTPMethodGET, Handle hJson=null)
+{
+	static char stringJson[16384];
+	stringJson[0] = '\0';
+	if(hJson != null) {
+		json_dump(hJson, stringJson, sizeof(stringJson), 0, true);
+	}
+
+	Handle request = SteamWorks_CreateHTTPRequest(method, url);
+	if(request == null) {
+		return null;
+	}
+
+	SteamWorks_SetHTTPRequestRawPostBody(request, "application/json; charset=UTF-8", stringJson, strlen(stringJson));
+
+	SteamWorks_SetHTTPRequestNetworkActivityTimeout(request, 30);
+
+
+	SteamWorks_SetHTTPCallbacks(request, _, _, HTTPDataReceive);
+	if(hJson != null) delete hJson;
+    SteamWorks_SendHTTPRequest(request);
+
+
+	return request;
+}
+/*
+public int HTTPCompleted(Handle request, bool failure, bool requestSuccessful, EHTTPStatusCode statuscode, any data, any data2) {
+}
+*/
+
+public int HTTPDataReceive(Handle request, bool failure, int offset, int statuscode, any dp)
+{ // TODO: 최적화
+    if(!failure)
+    {
+        char playerName[80];
+        char IsplayerName[80];
+
+        JsonObjectGetString(dp, "personaname", playerName, sizeof(playerName));
+
+        for(int client=1; client<=MaxClients; client++)
+        {
+            if(IsClientInGame(client) && !IsFakeClient(client))
+            {
+                GetClientName(client, IsplayerName, sizeof(IsplayerName));
+
+                if(StrEqual(playerName, IsplayerName))
+                {
+                    JsonObjectGetString(dp, "avatarfull", g_strSteamUserAvatar[client], sizeof(g_strSteamUserAvatar[]));
+                }
+            }
+        }
+    }
+
+    delete view_as<Handle>(dp);
+	delete request;
+}
+/*
+public int HeadersReceived(Handle request, bool failure, any data, any datapack) {
+	DataPack dp = view_as<DataPack>(datapack);
+	if(failure) {
+		delete dp;
+		return;
+	}
+
+	char xRateLimit[16];
+	char xRateLeft[16];
+	char xRateReset[32];
+
+	bool exists = false;
+
+	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Limit", xRateLimit, sizeof(xRateLimit));
+	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Remaining", xRateLeft, sizeof(xRateLeft));
+	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Reset", xRateReset, sizeof(xRateReset));
+
+	//Get url
+	char route[128];
+	ResetPack(dp);
+	ReadPackString(dp, route, sizeof(route));
+	delete dp;
+
+	int reset = StringToInt(xRateReset);
+	if(reset > GetTime() + 3) {
+		reset = GetTime() + 3;
+	}
+
+	if(exists) {
+		SetTrieValue(hRateReset, route, reset);
+		SetTrieValue(hRateLeft, route, StringToInt(xRateLeft));
+		SetTrieValue(hRateLimit, route, StringToInt(xRateLimit));
+	}else {
+		SetTrieValue(hRateReset, route, -1);
+		SetTrieValue(hRateLeft, route, -1);
+		SetTrieValue(hRateLimit, route, -1);
+	}
+}
+*/
 bool ResizeTraceFailed;
 
 stock void constrainDistance(const float[] startPoint, float[] endPoint, float distance, float maxDistance)

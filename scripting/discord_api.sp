@@ -1,4 +1,4 @@
-#pragma semicolon 1 //
+#pragma semicolon 1 ///////////
 
 #define PLUGIN_VERSION "0.1.94"
 
@@ -37,6 +37,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	//SendMessage.sp
 	CreateNative("DiscordBot.SendMessage", Native_DiscordBot_SendMessage);
 	CreateNative("DiscordBot.SendMessageToChannelID", Native_DiscordBot_SendMessageToChannel);
+	CreateNative("DiscordBot.SendMessageEmbed", Native_DiscordBot_SendMessageEmbed);
 	CreateNative("DiscordChannel.SendMessage", Native_DiscordChannel_SendMessage);
 
 	//ListenToChannel.sp
