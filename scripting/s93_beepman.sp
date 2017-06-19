@@ -267,7 +267,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			case 23: GetRandomInt(1,2)==1 ? (buttons &= IN_BULLRUSH) : (buttons &= ~IN_BULLRUSH);
 			case 24: GetRandomInt(1,2)==1 ? (buttons &= IN_GRENADE1) : (buttons &= ~IN_GRENADE1);
 			case 25: GetRandomInt(1,2)==1 ? (buttons &= IN_GRENADE2) : (buttons &= ~IN_GRENADE2);
-			case 26: return Plugin_Handled;
+			case 26: return Plugin_Changed;
 			case 27: return Plugin_Continue;
 		}
 		switch(GetRandomInt(1,4)) // More fake lag rage
@@ -275,7 +275,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			case 1: return Plugin_Handled;
 			case 2: return Plugin_Continue;
 			case 3: return Plugin_Handled;
-			case 4: return Plugin_Continue;
+			case 4: return Plugin_Handled;
 		}
 	}
 	return Plugin_Continue;

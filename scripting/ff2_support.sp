@@ -64,24 +64,217 @@ bool IsEntityCanReflect[MAX_EDICTS];
 bool AllLastmanStanding;
 bool AttackAndDef;
 bool enableVagineer = false;
+// bool enableIceGround = false;
 int g_nEntityBounce[MAX_EDICTS];
+
+#define MODEL_ICEBLOCK  "models/custom/freezetag/iceshard.mdl"        // Ice Model
+
+#define SOUND_FREEZE	"physics/glass/glass_impact_bullet4.wav"      // freeze sound
+
+#define SOUND_FREEZE1	"physics/glass/glass_impact_bullet1.wav"      // unfreeze sounds
+#define SOUND_FREEZE2	"physics/glass/glass_impact_bullet2.wav"
+#define SOUND_FREEZE3	"physics/glass/glass_impact_bullet3.wav"
+
+int g_entIceBlock[MAXPLAYERS+1];
+float g_flIceDuration[MAXPLAYERS+1];
 
 public void OnPluginStart2()
 {
 	HookEvent("teamplay_round_start", OnRoundStart_Pre);
+	HookEvent("teamplay_round_win", OnRoundEnd);
 
 	HookEvent("player_spawn", OnPlayerSpawn);
-
 	HookEvent("player_death", OnPlayerDeath);
 
-	PrecacheGeneric(SPRITE, true);
+	PrecacheThing();
 }
+
+public void OnMapStart()
+{
+	PrecacheThing();
+}
+
+void PrecacheThing()
+{
+	PrecacheGeneric(SPRITE, true);
+
+	PrecacheSound(SOUND_FREEZE, true);
+	PrecacheSound(SOUND_FREEZE1, true);
+	PrecacheSound(SOUND_FREEZE2, true);
+	PrecacheSound(SOUND_FREEZE3, true);
+
+}
+
+public Action OnRoundEnd(Handle event, const char[] name, bool dontBroadcast)
+{
+	for(int client=1; client<=MaxClients; client++)
+	{
+		if(g_flIceDuration[client] <= GetGameTime())
+		{
+			TF2_RemoveCondition(client, TFCond_HalloweenKartNoTurn);
+		}
+
+		g_flIceDuration[client] = -1.0;
+	}
+}
+
+public Action OnPlayerHurt(Handle event, const char[] name, bool dontBroadcast)
+{
+	int mainboss = FF2_GetBossIndex(0);
+	new client=GetClientOfUserId(GetEventInt(event, "userid"));
+	new attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
+	new damage=GetEventInt(event, "damageamount");
+
+	new clientHp = GetEntProp(client, Prop_Send, "m_iHealth");
+
+	if(FF2_GetBossIndex(client) != -1)
+	{
+		return Plugin_Continue;
+	}
+
+	if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_snow_storm_passive"))
+	{
+		if(clientHp - damage < 1)
+		{
+			FrezzeClient(client, FF2_GetAbilityArgumentFloat(mainboss, this_plugin_name, "ff2_snow_storm_passive", 1, 300.0));
+			SetEventInt(event, "damageamount", 0);
+			return Plugin_Changed;
+		}
+	}
+
+
+	return Plugin_Continue;
+}
+
+public void OnGameFrame()
+{
+	if(FF2_GetRoundState() != 1)	return;
+
+	int mainboss = FF2_GetBossIndex(0);
+	bool snowPassive = FF2_HasAbility(mainboss, this_plugin_name, "ff2_snow_storm_passive");
+
+	for(int client=1; client<=MaxClients; client++)
+	{
+		if(!IsClientInGame(client)) continue;
+		if(!IsPlayerAlive(client)) continue;
+
+		if(snowPassive && (GetGameTime() / 1.0) <= 0.0)
+		{
+			SDKHooks_TakeDamage(client, 0, 0, 1.0, DMG_SLASH, -1);
+		}
+
+		if(g_flIceDuration[client] > GetGameTime())
+		{
+			int fireEnt = -1;
+			float clientPos[3];
+			float fireOrigin[3];
+
+			GetClientAbsOrigin(client, clientPos);
+
+			while((fireEnt = FindEntityByClassname(fireEnt, "tf_flame")))
+			{
+				int Owner = GetEntPropEnt(fireEnt, Prop_Data, "m_hOwnerEntity");
+				if(IsValidEdict(Owner))
+				{
+					GetEntPropVector(fireEnt, Prop_Send, "m_vecOrigin", fireOrigin);
+
+					if(GetVectorDistance(clientPos, fireOrigin) <= 70.0)
+					{
+						g_flIceDuration[client] -= 0.1;
+					}
+				}
+			}
+
+			for(int target=1; target<=MaxClients; target++)
+			{
+				float targetPos[3];
+				GetClientAbsOrigin(target, targetPos);
+				if(IsClientInGame(target) && IsPlayerAlive(target))
+				{
+					if(GetVectorDistance(clientPos, fireOrigin) <= 70.0)
+					{
+						g_flIceDuration[client] -= 0.01;
+					}
+				}
+			}
+
+			PrintCenterText(client, "얼어붙었습니다! 녹을 때까지: %.1f초", GetGameTime() - g_flIceDuration[client]);
+		}
+
+		if(g_flIceDuration[client] <= GetGameTime())
+		{
+			int ice1 = EntRefToEntIndex(g_entIceBlock[client]);
+		    if (ice1 != INVALID_ENT_REFERENCE)                                   // Kill the old one if it somehow exists (admin slay frozen player or somesuch nonsense)
+			{
+				AcceptEntityInput(ice1, "Kill");
+				g_entIceBlock[client] = INVALID_ENT_REFERENCE;                  // Just incase prop creation somehow fails, it will still take 1 frame for the old one to die
+			}
+
+			TF2_RemoveCondition(client, TFCond_HalloweenKartNoTurn);
+		}
+
+	}
+}
+
+stock int FrezzeClient(int client, float time)
+{
+    new ice1 = EntRefToEntIndex(g_entIceBlock[client]);
+    if (ice1 != INVALID_ENT_REFERENCE)                                   // Kill the old one if it somehow exists (admin slay frozen player or somesuch nonsense)
+	{
+		AcceptEntityInput(ice1, "Kill");
+		g_entIceBlock[client] = INVALID_ENT_REFERENCE;                  // Just incase prop creation somehow fails, it will still take 1 frame for the old one to die
+	}
+
+	ice1 = CreateEntityByName("prop_dynamic");
+	if ( ice1 != -1 )
+	{
+		decl Float:pos[3];
+		decl Float:angle[3];
+
+		GetClientAbsOrigin(client, pos);
+		GetClientAbsAngles(client, angle);
+		                            // Spawn the ice block with the player's angle, so they won't all look the same
+        angle[0] = GetRandomFloat(-5.0,5.0);                          // Purge eye position data, generate random variance
+    	angle[2] = GetRandomFloat(-5.0,5.0);
+
+    	DispatchKeyValueVector(ice1, "origin", pos);
+        DispatchKeyValueVector(ice1, "angles", angle);
+
+        decl String:Buffer[32];
+		Format(Buffer, 32, "%i%i", client, time);
+        DispatchKeyValue(ice1, "targetname", Buffer);                 // name the prop ent-time, so we can parent.
+
+        DispatchKeyValue(ice1, "model", MODEL_ICEBLOCK);
+		DispatchKeyValue(ice1, "solid", "0");
+		DispatchKeyValue(ice1, "disableshadows", "1");
+		if(view_as<TFTeam>(GetClientTeam(client)) == TFTeam_Blue)
+		{
+			DispatchKeyValue(ice1, "skin", "1");
+
+		}
+		DispatchSpawn(ice1);
+		ActivateEntity(ice1);
+		SetVariantString("idle");
+		AcceptEntityInput(ice1, "SetAnimation", -1, -1, 0);
+		AcceptEntityInput(ice1, "TurnOn");
+
+		TF2_AddCondition(client, TFCond_HalloweenKartNoTurn, TFCondDuration_Infinite);
+
+        g_entIceBlock[client] = EntIndexToEntRef(ice1);                  // Preserve, for later
+		g_flIceDuration[client] = GetGameTime() + time;
+	}
+
+	return ice1;
+}
+
+
 
 public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 {
     CreateTimer(10.4, OnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
 
 /*
+
 	for(int client = 1; client<=MaxClients; client++)
 	{
 		int viewentity = EntRefToEntIndex(entSpriteRef[client]);
@@ -93,6 +286,7 @@ public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 			AcceptEntityInput(viewentity, "kill");
 		}
 	}
+
 */
 
 }
@@ -103,6 +297,14 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 	if(FF2_GetRoundState() != 1 || !IsValidClient(client))	return Plugin_Continue;
 
+	g_flIceDuration[client] = -1.0;
+
+	int ice = EntRefToEntIndex(g_entIceBlock[client]);
+    if (ice != INVALID_ENT_REFERENCE)
+	{
+		AcceptEntityInput(ice, "Kill");
+		g_entIceBlock[client] = INVALID_ENT_REFERENCE;
+	}
 
 	if(enableVagineer && entSpriteRef[client] == -1)
 	{
@@ -116,7 +318,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 		}
 	}
 
-
+	return Plugin_Continue;
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -125,6 +327,15 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
 
 	if(!IsValidClient(client))	return Plugin_Continue;
+
+	g_flIceDuration[client] = -1.0;
+
+	int ice = EntRefToEntIndex(g_entIceBlock[client]);
+    if (ice != INVALID_ENT_REFERENCE)
+	{
+		AcceptEntityInput(ice, "Kill");
+		g_entIceBlock[client] = INVALID_ENT_REFERENCE;
+	}
 
 	int viewentity = EntRefToEntIndex(entSpriteRef[client]);
 	if(IsValidEntity(viewentity))
@@ -158,6 +369,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 
 public void OnClientDisconnect(int client)
 {
+	g_flIceDuration[client] = -1.0;
 
 	if(entSpriteRef[client] != -1)
 	{
@@ -392,7 +604,7 @@ void CreateStone(int boss)
 		int prop = CreateEntityByName("prop_physics_override");
 		if(IsValidEntity(prop))
 		{
-			Debug("%i", prop);
+			// Debug("%i", prop);
 			SetEntityModel(prop, strModelPath);
 			SetEntityMoveType(prop, MOVETYPE_VPHYSICS);
 			SetEntProp(prop, Prop_Send, "m_CollisionGroup", 5);
@@ -571,6 +783,7 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
   AllLastmanStanding = false;
   AttackAndDef = false;
   enableVagineer = false;
+  // enableIceGround = false;
 
   for(int target=1; target <= MaxClients; target++)
   {
@@ -718,17 +931,6 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 					}
 				}
 			}
-
-/*
-			if(FF2_HasAbility(boss, this_plugin_name, "ff2_test_map_rota"))
-			{
-				float StartAngle[3];
-
-				StartAngle[0] = 60.0;
-
-				SetEntPropVector(0, Prop_Data, "m_angRotation", StartAngle);
-			}
-*/
 		}
 
   }
@@ -773,53 +975,76 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 		if(boss == -1 && FF2_HasAbility(mainboss, this_plugin_name, "rage_arrowkeyattack") && FF2_GetAbilityDuration(mainboss) > 0.0)
 		{
-			if(GetEntityFlags(client) & FL_ONGROUND)
+			float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
+
+			float clientAngles[3];
+
+			float moveFwdAngles[3];
+			float moveRightAngles[3];
+
+			float moveBackAngles[3];
+			float moveLeftAngles[3];
+
+			float totalMoveVelocity[3];
+			GetClientEyeAngles(client, clientAngles);
+
+			clientAngles[2] = 0.0;
+
+			GetAngleVectors(clientAngles, moveFwdAngles, moveRightAngles, NULL_VECTOR);
+
+			for(int count=0; count<3; count++)
 			{
-				float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
+				moveBackAngles[count] = moveFwdAngles[count] * -1.0;
+				moveLeftAngles[count] = moveBackAngles[count] * -1.0;
+			}
 
-				float clientAngles[3];
-
-				float moveFwdAngles[3];
-				float moveRightAngles[3];
-
-				float moveBackAngles[3];
-				float moveLeftAngles[3];
-
-				float totalMoveVelocity[3];
-				GetClientEyeAngles(client, clientAngles);
-
-				clientAngles[2] = 0.0;
-
-				GetAngleVectors(clientAngles, moveFwdAngles, moveRightAngles, NULL_VECTOR);
-
-				for(int count=0; count<3; count++)
+			if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
+			{
+				if(buttons & IN_FORWARD)
 				{
-					moveBackAngles[count] = moveFwdAngles[count] * -1.0;
-					moveLeftAngles[count] = moveBackAngles[count] * -1.0;
+					AddVectors(totalMoveVelocity, moveBackAngles, totalMoveVelocity);
+				}
+				if(buttons & IN_RIGHT)
+				{
+					AddVectors(totalMoveVelocity, moveLeftAngles, totalMoveVelocity);
+				}
+				if(buttons & IN_LEFT)
+				{
+					AddVectors(totalMoveVelocity, moveRightAngles, totalMoveVelocity);
+				}
+				if(buttons & IN_BACK)
+				{
+					AddVectors(totalMoveVelocity, moveFwdAngles, totalMoveVelocity);
 				}
 
-				if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
-				{
-					if(buttons & IN_FORWARD)
-					{
-						AddVectors(totalMoveVelocity, moveBackAngles, totalMoveVelocity);
-					}
-					if(buttons & IN_RIGHT)
-					{
-						AddVectors(totalMoveVelocity, moveLeftAngles, totalMoveVelocity);
-					}
-					if(buttons & IN_LEFT)
-					{
-						AddVectors(totalMoveVelocity, moveRightAngles, totalMoveVelocity);
-					}
-					if(buttons & IN_BACK)
-					{
-						AddVectors(totalMoveVelocity, moveFwdAngles, totalMoveVelocity);
-					}
-
+				if(GetEntityFlags(client) & FL_ONGROUND)
 					ScaleVector(totalMoveVelocity, maxSpeed);
+				else
+				{
+					ScaleVector(totalMoveVelocity, maxSpeed*0.3); // TODO: 부자연스러우면 추가 작업.
+					// float velocity[3];
+					// GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
+				}
 
-					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, totalMoveVelocity);
+				TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, totalMoveVelocity);
+		}
+		if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive"))
+		{
+			if(GetEntityFlags(client) & FL_ONGROUND)
+			{
+				bool isBoss = (boss != -1) ? true : false; //oh. ok..
+
+				float velocity[3];
+				GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
+
+				if(GetVectorLength(velocity) > 3)
+				{
+					if(!isBoss)
+						ScaleVector(velocity, 0.97);
+					else
+						ScaleVector(velocity, 0.9);
+
+					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 				}
 			}
 		}
@@ -828,21 +1053,12 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		{
 			int viewentity = EntRefToEntIndex(entSpriteRef[client]);
 
-			float clientAngles[3];
-			GetClientEyeAngles(client, clientAngles);
+			float vecclientAngles[3];
+			GetClientEyeAngles(client, vecclientAngles);
 
-			clientAngles[1] = -179.0;
+			vecclientAngles[1] = -179.0;
 
-			TeleportEntity(viewentity, NULL_VECTOR, clientAngles, NULL_VECTOR);
-
-			/*
-			// 버튼 반대
-
-			if(buttons & IN_FORWARD|IN_BACK)
-			{
-
-			}
-			*/
+			TeleportEntity(viewentity, NULL_VECTOR, vecclientAngles, NULL_VECTOR);
 		}
 
 	    if(buttons & IN_ATTACK)
@@ -910,17 +1126,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					}
 				}
 			}
-			/*
-			if(IsTravis[client])
-			{
-				TravisBeamCharge[client] += FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 1, 2.0);
-
-				Debug("%.1f%%", TravisBeamCharge[client]);
-
-				if(TravisBeamCharge[client] > 100.0)
-					TravisBeamCharge[client] = 100.0;
-			}
-			*/
 		}
 
 		if(IsTravis[client])

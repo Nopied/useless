@@ -31,6 +31,20 @@ public Plugin myinfo=
 
 bool playingSound;
 
+static const char g_strTf2class[][] =
+{
+	"알 수 없음",
+	"스카웃",
+	"스나이퍼",
+	"솔져",
+	"데모맨",
+	"메딕",
+	"헤비",
+	"파이로",
+	"스파이",
+	"엔지니어"
+};
+
 public void OnPluginStart2()
 {
 	HookEvent("player_death", OnPlayerDeath, EventHookMode_Post);
@@ -57,6 +71,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     int healHp = FF2_GetClientDamage(victim)/2;
     char bossName[64];
     char sound[PLATFORM_MAX_PATH];
+	int integerClass = view_as<int>(TF2_GetPlayerClass(victim));
     Handle BossKV=FF2_GetSpecialKV(boss);
 
     KvRewind(BossKV);
@@ -73,10 +88,33 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     TF2_StunPlayer(attacker, 2.2, 0.0, TF_STUNFLAG_BONKSTUCK|TF_STUNFLAG_NOSOUNDOREFFECT); // TODO: 커스터마이즈
 
     EmitSoundToAll(sound);
-    CPrintToChatAll("{olive}[FF2]{default} {blue}%s{default}(이)가 {green}%N{default}님을 먹었습니다. (+%dHP)", bossName, victim, healHp);
+    CPrintToChatAll("{olive}[FF2]{default} {blue}%s{default}(이)가 {green}%N (%s){default}님을 먹었습니다. (+%dHP)", bossName, victim, g_strTf2class[integerClass], healHp);
+
+	/*
     if(FF2_GetAbilityDuration(boss) > 0.0)
 	{
       	PainisRage(boss);
+	}
+	*/
+
+	if(FF2_GetAbilityDuration(boss) > 0.0)
+	{
+		float attackerPos[3];
+		float clientPos[3];
+
+		GetClientEyePosition(attacker, attackerPos);
+
+      	for(int client=1; client<=MaxClients; client++)
+		{
+			if(!IsClientInGame(client) || GetClientTeam(attacker) == GetClientTeam(client) || client == victim)
+				continue;
+
+			GetClientEyePosition(client, clientPos);
+			if(CanSeeTarget(clientPos, attackerPos, attacker, GetClientTeam(attacker)))
+			{
+				TF2_StunPlayer(client, 4.0, 0.9, TF_STUNFLAGS_GHOSTSCARE);
+			}
+		}
 	}
   }
   return Plugin_Continue;
@@ -130,6 +168,57 @@ void PainisRage(int boss)
 
   FF2_SetAbilityDuration(boss, abilityDuration);
   playingSound=true;
+}
+
+stock bool CanSeeTarget(float startpos[3], float targetpos[3], int target, int bossteam)		// Tests to see if vec1 > vec2 can "see" target
+{
+	TR_TraceRayFilter(startpos, targetpos, MASK_SOLID, RayType_EndPoint, TraceRayFilterClients, target);
+
+	if(TR_GetEntityIndex() == target)
+	{
+		if(TF2_GetPlayerClass(target) == TFClass_Spy)							// if they are a spy, do extra tests (coolrocket stuff?)
+		{
+			if(TF2_IsPlayerInCondition(target, TFCond_Cloaked))				// if they are cloaked
+			{
+				if(TF2_IsPlayerInCondition(target, TFCond_CloakFlicker)		// check if they are partially visible
+					|| TF2_IsPlayerInCondition(target, TFCond_OnFire)
+					|| TF2_IsPlayerInCondition(target, TFCond_Jarated)
+					|| TF2_IsPlayerInCondition(target, TFCond_Milked)
+					|| TF2_IsPlayerInCondition(target, TFCond_Bleeding))
+				{
+					return true;
+				}
+
+				return false;
+			}
+			if(TF2_IsPlayerInCondition(target, TFCond_Disguised) && GetEntProp(target, Prop_Send, "m_nDisguiseTeam") == bossteam)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+public bool TraceRayFilterClients(int entity, int mask, any data)
+{
+	if(entity > 0 && entity <=MaxClients)					// only hit the client we're aiming at
+	{
+		if(entity == data)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 stock bool IsValidClient(int client)

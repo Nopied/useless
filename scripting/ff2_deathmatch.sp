@@ -352,6 +352,8 @@ public Action OnRoundStart(Handle timer)
 
         if(IsClientInGame(target))
         {
+            FF2_SetClientGlow(target, 0.0, 0.0);
+
             SDKUnhook(target, SDKHook_OnTakeDamage, OnTakeDamage);
             SDKHook(target, SDKHook_OnTakeDamage, OnTakeDamage);
 
@@ -1570,7 +1572,7 @@ stock void GiveLastManWeapon(int client)
       // 540:아이랜더 효과로 추정됨..
       //changeMelee=false;
     }
-    case TFClass_Medic:
+    case TFClass_Medic: //
     {
       SpawnWeapon(client, "tf_weapon_crossbow", 305, 0, 2, "2 ; 1.6 ; 17 ; 0.25 ; 4 ; 8.0 ; 6 ; 0.4 ; 97 ; 0.4");
       SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0");

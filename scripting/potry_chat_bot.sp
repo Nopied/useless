@@ -15,7 +15,7 @@
 char SERVER_CHAT_ID[40];
 char SERVER_REPORT_ID[40];
 char SERVER_SUGGESTION_ID[40];
-char BOT_LOG_ID[40];
+char BOT_CONSOLE_ID[40];
 char STEAM_API_KEY[60];
 char SERVER_NAME[100];
 
@@ -74,7 +74,7 @@ void CheckConfigFile()
     KvGetString(TokenKv, "server_suggestion_id", SERVER_SUGGESTION_ID, sizeof(SERVER_SUGGESTION_ID)); // STEAM_API_KEY
     KvGetString(TokenKv, "steam_api_key", STEAM_API_KEY, sizeof(STEAM_API_KEY));
     KvGetString(TokenKv, "server_name", SERVER_NAME, sizeof(SERVER_NAME));
-    KvGetString(TokenKv, "bot_log_id", BOT_LOG_ID, sizeof(BOT_LOG_ID));
+    KvGetString(TokenKv, "bot_console_id", BOT_CONSOLE_ID, sizeof(BOT_CONSOLE_ID));
 }
 
 public void OnAllPluginsLoaded()
@@ -176,6 +176,10 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
             gServerChat = view_as<DiscordChannel>(CloneHandle(Channel));
 			gBot.StartListeningToChannel(Channel, OnMessage);
 		}
+        if(StrEqual(id, BOT_CONSOLE_ID))
+        {
+            gBot.StartListeningToChannel(Channel, OnMessage);
+        }
 }
 
 public void GuildListAll(DiscordBot bot, ArrayList Alid, ArrayList Alname, ArrayList Alicon, ArrayList Alowner, ArrayList Alpermissions, any data) {
@@ -202,7 +206,9 @@ public void OnMessage(DiscordBot Bot, DiscordChannel Channel, DiscordMessage mes
 
     char messageString[120];
     char userName[60];
+    char id[80];
     message.GetContent(messageString, sizeof(messageString));
+    message.GetID(id, sizeof(id));
 
     DiscordUser user = message.GetAuthor();
     user.GetUsername(userName, sizeof(userName));
@@ -210,6 +216,14 @@ public void OnMessage(DiscordBot Bot, DiscordChannel Channel, DiscordMessage mes
 
     if(user.IsBot())
         return;
+
+    if(StrEqual(id, BOT_CONSOLE_ID))
+    {
+        ServerCommand(messageString);
+        char warn[200];
+        Format(warn, sizeof(warn), "%s님이 \"%s\" 명령어를 사용하셨습니다.", userName, messageString);
+        gBot.SendMessage(Channel, warn);
+    }
 
 	if(StrEqual(messageString, "Ping")) {
 		gBot.SendMessage(Channel, "Pong!");
@@ -320,13 +334,14 @@ public Action Listener_Say(int client, const char[] command, int argc)
         char serverName[100];
         char steamUrl[200];
         char debugUrl[350];
+        char discordName[100];
         char steamAccount[60];
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
         Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", client, steamAccount);
 
 
-        // Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
+        Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
         Format(discordMessage, sizeof(discordMessage), " - %N (%s):\n  %s", client, steamAccount, chat[1]);
 
         Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
@@ -345,7 +360,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
         gBot.SendMessageEmbed(gServerChat, Embed);
 
-        gBot.SendMessageToChannelID(BOT_LOG_ID, debugUrl);
+        gBot.SendMessageToChannelID(BOT_CONSOLE_ID, debugUrl);
         gBot.SendMessage(gServerChat, discordMessage);
     }
 

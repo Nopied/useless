@@ -1,0 +1,69 @@
+"Phrases"
+{
+	"Dead"
+	{
+		"en"			"*DEAD*"
+	}
+	"Team"
+	{
+		"en"			"(TEAM)"
+	}
+	"Spec"
+	{
+		"en"			"*SPEC*"
+	}
+	"Spec_Team"
+	{
+		"en"			"(Spectator)"
+	}
+	
+	"Tag_Set"
+	{
+		"#format"		"{1:s}"
+		"en"			"* Your new nametag is {1}"
+	}
+	"Tag_Set_Admin"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"* Nametag(s) of {1} is set to {2}{default}"
+	}
+	"Tag_SetbyAdmin"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"* Nametag(s) of {1} was set to {2} {default}by admin"
+	}
+	
+	"Tag_SettoDefault"
+	{
+		"en"			"* Your nametag was set to default"
+	}
+	"Tag_SettoDefault_Admin"
+	{
+		"#format"		"{1:s}"
+		"en"			"* Nametag(s) of {1} is set to default.
+	}
+	"Tag_SettoDefaultbyAdmin"
+	{
+		"#format"		"{1:s}"
+		"en"			"* Nametag(s) of {1} was set to default by admin"
+	}
+	
+	"Menu_Select"
+	{
+		"en"			"Please select your tag:"
+	}
+	"Menu_NotAchieved"
+	{
+		"#format"		"{1:s}"
+		"en"			"* You need to achieve {olive}{1} {default}to use this nametag."
+	}
+	
+	"NoAdmin"
+	{
+		"en"			"* Only admins can access to this command"
+	}
+	"Disabled"
+	{
+		"en"			"* Nametag is disabled"
+	}
+}

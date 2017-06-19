@@ -35,10 +35,10 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #tryinclude <tf2attributes>
 #define REQUIRE_PLUGIN
 
-#define MAJOR_REVISION "0"
-#define MINOR_REVISION "12"
-#define STABLE_REVISION "3"
-#define DEV_REVISION "(ALPHA)"
+#define MAJOR_REVISION "1"
+#define MINOR_REVISION "14"
+#define STABLE_REVISION "0"
+// #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
 	#define PLUGIN_VERSION MAJOR_REVISION..."."...MINOR_REVISION..."."...STABLE_REVISION  //1.10.14
@@ -2551,6 +2551,14 @@ public Action:Timer_Announce(Handle:timer)
 			case 15:
 			{
 				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_15");
+			}
+			case 16:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_16");
+			}
+			case 17:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_17");
 			}
 
 			default:

@@ -1,0 +1,63 @@
+"Phrases"
+{
+	"Dead"
+	{
+		"ko"			"*사망*"
+	}
+	"Team"
+	{
+		"ko"			"(팀)"
+	}
+	"Spec"
+	{
+		"ko"			"*관전자*"
+	}
+	"Spec_Team"
+	{
+		"ko"			"(관전자)"
+	}
+	
+	"Tag_Set"
+	{
+		"ko"			"* 칭호가 {1}{default}(으)로 설정되었습니다."
+	}
+	"Tag_Set_Admin"
+	{
+		"ko"			"* {1}의 칭호를 {2}{default}(으)로 설정하였습니다."
+	}
+	"Tag_SetbyAdmin"
+	{
+		"ko"			"* {1}의 칭호가 관리자에 의해 {2}{default}(으)로 설정되었습니다."
+	}
+	
+	"Tag_SettoDefault"
+	{
+		"ko"			"* 칭호가 초기화되었습니다."
+	}
+	"Tag_SettoDefault_Admin"
+	{
+		"ko"			"* {1}의 칭호를 초기화하였습니다."
+	}
+	"Tag_SettoDefaultbyAdmin"
+	{
+		"ko"			"* {1}의 칭호가 관리자에 의해 초기화되었습니다."
+	}
+	
+	"Menu_Select"
+	{
+		"ko"			"칭호를 선택해 주세요:"
+	}
+	"Menu_NotAchieved"
+	{
+		"ko"			"* 도전과제 {olive}{1}{default}(을)를 완료해야 이 칭호를 사용할 수 있습니다."
+	}
+	
+	"NoAdmin"
+	{
+		"ko"			"* 관리자만 접근할 수 있는 명령어입니다."
+	}
+	"Disabled"
+	{
+		"ko"			"* 칭호 기능이 꺼져있습니다."
+	}
+}
