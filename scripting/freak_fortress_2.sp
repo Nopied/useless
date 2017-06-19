@@ -7403,8 +7403,10 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 		SetEventInt(event, "damageamount", damage);
 	}
 
-	/*
-	if(BossHealth[boss] - damage < 1 && BossDiff[boss] > 1 && FF2_GetGameState() != Game_LastManStanding) // TODO: 특정인만 가능하게.
+
+	if(BossHealth[boss] - damage < 1 && BossDiff[boss] > 1 &&
+		(FF2_GetGameState() != Game_LastManStanding && FF2_GetGameState() != Game_SpecialLastManStanding)
+	&& POTRY_IsClientVIP(client) && POTRY_IsClientEnableVIPEffect(client, VIPEffect_BossStandard)) // TODO: 특정인만 가능하게.
 	{
 		// changeResult = true;
 		// BossCharge[boss][0] = 100.0;
@@ -7413,11 +7415,11 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 
 		SetEntityHealth(client, BossHealth[boss]-BossHealthMax[boss]*(BossLives[boss]-1));
 
-		CPrintToChatAll("{olive}[FF2]{default} 이 보스는 {red}보스 스탠타드 플레이{default}가 활성화된 상태입니다. '{green}보통{default}' 난이도로 되돌아가 다시 싸웁니다!");
+		CPrintToChatAll("{olive}[FF2]{default} 이 보스는 {red}보스 스탠다드 플레이{default}가 활성화된 상태입니다. '{green}보통{default}' 난이도로 되돌아가 다시 싸웁니다!");
 		SetEventInt(event, "damageamount", 0);
 		return Plugin_Changed;
 	}
-	*/
+
 
 
 	for(new lives=1; lives<BossLives[boss]; lives++)
