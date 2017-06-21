@@ -75,8 +75,9 @@ int g_nEntityBounce[MAX_EDICTS];
 #define SOUND_FREEZE2	"physics/glass/glass_impact_bullet2.wav"
 #define SOUND_FREEZE3	"physics/glass/glass_impact_bullet3.wav"
 
-int g_entIceBlock[MAXPLAYERS+1];
-float g_flIceDuration[MAXPLAYERS+1];
+int g_entIceBlock[MAXPLAYERS+1] = {INVALID_ENT_REFERENCE, ...};
+float g_flIceDuration[MAXPLAYERS+1] = {-1.0, ...};
+float g_vecIceVelocity[MAXPLAYERS+1][3];
 
 public void OnPluginStart2()
 {
@@ -86,32 +87,24 @@ public void OnPluginStart2()
 	HookEvent("player_spawn", OnPlayerSpawn);
 	HookEvent("player_death", OnPlayerDeath);
 
-	PrecacheThing();
-}
+	HookEvent("player_hurt", OnPlayerHurt);
 
-public void OnMapStart()
-{
-	PrecacheThing();
+	PrecacheGeneric(SPRITE, true);
 }
-
+/*
 void PrecacheThing()
 {
 	PrecacheGeneric(SPRITE, true);
-
-	PrecacheSound(SOUND_FREEZE, true);
-	PrecacheSound(SOUND_FREEZE1, true);
-	PrecacheSound(SOUND_FREEZE2, true);
-	PrecacheSound(SOUND_FREEZE3, true);
-
 }
-
+*/
 public Action OnRoundEnd(Handle event, const char[] name, bool dontBroadcast)
 {
 	for(int client=1; client<=MaxClients; client++)
 	{
 		if(g_flIceDuration[client] <= GetGameTime())
 		{
-			TF2_RemoveCondition(client, TFCond_HalloweenKartNoTurn);
+			if(IsClientInGame(client) && IsPlayerAlive(client))
+				TF2_RemoveCondition(client, TFCond_HalloweenKartNoTurn);
 		}
 
 		g_flIceDuration[client] = -1.0;
@@ -120,6 +113,8 @@ public Action OnRoundEnd(Handle event, const char[] name, bool dontBroadcast)
 
 public Action OnPlayerHurt(Handle event, const char[] name, bool dontBroadcast)
 {
+	if(FF2_GetRoundState() != 1)	return Plugin_Continue;
+
 	int mainboss = FF2_GetBossIndex(0);
 	new client=GetClientOfUserId(GetEventInt(event, "userid"));
 	new attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
@@ -152,13 +147,14 @@ public void OnGameFrame()
 
 	int mainboss = FF2_GetBossIndex(0);
 	bool snowPassive = FF2_HasAbility(mainboss, this_plugin_name, "ff2_snow_storm_passive");
+	bool iceGround = FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive");
 
 	for(int client=1; client<=MaxClients; client++)
 	{
 		if(!IsClientInGame(client)) continue;
 		if(!IsPlayerAlive(client)) continue;
 
-		if(snowPassive && (GetGameTime() / 1.0) <= 0.0)
+		if(!IsBoss(client) && snowPassive && (GetGameTime() / 1.0) <= 0.0)
 		{
 			SDKHooks_TakeDamage(client, 0, 0, 1.0, DMG_SLASH, -1);
 		}
@@ -171,7 +167,7 @@ public void OnGameFrame()
 
 			GetClientAbsOrigin(client, clientPos);
 
-			while((fireEnt = FindEntityByClassname(fireEnt, "tf_flame")))
+			while((fireEnt = FindEntityByClassname(fireEnt, "tf_flame")) != -1)
 			{
 				int Owner = GetEntPropEnt(fireEnt, Prop_Data, "m_hOwnerEntity");
 				if(IsValidEdict(Owner))
@@ -204,7 +200,7 @@ public void OnGameFrame()
 		if(g_flIceDuration[client] <= GetGameTime())
 		{
 			int ice1 = EntRefToEntIndex(g_entIceBlock[client]);
-		    if (ice1 != INVALID_ENT_REFERENCE)                                   // Kill the old one if it somehow exists (admin slay frozen player or somesuch nonsense)
+			if (ice1 != INVALID_ENT_REFERENCE)                                   // Kill the old one if it somehow exists (admin slay frozen player or somesuch nonsense)
 			{
 				AcceptEntityInput(ice1, "Kill");
 				g_entIceBlock[client] = INVALID_ENT_REFERENCE;                  // Just incase prop creation somehow fails, it will still take 1 frame for the old one to die
@@ -213,6 +209,67 @@ public void OnGameFrame()
 			TF2_RemoveCondition(client, TFCond_HalloweenKartNoTurn);
 		}
 
+		if(iceGround && !TF2_IsPlayerInCondition(client, TFCond_HalloweenKartNoTurn))
+		{
+			int buttons = GetEntProp(client, Prop_Send, "m_nButtons");
+			float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
+
+			float clientAngles[3];
+
+			float moveFwdVelocity[3];
+			float moveRightVelocity[3];
+
+			float moveBackVelocity[3];
+			float moveLeftVelocity[3];
+
+			// float totalMoveVelocity[3];
+			GetClientEyeAngles(client, clientAngles);
+
+			clientAngles[2] = 0.0;
+
+			GetAngleVectors(clientAngles, moveFwdVelocity, moveRightVelocity, NULL_VECTOR);
+
+			for(int count=0; count<3; count++)
+			{
+				moveBackVelocity[count] = moveFwdVelocity[count] * -1.0;
+				moveLeftVelocity[count] = moveRightVelocity[count] * -1.0;
+			}
+
+			ScaleVector(moveFwdVelocity, maxSpeed);
+			ScaleVector(moveRightVelocity, maxSpeed);
+			ScaleVector(moveBackVelocity, maxSpeed);
+			ScaleVector(moveLeftVelocity, maxSpeed);
+
+			if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK) 	// TODO: 자연스럽게 방향제어가 막히는지 실험해야함.
+			{
+				if(buttons & IN_FORWARD)
+				{
+					AddVectors(g_vecIceVelocity[client], moveFwdVelocity, g_vecIceVelocity[client]);
+				}
+				if(buttons & IN_RIGHT)
+				{
+					AddVectors(g_vecIceVelocity[client], moveRightVelocity, g_vecIceVelocity[client]);
+				}
+				if(buttons & IN_LEFT)
+				{
+					AddVectors(g_vecIceVelocity[client], moveLeftVelocity, g_vecIceVelocity[client]);
+				}
+				if(buttons & IN_BACK)
+				{
+					AddVectors(g_vecIceVelocity[client], moveBackVelocity, g_vecIceVelocity[client]);
+				}
+			}
+			else
+			{
+				if(GetVectorLength(g_vecIceVelocity[client]) > 1)
+					ScaleVector(g_vecIceVelocity[client], 0.94);
+			}
+
+			if(GetVectorLength(g_vecIceVelocity[client]) > 1)
+			{
+				TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, g_vecIceVelocity[client]);
+			}
+		}
 	}
 }
 
@@ -299,13 +356,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 	g_flIceDuration[client] = -1.0;
 
-	int ice = EntRefToEntIndex(g_entIceBlock[client]);
-    if (ice != INVALID_ENT_REFERENCE)
-	{
-		AcceptEntityInput(ice, "Kill");
-		g_entIceBlock[client] = INVALID_ENT_REFERENCE;
-	}
-
+	/*
 	if(enableVagineer && entSpriteRef[client] == -1)
 	{
 		float clientPos[3];
@@ -317,6 +368,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 			entSpriteRef[client] = EntIndexToEntRef(ent);
 		}
 	}
+	*/
 
 	return Plugin_Continue;
 }
@@ -727,6 +779,389 @@ public Action OnStoneTouch(int entity, int other)
 	return Plugin_Continue;
 }
 
+public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+{
+	if(FF2_GetRoundState() != 1)
+	{
+		return Plugin_Continue;
+	}
+
+	bool changed = false;
+
+	if(IsValidClient(client) && IsPlayerAlive(client))
+	{
+		 	int boss = FF2_GetBossIndex(client);
+			int mainboss = FF2_GetBossIndex(0);
+
+			if(boss == -1 && FF2_HasAbility(mainboss, this_plugin_name, "rage_arrowkeyattack") && FF2_GetAbilityDuration(mainboss) > 0.0)
+			{
+				float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
+
+				float clientAngles[3];
+
+				float moveFwdAngles[3];
+				float moveRightAngles[3];
+
+				float moveBackAngles[3];
+				float moveLeftAngles[3];
+
+				float totalMoveVelocity[3];
+				GetClientEyeAngles(client, clientAngles);
+
+				clientAngles[2] = 0.0;
+
+				GetAngleVectors(clientAngles, moveFwdAngles, moveRightAngles, NULL_VECTOR);
+
+				for(int count=0; count<3; count++)
+				{
+					moveBackAngles[count] = moveFwdAngles[count] * -1.0;
+					moveLeftAngles[count] = moveRightAngles[count] * -1.0;
+				}
+
+				if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
+				{
+					if(buttons & IN_FORWARD)
+					{
+						AddVectors(totalMoveVelocity, moveBackAngles, totalMoveVelocity);
+					}
+					if(buttons & IN_RIGHT)
+					{
+						AddVectors(totalMoveVelocity, moveLeftAngles, totalMoveVelocity);
+					}
+					if(buttons & IN_LEFT)
+					{
+						AddVectors(totalMoveVelocity, moveRightAngles, totalMoveVelocity);
+					}
+					if(buttons & IN_BACK)
+					{
+						AddVectors(totalMoveVelocity, moveFwdAngles, totalMoveVelocity);
+					}
+
+					if(GetEntityFlags(client) & FL_ONGROUND)
+						ScaleVector(totalMoveVelocity, maxSpeed);
+					else
+					{
+						ScaleVector(totalMoveVelocity, maxSpeed*0.3); // TODO: 부자연스러우면 추가 작업.
+						// float velocity[3];
+						// GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
+					}
+
+					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, totalMoveVelocity);
+			}
+			/*
+			if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive"))
+			{
+				if(GetEntityFlags(client) & FL_ONGROUND)
+				{
+					bool isBoss = (boss != -1) ? true : false; //oh. ok..
+
+					float velocity[3];
+					GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
+
+					if(GetVectorLength(velocity) > 3)
+					{
+						if(!isBoss)
+							ScaleVector(velocity, 0.97);
+						else
+							ScaleVector(velocity, 0.9);
+
+						TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
+					}
+				}
+			}
+			*/
+
+			if(enableVagineer && entSpriteRef[client] != -1)
+			{
+				int viewentity = EntRefToEntIndex(entSpriteRef[client]);
+
+				float vecclientAngles[3];
+				GetClientEyeAngles(client, vecclientAngles);
+
+				vecclientAngles[1] = -179.0;
+
+				TeleportEntity(viewentity, NULL_VECTOR, vecclientAngles, NULL_VECTOR);
+			}
+
+		    if(buttons & IN_ATTACK)
+		    {
+				if(Sub_SaxtonReflect[client])
+				{
+					if(GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime()
+					|| GetEntPropFloat(GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack") > GetGameTime())
+						return Plugin_Continue;
+
+					int ent;
+					float clientPos[3];
+					float clientEyeAngles[3];
+					float end_pos[3];
+					float targetPos[3];
+					// float targetEndPos[3];
+					float vecrt[3];
+					float angVector[3];
+
+					GetEntPropVector(client, Prop_Send, "m_vecOrigin", clientPos);
+					GetClientEyeAngles(client, clientEyeAngles);
+					GetEyeEndPos(client, 100.0, end_pos);
+
+					while((ent = FindEntityByClassname(ent, "tf_projectile_*")) != -1)
+					{
+						if(GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity") == client)
+						 continue;
+
+						GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+
+						if(GetVectorDistance(end_pos, targetPos) <= 100.0)
+						{
+							SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
+
+							if(HasEntProp(ent, Prop_Send, "m_iTeamNum"))
+							{
+								SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
+							}
+							if(HasEntProp(ent, Prop_Send, "m_bCritical"))
+							{
+								SetEntProp(ent, Prop_Send, "m_bCritical", 1);
+							} // m_iDeflected
+							if(HasEntProp(ent, Prop_Send, "m_iDeflected"))
+							{
+								SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
+							}
+							if(HasEntProp(ent, Prop_Send, "m_hThrower"))
+							{
+								SetEntPropEnt(ent, Prop_Send, "m_hThrower", client);
+							}
+							if(HasEntProp(ent, Prop_Send, "m_hDeflectOwner"))
+							{
+								SetEntPropEnt(ent, Prop_Send, "m_hDeflectOwner", client);
+							}
+
+							GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
+							NormalizeVector(angVector, angVector);
+
+							angVector[0] *= 1500.0;
+							angVector[1] *= 1500.0;
+							angVector[2] *= 1500.0;
+
+							TeleportEntity(ent, NULL_VECTOR, NULL_VECTOR, angVector);
+							EmitSoundToAll("player/flame_out.wav", ent, _, _, _, _, _, ent, targetPos);
+						}
+					}
+				}
+			}
+
+			if(IsTravis[client])
+			{
+				TravisBeamCharge[client] -= FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 2, 0.01);
+
+				if(TravisBeamCharge[client] < 0.0)
+					TravisBeamCharge[client] = 0.0;
+
+				PrintCenterText(client, "빔 카타나 충전율: %.1f%%\n무기를 휘둘러 충전", TravisBeamCharge[client]);
+			}
+
+			if(IsTank[client])
+			{
+				SetOverlay(client, "Effects/combine_binocoverlay");
+
+				int ent = -1;
+				float range = 75.0;
+				float clientPos[3];
+				float targetPos[3];
+				GetClientAbsOrigin(client, clientPos);
+
+				while((ent = FindEntityByClassname(ent, "obj_sentrygun")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+			    {
+			      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+
+			      if(GetVectorDistance(clientPos, targetPos) <= range)
+			      {
+			        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
+			      }
+			    }
+
+			    while((ent = FindEntityByClassname(ent, "obj_dispenser")) != -1)  // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+			    {
+			      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+
+			      if(GetVectorDistance(clientPos, targetPos) <= range)
+			      {
+			        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
+			      }
+			    }
+
+
+			    while((ent = FindEntityByClassname(ent, "obj_teleporter")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
+			    {
+			      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
+
+			      if(GetVectorDistance(clientPos, targetPos) <= range)
+			      {
+			        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
+			      }
+			    }
+			}
+
+			if(buttons & IN_ATTACK2 && IsTank[client] && GetGameTime() > RocketCooldown[client])
+			{
+				RocketCooldown[client] = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 1, 1.5);
+
+				float clientEyePos[3];
+				float clientEyeAngles[3];
+				float vecrt[3];
+				float angVector[3];
+
+				GetClientEyePosition(client, clientEyePos);
+				GetClientEyeAngles(client, clientEyeAngles);
+
+				GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
+				NormalizeVector(angVector, angVector);
+
+				float speed = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 2, 1200.0);
+
+				clientEyePos[2] -= 12.0;
+
+				angVector[0] *= speed;
+				angVector[1] *= speed;
+				angVector[2] *= speed;
+
+				int rocket = SpawnRocket(client, clientEyePos, clientEyeAngles, angVector, FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 3, 14.5), true);
+				if(IsValidEntity(rocket))
+				{
+					int weapon2 = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+
+					TF2Attrib_SetByDefIndex(weapon2, 521, 0.0); //642
+					TF2Attrib_SetByDefIndex(weapon2, 642, 3.0);
+					TF2Attrib_SetByDefIndex(weapon2, 99, 1.0);
+
+					char path[PLATFORM_MAX_PATH];
+					FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 4, path, sizeof(path));
+
+					if(path[0] != '\0')
+					{
+						EmitSoundToAll(path, client, _, _, _, _, _, client, clientEyePos);
+					}
+
+				}
+			}
+
+			if((buttons & IN_FORWARD || buttons & IN_LEFT || buttons & IN_RIGHT)
+			&& IsTank[client])
+			{
+			 	bool NearWall = false;
+				float StartOrigin[3];
+				float StartAngle[3];
+				float tempAngle[3];
+				float EndOrigin[3];
+				float vecrt[3];
+				float Velocity[3];
+
+				float Distance;
+				Handle TraceRay;
+
+				GetClientEyePosition(client, StartOrigin);
+				GetClientEyeAngles(client, StartAngle);
+
+				GetAngleVectors(StartAngle, Velocity, vecrt, NULL_VECTOR);
+				NormalizeVector(Velocity, Velocity);
+
+				tempAngle[0] = 50.0;
+				tempAngle[1] = StartAngle[1];
+				tempAngle[2] = StartAngle[2];
+
+				for(int y = 50; y >= -50; y--)
+				{
+					tempAngle[0] -= 1.0;
+
+					// TraceRay = TR_TraceRayEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite);
+					TraceRay = TR_TraceRayFilterEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite, TraceRayNoPlayer, client);
+
+					if(TR_DidHit(TraceRay))
+					{
+						TR_GetEndPosition(EndOrigin, TraceRay);
+						Distance = (GetVectorDistance(StartOrigin, EndOrigin));
+
+						if(Distance < 60.0 && !TR_PointOutsideWorld(EndOrigin)) NearWall = true;
+					}
+
+					CloseHandle(TraceRay);
+		/*
+					PrintCenterText(client, "Distance: %.1f\n%.1f %.1f %.1f %s", Distance, Velocity[0], Velocity[1], Velocity[2],
+					NearWall ? "true" : "false"
+					);
+		*/
+
+					if(NearWall)
+					{
+						float Speed = 300.0;
+
+						if(buttons & IN_JUMP)
+							Speed *= 2.0;
+
+						Velocity[1] *= 180.0;
+						Velocity[2] *= Speed;
+						Velocity[0] *= 180.0;
+
+						TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
+
+						DoingWallWalking[client] = NearWall;
+
+						break;
+					}
+				}
+			}
+
+			if(IsTank[client])
+			{
+				float StartAngle[3];
+				float tempAngle[3];
+				GetClientEyeAngles(client, StartAngle);
+
+				if(DoingWallWalking[client])
+				{
+					CoolingWallWalking[client] = false;
+					tempAngle[0] = StartAngle[0] > 0.0 ? 0.0 : StartAngle[0];
+				}
+				else if(GetEntityFlags(client) & FL_ONGROUND)
+				{
+					tempAngle[0] = 0.0;
+				}
+
+				tempAngle[1] = StartAngle[1];
+				tempAngle[2] = StartAngle[2];
+
+				if(!CoolingWallWalking[client])
+				{
+					char Input[100];
+
+					char modelPath[PLATFORM_MAX_PATH];
+					GetClientModel(client, modelPath, sizeof(modelPath));
+
+					SetVariantString(modelPath);
+					AcceptEntityInput(client, "SetCustomModel", client);
+
+					Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
+
+					SetVariantBool(true);
+					AcceptEntityInput(client, "SetCustomModelRotates", client);
+
+					SetVariantString(Input);
+					AcceptEntityInput(client, "SetCustomModelRotation", client);
+
+					RequestFrame(ClassAniTimer, client);
+
+					if(GetEntityFlags(client) & FL_ONGROUND)
+					{
+						CoolingWallWalking[client] = true;
+					}
+				}
+			}
+		}
+	}
+
+	return Plugin_Continue;
+}
+
 void KickEntity(int client, int entity)
 {
 	float clientEyeAngles[3];
@@ -909,7 +1344,7 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 				SDKHook(target, SDKHook_StartTouch, OnTankTouch);
 				SDKHook(target, SDKHook_Touch, OnTankTouch);
 			}
-
+			/*
 			if(FF2_HasAbility(boss, this_plugin_name, "ff2_vagineer_passive"))
 			{
 				enableVagineer = true;
@@ -931,6 +1366,7 @@ void CheckAbilities(int client=0, bool onlyforclient=false)
 					}
 				}
 			}
+			*/
 		}
 
   }
@@ -959,395 +1395,18 @@ public Action OnTankTouch(int entity, int other)
 	}
 }
 
-public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+public bool TraceRayNoPlayer(int iEntity, int iMask, any iData)
 {
-	if(FF2_GetRoundState() != 1)
-	{
-		return Plugin_Continue;
-	}
-
-	bool changed = false;
-
-  if(IsValidClient(client) && IsPlayerAlive(client))
-  {
-	 	int boss = FF2_GetBossIndex(client);
-		int mainboss = FF2_GetBossIndex(0);
-
-		if(boss == -1 && FF2_HasAbility(mainboss, this_plugin_name, "rage_arrowkeyattack") && FF2_GetAbilityDuration(mainboss) > 0.0)
-		{
-			float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
-
-			float clientAngles[3];
-
-			float moveFwdAngles[3];
-			float moveRightAngles[3];
-
-			float moveBackAngles[3];
-			float moveLeftAngles[3];
-
-			float totalMoveVelocity[3];
-			GetClientEyeAngles(client, clientAngles);
-
-			clientAngles[2] = 0.0;
-
-			GetAngleVectors(clientAngles, moveFwdAngles, moveRightAngles, NULL_VECTOR);
-
-			for(int count=0; count<3; count++)
-			{
-				moveBackAngles[count] = moveFwdAngles[count] * -1.0;
-				moveLeftAngles[count] = moveBackAngles[count] * -1.0;
-			}
-
-			if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
-			{
-				if(buttons & IN_FORWARD)
-				{
-					AddVectors(totalMoveVelocity, moveBackAngles, totalMoveVelocity);
-				}
-				if(buttons & IN_RIGHT)
-				{
-					AddVectors(totalMoveVelocity, moveLeftAngles, totalMoveVelocity);
-				}
-				if(buttons & IN_LEFT)
-				{
-					AddVectors(totalMoveVelocity, moveRightAngles, totalMoveVelocity);
-				}
-				if(buttons & IN_BACK)
-				{
-					AddVectors(totalMoveVelocity, moveFwdAngles, totalMoveVelocity);
-				}
-
-				if(GetEntityFlags(client) & FL_ONGROUND)
-					ScaleVector(totalMoveVelocity, maxSpeed);
-				else
-				{
-					ScaleVector(totalMoveVelocity, maxSpeed*0.3); // TODO: 부자연스러우면 추가 작업.
-					// float velocity[3];
-					// GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
-				}
-
-				TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, totalMoveVelocity);
-		}
-		if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive"))
-		{
-			if(GetEntityFlags(client) & FL_ONGROUND)
-			{
-				bool isBoss = (boss != -1) ? true : false; //oh. ok..
-
-				float velocity[3];
-				GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
-
-				if(GetVectorLength(velocity) > 3)
-				{
-					if(!isBoss)
-						ScaleVector(velocity, 0.97);
-					else
-						ScaleVector(velocity, 0.9);
-
-					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
-				}
-			}
-		}
-
-		if(enableVagineer && entSpriteRef[client] != -1)
-		{
-			int viewentity = EntRefToEntIndex(entSpriteRef[client]);
-
-			float vecclientAngles[3];
-			GetClientEyeAngles(client, vecclientAngles);
-
-			vecclientAngles[1] = -179.0;
-
-			TeleportEntity(viewentity, NULL_VECTOR, vecclientAngles, NULL_VECTOR);
-		}
-
-	    if(buttons & IN_ATTACK)
-	    {
-			if(Sub_SaxtonReflect[client])
-			{
-				if(GetEntPropFloat(client, Prop_Send, "m_flNextAttack") > GetGameTime()
-				|| GetEntPropFloat(GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon"), Prop_Send, "m_flNextPrimaryAttack") > GetGameTime())
-					return Plugin_Continue;
-
-				int ent;
-				float clientPos[3];
-				float clientEyeAngles[3];
-				float end_pos[3];
-				float targetPos[3];
-				// float targetEndPos[3];
-				float vecrt[3];
-				float angVector[3];
-
-				GetEntPropVector(client, Prop_Send, "m_vecOrigin", clientPos);
-				GetClientEyeAngles(client, clientEyeAngles);
-				GetEyeEndPos(client, 100.0, end_pos);
-
-				while((ent = FindEntityByClassname(ent, "tf_projectile_*")) != -1)
-				{
-					if(GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity") == client)
-					 continue;
-
-					GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
-
-					if(GetVectorDistance(end_pos, targetPos) <= 100.0)
-					{
-						SetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity", client);
-
-						if(HasEntProp(ent, Prop_Send, "m_iTeamNum"))
-						{
-							SetEntProp(ent, Prop_Send, "m_iTeamNum", GetClientTeam(client));
-						}
-						if(HasEntProp(ent, Prop_Send, "m_bCritical"))
-						{
-							SetEntProp(ent, Prop_Send, "m_bCritical", 1);
-						} // m_iDeflected
-						if(HasEntProp(ent, Prop_Send, "m_iDeflected"))
-						{
-							SetEntProp(ent, Prop_Send, "m_iDeflected", 1);
-						}
-						if(HasEntProp(ent, Prop_Send, "m_hThrower"))
-						{
-							SetEntPropEnt(ent, Prop_Send, "m_hThrower", client);
-						}
-						if(HasEntProp(ent, Prop_Send, "m_hDeflectOwner"))
-						{
-							SetEntPropEnt(ent, Prop_Send, "m_hDeflectOwner", client);
-						}
-
-						GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
-						NormalizeVector(angVector, angVector);
-
-						angVector[0] *= 1500.0;
-						angVector[1] *= 1500.0;
-						angVector[2] *= 1500.0;
-
-						TeleportEntity(ent, NULL_VECTOR, NULL_VECTOR, angVector);
-						EmitSoundToAll("player/flame_out.wav", ent, _, _, _, _, _, ent, targetPos);
-					}
-				}
-			}
-		}
-
-		if(IsTravis[client])
-		{
-			TravisBeamCharge[client] -= FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 2, 0.01);
-
-			if(TravisBeamCharge[client] < 0.0)
-				TravisBeamCharge[client] = 0.0;
-
-			PrintCenterText(client, "빔 카타나 충전율: %.1f%%\n무기를 휘둘러 충전", TravisBeamCharge[client]);
-		}
-
-		if(IsTank[client])
-		{
-			SetOverlay(client, "Effects/combine_binocoverlay");
-
-			int ent = -1;
-			float range = 75.0;
-			float clientPos[3];
-			float targetPos[3];
-			GetClientAbsOrigin(client, clientPos);
-
-			while((ent = FindEntityByClassname(ent, "obj_sentrygun")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
-		    {
-		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
-
-		      if(GetVectorDistance(clientPos, targetPos) <= range)
-		      {
-		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
-		      }
-		    }
-
-		    while((ent = FindEntityByClassname(ent, "obj_dispenser")) != -1)  // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
-		    {
-		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
-
-		      if(GetVectorDistance(clientPos, targetPos) <= range)
-		      {
-		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
-		      }
-		    }
-
-
-		    while((ent = FindEntityByClassname(ent, "obj_teleporter")) != -1) // FIXME: 한 문장 안에 다 넣으면 스크립트 처리에 문제가 생김.
-		    {
-		      GetEntPropVector(ent, Prop_Send, "m_vecOrigin", targetPos);
-
-		      if(GetVectorDistance(clientPos, targetPos) <= range)
-		      {
-		        SDKHooks_TakeDamage(ent, client, client, 30.0, DMG_SLASH|DMG_SHOCK|DMG_ENERGYBEAM|DMG_BURN, -1);
-		      }
-		    }
-		}
-
-		if(buttons & IN_ATTACK2 && IsTank[client] && GetGameTime() > RocketCooldown[client])
-		{
-			RocketCooldown[client] = GetGameTime() + FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 1, 1.5);
-
-			float clientEyePos[3];
-			float clientEyeAngles[3];
-			float vecrt[3];
-			float angVector[3];
-
-			GetClientEyePosition(client, clientEyePos);
-			GetClientEyeAngles(client, clientEyeAngles);
-
-			GetAngleVectors(clientEyeAngles, angVector, vecrt, NULL_VECTOR);
-			NormalizeVector(angVector, angVector);
-
-			float speed = FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 2, 1200.0);
-
-			clientEyePos[2] -= 12.0;
-
-			angVector[0] *= speed;
-			angVector[1] *= speed;
-			angVector[2] *= speed;
-
-			int rocket = SpawnRocket(client, clientEyePos, clientEyeAngles, angVector, FF2_GetAbilityArgumentFloat(boss, this_plugin_name, "ff2_tank", 3, 14.5), true);
-			if(IsValidEntity(rocket))
-			{
-				int weapon2 = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
-
-				TF2Attrib_SetByDefIndex(weapon2, 521, 0.0); //642
-				TF2Attrib_SetByDefIndex(weapon2, 642, 3.0);
-				TF2Attrib_SetByDefIndex(weapon2, 99, 1.0);
-
-				char path[PLATFORM_MAX_PATH];
-				FF2_GetAbilityArgumentString(boss, this_plugin_name, "ff2_tank", 4, path, sizeof(path));
-
-				if(path[0] != '\0')
-				{
-					EmitSoundToAll(path, client, _, _, _, _, _, client, clientEyePos);
-				}
-
-			}
-		}
-
-		if((buttons & IN_FORWARD || buttons & IN_LEFT || buttons & IN_RIGHT)
-		&& IsTank[client])
-		{
-		 	bool NearWall = false;
-			float StartOrigin[3];
-			float StartAngle[3];
-			float tempAngle[3];
-			float EndOrigin[3];
-			float vecrt[3];
-			float Velocity[3];
-
-			float Distance;
-			Handle TraceRay;
-
-			GetClientEyePosition(client, StartOrigin);
-			GetClientEyeAngles(client, StartAngle);
-
-			GetAngleVectors(StartAngle, Velocity, vecrt, NULL_VECTOR);
-			NormalizeVector(Velocity, Velocity);
-
-			tempAngle[0] = 50.0;
-			tempAngle[1] = StartAngle[1];
-			tempAngle[2] = StartAngle[2];
-
-			for(int y = 50; y >= -50; y--)
-			{
-				tempAngle[0] -= 1.0;
-
-				// TraceRay = TR_TraceRayEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite);
-				TraceRay = TR_TraceRayFilterEx(StartOrigin, tempAngle, MASK_SOLID, RayType_Infinite, TraceRayNoPlayer, client);
-
-				if(TR_DidHit(TraceRay))
-				{
-					TR_GetEndPosition(EndOrigin, TraceRay);
-					Distance = (GetVectorDistance(StartOrigin, EndOrigin));
-
-					if(Distance < 60.0 && !TR_PointOutsideWorld(EndOrigin)) NearWall = true;
-				}
-
-				CloseHandle(TraceRay);
-/*
-				PrintCenterText(client, "Distance: %.1f\n%.1f %.1f %.1f %s", Distance, Velocity[0], Velocity[1], Velocity[2],
-				NearWall ? "true" : "false"
-				);
-*/
-
-				if(NearWall)
-				{
-					float Speed = 300.0;
-
-					if(buttons & IN_JUMP)
-						Speed *= 2.0;
-
-					Velocity[1] *= 180.0;
-					Velocity[2] *= Speed;
-					Velocity[0] *= 180.0;
-
-					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
-
-					DoingWallWalking[client] = NearWall;
-
-					break;
-				}
-			}
-		}
-
-		if(IsTank[client])
-		{
-			float StartAngle[3];
-			float tempAngle[3];
-			GetClientEyeAngles(client, StartAngle);
-
-			if(DoingWallWalking[client])
-			{
-				CoolingWallWalking[client] = false;
-				tempAngle[0] = StartAngle[0] > 0.0 ? 0.0 : StartAngle[0];
-			}
-			else if(GetEntityFlags(client) & FL_ONGROUND)
-			{
-				tempAngle[0] = 0.0;
-			}
-
-			tempAngle[1] = StartAngle[1];
-			tempAngle[2] = StartAngle[2];
-
-			if(!CoolingWallWalking[client])
-			{
-				char Input[100];
-
-				char modelPath[PLATFORM_MAX_PATH];
-				GetClientModel(client, modelPath, sizeof(modelPath));
-
-				SetVariantString(modelPath);
-				AcceptEntityInput(client, "SetCustomModel", client);
-
-				Format(Input, sizeof(Input), "%.1f %.1f %.1f", tempAngle[0], tempAngle[1], tempAngle[2]);
-
-				SetVariantBool(true);
-				AcceptEntityInput(client, "SetCustomModelRotates", client);
-
-				SetVariantString(Input);
-				AcceptEntityInput(client, "SetCustomModelRotation", client);
-
-				RequestFrame(ClassAniTimer, client);
-
-				if(GetEntityFlags(client) & FL_ONGROUND)
-				{
-					CoolingWallWalking[client] = true;
-				}
-			}
-		}
-	}
-
-  	return Plugin_Continue;
+    return (!IsValidClient(iEntity));
 }
 
 public void ClassAniTimer(int client)
 {
 	if(IsClientInGame(client))
+	{
 		SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
-}
+	}
 
-public bool TraceRayNoPlayer(int iEntity, int iMask, any iData)
-{
-    return (!IsValidClient(iEntity));
 }
 
 public Action FF2_OnTakePercentDamage(int victim, int &attacker, PercentDamageType:damageType, float &damage)

@@ -677,7 +677,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         winner);
 
 
-
+        /*
         int particle = AttachParticle(winner, "env_snow_stormfront_001");
 
         if(IsValidEntity(particle))
@@ -691,6 +691,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
         {
             SDKHook(particle, SDKHook_SetTransmit, SnowStormTransmit);
         }
+        */
 
         if(timeleft<=0.0)
             DrawGameTimer=CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
