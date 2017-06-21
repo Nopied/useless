@@ -185,12 +185,12 @@ public Action:Listener_Say(int client, const char[] command, int argc)
 			char nametagString[32];
 			Format(nametagString, sizeof(nametagString), "%s", chat[strlen(chatcharge[0])+3]);
 
-            SetNameTag(client, nametagString);
-
-			if(nametagString[0] != '\0')
+			if(nametagString[0] == '\0')
 				CPrintToChatEx(client, client, "%t", "Tag_SettoDefault", nametagString);
 			else
 				CPrintToChatEx(client, client, "%t", "Tag_Set", nametagString);
+
+			SetNameTag(client, nametagString);
         }
         else
         {
@@ -234,7 +234,7 @@ public OnMapStart() {
 	ParseTags();
 	menu_tag = BuildTagMenu();
 
-	for (new i = 1; i <= MAXPLAYERS+1; i++)
+	for (new i = 1; i <= MaxClients; i++)
 	{
 		havestat[i] = false;
 	}
@@ -741,7 +741,7 @@ ParseTags()
 
 	if (!KvGotoFirstSubKey(kv_nametags))
 	{
-		SetFailState("* ERROR: Can't read nametags from %s", path);
+		LogError("* ERROR: Can't read nametags from %s", path);
 		return;
 	}
 

@@ -100,6 +100,8 @@ public void OnMapStart()
 
         gBot.StopListening();
 
+        gBot.GetGuilds(GuildList);
+
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 }
@@ -176,7 +178,7 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
             gServerChat = view_as<DiscordChannel>(CloneHandle(Channel));
 			gBot.StartListeningToChannel(Channel, OnMessage);
 		}
-        if(StrEqual(id, BOT_CONSOLE_ID))
+        else if(StrEqual(id, BOT_CONSOLE_ID))
         {
             gBot.StartListeningToChannel(Channel, OnMessage);
         }
@@ -208,7 +210,7 @@ public void OnMessage(DiscordBot Bot, DiscordChannel Channel, DiscordMessage mes
     char userName[60];
     char id[80];
     message.GetContent(messageString, sizeof(messageString));
-    message.GetID(id, sizeof(id));
+    Channel.GetID(id, sizeof(id));
 
     DiscordUser user = message.GetAuthor();
     user.GetUsername(userName, sizeof(userName));
@@ -223,6 +225,7 @@ public void OnMessage(DiscordBot Bot, DiscordChannel Channel, DiscordMessage mes
         char warn[200];
         Format(warn, sizeof(warn), "%s님이 \"%s\" 명령어를 사용하셨습니다.", userName, messageString);
         gBot.SendMessage(Channel, warn);
+        return;
     }
 
 	if(StrEqual(messageString, "Ping")) {
@@ -348,6 +351,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
 
 
+        /*
     	MessageEmbed Embed = new MessageEmbed();
 
     	Embed.SetColor("3978097");
@@ -361,6 +365,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
         gBot.SendMessageEmbed(gServerChat, Embed);
 
         gBot.SendMessageToChannelID(BOT_CONSOLE_ID, debugUrl);
+        */
         gBot.SendMessage(gServerChat, discordMessage);
     }
 

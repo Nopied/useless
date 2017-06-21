@@ -1,6 +1,5 @@
 #include <sourcemod>
 #include <clientprefs>
-#include <ccc>
 #include <steamtools>
 #include <morecolors>
 #include <sdktools_voice>
@@ -61,12 +60,12 @@ public void OnClientPutInServer(client)
         if(CheckCommandAccess(client, "POTRYUTILL", ADMFLAG_RCON))
         {
             IsPlayerAdmin[client] = true;
-            CCC_SetColor(client, CCC_ChatColor, 0xADD8E6, true);
+            // CCC_SetColor(client, CCC_ChatColor, 0xADD8E6, true);
         }
         else
         {
             IsPlayerModer[client] = true;
-            CCC_SetColor(client, CCC_ChatColor, 0xFFFFE0, true);
+            // CCC_SetColor(client, CCC_ChatColor, 0xFFFFE0, true);
         }
     }
 }
