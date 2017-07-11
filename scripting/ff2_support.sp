@@ -84,10 +84,10 @@ public void OnPluginStart2()
 	HookEvent("teamplay_round_start", OnRoundStart_Pre);
 	HookEvent("teamplay_round_win", OnRoundEnd);
 
-	HookEvent("player_spawn", OnPlayerSpawn);
+	HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Post);
 	HookEvent("player_death", OnPlayerDeath);
 
-	HookEvent("player_hurt", OnPlayerHurt);
+	HookEvent("player_hurt", OnPlayerHurt, EventHookMode_Pre);
 
 	PrecacheGeneric(SPRITE, true);
 }
@@ -126,7 +126,7 @@ public Action OnPlayerHurt(Handle event, const char[] name, bool dontBroadcast)
 	{
 		return Plugin_Continue;
 	}
-
+	/*
 	if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_snow_storm_passive"))
 	{
 		if(clientHp - damage < 1)
@@ -136,27 +136,30 @@ public Action OnPlayerHurt(Handle event, const char[] name, bool dontBroadcast)
 			return Plugin_Changed;
 		}
 	}
+	*/
 
 
 	return Plugin_Continue;
 }
 
-public void OnGameFrame()
+public void OnGameFrame() //
 {
-	if(FF2_GetRoundState() != 1)	return;
+	/*
+	if(FF2_GetRoundState() != 1)
+		return;
 
 	int mainboss = FF2_GetBossIndex(0);
+	int mainbossClient = GetClientOfUserId(FF2_GetBossUserId(mainboss));
 	bool snowPassive = FF2_HasAbility(mainboss, this_plugin_name, "ff2_snow_storm_passive");
-	bool iceGround = FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive");
+	// bool iceGround = FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive");
 
 	for(int client=1; client<=MaxClients; client++)
 	{
-		if(!IsClientInGame(client)) continue;
-		if(!IsPlayerAlive(client)) continue;
+		if(!IsClientInGame(client) || !IsPlayerAlive(client)) continue;
 
 		if(!IsBoss(client) && snowPassive && (GetGameTime() / 1.0) <= 0.0)
 		{
-			SDKHooks_TakeDamage(client, 0, 0, 1.0, DMG_SLASH, -1);
+			SDKHooks_TakeDamage(client, mainbossClient, mainbossClient, 1.0, DMG_SLASH, -1);
 		}
 
 		if(g_flIceDuration[client] > GetGameTime())
@@ -209,12 +212,17 @@ public void OnGameFrame()
 			TF2_RemoveCondition(client, TFCond_HalloweenKartNoTurn);
 		}
 
-		if(iceGround && !TF2_IsPlayerInCondition(client, TFCond_HalloweenKartNoTurn))
+		// if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive") && GetEntityFlags(client) & FL_ONGROUND)
+		if(GetEntityFlags(client) & FL_ONGROUND)
 		{
-			int buttons = GetEntProp(client, Prop_Send, "m_nButtons");
-			float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
+			// Debug("IceGround %N", client);
 
-			float clientAngles[3];
+			int buttons = GetClientButtons(client);
+			float maxIceSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
+
+			float clientEyeAngles[3];
+			float clientVelocity[3];
+			GetEntPropVector(client, Prop_Data, "m_vecVelocity", clientVelocity);
 
 			float moveFwdVelocity[3];
 			float moveRightVelocity[3];
@@ -222,12 +230,11 @@ public void OnGameFrame()
 			float moveBackVelocity[3];
 			float moveLeftVelocity[3];
 
-			// float totalMoveVelocity[3];
-			GetClientEyeAngles(client, clientAngles);
+			GetClientEyeAngles(client, clientEyeAngles);
 
-			clientAngles[2] = 0.0;
+			clientEyeAngles[2] = 0.0;
 
-			GetAngleVectors(clientAngles, moveFwdVelocity, moveRightVelocity, NULL_VECTOR);
+			GetAngleVectors(clientEyeAngles, moveFwdVelocity, moveRightVelocity, NULL_VECTOR);
 
 			for(int count=0; count<3; count++)
 			{
@@ -235,12 +242,12 @@ public void OnGameFrame()
 				moveLeftVelocity[count] = moveRightVelocity[count] * -1.0;
 			}
 
-			ScaleVector(moveFwdVelocity, maxSpeed);
-			ScaleVector(moveRightVelocity, maxSpeed);
-			ScaleVector(moveBackVelocity, maxSpeed);
-			ScaleVector(moveLeftVelocity, maxSpeed);
+			ScaleVector(moveFwdVelocity, maxIceSpeed*0.3);
+			ScaleVector(moveRightVelocity, maxIceSpeed*0.3);
+			ScaleVector(moveBackVelocity, maxIceSpeed*0.3);
+			ScaleVector(moveLeftVelocity, maxIceSpeed*0.3);
 
-			if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK) 	// TODO: 자연스럽게 방향제어가 막히는지 실험해야함.
+			if((buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)) 	// TODO: 자연스럽게 방향제어가 막히는지 실험해야함.
 			{
 				if(buttons & IN_FORWARD)
 				{
@@ -258,6 +265,8 @@ public void OnGameFrame()
 				{
 					AddVectors(g_vecIceVelocity[client], moveBackVelocity, g_vecIceVelocity[client]);
 				}
+
+				// ScaleVector()
 			}
 			else
 			{
@@ -267,10 +276,12 @@ public void OnGameFrame()
 
 			if(GetVectorLength(g_vecIceVelocity[client]) > 1)
 			{
+				g_vecIceVelocity[client][2] = clientVelocity[2];
 				TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, g_vecIceVelocity[client]);
 			}
 		}
 	}
+	*/
 }
 
 stock int FrezzeClient(int client, float time)
@@ -351,10 +362,18 @@ public Action OnRoundStart_Pre(Handle event, const char[] name, bool dont)
 public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+	int mainboss = FF2_GetBossIndex(0);
 
 	if(FF2_GetRoundState() != 1 || !IsValidClient(client))	return Plugin_Continue;
 
 	g_flIceDuration[client] = -1.0;
+
+	if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_spawn_mlg_bot") && GetClientTeam(client) == FF2_GetBossTeam())
+	{
+		Aimbot_SetState(client, AimbotType_Aimbot, true);
+		Aimbot_SetState(client, AimbotType_SlientAim, true);
+		Aimbot_SetState(client, AimbotType_AutoShoot, true);
+	}
 
 	/*
 	if(enableVagineer && entSpriteRef[client] == -1)
@@ -633,6 +652,13 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
 	{
 		CreateStone(boss);
 	}
+	if(StrEqual(ability_name, "ff2_mlg_aimbot"))
+	{
+		Aimbot_SetState(client, AimbotType_Aimbot, true);
+		Aimbot_SetState(client, AimbotType_NoSpread, true);
+		Aimbot_SetState(client, AimbotType_SlientAim, true);
+	}
+
 /*
 	if(StrEqual(ability_name, "ff2_CBS_upgrade_rage"))
 	{
@@ -806,6 +832,8 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				float moveLeftAngles[3];
 
 				float totalMoveVelocity[3];
+				float velocity[3];
+				GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
 				GetClientEyeAngles(client, clientAngles);
 
 				clientAngles[2] = 0.0;
@@ -846,30 +874,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 						// GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
 					}
 
+					totalMoveVelocity[2] = velocity[2];
+
 					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, totalMoveVelocity);
-			}
-			/*
-			if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_ice_ground_passive"))
-			{
-				if(GetEntityFlags(client) & FL_ONGROUND)
-				{
-					bool isBoss = (boss != -1) ? true : false; //oh. ok..
-
-					float velocity[3];
-					GetEntPropVector(client, Prop_Send, "m_vecAbsVelocity", velocity);
-
-					if(GetVectorLength(velocity) > 3)
-					{
-						if(!isBoss)
-							ScaleVector(velocity, 0.97);
-						else
-							ScaleVector(velocity, 0.9);
-
-						TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
-					}
 				}
 			}
-			*/
 
 			if(enableVagineer && entSpriteRef[client] != -1)
 			{
@@ -949,7 +958,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					}
 				}
 			}
-
+/*
 			if(IsTravis[client])
 			{
 				TravisBeamCharge[client] -= FF2_GetAbilityArgumentFloat(FF2_GetBossIndex(boss), this_plugin_name, "ff2_travis", 2, 0.01);
@@ -959,7 +968,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 				PrintCenterText(client, "빔 카타나 충전율: %.1f%%\n무기를 휘둘러 충전", TravisBeamCharge[client]);
 			}
-
+*/
 			if(IsTank[client])
 			{
 				SetOverlay(client, "Effects/combine_binocoverlay");
@@ -1093,7 +1102,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 					if(NearWall)
 					{
-						float Speed = 300.0;
+						float Speed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed")*0.8;
 
 						if(buttons & IN_JUMP)
 							Speed *= 2.0;
@@ -1156,9 +1165,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					}
 				}
 			}
-		}
 	}
-
 	return Plugin_Continue;
 }
 
@@ -1191,17 +1198,18 @@ void KickEntity(int client, int entity)
 		 TravisBeamCharge[client] = 100.0;
 	 }
 
- }
+ } //
+
 public Action FF2_OnAbilityTimeEnd(int boss, int slot)
 {
 	int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
-	/*
-	if(StrEqual(abilityName, "ff2_CBS_upgrade_rage"))
+	if(FF2_HasAbility(boss, this_plugin_name, "ff2_mlg_aimbot"))
 	{
-		CBS_UpgradeRage[client] = false;
+		Aimbot_SetState(client, AimbotType_Aimbot, false);
+		Aimbot_SetState(client, AimbotType_NoSpread, false);
+		Aimbot_SetState(client, AimbotType_SlientAim, false);
 	}
-	*/
 }
 
 public Action OnRoundStart(Handle timer)

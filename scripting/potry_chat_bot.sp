@@ -80,10 +80,12 @@ void CheckConfigFile()
 public void OnAllPluginsLoaded()
 {
     gBot = new DiscordBot(BOT_TOKEN);
+    /*
     if(gBot != INVALID_HANDLE)
     {
     	gBot.GetGuilds(GuildList);
     }
+    */
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
@@ -103,6 +105,14 @@ public void OnMapStart()
         gBot.GetGuilds(GuildList);
 
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+    }
+}
+
+public void OnMapEnd()
+{
+    if(gBot != INVALID_HANDLE)
+    {
+        gBot.StopListening();
     }
 }
 

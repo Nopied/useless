@@ -190,6 +190,8 @@ public Action:Listener_Say(int client, const char[] command, int argc)
 			else
 				CPrintToChatEx(client, client, "%t", "Tag_Set", nametagString);
 
+			client_tag[client] = nametagString;
+
 			SetNameTag(client, nametagString);
         }
         else
@@ -733,6 +735,8 @@ SetNameTag(client, String:tag_client[32])
 
 ParseTags()
 {
+	kv_tag_count = 0;
+	/*
 	new Handle:kv_nametags = CreateKeyValues("Nametags");
 	new String:path[256];
 
@@ -770,6 +774,9 @@ ParseTags()
 	while (KvGotoNextKey(kv_nametags));
 
 	CloseHandle(kv_nametags);
+	*/
+
+	return;
 }
 
 stock bool IsValidClient(int client)

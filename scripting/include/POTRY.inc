@@ -16,6 +16,15 @@ enum VIPEffect
     VIPEffect_FreeNametag
 };
 
+enum AimbotType
+{
+    AimbotType_None = 0,
+    AimbotType_Aimbot,
+    AimbotType_AutoShoot,
+    AimbotType_NoSpread,
+    AimbotType_SlientAim
+};
+
 #define VIPEFFECT_MAX_COUNT 3
 ///
 public bool IsServerPotry()
@@ -54,6 +63,10 @@ native bool POTRY_EnableClientVIPEffect(int client, VIPEffect effect, bool setbo
 native void TIMESTOP_EnableTimeStop(int parent, float warntime=0.0, float stoptime);
 
 native void TIMESTOP_DisableTimeStop();
+
+native void Aimbot_SetState(int client, AimbotType type, bool enable);
+
+native bool Aimbot_GetState(int client, AimbotType type);
 /*
 * 이 inc는 존재만 확인하는 용도임.
 */

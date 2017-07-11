@@ -36,8 +36,8 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 #define REQUIRE_PLUGIN
 
 #define MAJOR_REVISION "1"
-#define MINOR_REVISION "14"
-#define STABLE_REVISION "1"
+#define MINOR_REVISION "15"
+#define STABLE_REVISION "0"
 // #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
@@ -11236,7 +11236,7 @@ public Native_GetRageDist(Handle:plugin, numParams)
 
 public Native_HasAbility(Handle:plugin, numParams)
 {
-	decl String:pluginName[64], String:abilityName[64];
+	new String:pluginName[64], String:abilityName[64];
 
 	new boss=GetNativeCell(1);
 	GetNativeString(2, pluginName, sizeof(pluginName));
@@ -11259,17 +11259,17 @@ public Native_HasAbility(Handle:plugin, numParams)
 		return false;
 	}
 
-	decl String:ability[12];
+	new String:ability[12];
 	for(new i=1; i<MAXRANDOMS; i++)
 	{
 		Format(ability, sizeof(ability), "ability%i", i);
 		if(KvJumpToKey(BossKV[Special[boss]], ability))  //Does this ability number exist?
 		{
-			decl String:abilityName2[64];
+			new String:abilityName2[64];
 			KvGetString(BossKV[Special[boss]], "name", abilityName2, sizeof(abilityName2));
 			if(StrEqual(abilityName, abilityName2))  //Make sure the ability names are equal
 			{
-				decl String:pluginName2[64];
+				new String:pluginName2[64];
 				KvGetString(BossKV[Special[boss]], "plugin_name", pluginName2, sizeof(pluginName2));
 				if(!pluginName[0] || !pluginName2[0] || StrEqual(pluginName, pluginName2))  //Make sure the plugin names are equal
 				{

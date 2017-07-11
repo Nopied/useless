@@ -369,8 +369,9 @@ public Action OnRoundStart(Handle timer)
 
     // SetGameState(Game_AttackAndDefense);
 
-    timeleft = float(CheckAlivePlayers()*22)+45.0;
-    DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+    timeleft = 0.0;
+    // timeleft = float(CheckAlivePlayers()*22)+45.0;
+    // DrawGameTimer = CreateTimer(0.1, OnTimer, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
     return Plugin_Continue;
 }
 
@@ -790,6 +791,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
     return Plugin_Continue;
 }
 
+/*
 public Action SnowStormTransmit(int entity, int client)
 {
     // SetEdictFlags(entity, FL_EDICT_FREE);
@@ -806,6 +808,7 @@ public Action SnowStormTransmit(int entity, int client)
 
     return Plugin_Continue;
 }
+*/
 
 void EnableLastManStanding(int client, bool spawnPlayer = false)
 {
