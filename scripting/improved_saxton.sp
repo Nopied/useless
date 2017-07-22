@@ -1492,7 +1492,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 		if (SS_OldClass[clientIdx] != newClass)
 			TF2_SetPlayerClass(clientIdx, newClass);
 		// ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
-		PlayAnimation(clientIdx, "taunt_party_trick");
+		PlayAnimation(clientIdx, "taunt_party_trick", true);
 	}
 
 	// disable dynamic abilities during the rage.
@@ -1540,7 +1540,11 @@ stock void PlayAnimation(int client, char[] anim, bool following = false)
 		HookSingleEntityOutput(animationentity, "OnAnimationDone", OnAnimationDone, true);
 
 		if(following)
+		{
+			SetVariantString("!activator");
 			AcceptEntityInput(animationentity, "SetParent", client);
+		}
+
 	}
 }
 

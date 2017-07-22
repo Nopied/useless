@@ -82,14 +82,11 @@ public void OnAllPluginsLoaded()
     if(gBot != INVALID_HANDLE)
     {
         gBot.StopListening();
-
-        gBot.GetGuilds(GuildList);
     }
     else
     {
         gBot = new DiscordBot(BOT_TOKEN);
     }
-
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
@@ -104,10 +101,12 @@ public void OnMapStart()
         GetCurrentMap(map, sizeof(map));
         Format(discordMessage, sizeof(discordMessage), "현재 맵: %s", map);
 
+        gBot.GetGuilds(GuildList);
+
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 }
-
+/*
 public void OnMapEnd()
 {
     if(gBot != INVALID_HANDLE)
@@ -115,7 +114,7 @@ public void OnMapEnd()
         gBot.StopListening();
     }
 }
-
+*/
 public void OnClientPostAdminCheck(int client)
 {
     if(gBot != INVALID_HANDLE && !IsFakeClient(client))
@@ -186,11 +185,13 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
 			//Channel.SendMessage(gBot, "Sending message with DiscordChannel.SendMessage");
 
             gServerChat = view_as<DiscordChannel>(CloneHandle(Channel));
-			gBot.StartListeningToChannel(Channel, OnMessage);
+            if(!gBot.IsListeningToChannel(Channel))
+			         gBot.StartListeningToChannel(Channel, OnMessage);
 		}
         else if(StrEqual(id, BOT_CONSOLE_ID))
         {
-            gBot.StartListeningToChannel(Channel, OnMessage);
+            if(!gBot.IsListeningToChannel(Channel))
+                gBot.StartListeningToChannel(Channel, OnMessage);
         }
 }
 
