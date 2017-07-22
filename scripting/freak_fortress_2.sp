@@ -37,7 +37,7 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 
 #define MAJOR_REVISION "1"
 #define MINOR_REVISION "15"
-#define STABLE_REVISION "0"
+#define STABLE_REVISION "1"
 // #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
@@ -217,6 +217,7 @@ new bool:HasCompanions;
 new bool:NoticedLastman=false;
 
 new Handle:MusicTimer[MAXPLAYERS+1];
+// new Handle:BossSoloRageDelayTimer[MAXPLAYERS+1];
 new Handle:BossInfoTimer[MAXPLAYERS+1][2];
 new Handle:DrawGameTimer;
 new Handle:doorCheckTimer;
@@ -6705,9 +6706,11 @@ public Action:OnCallForMedic(client, const String:command[], args)
 			return Plugin_Continue;
 		}
 
+		bool isSoloRage = false;
+
 		decl String:ability[10], String:lives[MAXRANDOMS][3];
 
-		for(new i=1; i<MAXRANDOMS; i++)
+		for(new i=1; i<MAXRANDOMS; i++) // 강화 분노 체크용도로만.
 		{
 			Format(ability, sizeof(ability), "ability%i", i);
 			KvRewind(BossKV[Special[boss]]);
@@ -6736,10 +6739,12 @@ public Action:OnCallForMedic(client, const String:command[], args)
 						if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
 							continue;
 					}
+					/*
 					if(!UseAbility(abilityName, pluginName, boss, 0))
 					{
 						return Plugin_Continue;
 					}
+					*/
 				}
 				else
 				{
@@ -6764,10 +6769,12 @@ public Action:OnCallForMedic(client, const String:command[], args)
 								if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
 									continue;
 							}
+							/*
 							if(!UseAbility(abilityName, pluginName, boss, 0))
 							{
 								return Plugin_Continue;
 							}
+							*/
 							break;
 						}
 					}
@@ -6840,7 +6847,6 @@ public Action:OnCallForMedic(client, const String:command[], args)
 			BossCharge[boss][0] -= 100.0;
 		}
 
-
 		new Float:position[3];
 		new Float:victimPos[3];
 		GetEntPropVector(client, Prop_Send, "m_vecOrigin", position);
@@ -6862,15 +6868,97 @@ public Action:OnCallForMedic(client, const String:command[], args)
 
 		if(find == 1)
 		{
+			isSoloRage = true;
 			KvRewind(BossKV[Special[boss]]);
 			KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 			CPrintToChatAll("{olive}[FF2]{default} %t", "oneperson_rage", bossName);
-			BossAbilityCooldown[boss][0]=BossAbilityCooldownMax[boss][0]*2.0;
+			BossAbilityDuration[boss][0]=BossAbilityDurationMax[boss][0]+2.0;
+
+			Handle SoloRageDelay;
+	        CreateDataTimer(2.0, SoloRageDelayTimer, SoloRageDelay, TIMER_FLAG_NO_MAPCHANGE);
+
+	        WritePackCell(SoloRageDelay, client);
+	        // WritePackCell(SoloRageDelay, boss);
+			WritePackCell(SoloRageDelay, doUpgradeRage);
+			// WritePackCell(SoloRageDelay, doUpgradeRage);
+	        ResetPack(SoloRageDelay);
 		}
 		else
 		{
-			BossAbilityCooldown[boss][0]=BossAbilityCooldownMax[boss][0];
+			BossAbilityDuration[boss][0]=BossAbilityDurationMax[boss][0];
 		}
+
+		if(!isSoloRage)
+		{
+			for(new i=1; i<MAXRANDOMS; i++)
+			{
+				Format(ability, sizeof(ability), "ability%i", i);
+				KvRewind(BossKV[Special[boss]]);
+				if(KvJumpToKey(BossKV[Special[boss]], ability))
+				{
+					if(KvGetNum(BossKV[Special[boss]], "arg0", 0))
+					{
+						continue;
+					}
+
+					KvGetString(BossKV[Special[boss]], "life", ability, sizeof(ability));
+					if(!ability[0])
+					{
+						decl String:abilityName[64], String:pluginName[64];
+						KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
+						KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+						if(doUpgradeRage)
+						{
+							if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) <= 0)
+								continue;
+							else
+								hasUpgradeRage = true;
+						}
+						else
+						{
+							if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
+								continue;
+						}
+						if(!UseAbility(abilityName, pluginName, boss, 0))
+						{
+							return Plugin_Continue;
+						}
+					}
+					else
+					{
+						new count=ExplodeString(ability, " ", lives, MAXRANDOMS, 3);
+						for(new j; j<count; j++)
+						{
+							if(StringToInt(lives[j])==BossLives[boss])
+							{
+								decl String:abilityName[64], String:pluginName[64];
+								KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
+								KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+
+								if(doUpgradeRage)
+								{
+									if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) <= 0)
+										continue;
+									else
+										hasUpgradeRage = true;
+								}
+								else
+								{
+									if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
+										continue;
+								}
+								if(!UseAbility(abilityName, pluginName, boss, 0))
+								{
+									return Plugin_Continue;
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
 
 		decl String:sound[PLATFORM_MAX_PATH];
 		if(RandomSoundAbility("sound_ability", sound, sizeof(sound), boss))
@@ -6892,6 +6980,83 @@ public Action:OnCallForMedic(client, const String:command[], args)
 		emitRageSound[boss]=true;
 		return Plugin_Handled;
 	}
+	return Plugin_Continue;
+}
+
+public Action SoloRageDelayTimer(Handle timer, Handle data)
+{
+	int client = ReadPackCell(data);
+	int boss = GetBossIndex(client);
+	bool doUpgradeRage = ReadPackCell(data);
+
+	if(boss == -1) return Plugin_Continue;
+
+	char ability[10], lives[MAXRANDOMS][3];
+	for(new i=1; i<MAXRANDOMS; i++)
+	{
+		Format(ability, sizeof(ability), "ability%i", i);
+		KvRewind(BossKV[Special[boss]]);
+		if(KvJumpToKey(BossKV[Special[boss]], ability))
+		{
+			if(KvGetNum(BossKV[Special[boss]], "arg0", 0))
+			{
+				continue;
+			}
+
+			KvGetString(BossKV[Special[boss]], "life", ability, sizeof(ability));
+			if(!ability[0])
+			{
+				decl String:abilityName[64], String:pluginName[64];
+				KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
+				KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+				if(doUpgradeRage)
+				{
+					if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) <= 0)
+						continue;
+				}
+				else
+				{
+					if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
+						continue;
+				}
+				if(!UseAbility(abilityName, pluginName, boss, 0))
+				{
+					return Plugin_Continue;
+				}
+			}
+			else
+			{
+				new count=ExplodeString(ability, " ", lives, MAXRANDOMS, 3);
+				for(new j; j<count; j++)
+				{
+					if(StringToInt(lives[j])==BossLives[boss])
+					{
+						decl String:abilityName[64], String:pluginName[64];
+						KvGetString(BossKV[Special[boss]], "plugin_name", pluginName, sizeof(pluginName));
+						KvGetString(BossKV[Special[boss]], "name", abilityName, sizeof(abilityName));
+
+						if(doUpgradeRage)
+						{
+							if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) <= 0)
+								continue;
+
+						}
+						else
+						{
+							if(KvGetNum(BossKV[Special[boss]], "is_upgrade_rage", 0) > 0)
+								continue;
+						}
+						if(!UseAbility(abilityName, pluginName, boss, 0))
+						{
+							return Plugin_Continue;
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	return Plugin_Continue;
 }
 
@@ -7585,7 +7750,7 @@ public Action:OnPlayerHurt(Handle:event, const String:name[], bool:dontBroadcast
 							SetEventInt(hStreak, "death_flags", TF_DEATHFLAG_DEADRINGER);
 							SetEventInt(hStreak, "kill_streak_wep", GetEntProp(attacker, Prop_Send, "m_nStreaks"));
 							SetEventInt(hStreak, "kill_streak_total", GetEntProp(attacker, Prop_Send, "m_nStreaks"));
-							FireEvent(hStreak);
+							FireEvent(hStreak, true);
 						}
 				  }
 				}
@@ -7714,10 +7879,15 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 				return Plugin_Changed;
 			}
 
-			if(shield[client] && damage)
+			if(shield[client] && damage > 30.0)
 			{
-				RemoveShield(client, attacker, position);
-				return Plugin_Handled;
+				Change=true;
+				StingShield(client, attacker, position);
+
+				damage *= (0.75 - (GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") / 4.0));
+
+				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 0.0);
+
 			}
 
 			if(TF2_GetPlayerClass(client)==TFClass_Soldier && IsValidEntity((weapon=GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary)))
@@ -8544,6 +8714,7 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 
 	if(IsBoss(attacker))
 	{
+		/*
 		if(shield[victim])
 		{
 			new Float:position[3];
@@ -8552,6 +8723,7 @@ public Action:OnStomp(attacker, victim, &Float:damageMultiplier, &Float:damageBo
 			RemoveShield(victim, attacker, position);
 			return Plugin_Handled;
 		}
+		*/
 		damageMultiplier=900.0;
 		JumpPower=0.0;
 		return Plugin_Changed;
@@ -10240,6 +10412,14 @@ stock RemoveShield(client, attacker, Float:position[3])
 	EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
 	TF2_AddCondition(client, TFCond_Bonked, 0.1); // Shows "MISS!" upon breaking shield
 	shield[client]=0;
+}
+
+stock StingShield(client, attacker, Float:position[3])
+{
+	EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
+	EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
+	EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
+	EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, _, _, position, _, false);
 }
 
 public Action:MusicTogglePanelCmd(client, args)

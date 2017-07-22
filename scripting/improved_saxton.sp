@@ -1491,11 +1491,70 @@ public SS_Initiate(clientIdx, Float:curTime)
 		new TFClassType:newClass = GetClassOfTaunt(SS_ForcedTaunt[clientIdx], SS_OldClass[clientIdx]);
 		if (SS_OldClass[clientIdx] != newClass)
 			TF2_SetPlayerClass(clientIdx, newClass);
-		ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
+		// ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
+		PlayAnimation(clientIdx, "taunt_party_trick");
 	}
 
 	// disable dynamic abilities during the rage.
 	DD_SetDisabled(clientIdx, true, true, true, true);
+}
+
+
+stock void PlayAnimation(int client, char[] anim)
+{
+	TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, view_as<float>({0.0, 0.0, 0.0}));
+	SetEntityRenderMode(client, RENDER_TRANSCOLOR);
+	SetEntityRenderColor(client, 255, 255, 255, 0);
+
+	SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 0);
+	// SetEntityMoveType(client, MOVETYPE_NONE);
+
+	float vecOrigin[3], vecAngles[3];
+	GetClientAbsOrigin(client, vecOrigin);
+	GetClientAbsAngles(client, vecAngles);
+	vecAngles[0] = 0.0;
+
+	char clientModel[PLATFORM_MAX_PATH];
+	GetClientModel(client, clientModel, sizeof(clientModel));
+
+	int animationentity = CreateEntityByName("prop_dynamic_override");
+	if(IsValidEntity(animationentity))
+	{
+		DispatchKeyValueVector(animationentity, "origin", vecOrigin);
+		DispatchKeyValueVector(animationentity, "angles", vecAngles);
+		DispatchKeyValue(animationentity, "model", clientModel);
+		DispatchKeyValue(animationentity, "defaultanim", anim);
+		DispatchSpawn(animationentity);
+		SetEntPropEnt(animationentity, Prop_Send, "m_hOwnerEntity", client);
+
+		if(GetEntProp(client, Prop_Send, "m_iTeamNum") == 0)
+			SetEntProp(animationentity, Prop_Send, "m_nSkin", GetEntProp(client, Prop_Send, "m_nForcedSkin"));
+		else
+			SetEntProp(animationentity, Prop_Send, "m_nSkin", GetClientTeam(client) - 2);
+
+		SetEntPropFloat(animationentity, Prop_Send, "m_flModelScale", 2.0);
+
+		SetVariantString("OnAnimationDone !self:KillHierarchy::0.0:1");
+		AcceptEntityInput(animationentity, "AddOutput");
+
+		HookSingleEntityOutput(animationentity, "OnAnimationDone", OnAnimationDone, true);
+	}
+}
+
+public void OnAnimationDone(const char[] output, int caller, int activator, float delay)
+{
+	if(IsValidEntity(caller))
+	{
+		int client = GetEntPropEnt(caller, Prop_Send, "m_hOwnerEntity");
+		if(client > 0 && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client))
+		{
+			// SetEntityMoveType(client, MOVETYPE_WALK);
+			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
+			SetEntityRenderMode(client, RENDER_TRANSCOLOR);
+			SetEntityRenderColor(client, 255, 255, 255, 255);
+
+		}
+	}
 }
 
 public SS_OnPlayerRunCmd(clientIdx, buttons, Float:curTime)

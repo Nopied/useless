@@ -73,6 +73,7 @@ void ViewVIPMenu(int client)
     Format(temp, sizeof(temp), "보스 스탠다드 플레이: %s", IsClientEnableVIPEffect(client, VIPEffect_BossStandard) ? "ON" : "OFF");
     menu.AddItem("", temp);
     menu.AddItem("", "네임태그 자유 설정 가능: ON", ITEMDRAW_DISABLED);
+    menu.AddItem("", "리스폰 추가 파티클 효과: ON", ITEMDRAW_DISABLED);
 
     menu.ExitButton = true;
 
