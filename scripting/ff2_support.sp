@@ -116,15 +116,26 @@ public Action OnPlayerHurt(Handle event, const char[] name, bool dontBroadcast)
 	if(FF2_GetRoundState() != 1)	return Plugin_Continue;
 
 	int mainboss = FF2_GetBossIndex(0);
-	new client=GetClientOfUserId(GetEventInt(event, "userid"));
-	new attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
-	new damage=GetEventInt(event, "damageamount");
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
+	int damage = GetEventInt(event, "damageamount");
+	int custom = GetEventInt(event, "custom");
 
-	new clientHp = GetEntProp(client, Prop_Send, "m_iHealth");
+	int clientHp = GetEntProp(client, Prop_Send, "m_iHealth");
+	int boss = FF2_GetBossIndex(attacker);
+
+	bool bChanged = false;
 
 	if(FF2_GetBossIndex(client) != -1)
 	{
 		return Plugin_Continue;
+	}
+
+	if(FF2_HasAbility(boss, this_plugin_name, "ff2_mlg_aimbot") && FF2_GetAbilityDuration(boss) > 0.0)
+	{
+		bChanged = true;
+
+		SetEventInt(event, "custom", TF_CUSTOM_HEADSHOT);
 	}
 	/*
 	if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_snow_storm_passive"))
@@ -139,7 +150,7 @@ public Action OnPlayerHurt(Handle event, const char[] name, bool dontBroadcast)
 	*/
 
 
-	return Plugin_Continue;
+	return bChanged ? Plugin_Changed : Plugin_Continue;
 }
 
 public void OnGameFrame() //
@@ -368,6 +379,9 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 	g_flIceDuration[client] = -1.0;
 
+	SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+	SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
+
 	if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_spawn_mlg_bot") && GetClientTeam(client) == FF2_GetBossTeam())
 	{
 		Aimbot_SetState(client, AimbotType_Aimbot, true);
@@ -390,6 +404,25 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 	*/
 
 	return Plugin_Continue;
+}
+
+public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
+{
+	if(!IsValidClient(attacker))	return Plugin_Continue;
+
+	int boss = FF2_GetBossIndex(attacker);
+	bool bChanged = false;
+
+	if(damagecustom != TF_CUSTOM_HEADSHOT)
+	{
+		if(FF2_HasAbility(boss, this_plugin_name, "ff2_mlg_aimbot") && FF2_GetAbilityDuration(boss) > 0.0)
+		{
+			bChanged = true;
+			damagetype |= DMG_CRIT;
+		}
+	}
+
+	return bChanged ? Plugin_Changed : Plugin_Continue;
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
@@ -821,6 +854,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 			if(boss == -1 && FF2_HasAbility(mainboss, this_plugin_name, "rage_arrowkeyattack") && FF2_GetAbilityDuration(mainboss) > 0.0)
 			{
+				/*
 				float maxSpeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
 
 				float clientAngles[3];
@@ -877,6 +911,29 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					totalMoveVelocity[2] = velocity[2];
 
 					TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, totalMoveVelocity);
+				}
+				*/
+
+				if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
+				{
+					changed = true;
+
+					if(buttons & IN_FORWARD)
+					{
+						buttons |= IN_BACK|~IN_FORWARD;
+					}
+					if(buttons & IN_RIGHT)
+					{
+						buttons |= IN_LEFT|~IN_RIGHT;
+					}
+					if(buttons & IN_LEFT)
+					{
+						buttons |= IN_RIGHT|~IN_LEFT;
+					}
+					if(buttons & IN_BACK)
+					{
+						buttons |= IN_FORWARD|~IN_BACK;
+					}
 				}
 			}
 

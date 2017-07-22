@@ -79,13 +79,17 @@ void CheckConfigFile()
 
 public void OnAllPluginsLoaded()
 {
-    gBot = new DiscordBot(BOT_TOKEN);
-    /*
     if(gBot != INVALID_HANDLE)
     {
-    	gBot.GetGuilds(GuildList);
+        gBot.StopListening();
+
+        gBot.GetGuilds(GuildList);
     }
-    */
+    else
+    {
+        gBot = new DiscordBot(BOT_TOKEN);
+    }
+
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
@@ -99,10 +103,6 @@ public void OnMapStart()
         char discordMessage[100];
         GetCurrentMap(map, sizeof(map));
         Format(discordMessage, sizeof(discordMessage), "현재 맵: %s", map);
-
-        gBot.StopListening();
-
-        gBot.GetGuilds(GuildList);
 
         gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
@@ -376,7 +376,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
         gBot.SendMessageToChannelID(BOT_CONSOLE_ID, debugUrl);
         */
-        gBot.SendMessage(gServerChat, discordMessage);
+        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 
 

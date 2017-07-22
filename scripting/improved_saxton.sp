@@ -1500,7 +1500,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 }
 
 
-stock void PlayAnimation(int client, char[] anim)
+stock void PlayAnimation(int client, char[] anim, bool following = false)
 {
 	TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, view_as<float>({0.0, 0.0, 0.0}));
 	SetEntityRenderMode(client, RENDER_TRANSCOLOR);
@@ -1532,13 +1532,38 @@ stock void PlayAnimation(int client, char[] anim)
 		else
 			SetEntProp(animationentity, Prop_Send, "m_nSkin", GetClientTeam(client) - 2);
 
-		SetEntPropFloat(animationentity, Prop_Send, "m_flModelScale", 2.0);
+		// SetEntPropFloat(animationentity, Prop_Send, "m_flModelScale", 1.0);
 
 		SetVariantString("OnAnimationDone !self:KillHierarchy::0.0:1");
 		AcceptEntityInput(animationentity, "AddOutput");
 
 		HookSingleEntityOutput(animationentity, "OnAnimationDone", OnAnimationDone, true);
+
+		if(following)
+			AcceptEntityInput(animationentity, "SetParent", client);
 	}
+}
+
+stock int CreateLink(int iClient)
+{
+	int iLink = CreateEntityByName("tf_taunt_prop");
+	DispatchKeyValue(iLink, "targetname", "DispenserLink");
+	DispatchSpawn(iLink);
+
+	// char strModel[PLATFORM_MAX_PATH];
+	// GetEntPropString(iClient, Prop_Data, "m_ModelName", strModel, PLATFORM_MAX_PATH);
+
+	SetEntityModel(iLink, "models/empty.mdl");
+
+	SetEntProp(iLink, Prop_Send, "m_fEffects", 16|64);
+
+	SetVariantString("!activator");
+	AcceptEntityInput(iLink, "SetParent", iClient);
+
+	// SetVariantString("flag");
+	// AcceptEntityInput(iLink, "SetParentAttachment", iClient);
+
+	return iLink;
 }
 
 public void OnAnimationDone(const char[] output, int caller, int activator, float delay)

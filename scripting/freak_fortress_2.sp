@@ -144,7 +144,6 @@ new bool:bossHasReloadAbility[MAXPLAYERS+1];
 new bool:bossHasRightMouseAbility[MAXPLAYERS+1];
 new bool:playingCustomBossBGM[MAXPLAYERS+1];
 new bool:playingCustomBGM[MAXPLAYERS+1];
-new bool:NoticedAbilityTimeEnd[MAXPLAYERS+1][8];
 new bool:DEVmode=false;
 
 new timeleft;
@@ -6376,14 +6375,9 @@ public Action:BossTimer(Handle:timer)
 			if(BossAbilityDuration[boss][slot] > 0.0)
 			{
 				BossAbilityDuration[boss][slot]-=0.1;
-				NoticedAbilityTimeEnd[boss][slot]=false;
-			}
-			else if(BossAbilityCooldown[boss][slot] > 0.0)
-			{
-				if(!NoticedAbilityTimeEnd[boss][slot])
-				{
-					NoticedAbilityTimeEnd[boss][slot]=true;
 
+				if(BossAbilityDuration[boss][slot] <= 0.0)
+				{
 					if(IsPlayerAlive(client))
 					{
 						for(int count=0; count<slotNameCount; count++)
@@ -6397,9 +6391,11 @@ public Action:BossTimer(Handle:timer)
 							Call_PushCell(slot);
 							Call_Finish();
 						}
-
 					}
 				}
+			}
+			else if(BossAbilityCooldown[boss][slot] > 0.0)
+			{
 				BossAbilityCooldown[boss][slot] -= 0.1;
 			}
 			else
