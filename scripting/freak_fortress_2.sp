@@ -7880,7 +7880,7 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 				Change=true;
 				StingShield(client, attacker, position);
 
-				damage *= (0.75 - (GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") / 4.0));
+				damage *= (0.75 - ((GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") / 100.0) / 4.0));
 
 				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 0.0);
 

@@ -1456,6 +1456,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 	SetEntityMoveType(clientIdx, MOVETYPE_NONE);
 	TF2_AddCondition(clientIdx, TFCond_MegaHeal, -1.0);
 	Saxton_AddConditions(clientIdx, SAO_SlamConditions[clientIdx]);
+	/*
 	if (strlen(SS_PropModel) > 3)
 	{
 		SS_RemoveProp(clientIdx); // in case the cooldown is zero and this rage is spammable
@@ -1477,6 +1478,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 			SetEntityRenderColor(prop, 255, 255, 255, 0);
 		}
 	}
+	*/
 
 	// force third person during the rage
 	SS_WasFirstPerson[clientIdx] = (GetEntProp(clientIdx, Prop_Send, "m_nForceTauntCam") == 0);

@@ -79,11 +79,7 @@ void CheckConfigFile()
 
 public void OnAllPluginsLoaded()
 {
-    if(gBot != INVALID_HANDLE)
-    {
-        gBot.StopListening();
-    }
-    else
+    if(gBot == INVALID_HANDLE)
     {
         gBot = new DiscordBot(BOT_TOKEN);
     }

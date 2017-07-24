@@ -17,6 +17,8 @@
 #define PLUGIN_DESCRIPTION "Yup. Yup."
 #define PLUGIN_VERSION "Dev"
 
+#define MODEL_EMPTY "models/empty.mdl"
+
 public Plugin myinfo = {
   name=PLUGIN_NAME,
   author=PLUGIN_AUTHOR,
@@ -1713,6 +1715,8 @@ void CheckPartConfigFile()
     CloseHandle(CustomPartSubKv);
     CustomPartSubKv = INVALID_HANDLE;
   }
+
+  PrecacheModel(MODEL_EMPTY);
 
   char config[PLATFORM_MAX_PATH];
   char temp[PLATFORM_MAX_PATH];
