@@ -18,8 +18,8 @@ char SERVER_SUGGESTION_ID[40];
 char BOT_CONSOLE_ID[40];
 char STEAM_API_KEY[60];
 char SERVER_NAME[100];
-char DB_NAME[80];
-// char g_strSteamUserAvatar[MAXPLAYERS+1][200];
+
+char g_strSteamUserAvatar[MAXPLAYERS+1][200];
 
 DiscordBot gBot;
 DiscordChannel gServerChat;
@@ -75,7 +75,6 @@ void CheckConfigFile()
     KvGetString(TokenKv, "steam_api_key", STEAM_API_KEY, sizeof(STEAM_API_KEY));
     KvGetString(TokenKv, "server_name", SERVER_NAME, sizeof(SERVER_NAME));
     KvGetString(TokenKv, "bot_console_id", BOT_CONSOLE_ID, sizeof(BOT_CONSOLE_ID));
-    KvGetString(TokenKv, "database_name", DB_NAME, sizeof(DB_NAME));
 }
 
 public void OnAllPluginsLoaded()
@@ -93,47 +92,15 @@ public void OnMapStart()
 {
     if(gBot != INVALID_HANDLE)
     {
-        char conf[80];
-        conf = "potry_discord_chat";
-	    Database db = SQL_Connect(conf, true, error, sizeof(error));
-
-        if(db == null)
-        {
-            gBot.SendMessageToChannelID(SERVER_CHAT_ID, "서버 데이터베이스에 연결하지 못했습니다.");
-        }
-        else
-        {
-            char map[50];
-            // char discordMessage[100];
-            GetCurrentMap(map, sizeof(map));
-
-            char query[1324];
-
-            SQL_FastQuery(db, "SET NAMES UTF8");
-            SQL_FastQuery(db, "CREATE TABLE IF NOT EXISTS `game_to_discord_chat` (`message` varchar(1024) NOT NULL DEFAULT '', `name` varchar(64) NOT NULL, `steam_id` varchar(25) PRIMARY KEY, 'just_joined' BOOLEAN, 'just_left' BOOLEAN) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-            SQL_FastQuery(db, "CREATE TABLE IF NOT EXISTS `game_to_discord_report` (`reason` varchar(1024) NOT NULL DEFAULT '', `target_name` varchar(64) NOT NULL, `target_steam_id` varchar(25) NOT NULL, 'pos' varchar(80) NOT NULL, `name` varchar(64) NOT NULL, `steam_id` varchar(25) PRIMARY KEY, `is_player_stuck_on_wall` varchar(10) NOT NULL, `is_player_stuck_on_player` varchar(10) NOT NULL, `is_player_stuck_on_player` varchar(10) NOT NULL, 'is_alive' varchar(10) NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-            SQL_FastQuery(db, "CREATE TABLE IF NOT EXISTS `game_to_discord_suggestion` (`message` varchar(1024) NOT NULL DEFAULT '', `name` varchar(64) NOT NULL, `steam_id` varchar(25) PRIMARY KEY, 'map' varchar(64) NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-
-            Format(query, sizeof(query), "INSERT INTO `game_to_discord_chat` (`message`, `name`, `steam_id`) VALUES ('%s', '%s', '%s')", map, "SERVER_BOT", "BOT");
-
-            SQL_TQuery(db, sql_ErrorOnly, query);
-        }
-
-
+        char map[50];
+        char discordMessage[100];
+        GetCurrentMap(map, sizeof(map));
+        Format(discordMessage, sizeof(discordMessage), "현재 맵: %s", map);
 
         gBot.GetGuilds(GuildList);
 
-        //
+        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
-}
-
-public sql_ErrorOnly(Handle owner, Handle result, const char[] error, any client)
-{
-	if (result == INVALID_HANDLE)
-	{
-		LogError("[DiscordBot] SQL ERROR (error: %s)", error);
-		PrintToChatAll("* SQL ERROR (error: %s)", error);
-	}
 }
 /*
 public void OnMapEnd()
@@ -148,26 +115,19 @@ public void OnClientPostAdminCheck(int client)
 {
     if(gBot != INVALID_HANDLE && !IsFakeClient(client))
     {
+        g_strSteamUserAvatar[client] = "";
+
         char steamAccount[60];
-        // char steamAvatarUrl[200];
+        char steamAvatarUrl[200];
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-        // Format(steamAvatarUrl, sizeof(steamAvatarUrl), "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s", STEAM_API_KEY, steamAccount);
-        // PrepareRequest(steamAvatarUrl);
+        Format(steamAvatarUrl, sizeof(steamAvatarUrl), "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s", STEAM_API_KEY, steamAccount);
+        PrepareRequest(steamAvatarUrl);
 
-        // char discordMessage[100];
-        // Format(discordMessage, sizeof(discordMessage), "%N님이 서버에 입장하셨습니다.", client);
+        char discordMessage[100];
+        Format(discordMessage, sizeof(discordMessage), "%N님이 서버에 입장하셨습니다.", client);
 
-        Database db = SQL_Connect(DB_NAME, true, error, sizeof(error));
-        if(db != null)
-        {
-            char query[1324];
-            Format(query, sizeof(query), "INSERT INTO `game_to_discord_chat` (`message`, `name`, `steam_id`, 'just_joined') VALUES ('%s', '%N', '%s', 'true')", "", client, steamAccount);
-
-            SQL_TQuery(db, sql_ErrorOnly, query);
-        }
-
-        // gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 }
 
@@ -175,22 +135,12 @@ public void OnClientDisconnect(int client)
 {
     if(gBot != INVALID_HANDLE && !IsFakeClient(client))
     {
-        char steamAccount[60];
-        GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+        g_strSteamUserAvatar[client] = "";
 
-        // char discordMessage[100];
-        // Format(discordMessage, sizeof(discordMessage), "%N님이 서버에서 퇴장하셨습니다.", client);
+        char discordMessage[100];
+        Format(discordMessage, sizeof(discordMessage), "%N님이 서버에서 퇴장하셨습니다.", client);
 
-        Database db = SQL_Connect(DB_NAME, true, error, sizeof(error));
-        if(db != null)
-        {
-            char query[1324];
-            Format(query, sizeof(query), "INSERT INTO `game_to_discord_chat` (`message`, `name`, `steam_id`, 'just_left') VALUES ('%s', '%N', '%s', 'true')", "", client, steamAccount);
-
-            SQL_TQuery(db, sql_ErrorOnly, query);
-        }
-
-        // gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 }
 
@@ -382,16 +332,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
         GetClientAuthId(client, AuthId_Steam2, steamAccount, sizeof(steamAccount));
         Format(discordMessage, sizeof(discordMessage), "현재 맵: %s\n- %N [%s]: %s", mapName, client, steamAccount, chat[strlen(specialtext[0])+3]);
 
-        // gBot.SendMessageToChannelID(SERVER_SUGGESTION_ID, discordMessage);
-        Database db = SQL_Connect(DB_NAME, true, error, sizeof(error));
-
-        if(db != null)
-        {
-            char query[1324];
-            Format(query, sizeof(query), "INSERT INTO `game_to_discord_suggestion` (`message`, 'map', `name`, `steam_id`) VALUES ('%s', '%s', '%N', '%s')", chat[strlen(specialtext[0])+3], mapName, client, steamAccount);
-
-            SQL_TQuery(db, sql_ErrorOnly, query);
-        }
+        gBot.SendMessageToChannelID(SERVER_SUGGESTION_ID, discordMessage);
 
         CPrintToChat(client, "{discord}[신고]{default} 해당 건의 {yellow}''%s''{default}가 접수되었습니다. 고맙습니다!", chat[strlen(specialtext[0])+3]);
         return Plugin_Handled;
@@ -400,32 +341,21 @@ public Action Listener_Say(int client, const char[] command, int argc)
     if(!handleChat)
     {
         char discordMessage[400];
-        // char serverName[100];
-        // char steamUrl[200];
-        // char debugUrl[350];
-        // char discordName[100];
+        char serverName[100];
+        char steamUrl[200];
+        char debugUrl[350];
+        char discordName[100];
         char steamAccount[60];
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-        // Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", client, steamAccount);
+        Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", client, steamAccount);
 
 
-        // Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
-        // Format(discordMessage, sizeof(discordMessage), " - %N (%s):\n  %s", client, steamAccount, chat[1]);
+        Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
+        Format(discordMessage, sizeof(discordMessage), " - %N (%s):\n  %s", client, steamAccount, chat[1]);
 
-        // Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
+        Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
 
-
-        // char conf[80];
-        // conf = "potry_discord_chat";
-	    Database db = SQL_Connect(DB_NAME, true, error, sizeof(error));
-        if(db != null)
-        {
-            char query[1324];
-            Format(query, sizeof(query), "INSERT INTO `game_to_discord_chat` (`message`, `name`, `steam_id`) VALUES ('%s', '%N', '%s')", map, client, steamAccount);
-
-            SQL_TQuery(db, sql_ErrorOnly, query);
-        }
 
 
         /*
@@ -443,7 +373,7 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
         gBot.SendMessageToChannelID(BOT_CONSOLE_ID, debugUrl);
         */
-        // gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 
 
@@ -453,20 +383,22 @@ void ReportToDiscord(int client, int target, char[] reason)
 {
     if(gBot == INVALID_HANDLE) return;
 
-    char posString[80];
+    char discordMessage[1800];
     char steamAccount[60];
     char targetSteamAccount[60];
     char mapName[80];
+    char timeString[60];
     float targetPos[3];
     GetClientAbsOrigin(target, targetPos);
 
     bool IsPlayerStuckOnPlayer = IsPlayerStuck(target);
     bool IsPlayerStuckOnWall = IsSpotSafe(target, targetPos, GetEntPropFloat(target, Prop_Send, "m_flModelScale"));
 
+    FormatTime(timeString, sizeof(timeString), "%Y%m%d-%H%M%S", GetTime());
     GetCurrentMap(mapName, sizeof(mapName));
-    GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-    GetClientAuthId(client, AuthId_SteamID64, targetSteamAccount, sizeof(targetSteamAccount));
-/*
+    GetClientAuthId(client, AuthId_Steam2, steamAccount, sizeof(steamAccount));
+    GetClientAuthId(client, AuthId_Steam2, targetSteamAccount, sizeof(targetSteamAccount));
+
     Format(discordMessage, sizeof(discordMessage), " - 신고자: %N(%s)\n - 신고 대상: %N(%s)\n\n - 신고 사유: %s\n\n - 발생 시각: %s\n - 발생 맵 이름: %s\n - 신고 대상의 좌표: %.3f, %.3f, %.3f\n - 맵에 낌 유무: %s\n - 사람과 낌 유무: %s\n - 생존 유무: %s",
     client, steamAccount,
     target, steamAccount,
@@ -478,44 +410,106 @@ void ReportToDiscord(int client, int target, char[] reason)
     IsPlayerStuckOnPlayer ? "네" : "아니요",
     IsPlayerAlive(target) ? "네" : "아니요"
     );
-*/
 
-    Format(posString, sizeof(posString), "%.3f, %.3f, %.3f", targetPos[0], targetPos[1], targetPos[2]);
-
-    Database db = SQL_Connect(DB_NAME, true, error, sizeof(error));
-    if(db != null)
-    {
-        char query[1324];
-        /*
-            SQL_FastQuery(db, "CREATE TABLE IF NOT EXISTS `game_to_discord_report`
-            (`reason` varchar(1024) NOT NULL DEFAULT '',
-            `target_name` varchar(64) NOT NULL,
-            `target_steam_id` varchar(25) NOT NULL,
-            'pos' varchar(80) NOT NULL,
-            `name` varchar(64) NOT NULL,
-            `steam_id` varchar(25) PRIMARY KEY,
-            `is_player_stuck_on_wall` varchar(10) NOT NULL,
-            `is_player_stuck_on_player` varchar(10) NOT NULL)
-            ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-        */
-        Format(query, sizeof(query), "INSERT INTO `game_to_discord_report` (`reason`, `target_name`, `target_steam_id`, 'pos', 'name', 'steam_id', 'is_player_stuck_on_wall', 'is_player_stuck_on_player', 'is_alive') VALUES ('%s', '%N', '%s', '%N', '%s', '%s', '%s', '%s', '%s')",
-        map,
-        target,
-        targetSteamAccount,
-        posString,
-        client,
-        steamAccount,
-        IsPlayerStuckOnWall ? "네" : "아니요",
-        IsPlayerStuckOnPlayer ? "네" : "아니요",
-        IsPlayerAlive(target) ? "네" : "아니요"
-        );
-
-        SQL_TQuery(db, sql_ErrorOnly, query);
-    }
-
-    // gBot.SendMessageToChannelID(SERVER_REPORT_ID, discordMessage);
+    gBot.SendMessageToChannelID(SERVER_REPORT_ID, discordMessage);
 }
 
+stock Handle PrepareRequest(char[] url, EHTTPMethod method=k_EHTTPMethodGET, Handle hJson=null)
+{
+	static char stringJson[16384];
+	stringJson[0] = '\0';
+	if(hJson != null) {
+		json_dump(hJson, stringJson, sizeof(stringJson), 0, true);
+	}
+
+	Handle request = SteamWorks_CreateHTTPRequest(method, url);
+	if(request == null) {
+		return null;
+	}
+
+	SteamWorks_SetHTTPRequestRawPostBody(request, "application/json; charset=UTF-8", stringJson, strlen(stringJson));
+
+	SteamWorks_SetHTTPRequestNetworkActivityTimeout(request, 30);
+
+
+	SteamWorks_SetHTTPCallbacks(request, _, _, HTTPDataReceive);
+	if(hJson != null) delete hJson;
+    SteamWorks_SendHTTPRequest(request);
+
+
+	return request;
+}
+/*
+public int HTTPCompleted(Handle request, bool failure, bool requestSuccessful, EHTTPStatusCode statuscode, any data, any data2) {
+}
+*/
+
+public int HTTPDataReceive(Handle request, bool failure, int offset, int statuscode, any dp)
+{ // TODO: 최적화
+    if(!failure)
+    {
+        char playerName[80];
+        char IsplayerName[80];
+
+        JsonObjectGetString(dp, "personaname", playerName, sizeof(playerName));
+
+        for(int client=1; client<=MaxClients; client++)
+        {
+            if(IsClientInGame(client) && !IsFakeClient(client))
+            {
+                GetClientName(client, IsplayerName, sizeof(IsplayerName));
+
+                if(StrEqual(playerName, IsplayerName))
+                {
+                    JsonObjectGetString(dp, "avatarfull", g_strSteamUserAvatar[client], sizeof(g_strSteamUserAvatar[]));
+                }
+            }
+        }
+    }
+
+    delete view_as<Handle>(dp);
+	delete request;
+}
+/*
+public int HeadersReceived(Handle request, bool failure, any data, any datapack) {
+	DataPack dp = view_as<DataPack>(datapack);
+	if(failure) {
+		delete dp;
+		return;
+	}
+
+	char xRateLimit[16];
+	char xRateLeft[16];
+	char xRateReset[32];
+
+	bool exists = false;
+
+	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Limit", xRateLimit, sizeof(xRateLimit));
+	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Remaining", xRateLeft, sizeof(xRateLeft));
+	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Reset", xRateReset, sizeof(xRateReset));
+
+	//Get url
+	char route[128];
+	ResetPack(dp);
+	ReadPackString(dp, route, sizeof(route));
+	delete dp;
+
+	int reset = StringToInt(xRateReset);
+	if(reset > GetTime() + 3) {
+		reset = GetTime() + 3;
+	}
+
+	if(exists) {
+		SetTrieValue(hRateReset, route, reset);
+		SetTrieValue(hRateLeft, route, StringToInt(xRateLeft));
+		SetTrieValue(hRateLimit, route, StringToInt(xRateLimit));
+	}else {
+		SetTrieValue(hRateReset, route, -1);
+		SetTrieValue(hRateLeft, route, -1);
+		SetTrieValue(hRateLimit, route, -1);
+	}
+}
+*/
 bool ResizeTraceFailed;
 
 stock void constrainDistance(const float[] startPoint, float[] endPoint, float distance, float maxDistance)
