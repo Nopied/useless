@@ -37,7 +37,7 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 
 #define MAJOR_REVISION "1"
 #define MINOR_REVISION "15"
-#define STABLE_REVISION "1"
+#define STABLE_REVISION "2"
 // #define DEV_REVISION "(ALPHA)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
@@ -2488,10 +2488,12 @@ public Action:Timer_Announce(Handle:timer)
 	{
 		switch(announcecount)
 		{
+			/*
 			case 0:
 			{
 				CPrintToChatAll("{olive}[FF2]{default} %t", "ff2_last_update", PLUGIN_VERSION, ff2versiondates[maxVersion]);
 			}
+			*/
 			case 1:
 			{
 				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_1");
@@ -2560,6 +2562,11 @@ public Action:Timer_Announce(Handle:timer)
 			{
 				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_17");
 			}
+			case 18:
+			{
+				CPrintToChatAll("{lightblue}[POTRY]{default} %t", "potry_announce_18");
+			}
+
 
 			default:
 			{
@@ -3550,7 +3557,7 @@ PlayBGM(client)
 		// KvGetSectionName(musicKv, keyName, sizeof(keyName));
 		// Debug("key: %s", keyName);
 
-		Debug("%N", client);
+		// Debug("%N", client);
 
 		new String:music[PLATFORM_MAX_PATH];
 		new String:artist[80];
@@ -5153,6 +5160,18 @@ stock RemovePlayerTarge(client)
 			}
 		}
 	}
+}
+
+stock bool IsDemoShield(int entity)
+{
+	int index = GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex");
+
+	if(index==131 || index==406 || index==1099 || index==1144)  //Chargin' Targe, Splendid Screen, Tide Turner, Festive Chargin' Targe
+	{
+		return true;
+	}
+
+	return false;
 }
 
 stock RemovePlayerBack(client, indices[], length)
@@ -7878,11 +7897,39 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 			if(shield[client] && damage > 30.0)
 			{
 				Change=true;
-				StingShield(client, attacker, position);
 
-				damage *= (0.75 - ((GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") / 100.0) / 4.0));
+				if(IsDemoShield(shield[client]) && GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") > 3.0)
+				{
+					float chargedamage = damage * 0.5;
 
-				SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 0.0);
+					StingShield(client, attacker, position);
+
+					if(GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") >= chargedamage)
+					{
+						damage -= chargedamage;
+
+						SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") - chargedamage);
+
+					}
+					else
+					{
+						float mustdamaged = chargedamage - GetEntPropFloat(client, Prop_Send, "m_flChargeMeter");
+
+						damage -= mustdamaged;
+
+						SetEntPropFloat(client, Prop_Send, "m_flChargeMeter", 0.0);
+					}
+				}
+				else
+				{
+					RemoveShield(client, attacker, position);
+					return Plugin_Handled;
+				}
+
+				// damage *= (0.75 - ((GetEntPropFloat(client, Prop_Send, "m_flChargeMeter") / 100.0) / 4.0));
+
+
+
 
 			}
 
@@ -8065,6 +8112,13 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 						Change=true;
 						ScaleVector(damageForce, 0.5);
 					}
+				}
+
+				if(TF2_GetPlayerClass(attacker) == TFClass_Heavy)
+				{
+					// if(!(damagetype & DMG_CRIT))
+					Change=true;
+					ScaleVector(damageForce, 1.5);
 				}
 
 				if (IsValidEntity(inflictor))
@@ -8268,9 +8322,11 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 							KvRewind(BossKV[Special[boss]]);
 							KvGetString(BossKV[Special[boss]], "name", bossName, sizeof(bossName), "ERROR NAME");
 
-							damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.07)/(255.0/85.0));
+							damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.07)/3.0);
 							damagetype|=DMG_CRIT;
 
+							if(damage < 200.0)
+								damage = 200.0;
 							if(bIsGroundMarket)
 								damage /= 2.0;
 
@@ -8415,7 +8471,12 @@ public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damage
 					new Float:sliencedTime=6.0; // TODO: 광역변수.
 					new bool:slienced=false;
 
-					damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.075)/(255.0/85.0));
+					damage=(((float(BossHealthMax[boss])*float(BossLivesMax[boss]))*0.075)/3.0);
+
+					if(damage < 200.0)
+					{
+						damage = 500.0;
+					}
 					if(bIsFacestab)
 					{
 						damage /= 2.0;

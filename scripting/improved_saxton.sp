@@ -311,6 +311,7 @@ public OnPluginStart2()
 	HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
 	HookEvent("teamplay_round_start", Event_RoundStart_Pre, EventHookMode_PostNoCopy);
 	PrecacheSound(NOPE_AVI); // DO NOT DELETE IN FUTURE MOD PACKS
+	PrecacheModel("models/empty.mdl");
 
 	SH_NormalHUDHandle = CreateHudSynchronizer(); // All you need to use ShowSyncHudText is to initialize this handle once in OnPluginStart()
 	SH_AlertHUDHandle = CreateHudSynchronizer();  // Then use a unique handle for what hudtext you want sync'd to not overlap itself.
@@ -1485,7 +1486,10 @@ public SS_Initiate(clientIdx, Float:curTime)
 	SetVariantInt(1);
 	AcceptEntityInput(clientIdx, "SetForcedTauntCam");
 
+	PlayAnimation(clientIdx, "taunt_party_trick", true);
+
 	// force the taunt. if the prop is good, this'll work.
+	/*
 	if (SS_ForcedTaunt[clientIdx] > 0)
 	{
 		SetEntProp(clientIdx, Prop_Send, "m_fFlags", GetEntProp(clientIdx, Prop_Send, "m_fFlags") | FL_ONGROUND);
@@ -1494,8 +1498,9 @@ public SS_Initiate(clientIdx, Float:curTime)
 		if (SS_OldClass[clientIdx] != newClass)
 			TF2_SetPlayerClass(clientIdx, newClass);
 		// ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
-		PlayAnimation(clientIdx, "taunt_party_trick", true);
+
 	}
+	*/
 
 	// disable dynamic abilities during the rage.
 	DD_SetDisabled(clientIdx, true, true, true, true);
@@ -1540,13 +1545,22 @@ stock void PlayAnimation(int client, char[] anim, bool following = false)
 		AcceptEntityInput(animationentity, "AddOutput");
 
 		HookSingleEntityOutput(animationentity, "OnAnimationDone", OnAnimationDone, true);
-
+/*
 		if(following)
 		{
 			SetVariantString("!activator");
 			AcceptEntityInput(animationentity, "SetParent", client);
 		}
+*/
+		if(following)
+		{
+			int iLink = CreateLink(client);
 
+			SetVariantString("!activator");
+			AcceptEntityInput(animationentity, "SetParent", iLink);
+
+			SetEntPropEnt(animationentity, Prop_Send, "m_hEffectEntity", iLink);
+		}
 	}
 }
 

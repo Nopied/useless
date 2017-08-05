@@ -23,28 +23,30 @@ public void OnPluginStart2()
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dont)
 {
-      int client=GetClientOfUserId(GetEventInt(event, "userid"));
-      // int attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
+    if(FF2_GetRoundState() != 1) return Plugin_Continue;
+    
+    int client=GetClientOfUserId(GetEventInt(event, "userid"));
+    // int attacker=GetClientOfUserId(GetEventInt(event, "attacker"));
 
-      if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
+    if(!(GetEventInt(event, "death_flags") & TF_DEATHFLAG_DEADRINGER))
+    {
+      for(int target = 1; target <= MaxClients; target++)
       {
-          for(int target = 1; target <= MaxClients; target++)
+          if(FF2_HasAbility(FF2_GetBossIndex(target), this_plugin_name, "skeleton_spawner"))
           {
-              if(FF2_HasAbility(FF2_GetBossIndex(target), this_plugin_name, "skeleton_spawner"))
+              clientSkeleton[target][client]=SpawnSkeleton(target);
+              if(IsValidEntity(clientSkeleton[target][client]))
               {
-                  clientSkeleton[target][client]=SpawnSkeleton(target);
-                  if(IsValidEntity(clientSkeleton[target][client]))
-                  {
-                    float skPos[3];
-                    GetClientEyePosition(target, skPos);
+                float skPos[3];
+                GetClientEyePosition(target, skPos);
 
-                    skPos[2] -= 10.0;
-                    SDKHook(clientSkeleton[target][client], SDKHook_OnTakeDamage, OnTakeDamage);
-                    TeleportEntity(clientSkeleton[target][client], skPos, NULL_VECTOR, NULL_VECTOR);
-                  }
+                skPos[2] -= 10.0;
+                SDKHook(clientSkeleton[target][client], SDKHook_OnTakeDamage, OnTakeDamage);
+                TeleportEntity(clientSkeleton[target][client], skPos, NULL_VECTOR, NULL_VECTOR);
               }
           }
       }
+    }
 }
 
 public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)

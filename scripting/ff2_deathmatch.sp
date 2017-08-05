@@ -361,11 +361,12 @@ public Action OnRoundStart(Handle timer)
             SDKHook(target, SDKHook_PreThinkPost, StatusTimer);
         }
     }
-
+    /*
     if(CheckAlivePlayers() < 2){ // TODO: 커스터마이즈
         CPrintToChatAll("{olive}[FF2]{default} {green}최소 %d명{default}이 있어야 타이머가 작동됩니다.", 2);
         return Plugin_Continue;
     }
+    */
 
     // SetGameState(Game_AttackAndDefense);
 
@@ -516,12 +517,13 @@ public Action:OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         {
             TF2_IgnitePlayer(victim, attacker);
         }
-
+/*
         if(damagetype & DMG_BULLET && (TF2_GetPlayerClass(attacker) == TFClass_Sniper || TF2_GetPlayerClass(attacker) == TFClass_Engineer))
         {
           changed=true;
           damagetype|=DMG_PREVENT_PHYSICS_FORCE;
       }
+*/
 
     }
 
@@ -1544,8 +1546,8 @@ stock void GiveLastManWeapon(int client)
   {
     case TFClass_Scout:
     {
-      SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.4 ; 6 ; 0.4");
-      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 1.5 ; 97 ; 0.5 ; 6 ; 0.5");
+      SpawnWeapon(client, "tf_weapon_scattergun", 200, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 97 ; 0.7 ; 6 ; 0.7");
+      SpawnWeapon(client, "tf_weapon_pistol", 209, 0, 2, "2 ; 1.5 ; 97 ; 0.8 ; 6 ; 0.8");
       SpawnWeapon(client, "tf_weapon_bat", 30667, 0, 2, "2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 2: 피해량 향상
       // 97: 재장전 향상
@@ -1553,15 +1555,15 @@ stock void GiveLastManWeapon(int client)
     }
     case TFClass_Sniper:
     {
-      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 3.5 ; 390 ; 3.0");
-      SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_sniperrifle", 201, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.9 ; 390 ; 3.0");
+      SpawnWeapon(client, "tf_weapon_smg", 203, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.9 ; 6 ; 0.7");
       SpawnWeapon(client, "tf_weapon_club", 264, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 390: 헤드샷 보너스 데미지
     }
     case TFClass_Soldier:
     {
-      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.5 ; 6 ; 0.4 ; 97 ; 0.4 ; 103 ; 1.2 ; 135 ; 1.3 ; 488 ; 1.0 ; 521 ; 2.0");
-      SpawnWeapon(client, "tf_weapon_shotgun_soldier", 15016, 0, 2, "2 ; 2.0 ; 97 ; 0.4 ; 6 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_rocketlauncher", 205, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.4 ; 6 ; 0.7 ; 97 ; 0.7 ; 103 ; 1.4 ; 135 ; 1.4 ; 488 ; 1.0");
+      SpawnWeapon(client, "tf_weapon_shotgun_soldier", 15016, 0, 2, "2 ; 1.6 ; 97 ; 0.6 ; 6 ; 0.6");
       SpawnWeapon(client, "tf_weapon_shovel", 416, 0, 2, "2 ; 4.0 ; 112 ; 1.0 ; 26 ; 150");
       // 103: 투사체 비행속도 향상
       // 135: 로켓점프 피해량 감소
@@ -1572,13 +1574,13 @@ stock void GiveLastManWeapon(int client)
     {
       SpawnWeapon(client, "tf_weapon_grenadelauncher", 206, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 671 ; 1.0 ; 103 ; 1.3 ; 135 ; 1.3 ; 6 ; 0.4 ; 97 ; 0.7");
       SpawnWeapon(client, "tf_weapon_pipebomblauncher", 207, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 1.6 ; 6 ; 0.4 ; 97 ; 0.7");
-      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.2 ; 540 ; 1.0 ; 97 ; 0.4 ; 6 ; 0.4 ; 112 ; 1.0 ; 26 ; 150");
+      SpawnWeapon(client, "tf_weapon_sword", 132, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 2 ; 2.2 ; 540 ; 1.0 ; 97 ; 0.6 ; 6 ; 0.6 ; 112 ; 1.0 ; 26 ; 150");
       // 540:아이랜더 효과로 추정됨..
       //changeMelee=false;
     }
     case TFClass_Medic: //
     {
-      SpawnWeapon(client, "tf_weapon_crossbow", 305, 0, 2, "2 ; 1.6 ; 17 ; 0.25 ; 4 ; 8.0 ; 6 ; 0.4 ; 97 ; 0.4");
+      SpawnWeapon(client, "tf_weapon_crossbow", 305, 0, 2, "2 ; 1.6 ; 17 ; 0.25 ; 4 ; 5.0 ; 6 ; 0.6 ; 97 ; 0.6");
       SpawnWeapon(client, "tf_weapon_medigun", 211, 0, 2, "2027 ; 1 ; 2022 ; 1 ; 542 ; 1 ; 482 ; 4.0 ; 493 ; 8.0");
       SpawnWeapon(client, "tf_weapon_bonesaw", 1071, 0, 2, "2 ; 4.0 ; 17 ; 0.40 ; 112 ; 1.0 ; 26 ; 150 ; 107 ; 1.10");
       // 17: 적중 시 우버차지

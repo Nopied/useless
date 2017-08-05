@@ -81,7 +81,7 @@ public Action OnPlayerSpawn(Handle event, const char[] name, bool dont)
 
 	if(FF2_GetRoundState() != 1)    return Plugin_Continue;
 
-	if(g_flTimeStop != -1.0 && g_flTimeStop > GetGameTime() && g_flTimeStopCooling == -1.0)
+	if(g_flTimeStop > GetGameTime())
 	{
 		g_nEntityMovetype[client] = view_as<int>(GetEntityMoveType(client));
 		SetEntityMoveType(client, MOVETYPE_NONE);

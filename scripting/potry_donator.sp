@@ -56,7 +56,7 @@ public Action:Listener_Say(int client, const char[] command, int argc)
         }
         else
         {
-            CPrintToChatAll("{lightblue}[POTRY]{default} {yellow}서버 후원자{default}가 되어야 사용가능합니다.")
+            CPrintToChat(client, "{lightblue}[POTRY]{default} {yellow}서버 후원자{default}가 되어야 사용가능합니다.");
         }
 		return Plugin_Handled;
 	}

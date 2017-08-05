@@ -70,3 +70,33 @@ native bool Aimbot_GetState(int client, AimbotType type);
 /*
 * 이 inc는 존재만 확인하는 용도임.
 */
+
+
+/*
+new g_bOnIce[MAXPLAYERS+1];
+
+public setIceFeeling(iClient, iOnIce=1) g_bOnIce[iClient] = bool:iOnIce;
+
+public OnGameFrame(){
+    for(new i = 1 ; i <= MaxClients ; i++){
+        if(g_bOnIce[i] &&  IsClientInGame(i) && IsPlayerAlive(i)){
+            if(GetEntityFlags(i) & FL_ONGROUND){
+                new Float:fVel[3], Float:fJak;
+                Entity_GetAbsVelocity(i, fVel);
+                fVel[2] = 0.0;
+                new Float:fSpeed = GetVectorLength(fVel);
+
+                fJak = (fSpeed/266.0) * 100;
+
+                GetEntPropVector(i, Prop_Data, "m_vecVelocity", fVel);
+
+                for(new l = 0 ; l < 2 ; l++){
+                    fVel[l] += (fVel[l]/fJak);
+                }
+
+                TeleportEntity(i, NULL_VECTOR, NULL_VECTOR, fVel);
+            }
+        }
+    }
+}
+*/

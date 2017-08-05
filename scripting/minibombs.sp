@@ -30,7 +30,7 @@ public OnPluginStart()
 	g_bCvarEnabled = GetConVarBool(g_hCvarEnabled);
 	HookConVarChange(g_hCvarEnabled, OnConVarChange);
 
-	g_hCvarSpawnDelay = CreateConVar("sm_minibombs_spawndelay", "0.20", "How often should a sticky spawn a minibomb? (Seconds)", _, true, 0.0);
+	g_hCvarSpawnDelay = CreateConVar("sm_minibombs_spawndelay", "1.2", "How often should a sticky spawn a minibomb? (Seconds)", _, true, 0.0);
 	g_flCvarSpawnDelay = GetConVarFloat(g_hCvarSpawnDelay);
 	HookConVarChange(g_hCvarSpawnDelay, OnConVarChange);
 
@@ -107,6 +107,7 @@ public Action:Timer_SetProps(Handle:timer, any:entity)
 					SetEntProp(ent2, Prop_Send, "m_bCritical", true);
 					SetEntPropFloat(ent2, Prop_Send, "m_flModelScale", 0.8);
 					SetEntPropFloat(ent2, Prop_Send, "m_flDamage", g_flCvarBombDamage);
+					SetEntProp(ent2, Prop_Send, "m_bTouched", 0);
 
 					DispatchSpawn(ent2);
 

@@ -31,6 +31,7 @@ public void OnPluginStart()
 	if ((g_hSDKMakeCarriedObject = EndPrepSDKCall()) == INVALID_HANDLE) SetFailState("Failed To create SDKCall for CBaseObject::MakeCarriedObject offset");
 
 	delete hConfig;
+	PrecacheModel("models/empty.mdl");
 
 	HookEvent("player_death", Event_PlayerDeath);
 
@@ -247,10 +248,7 @@ stock int CreateLink(int iClient)
 	DispatchKeyValue(iLink, "targetname", "DispenserLink");
 	DispatchSpawn(iLink);
 
-	char strModel[PLATFORM_MAX_PATH];
-	GetEntPropString(iClient, Prop_Data, "m_ModelName", strModel, PLATFORM_MAX_PATH);
-
-	SetEntityModel(iLink, strModel);
+	SetEntityModel(iLink, "models/empty.mdl");
 
 	SetEntProp(iLink, Prop_Send, "m_fEffects", 16|64);
 

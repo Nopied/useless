@@ -39,6 +39,8 @@ bool slotWeaponEntityRefChanged[MAXPLAYERS+1][5];
 int g_Target[MAX_EDICTS+1];
 bool CanHoming[MAX_EDICTS+1];
 
+int HomingCount[MAXPLAYERS+1]; // TODO: 2.0: Delete this.
+
 public void OnPluginStart()
 {
     HookEvent("player_death", OnPlayerDeath);
@@ -307,9 +309,46 @@ public void OnEntitySpawned(int entity)
 
         if(CP_IsPartActived(owner, 27))
         {
-            g_Target[entity] = TurretThink(owner);
+            float clientPos[3];
+            float clientEyeAngles[3];
+            float targetPos[3];
+            float targetEndPos[3];
+            float bestTargetDistance = 5000.0;
+            int bestTarget;
+
+            GetClientEyePosition(client, clientPos);
+            GetClientEyeAngles(client, clientEyeAngles);
+
+            for(int target=1; target<=MaxClients; target++)
+            {
+                if(target == owner || !IsClientInGame(target) || !IsPlayerAlive(target))
+                    continue;
+
+                float distance;
+                GetClientEyePosition(target, targetPos);
+                GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+
+                distance = GetVectorDistance(targetPos, targetEndPos);
+                if(bestTargetDistance > distance)
+                {
+                    bestTargetDistance = distance;
+                    bestTarget = target;
+                }
+            }
+            // g_Target[entity] = TurretThink(owner);
             // Debug("g_Target[%i] = %i", entity, g_Target[entity]);
-            CanHoming[entity] = true;
+            if(bestTarget > 0)
+            {
+                HomingCount[owner]++;
+                g_Target[entity] = bestTarget;
+                CanHoming[entity] = true;
+
+                if(HomingCount[owner] > 15)
+                {
+                    CP_ReplacePartSlot(owner, 27, 1);
+                    HomingCount[owner] = 0;
+                }
+            }
         }
     }
 }
@@ -624,6 +663,10 @@ public void CP_OnGetPart_Post(int client, int partIndex)
         CP_SetClientMaxSlot(client, 2);
         RequestFrame(TurnToSkeleton, client);
 
+    }
+    else if(partIndex == 27)
+    {
+        HomingCount[client] = 0;
     }
     else if(partIndex == 28)
     {

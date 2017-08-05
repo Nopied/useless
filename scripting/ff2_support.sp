@@ -917,6 +917,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
 				{
 					changed = true;
+					Debug("%N: %i", client, buttons);
 
 					if(buttons & IN_FORWARD)
 					{

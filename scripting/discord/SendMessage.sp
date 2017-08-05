@@ -52,13 +52,29 @@ public int Native_DiscordBot_SendMessageEmbed(Handle plugin, int numParams) {
 static void SendMessageEmbed(DiscordBot bot, char[] channel, MessageEmbed message)
 {
 	Handle hJson = json_object();
+	json_object_set_new(hJson, "content", json_string("-----------------------------"));
+
+	/*
+	Handle hArray = json_object_get(hJson, "embeds");
+
+	if(hArray == null) {
+		hArray = json_array();
+		json_object_set(hJson, "embeds", hArray);
+
+		json_object_set(hJson, "embeds", hArray);
+	}
+	else
+	{
+
+	}
+
+	json_array_append_new(hArray, message);
+
+	*/
+
 	Handle hArray = json_array();
-
-	json_object_set_new(hJson, "content", json_string(""));
-
 	json_array_append(hArray, message);
-	json_object_set(hJson, "embeds", hArray);
-
+	json_object_set_new(hJson, "embeds", hArray);
 	// json_array_append_new(hJson, message);
 
 	char url[64];
@@ -100,6 +116,13 @@ public Action SendMessageEmbedDelayed(Handle timer, any data) {
 
 public int GetSendMessageEmbedData(Handle request, bool failure, int offset, int statuscode, any dp) {
 	if(failure || statuscode != 200) {
+
+		SteamWorks_GetHTTPResponseBodyCallback(request, WebHookData, dp);
+
+		if(statuscode == 400) {
+			PrintToServer("BAD REQUEST");
+		}
+
 		if(statuscode == 429 || statuscode == 500) {
 			ResetPack(dp);
 			DiscordBot bot = ReadPackCell(dp);
@@ -194,6 +217,7 @@ public Action SendMessageDelayed(Handle timer, any data) {
 
 	SendMessage(bot, channel, message, fForward, dataa);
 }
+
 
 public int GetSendMessageData(Handle request, bool failure, int offset, int statuscode, any dp) {
 	if(failure || statuscode != 200) {

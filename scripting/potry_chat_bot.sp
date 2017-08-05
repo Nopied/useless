@@ -346,6 +346,8 @@ public Action Listener_Say(int client, const char[] command, int argc)
         char debugUrl[350];
         char discordName[100];
         char steamAccount[60];
+        char playerName[60];
+        GetClientName(client, playerName, sizeof(playerName));
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
         Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", client, steamAccount);
@@ -354,26 +356,24 @@ public Action Listener_Say(int client, const char[] command, int argc)
         Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
         Format(discordMessage, sizeof(discordMessage), " - %N (%s):\n  %s", client, steamAccount, chat[1]);
 
-        Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
+        // Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
 
-
-
-        /*
     	MessageEmbed Embed = new MessageEmbed();
 
     	Embed.SetColor("3978097");
-        Embed.SetAuthorData(discordName, g_strSteamUserAvatar[client]);
+        // Embed.SetAuthorData(discordName, g_strSteamUserAvatar[client]);
+        Embed.Author = json_string(playerName);
     	Embed.SetTitle("");
         Embed.SetURL(steamUrl);
-        Embed.SetDescription("");
+        Embed.SetDescription("서버 채팅이 저장됩니다.");
         Embed.SetData("type", "rich")
         Embed.AddField(SERVER_NAME, chat[1], true);
 
         gBot.SendMessageEmbed(gServerChat, Embed);
 
-        gBot.SendMessageToChannelID(BOT_CONSOLE_ID, debugUrl);
-        */
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        //gBot.SendMessageToChannelID(SERVER_CHAT_ID, debugUrl);
+
+        // gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 
 
