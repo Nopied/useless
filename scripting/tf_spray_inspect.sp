@@ -34,7 +34,7 @@ float g_vecSprayOrigin[MAXPLAYERS+1][3];
 ConVar g_WallDistanceThreshold, g_AimDistanceThreshold, g_InspectDuration;
 
 public void OnPluginStart() {
-	g_WallDistanceThreshold = CreateConVar("spray_inspect_max_wall_distance", "300.0",
+	g_WallDistanceThreshold = CreateConVar("spray_inspect_max_wall_distance", "2000.0",
 			"Maximum distance a wall can be from a player for spray inspection.", _, true, 0.0);
 	g_AimDistanceThreshold = CreateConVar("spray_inspect_max_aim_distance", "50.0",
 			"Maximum distance a spray can be from the cursor for inspection.", _, true, 0.0);
@@ -95,7 +95,7 @@ public Action OnClientCommandKeyValues(int client, KeyValues kv) {
 					char authId[32];
 					GetClientAuthId(source, AuthId_Steam3, authId, sizeof(authId));
 
-					Format(sprayMessage, sizeof(sprayMessage), "Sprayed by %N\n%s (#%d)",
+					Format(sprayMessage, sizeof(sprayMessage), "%N님의 스프레이 %N\n%s (#%d)",
 							source, authId, GetClientUserId(source));
 
 					// For easy reading when banning through console

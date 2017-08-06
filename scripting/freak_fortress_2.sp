@@ -1074,7 +1074,7 @@ stock FindVersionData(Handle:panel, versionIndex)
 }
 
 static const maxVersion=sizeof(ff2versiontitles)-1;
-
+// 
 new Specials;
 new Handle:BossKV[MAXSPECIALS];
 new Handle:PreAbility;

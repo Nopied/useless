@@ -96,6 +96,16 @@ public void OnGameFrame()
             }
         }
     }
+
+    for(int client=1; client<=MaxClients; client++)
+    {
+        if(!IsClientInGame(client) || !IsPlayerAlive(client)) continue;
+
+        if(CP_IsPartActived(client, 34) && IsFullyInWater(client))
+        {
+            TF2_AddCondition(client, TFCond_HalloweenKartNoTurn, GetTickInterval()+0.02);
+        }
+    }
 }
 
 public void OnEntityDestroyed(int entity)
@@ -316,8 +326,8 @@ public void OnEntitySpawned(int entity)
             float bestTargetDistance = 5000.0;
             int bestTarget;
 
-            GetClientEyePosition(client, clientPos);
-            GetClientEyeAngles(client, clientEyeAngles);
+            GetClientEyePosition(owner, clientPos);
+            GetClientEyeAngles(owner, clientEyeAngles);
 
             for(int target=1; target<=MaxClients; target++)
             {
@@ -326,7 +336,7 @@ public void OnEntitySpawned(int entity)
 
                 float distance;
                 GetClientEyePosition(target, targetPos);
-                GetEyeEndPos(client, GetVectorDistance(clientPos, targetPos), targetEndPos);
+                GetEyeEndPos(owner, GetVectorDistance(clientPos, targetPos), targetEndPos);
 
                 distance = GetVectorDistance(targetPos, targetEndPos);
                 if(bestTargetDistance > distance)
@@ -2050,6 +2060,19 @@ bool:CanSeeTarget(Float:startpos[3], Float:targetpos[3], target, bossteam)		// T
 public bool:TraceRayDontHitSelf(entity, mask, any:data)
 {
 	return entity != data;
+}
+
+stock bool IsFullyInWater(int clientIdx)
+{
+	int flags = GetEntityFlags(clientIdx);
+	if ((flags & (FL_SWIM | FL_INWATER)) == 0)
+		return false;
+
+	int waterLevel = GetEntProp(clientIdx, Prop_Send, "m_nWaterLevel");
+	if (waterLevel <= 1)
+		return false;
+
+	return true;
 }
 
 public bool:TraceRayFilterClients(entity, mask, any:data)

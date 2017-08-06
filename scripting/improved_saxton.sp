@@ -10,6 +10,7 @@
 #include <sdkhooks>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
+// #include <stocksoup/datapack_frame>
 #if defined VSP_VERSION
 native FF2_GetBossMax(index=0); // hidden in ff2...
 #endif
@@ -1487,6 +1488,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 	AcceptEntityInput(clientIdx, "SetForcedTauntCam");
 
 	PlayAnimation(clientIdx, "taunt_party_trick", true);
+	// RequestFrame(SlamTimer, clientIdx);
 
 	// force the taunt. if the prop is good, this'll work.
 	/*
