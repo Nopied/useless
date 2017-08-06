@@ -107,9 +107,10 @@ public Action:Timer_SetProps(Handle:timer, any:entity)
 					SetEntProp(ent2, Prop_Send, "m_bCritical", true);
 					SetEntPropFloat(ent2, Prop_Send, "m_flModelScale", 0.8);
 					SetEntPropFloat(ent2, Prop_Send, "m_flDamage", g_flCvarBombDamage);
-					SetEntProp(ent2, Prop_Send, "m_bTouched", 0);
 
 					DispatchSpawn(ent2);
+
+					SetEntProp(ent2, Prop_Send, "m_bTouched", 0);
 
 					SetEntityModel(ent2, MDL_BOMBLET);
 

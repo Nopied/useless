@@ -91,7 +91,7 @@ public Action OnClientCommandKeyValues(int client, KeyValues kv) {
 				vecAnnotation[2] += 32.0;
 
 				char sprayMessage[128];
-				if (CanGetSprayDetails(client)) {
+				if (CanGetSprayDetails(client) && IsClientInGame(source)) {
 					char authId[32];
 					GetClientAuthId(source, AuthId_Steam3, authId, sizeof(authId));
 

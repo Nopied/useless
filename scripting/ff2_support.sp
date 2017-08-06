@@ -31,6 +31,9 @@
 #define	MAX_EDICT_BITS	12
 #define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
 
+#define IN_LEFT_FIX (1 << 9)
+#define IN_RIGHT_FIX (1 << 10)
+
 #define SPRITE 	"materials/sprites/dot.vmt"
 
 public Plugin myinfo=
@@ -849,6 +852,8 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 	if(IsValidClient(client) && IsPlayerAlive(client))
 	{
+			// Debug("%N: %i", client, buttons);
+
 		 	int boss = FF2_GetBossIndex(client);
 			int mainboss = FF2_GetBossIndex(0);
 
@@ -914,26 +919,30 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				}
 				*/
 
-				if(buttons & IN_FORWARD|IN_RIGHT|IN_LEFT|IN_BACK)
+				if(buttons & IN_FORWARD|IN_MOVERIGHT|IN_MOVELEFT|IN_BACK)
 				{
 					changed = true;
-					Debug("%N: %i", client, buttons);
+					// Debug("%N: %i", client, buttons);
 
 					if(buttons & IN_FORWARD)
 					{
-						buttons |= IN_BACK|~IN_FORWARD;
+						buttons |= ~IN_FORWARD;
+						buttons |= IN_BACK;
 					}
-					if(buttons & IN_RIGHT)
+					if(buttons & IN_MOVERIGHT)
 					{
-						buttons |= IN_LEFT|~IN_RIGHT;
+						buttons |= ~IN_MOVERIGHT;
+						buttons |= IN_MOVELEFT;
 					}
-					if(buttons & IN_LEFT)
+					if(buttons & IN_MOVELEFT)
 					{
-						buttons |= IN_RIGHT|~IN_LEFT;
+						buttons |= ~IN_MOVELEFT;
+						buttons |= IN_MOVERIGHT;
 					}
 					if(buttons & IN_BACK)
 					{
-						buttons |= IN_FORWARD|~IN_BACK;
+						buttons |= ~IN_BACK;
+						buttons |= IN_FORWARD;
 					}
 				}
 			}
