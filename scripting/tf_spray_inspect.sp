@@ -95,7 +95,7 @@ public Action OnClientCommandKeyValues(int client, KeyValues kv) {
 					char authId[32];
 					GetClientAuthId(source, AuthId_Steam3, authId, sizeof(authId));
 
-					Format(sprayMessage, sizeof(sprayMessage), "%N님의 스프레이 %N\n%s (#%d)",
+					Format(sprayMessage, sizeof(sprayMessage), "%N님의 스프레이\n%s (#%d)",
 							source, authId, GetClientUserId(source));
 
 					// For easy reading when banning through console

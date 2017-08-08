@@ -13,7 +13,7 @@ public Plugin myinfo = {
   author=PLUGIN_AUTHOR,
   description=PLUGIN_DESCRIPTION,
   version=PLUGIN_VERSION,
-};
+}; // 
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
 {

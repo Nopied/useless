@@ -40,9 +40,9 @@ public void OnGameFrame()
 
         if(hideHUD && boss == -1)
         {
-            SetEntProp(client, Prop_Send, "m_iHideHUD", ( 1<<1 )|( 1<<3 )|( 1<<4 )|( 1<<5 )|( 1<<6 )|( 1<<8 )|( 1<<9 ));
+            SetEntProp(client, Prop_Send, "m_iHideHUD", ( 1<<3 )|( 1<<4 )|( 1<<5 )|( 1<<8 )|( 1<<9 ));
             continue;
-        }
+        } // |( 1<<6 )
 
         if(!FF2_HasAbility(boss, this_plugin_name, "ff2_nightmare")) continue;
 
@@ -112,7 +112,7 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
         {
             if(!IsClientInGame(target) || !IsPlayerAlive(target)) continue;
 
-            if(GetClientTeam(target) != GetClientTeam(target))
+            if(GetClientTeam(client) != GetClientTeam(target))
             {
                 targetlist[targetCount++] = target;
                 UTIL_ScreenFade(target, {0, 0, 0, 255}, 0.1, 5.0);

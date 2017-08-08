@@ -356,8 +356,10 @@ public Action Listener_Say(int client, const char[] command, int argc)
         Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
         Format(discordMessage, sizeof(discordMessage), " - %N (%s):\n  %s", client, steamAccount, chat[1]);
 
+        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
         // Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
 
+        /*
     	MessageEmbed Embed = new MessageEmbed();
 
     	Embed.SetColor("3978097");
@@ -370,10 +372,11 @@ public Action Listener_Say(int client, const char[] command, int argc)
         Embed.AddField(SERVER_NAME, chat[1], true);
 
         gBot.SendMessageEmbed(gServerChat, Embed);
+        */
 
         //gBot.SendMessageToChannelID(SERVER_CHAT_ID, debugUrl);
 
-        // gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        //
     }
 
 

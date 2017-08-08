@@ -1600,6 +1600,7 @@ public void OnAnimationDone(const char[] output, int caller, int activator, floa
 			SetEntityRenderMode(client, RENDER_TRANSCOLOR);
 			SetEntityRenderColor(client, 255, 255, 255, 255);
 
+			TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, -20000.0});
 		}
 	}
 }
