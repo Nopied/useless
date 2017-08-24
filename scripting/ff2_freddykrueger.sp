@@ -20,6 +20,27 @@ public void OnPluginStart2()
     return;
 }
 
+public OnEntityCreated(entity, const String:classname[])
+{
+	if(!StrContains(classname, "trigger_hurt", false))
+	{
+		SDKHook(entity, SDKHook_StartTouch, OnTriggerTouched);
+    	SDKHook(entity, SDKHook_Touch, OnTriggerTouched);
+	}
+}
+
+public Action OnTriggerTouched(int entity, int client)
+{
+    int mainboss = FF2_GetBossIndex(0);
+
+    if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_nightmare") && FF2_GetAbilityDuration(mainboss) > 0.0)
+    {
+        return Plugin_Handled;
+    }
+
+    return Plugin_Continue;
+}
+
 public void OnGameFrame()
 {
     int boss, mainboss;
@@ -40,7 +61,7 @@ public void OnGameFrame()
 
         if(hideHUD && boss == -1)
         {
-            SetEntProp(client, Prop_Send, "m_iHideHUD", ( 1<<3 )|( 1<<4 )|( 1<<5 )|( 1<<8 )|( 1<<9 ));
+            SetEntProp(client, Prop_Send, "m_iHideHUD", ( 1<<4 )|( 1<<5 )|( 1<<8 )|( 1<<9 ));
             continue;
         } // |( 1<<6 )
 
@@ -105,7 +126,12 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
             SetEntProp(animationentity, Prop_Send, "m_nSequence", GetEntProp(client, Prop_Send, "m_nSequence"));
             SetEntPropFloat(animationentity, Prop_Send, "m_flPlaybackRate", GetEntPropFloat(client, Prop_Send, "m_flPlaybackRate")); //
 
-            TeleportEntity(animationentity, clientPos, clientAngles, NULL_VECTOR);
+            float tempAngle[3];
+
+            tempAngle[0] = clientAngles[0];
+            tempAngle[1] = clientAngles[1];
+            tempAngle[2] = 0.0;
+            TeleportEntity(animationentity, clientPos, tempAngle, NULL_VECTOR);
         }
 
         for(int target = 1; target<=MaxClients; target++)
@@ -124,9 +150,13 @@ public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ab
         GetClientEyePosition(bestTarget, targetPos);
         GetClientEyeAngles(bestTarget, targetAngles);
 
-        float tempVelocity[3];
+        float tempVelocity[3], tempTargetVelocity[3];
 
-        tempVelocity[2] += 2000.0;
+        GetEntPropVector(client, Prop_Data, "m_vecVelocity", tempVelocity);
+        GetEntPropVector(bestTarget, Prop_Data, "m_vecVelocity", tempTargetVelocity);
+
+        ScaleVector(tempVelocity, -1.1);
+        ScaleVector(tempTargetVelocity, -1.1);
 
         TeleportEntity(bestTarget, clientPos, clientAngles, tempVelocity);
         TeleportEntity(client, targetPos, targetAngles, tempVelocity);

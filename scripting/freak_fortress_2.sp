@@ -37,8 +37,8 @@ Updated by Wliu, Chris, Lawd, and Carge after Powerlord quit FF2
 
 #define MAJOR_REVISION "1"
 #define MINOR_REVISION "15"
-#define STABLE_REVISION "2"
-// #define DEV_REVISION "(ALPHA)"
+#define STABLE_REVISION "3"
+#define DEV_REVISION "(NEXT 2.0)"
 #define BUILD_NUMBER "manual"  //This gets automagically updated by Jenkins
 #if !defined DEV_REVISION
 	#define PLUGIN_VERSION MAJOR_REVISION..."."...MINOR_REVISION..."."...STABLE_REVISION  //1.10.14
@@ -1074,7 +1074,7 @@ stock FindVersionData(Handle:panel, versionIndex)
 }
 
 static const maxVersion=sizeof(ff2versiontitles)-1;
-// 
+//
 new Specials;
 new Handle:BossKV[MAXSPECIALS];
 new Handle:PreAbility;
@@ -4438,7 +4438,7 @@ public Action:TF2Items_OnGiveNamedItem(client, String:classname[], iItemDefiniti
 				return Plugin_Changed;
 			}
 		}
-		case 15, 202:
+		case 15, 202, 298:
 		{
 			new Handle:itemOverride=PrepareItemHandle(item, _, _, "87 ; 0.40", true);
 			if(itemOverride!=INVALID_HANDLE)
@@ -7000,6 +7000,9 @@ public Action:OnCallForMedic(client, const String:command[], args)
 
 public Action SoloRageDelayTimer(Handle timer, Handle data)
 {
+	if(CheckRoundState()!=1)
+		return Plugin_Continue;
+
 	int client = ReadPackCell(data);
 	int boss = GetBossIndex(client);
 	bool doUpgradeRage = ReadPackCell(data);

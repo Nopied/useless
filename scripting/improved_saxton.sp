@@ -1245,7 +1245,7 @@ public SL_PreThink(clientIdx)
 
 				// damage is simple enough
 				if (SL_Damage[clientIdx] > 0.0)
-					FullyHookedDamage(victim, clientIdx, clientIdx, fixDamageForFF2(SL_Damage[clientIdx] * 0.33), DMG_CRIT, -1);
+					FullyHookedDamage(victim, clientIdx, clientIdx, SL_Damage[clientIdx] * 0.33, DMG_CRIT, -1);
 			}
 		}
 
@@ -1448,7 +1448,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 	Saxton_ReadSounds(bossIdx, SS_STRING, 14);
 	Saxton_RandomSound();
 	SS_TauntingUntil[clientIdx] = curTime + SS_PropDelay[clientIdx];
-	SS_NoSlamUntil[clientIdx] = SS_TauntingUntil[clientIdx] + 0.2;
+	SS_NoSlamUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx] + 0.2;
 	SS_PreparingUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx];
 	SS_OnCooldownUntil[clientIdx] = curTime + SS_Cooldown[clientIdx];
 	SS_IsUsing[clientIdx] = true;
