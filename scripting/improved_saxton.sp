@@ -1448,7 +1448,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 	Saxton_ReadSounds(bossIdx, SS_STRING, 14);
 	Saxton_RandomSound();
 	SS_TauntingUntil[clientIdx] = curTime + SS_PropDelay[clientIdx];
-	SS_NoSlamUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx] + 0.2;
+	SS_NoSlamUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx] + 3.5;
 	SS_PreparingUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx];
 	SS_OnCooldownUntil[clientIdx] = curTime + SS_Cooldown[clientIdx];
 	SS_IsUsing[clientIdx] = true;
@@ -1600,7 +1600,9 @@ public void OnAnimationDone(const char[] output, int caller, int activator, floa
 			SetEntityRenderMode(client, RENDER_TRANSCOLOR);
 			SetEntityRenderColor(client, 255, 255, 255, 255);
 
-			TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, -20000.0});
+			// SS_NoSlamUntil[client] = GetGameTime();
+
+			// TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, -20000.0});
 		}
 	}
 }

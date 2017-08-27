@@ -61,9 +61,9 @@ public void OnGameFrame()
 
         if(hideHUD && boss == -1)
         {
-            SetEntProp(client, Prop_Send, "m_iHideHUD", ( 1<<4 )|( 1<<5 )|( 1<<8 )|( 1<<9 ));
+            SetEntProp(client, Prop_Send, "m_iHideHUD", ( 1<<8 )|( 1<<9 ));
             continue;
-        } // |( 1<<6 )
+        } 
 
         if(!FF2_HasAbility(boss, this_plugin_name, "ff2_nightmare")) continue;
 

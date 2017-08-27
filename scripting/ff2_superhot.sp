@@ -43,7 +43,7 @@ public void OnGameFrame()
 {
     if(FF2_GetRoundState() != 1) return;
 
-    int boss, mainboss;
+    int mainboss;
     mainboss = FF2_GetBossIndex(0);
 
     if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_superhot"))
@@ -83,7 +83,11 @@ public void OnGameFrame()
             }
         }
 
-        SetConVarFloat(timeScale, tempTimeScale);
+        // if(tempTimeScale % 0.1 > 0.0) // % 연산자님?
+
+        int tempTempTimeScale = RoundFloat(tempTimeScale * 10.0);
+
+        SetConVarFloat(timeScale, tempTempTimeScale / 10.0);
 
         PrintCenterTextAll("%.1f", tempTimeScale);
     }
@@ -91,7 +95,7 @@ public void OnGameFrame()
 
 public Action FF2_OnAbility2(int boss, const char[] plugin_name, const char[] ability_name, int status)
 {
-    int client = GetClientOfUserId(FF2_GetBossUserId(boss));
+    // int client = GetClientOfUserId(FF2_GetBossUserId(boss));
 
     if(StrEqual(ability_name, "ff2_superhot"))
     {
