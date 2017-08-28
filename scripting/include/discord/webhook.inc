@@ -95,6 +95,14 @@ methodmap DiscordWebHook < Handle {
 		this.UpdateDataObject("username", json_string(name));
 	}
 
+	public bool GetAvatar(char[] buffer, int maxlength) {
+		return this.GetDataString("icon_url", buffer, maxlength);
+	}
+
+	public void SetAvatar(char[] icon_url) {
+		this.UpdateDataObject("icon_url", json_string(icon_url));
+	}
+
 	public bool GetContent(char[] buffer, int maxlength) {
 		return this.GetDataString("content", buffer, maxlength);
 	}
