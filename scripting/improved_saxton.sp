@@ -10,7 +10,6 @@
 #include <sdkhooks>
 #include <freak_fortress_2>
 #include <freak_fortress_2_subplugin>
-// #include <stocksoup/datapack_frame>
 #if defined VSP_VERSION
 native FF2_GetBossMax(index=0); // hidden in ff2...
 #endif
@@ -312,7 +311,6 @@ public OnPluginStart2()
 	HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
 	HookEvent("teamplay_round_start", Event_RoundStart_Pre, EventHookMode_PostNoCopy);
 	PrecacheSound(NOPE_AVI); // DO NOT DELETE IN FUTURE MOD PACKS
-	PrecacheModel("models/empty.mdl");
 
 	SH_NormalHUDHandle = CreateHudSynchronizer(); // All you need to use ShowSyncHudText is to initialize this handle once in OnPluginStart()
 	SH_AlertHUDHandle = CreateHudSynchronizer();  // Then use a unique handle for what hudtext you want sync'd to not overlap itself.
@@ -1245,7 +1243,7 @@ public SL_PreThink(clientIdx)
 
 				// damage is simple enough
 				if (SL_Damage[clientIdx] > 0.0)
-					FullyHookedDamage(victim, clientIdx, clientIdx, SL_Damage[clientIdx] * 0.33, DMG_CRIT, -1);
+					FullyHookedDamage(victim, clientIdx, clientIdx, fixDamageForFF2(SL_Damage[clientIdx] * 0.33), DMG_CRIT, -1);
 			}
 		}
 
@@ -1321,7 +1319,12 @@ public SS_RemoveProp(clientIdx)
 	if (SS_PropEntRef[clientIdx] == INVALID_ENTREF)
 		return;
 
-	RemoveEntity(INVALID_HANDLE, SS_PropEntRef[clientIdx]);
+	new entity = EntRefToEntIndex(SS_PropEntRef[clientIdx]);
+	if(IsValidEntity(entity))
+	{
+		AcceptEntityInput(entity, "Kill");
+	}
+
 	SS_PropEntRef[clientIdx] = INVALID_ENTREF;
 }
 
@@ -1447,9 +1450,10 @@ public SS_Initiate(clientIdx, Float:curTime)
 
 	Saxton_ReadSounds(bossIdx, SS_STRING, 14);
 	Saxton_RandomSound();
-	SS_TauntingUntil[clientIdx] = curTime + SS_PropDelay[clientIdx];
-	SS_NoSlamUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx] + 3.5;
-	SS_PreparingUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx];
+	// SS_TauntingUntil[clientIdx] = curTime + SS_PropDelay[clientIdx];
+	SS_TauntingUntil[clientIdx] = curTime + 0.7;
+	// SS_NoSlamUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx]; + 0.2;
+	// SS_PreparingUntil[clientIdx] = curTime + SS_GravityDelay[clientIdx];
 	SS_OnCooldownUntil[clientIdx] = curTime + SS_Cooldown[clientIdx];
 	SS_IsUsing[clientIdx] = true;
 	TeleportEntity(clientIdx, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, 0.0}); // stop velocity
@@ -1487,11 +1491,10 @@ public SS_Initiate(clientIdx, Float:curTime)
 	SetVariantInt(1);
 	AcceptEntityInput(clientIdx, "SetForcedTauntCam");
 
-	PlayAnimation(clientIdx, "taunt_party_trick", true);
-	// RequestFrame(SlamTimer, clientIdx);
+	SS_PropEntRef[clientIdx] = EntIndexToEntRef(PlayAnimation(clientIdx, "taunt_party_trick", true));
 
-	// force the taunt. if the prop is good, this'll work.
 	/*
+	// force the taunt. if the prop is good, this'll work.
 	if (SS_ForcedTaunt[clientIdx] > 0)
 	{
 		SetEntProp(clientIdx, Prop_Send, "m_fFlags", GetEntProp(clientIdx, Prop_Send, "m_fFlags") | FL_ONGROUND);
@@ -1499,8 +1502,7 @@ public SS_Initiate(clientIdx, Float:curTime)
 		new TFClassType:newClass = GetClassOfTaunt(SS_ForcedTaunt[clientIdx], SS_OldClass[clientIdx]);
 		if (SS_OldClass[clientIdx] != newClass)
 			TF2_SetPlayerClass(clientIdx, newClass);
-		// ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
-
+		ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
 	}
 	*/
 
@@ -1508,15 +1510,13 @@ public SS_Initiate(clientIdx, Float:curTime)
 	DD_SetDisabled(clientIdx, true, true, true, true);
 }
 
-
-stock void PlayAnimation(int client, char[] anim, bool following = false)
+stock int PlayAnimation(int client, char[] anim, bool following = false)
 {
-	TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, view_as<float>({0.0, 0.0, 0.0}));
+	// TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, view_as<float>({0.0, 0.0, 0.0}));
 	SetEntityRenderMode(client, RENDER_TRANSCOLOR);
 	SetEntityRenderColor(client, 255, 255, 255, 0);
 
 	SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 0);
-	// SetEntityMoveType(client, MOVETYPE_NONE);
 
 	float vecOrigin[3], vecAngles[3];
 	GetClientAbsOrigin(client, vecOrigin);
@@ -1541,19 +1541,11 @@ stock void PlayAnimation(int client, char[] anim, bool following = false)
 		else
 			SetEntProp(animationentity, Prop_Send, "m_nSkin", GetClientTeam(client) - 2);
 
-		// SetEntPropFloat(animationentity, Prop_Send, "m_flModelScale", 1.0);
-
 		SetVariantString("OnAnimationDone !self:KillHierarchy::0.0:1");
 		AcceptEntityInput(animationentity, "AddOutput");
 
 		HookSingleEntityOutput(animationentity, "OnAnimationDone", OnAnimationDone, true);
-/*
-		if(following)
-		{
-			SetVariantString("!activator");
-			AcceptEntityInput(animationentity, "SetParent", client);
-		}
-*/
+
 		if(following)
 		{
 			int iLink = CreateLink(client);
@@ -1563,7 +1555,11 @@ stock void PlayAnimation(int client, char[] anim, bool following = false)
 
 			SetEntPropEnt(animationentity, Prop_Send, "m_hEffectEntity", iLink);
 		}
+
+		return animationentity;
 	}
+
+	return -1;
 }
 
 stock int CreateLink(int iClient)
@@ -1572,18 +1568,12 @@ stock int CreateLink(int iClient)
 	DispatchKeyValue(iLink, "targetname", "DispenserLink");
 	DispatchSpawn(iLink);
 
-	// char strModel[PLATFORM_MAX_PATH];
-	// GetEntPropString(iClient, Prop_Data, "m_ModelName", strModel, PLATFORM_MAX_PATH);
-
 	SetEntityModel(iLink, "models/empty.mdl");
 
 	SetEntProp(iLink, Prop_Send, "m_fEffects", 16|64);
 
 	SetVariantString("!activator");
 	AcceptEntityInput(iLink, "SetParent", iClient);
-
-	// SetVariantString("flag");
-	// AcceptEntityInput(iLink, "SetParentAttachment", iClient);
 
 	return iLink;
 }
@@ -1595,14 +1585,21 @@ public void OnAnimationDone(const char[] output, int caller, int activator, floa
 		int client = GetEntPropEnt(caller, Prop_Send, "m_hOwnerEntity");
 		if(client > 0 && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client))
 		{
-			// SetEntityMoveType(client, MOVETYPE_WALK);
 			SetEntProp(client, Prop_Send, "m_bUseClassAnimations", 1);
 			SetEntityRenderMode(client, RENDER_TRANSCOLOR);
 			SetEntityRenderColor(client, 255, 255, 255, 255);
 
-			// SS_NoSlamUntil[client] = GetGameTime();
+			/*
+			while((ent = FindEntityByClassname(ent, "tf_taunt_prop")) != -1)
+	        {
+	            int owner = GetEntPropEnt(ent, Prop_Send, "moveparent");
 
-			// TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, -20000.0});
+	            if(owner == entity)
+	            {
+	                AcceptEntityInput(ent, "kill", ent);
+	            }
+	        }
+			*/
 		}
 	}
 }
@@ -1622,35 +1619,37 @@ public SS_PreThink(clientIdx)
 
 	if (SS_IsUsing[clientIdx])
 	{
-		if (curTime >= SS_TauntingUntil[clientIdx])
+
+		if (SS_TauntingUntil[clientIdx] > curTime &&  SS_TauntingUntil[clientIdx] != FAR_FUTURE)
 		{
-			SS_TauntingUntil[clientIdx] = FAR_FUTURE;
+			// SS_TauntingUntil[clientIdx] = FAR_FUTURE;
+			// SS_NoSlamUntil[clientIdx] = curTime + 1.5;
+			Debug("(SS_TauntingUntil[clientIdx] > curTime &&  SS_TauntingUntil[clientIdx] != FAR_FUTURE)");
+
 			SetEntityMoveType(clientIdx, MOVETYPE_WALK);
 			TeleportEntity(clientIdx, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, SS_JUMP_FORCE}); // simulate a high jump
-			SS_RemoveProp(clientIdx);
+			// SS_RemoveProp(clientIdx);
 
-			// fix their class
-			if (SS_ForcedTaunt[clientIdx] > 0 && TF2_GetPlayerClass(clientIdx) != SS_OldClass[clientIdx])
-				TF2_SetPlayerClass(clientIdx, SS_OldClass[clientIdx]);
+			// Debug("(curTime >= SS_TauntingUntil[clientIdx])");
+
 		}
-		else if (SS_TauntingUntil[clientIdx] != FAR_FUTURE) // this is plus the prop's physics rect are necessary for the trick to work
+		else if(curTime >= SS_TauntingUntil[clientIdx] && SS_TauntingUntil[clientIdx] != FAR_FUTURE)
 		{
-			if (SS_ForcedTaunt[clientIdx] > 0 && !TF2_IsPlayerInCondition(clientIdx, TFCond_Taunting))
-			{
-				SetEntProp(clientIdx, Prop_Send, "m_fFlags", GetEntProp(clientIdx, Prop_Send, "m_fFlags") | FL_ONGROUND);
-				ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
-			}
+			Debug("(curTime >= SS_TauntingUntil[clientIdx] && SS_TauntingUntil[clientIdx] != FAR_FUTURE)");
+			SS_TauntingUntil[clientIdx] = FAR_FUTURE;
+			SS_NoSlamUntil[clientIdx] = curTime + 1.5;
+
 		}
 
-		if (SS_PreparingUntil[clientIdx] != FAR_FUTURE && SS_TauntingUntil[clientIdx] == FAR_FUTURE)
+		if(SS_TauntingUntil[clientIdx] == FAR_FUTURE)
 		{
-			if (curTime >= SS_PreparingUntil[clientIdx])
+			if (curTime >= SS_NoSlamUntil[clientIdx])
 			{
-				SS_PreparingUntil[clientIdx] = FAR_FUTURE;
+				// SS_PreparingUntil[clientIdx] = FAR_FUTURE;
 				TeleportEntity(clientIdx, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, -100.0}); // give them a head start downward
 				SetEntityGravity(clientIdx, SS_GravitySetting[clientIdx]); // set gravity now
 			}
-			else
+			else if(SS_NoSlamUntil[clientIdx] > curTime)
 			{
 				// if player hits a ceiling, suspend them in midair until it's time to fall
 				static Float:velocity[3];
@@ -1661,12 +1660,10 @@ public SS_PreThink(clientIdx)
 					TeleportEntity(clientIdx, NULL_VECTOR, NULL_VECTOR, velocity);
 				}
 			}
-		}
 
-		if (SS_PreparingUntil[clientIdx] == FAR_FUTURE)
-		{
-			if (curTime >= SS_NoSlamUntil[clientIdx] && (GetEntityFlags(clientIdx) & FL_ONGROUND) != 0)
+			if (curTime >= SS_NoSlamUntil[clientIdx] && (GetEntityFlags(clientIdx) & FL_ONGROUND))
 			{
+				// Debug("curTime >= SS_NoSlamUntil[clientIdx] && (GetEntityFlags(clientIdx) & FL_ONGROUND)");
 				// damage nearby players, but make this unhooked damage if it's under two thirds of the user's HP
 				// or if it's a spy.
 				static Float:halePos[3];
@@ -1764,9 +1761,12 @@ public SS_PreThink(clientIdx)
 				SS_CreateEarthquake(clientIdx);
 			}
 
+
 			// end the rage if on ground or in water. (in water, it'll fail to do damage)
-			if (curTime >= SS_NoSlamUntil[clientIdx] && ((GetEntityFlags(clientIdx) & FL_ONGROUND) != 0 || IsFullyInWater(clientIdx)))
+			if (curTime >= SS_NoSlamUntil[clientIdx] && (GetEntityFlags(clientIdx) & FL_ONGROUND) || IsFullyInWater(clientIdx))
 			{
+				// Debug("curTime >= SS_NoSlamUntil[clientIdx] && ((GetEntityFlags(clientIdx) & FL_ONGROUND) != 0 || IsFullyInWater(clientIdx))");
+
 				SS_IsUsing[clientIdx] = false;
 				if (TF2_IsPlayerInCondition(clientIdx, TFCond_MegaHeal))
 					TF2_RemoveCondition(clientIdx, TFCond_MegaHeal);
@@ -1788,6 +1788,187 @@ public SS_PreThink(clientIdx)
 					SetEntityGravity(clientIdx, SS_GravitySetting[clientIdx]);
 			}
 		}
+
+		/*
+			if (curTime >= SS_TauntingUntil[clientIdx])
+			{
+				SS_TauntingUntil[clientIdx] = FAR_FUTURE;
+				SetEntityMoveType(clientIdx, MOVETYPE_WALK);
+				TeleportEntity(clientIdx, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, SS_JUMP_FORCE}); // simulate a high jump
+				// SS_RemoveProp(clientIdx);
+
+				Debug("(curTime >= SS_TauntingUntil[clientIdx])");
+
+			}
+			else if (SS_TauntingUntil[clientIdx] != FAR_FUTURE) // this is plus the prop's physics rect are necessary for the trick to work
+			{
+				Debug("(SS_TauntingUntil[clientIdx] != FAR_FUTURE)");
+
+				if (SS_ForcedTaunt[clientIdx] > 0 && !TF2_IsPlayerInCondition(clientIdx, TFCond_Taunting))
+				{
+					SetEntProp(clientIdx, Prop_Send, "m_fFlags", GetEntProp(clientIdx, Prop_Send, "m_fFlags") | FL_ONGROUND);
+					// ForceUserToTaunt(clientIdx, SS_ForcedTaunt[clientIdx]);
+				}
+			}
+
+			if (SS_PreparingUntil[clientIdx] != FAR_FUTURE && SS_TauntingUntil[clientIdx] == FAR_FUTURE)
+			{
+				Debug("SS_PreparingUntil[clientIdx] != FAR_FUTURE && SS_TauntingUntil[clientIdx] == FAR_FUTURE");
+				if (curTime >= SS_PreparingUntil[clientIdx])
+				{
+					Debug("curTime >= SS_PreparingUntil[clientIdx]");
+
+					SS_PreparingUntil[clientIdx] = FAR_FUTURE;
+					TeleportEntity(clientIdx, NULL_VECTOR, NULL_VECTOR, Float:{0.0, 0.0, -100.0}); // give them a head start downward
+					SetEntityGravity(clientIdx, SS_GravitySetting[clientIdx]); // set gravity now
+				}
+
+				else
+				{
+					Debug("else");
+					// if player hits a ceiling, suspend them in midair until it's time to fall
+					static Float:velocity[3];
+					GetEntPropVector(clientIdx, Prop_Data, "m_vecVelocity", velocity);
+					if (velocity[2] < 0.0)
+					{
+						velocity[2] = 0.0;
+						TeleportEntity(clientIdx, NULL_VECTOR, NULL_VECTOR, velocity);
+					}
+				}
+
+			}
+
+			if (SS_PreparingUntil[clientIdx] == FAR_FUTURE)
+			{
+				Debug("SS_PreparingUntil[clientIdx] == FAR_FUTURE");
+				if (curTime >= SS_NoSlamUntil[clientIdx] && (GetEntityFlags(clientIdx) & FL_ONGROUND))
+				{
+					Debug("curTime >= SS_NoSlamUntil[clientIdx] && (GetEntityFlags(clientIdx) & FL_ONGROUND)");
+					// damage nearby players, but make this unhooked damage if it's under two thirds of the user's HP
+					// or if it's a spy.
+					static Float:halePos[3];
+					GetEntPropVector(clientIdx, Prop_Send, "m_vecOrigin", halePos);
+
+					// either use override particle or default
+					static String:effect1[MAX_EFFECT_NAME_LENGTH];
+					static String:effect2[MAX_EFFECT_NAME_LENGTH];
+					new bool:override = false;
+					if (SAO_CanUse[clientIdx])
+					{
+						new bossIdx = FF2_GetBossIndex(clientIdx);
+						if (bossIdx >= 0)
+						{
+							FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, SAO_STRING, 4, effect1, MAX_EFFECT_NAME_LENGTH);
+							FF2_GetAbilityArgumentString(bossIdx, this_plugin_name, SAO_STRING, 5, effect2, MAX_EFFECT_NAME_LENGTH);
+							if (!IsEmptyString(effect1) || !IsEmptyString(effect2))
+								override = true;
+						}
+					}
+
+					if (!override)
+					{
+						effect1 = SS_EFFECT_GROUNDPOUND1;
+						effect2 = SS_EFFECT_GROUNDPOUND2;
+					}
+
+					if (!IsEmptyString(effect1))
+						ParticleEffectAt(halePos, effect1, 1.0);
+					if (!IsEmptyString(effect2))
+						ParticleEffectAt(halePos, effect2, 1.0);
+
+					for (new victim = 1; victim < MAX_PLAYERS; victim++)
+					{
+						if (!IsLivingPlayer(victim) || GetClientTeam(victim) == BossTeam)
+							continue;
+						else if (IsTreadingWater(victim) || IsFullyInWater(victim) || CheckGroundClearance(victim, 80.0, true))
+							continue;
+
+						static Float:victimPos[3];
+						GetEntPropVector(victim, Prop_Send, "m_vecOrigin", victimPos);
+						new Float:distance = GetVectorDistance(halePos, victimPos);
+						if (distance >= SS_Radius[clientIdx])
+							continue;
+
+						// knockback first
+						static Float:angles[3];
+						static Float:velocity[3];
+						GetVectorAnglesTwoPoints(halePos, victimPos, angles);
+						GetAngleVectors(angles, velocity, NULL_VECTOR, NULL_VECTOR);
+						ScaleVector(velocity, SS_Knockback[clientIdx]);
+						if ((GetEntityFlags(victim) & FL_ONGROUND) != 0 && velocity[2] < 300.0) // minimum Z, gives victims lift
+							velocity[2] = 300.0;
+						TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velocity);
+
+						// apply the damage
+						if (SS_MaxDamage[clientIdx] > 0.0)
+						{
+							new Float:damage = SS_CalculateDamage(clientIdx, distance);
+							if (TF2_GetPlayerClass(victim) == TFClass_Spy || float(GetEntProp(victim, Prop_Send, "m_iHealth")) * 0.66 >= damage)
+								SDKHooks_TakeDamage(victim, clientIdx, clientIdx, damage, DMG_PREVENT_PHYSICS_FORCE, -1);
+							else
+								FullyHookedDamage(victim, clientIdx, clientIdx, fixDamageForFF2(damage), DMG_PREVENT_PHYSICS_FORCE, -1);
+						}
+					}
+
+					// damage nearby buildings
+					if (SS_MaxDamage[clientIdx] > 0.0 && SS_BuildingDamageFactor[clientIdx] > 0.0) for (new pass = 0; pass <= 2; pass++)
+					{
+						static String:classname[MAX_ENTITY_CLASSNAME_LENGTH];
+						if (pass == 0) classname = "obj_sentrygun";
+						else if (pass == 1) classname = "obj_dispenser";
+						else if (pass == 2) classname = "obj_teleporter";
+
+						new building = MaxClients + 1;
+						while ((building = FindEntityByClassname(building, classname)) != -1)
+						{
+							if (GetEntProp(building, Prop_Send, "m_bCarried") || GetEntProp(building, Prop_Send, "m_bPlacing"))
+								continue;
+
+							static Float:buildingPos[3];
+							GetEntPropVector(building, Prop_Send, "m_vecOrigin", buildingPos);
+							new Float:distance = GetVectorDistance(buildingPos, halePos);
+							if (distance >= SS_Radius[clientIdx])
+								continue;
+
+							new Float:damage = SS_CalculateDamage(clientIdx, distance);
+							SDKHooks_TakeDamage(building, clientIdx, clientIdx, damage * SS_BuildingDamageFactor[clientIdx], DMG_GENERIC, -1);
+						}
+					}
+
+					new bossIdx = FF2_GetBossIndex(clientIdx);
+					if (bossIdx >= 0)
+						SS_SlamSound(bossIdx, true);
+					SS_CreateEarthquake(clientIdx);
+				}
+
+
+				// end the rage if on ground or in water. (in water, it'll fail to do damage)
+				if (curTime >= SS_NoSlamUntil[clientIdx] && ((GetEntityFlags(clientIdx) & FL_ONGROUND) != 0 || IsFullyInWater(clientIdx)))
+				{
+					Debug("curTime >= SS_NoSlamUntil[clientIdx] && ((GetEntityFlags(clientIdx) & FL_ONGROUND) != 0 || IsFullyInWater(clientIdx))");
+
+					SS_IsUsing[clientIdx] = false;
+					if (TF2_IsPlayerInCondition(clientIdx, TFCond_MegaHeal))
+						TF2_RemoveCondition(clientIdx, TFCond_MegaHeal);
+					Saxton_RemoveConditions(clientIdx, SAO_SlamConditions[clientIdx]);
+
+					SetEntityGravity(clientIdx, 1.0);
+					DD_SetDisabled(clientIdx, false, false, false, false);
+
+					if (SS_WasFirstPerson[clientIdx])
+					{
+						SetVariantInt(0);
+						AcceptEntityInput(clientIdx, "SetForcedTauntCam");
+					}
+				}
+				else
+				{
+					// ensure gravity hasn't been changed, i.e. by default_abilities
+					if (GetEntityGravity(clientIdx) != SS_GravitySetting[clientIdx])
+						SetEntityGravity(clientIdx, SS_GravitySetting[clientIdx]);
+				}
+			}
+			*/
 	}
 }
 

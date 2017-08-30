@@ -1,11 +1,12 @@
 #include <sourcemod> //////////
 #include <discord>
 #include <morecolors>
-#include <sourcebans>
+// #include <sourcebans>
 #include <sdktools>
 #include <sdkhooks>
 #include <SteamWorks>
 #include <smjansson>
+#include <POTRY>
 
 #define PLUGIN_NAME "POTRY DiscordBot"
 #define PLUGIN_AUTHOR "Nopied◎"
@@ -18,10 +19,19 @@ char SERVER_SUGGESTION_ID[40];
 char BOT_CONSOLE_ID[40];
 char STEAM_API_KEY[60];
 char SERVER_NAME[100];
+char CHAT_WEBHOOK_URL[220];
+char SUGGESTION_WEBHOOK_URL[220];
+char REPORT_WEBHOOK_URL[220];
+
+// const char STEAM_GLOBAL_LOGO[] = "http://store.edgecast.steamstatic.com/public/shared/images/header/globalheader_logo.png?t=962016"
+char TF2_GLOBAL_LOGO[220] = "https://vignette1.wikia.nocookie.net/criminal-case-grimsborough/images/e/ea/TF2_Logo.png/revision/latest/scale-to-width-down/480?cb=20161114062309";
 
 char g_strSteamUserAvatar[MAXPLAYERS+1][200];
 
 DiscordBot gBot;
+DiscordWebHook gChatWebhook;
+DiscordWebHook gSuggestionWebhook;
+DiscordWebHook gReportWebhook;
 DiscordChannel gServerChat;
 
 Handle TokenKv = INVALID_HANDLE;
@@ -48,9 +58,7 @@ void CheckConfigFile()
     }
 
     char config[PLATFORM_MAX_PATH];
-    char temp[PLATFORM_MAX_PATH];
-    char item[20];
-    char keyName[60];
+
     // int count;
     BuildPath(Path_SM, config, sizeof(config), "configs/discordbot_token.cfg");
 
@@ -75,6 +83,9 @@ void CheckConfigFile()
     KvGetString(TokenKv, "steam_api_key", STEAM_API_KEY, sizeof(STEAM_API_KEY));
     KvGetString(TokenKv, "server_name", SERVER_NAME, sizeof(SERVER_NAME));
     KvGetString(TokenKv, "bot_console_id", BOT_CONSOLE_ID, sizeof(BOT_CONSOLE_ID));
+    KvGetString(TokenKv, "chat_webhook_url", CHAT_WEBHOOK_URL, sizeof(CHAT_WEBHOOK_URL));
+    KvGetString(TokenKv, "suggestion_webhook_url", SUGGESTION_WEBHOOK_URL, sizeof(SUGGESTION_WEBHOOK_URL));
+    KvGetString(TokenKv, "report_webhook_url", REPORT_WEBHOOK_URL, sizeof(REPORT_WEBHOOK_URL));
 }
 
 public void OnAllPluginsLoaded()
@@ -83,6 +94,21 @@ public void OnAllPluginsLoaded()
     {
         gBot = new DiscordBot(BOT_TOKEN);
     }
+    if(gChatWebhook == INVALID_HANDLE)
+    {
+        gChatWebhook = new DiscordWebHook(CHAT_WEBHOOK_URL);
+        gChatWebhook.SlackMode = true;
+    }
+    if(gSuggestionWebhook == INVALID_HANDLE)
+    {
+        gSuggestionWebhook = new DiscordWebHook(SUGGESTION_WEBHOOK_URL);
+        gSuggestionWebhook.SlackMode = true;
+    }
+    if(gReportWebhook == INVALID_HANDLE)
+    {
+        gReportWebhook = new DiscordWebHook(REPORT_WEBHOOK_URL);
+        gReportWebhook.SlackMode = true;
+    }
 
     AddCommandListener(Listener_Say, "say");
     AddCommandListener(Listener_Say, "say_team");
@@ -90,44 +116,77 @@ public void OnAllPluginsLoaded()
 
 public void OnMapStart()
 {
-    if(gBot != INVALID_HANDLE)
+    if(gChatWebhook != INVALID_HANDLE)
     {
         char map[50];
         char discordMessage[100];
         GetCurrentMap(map, sizeof(map));
         Format(discordMessage, sizeof(discordMessage), "현재 맵: %s", map);
 
-        gBot.GetGuilds(GuildList);
+        gChatWebhook.SetUsername("POTRY - Chat");
 
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        MessageEmbed Embed = new MessageEmbed();
+
+    	Embed.SetColor("#59DA50");
+        Embed.SetFooter(SERVER_NAME);
+        Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
+    	Embed.AddField(discordMessage, " ", true);
+
+    	gChatWebhook.Embed(Embed);
+
+    	gChatWebhook.Send();
+
+        // gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
-}
-/*
-public void OnMapEnd()
-{
+
+    if(gSuggestionWebhook != INVALID_HANDLE)
+    {
+        gSuggestionWebhook.SetUsername("POTRY - Suggestion");
+    }
+
+    if(gReportWebhook != INVALID_HANDLE)
+    {
+        gReportWebhook.SetUsername("POTRY - Report");
+    }
+
     if(gBot != INVALID_HANDLE)
     {
-        gBot.StopListening();
+        gBot.GetGuilds(GuildList);
     }
 }
-*/
+
 public void OnClientPostAdminCheck(int client)
 {
-    if(gBot != INVALID_HANDLE && !IsFakeClient(client))
+    if(gChatWebhook != INVALID_HANDLE && !IsFakeClient(client))
     {
         g_strSteamUserAvatar[client] = "";
 
-        char steamAccount[60];
-        char steamAvatarUrl[200];
+        char steamAccount[32];
+        char steamProfileUrl[150];
+        char playerName[64];
+        GetClientName(client, playerName, sizeof(playerName));
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-        Format(steamAvatarUrl, sizeof(steamAvatarUrl), "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s", STEAM_API_KEY, steamAccount);
-        PrepareRequest(steamAvatarUrl);
+        SendHTTPRequest(steamAccount, client);
 
-        char discordMessage[100];
-        Format(discordMessage, sizeof(discordMessage), "%N님이 서버에 입장하셨습니다.", client);
+        Format(steamProfileUrl, sizeof(steamProfileUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
 
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        MessageEmbed Embed = new MessageEmbed();
+
+    	Embed.SetColor("#59DA50");
+    	// Embed.SetTitle(SERVER_NAME);
+        Embed.SetAuthor(playerName);
+        Embed.SetAuthorLink(steamProfileUrl);
+        Embed.SetAuthorIcon(g_strSteamUserAvatar[client]);
+
+        Embed.SetFooter(SERVER_NAME);
+        Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
+
+    	Embed.AddField("서버에 입장하셨습니다.", "", true);
+
+    	gChatWebhook.Embed(Embed);
+
+    	gChatWebhook.Send();
     }
 }
 
@@ -135,29 +194,33 @@ public void OnClientDisconnect(int client)
 {
     if(gBot != INVALID_HANDLE && !IsFakeClient(client))
     {
+        char steamAccount[32];
+        char steamProfileUrl[150];
+        char playerName[64];
+
+        GetClientName(client, playerName, sizeof(playerName));
+        GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+
+        Format(steamProfileUrl, sizeof(steamProfileUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
+
+        MessageEmbed Embed = new MessageEmbed();
+
+    	Embed.SetColor("#FF0000");
+    	// Embed.SetTitle(SERVER_NAME);
+        Embed.SetAuthor(playerName);
+        Embed.SetAuthorLink(steamProfileUrl);
+        Embed.SetAuthorIcon(g_strSteamUserAvatar[client]);
+        Embed.SetFooter(SERVER_NAME);
+        Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
+
+    	Embed.AddField("서버에서 퇴장하셨습니다.", "", true);
+
+    	gChatWebhook.Embed(Embed);
+
+    	gChatWebhook.Send();
+
         g_strSteamUserAvatar[client] = "";
-
-        char discordMessage[100];
-        Format(discordMessage, sizeof(discordMessage), "%N님이 서버에서 퇴장하셨습니다.", client);
-
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
-    }
-}
-
-public SourceBans_OnBanPlayer(int client, int target, int time, char[] reason)
-{
-    if(gBot != INVALID_HANDLE && !IsFakeClient(target))
-    {
-        char discordMessage[100];
-        char timeString[20];
-        if(time > 0)
-            Format(timeString, sizeof(timeString), "%d분 동안", time);
-        else
-            Format(timeString, sizeof(timeString), "영구적으로");
-
-        Format(discordMessage, sizeof(discordMessage), "%N님이 %N님을 %s 서버에서 차단됩니다. (사유: %s)", client, target, timeString, reason);
-
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
+        //gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
     }
 }
 
@@ -192,22 +255,15 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
 }
 
 public void GuildListAll(DiscordBot bot, ArrayList Alid, ArrayList Alname, ArrayList Alicon, ArrayList Alowner, ArrayList Alpermissions, any data) {
-
+// TODO: WTF is this?
 		char id[32];
 		char name[64];
 		char icon[128];
-		bool owner;
-		int permissions;
-
-		// PrintToConsole(client, "Dumping Guilds from arraylist");
 
 		for(int i = 0; i < Alid.Length; i++) {
 			GetArrayString(Alid, i, id, sizeof(id));
 			GetArrayString(Alname, i, name, sizeof(name));
 			GetArrayString(Alicon, i, icon, sizeof(icon));
-			owner = GetArrayCell(Alowner, i);
-			permissions = GetArrayCell(Alpermissions, i);
-			// PrintToConsole(client, "Guild: [%s] [%s] [%s] [%i] [%i]", id, name, icon, owner, permissions);
 		}
 }
 
@@ -325,14 +381,37 @@ public Action Listener_Say(int client, const char[] command, int argc)
             CPrintToChat(client, "{discord}[건의]{default} 올바른 사용: !건의 (건의 내용)");
             return Plugin_Handled;
         }
+
+        char steamUrl[200];
         char mapName[80];
         char steamAccount[60];
-        char discordMessage[300];
-        GetCurrentMap(mapName, sizeof(mapName));
-        GetClientAuthId(client, AuthId_Steam2, steamAccount, sizeof(steamAccount));
-        Format(discordMessage, sizeof(discordMessage), "현재 맵: %s\n- %N [%s]: %s", mapName, client, steamAccount, chat[strlen(specialtext[0])+3]);
+        char playerName[64];
+        char mapMessage[80];
 
-        gBot.SendMessageToChannelID(SERVER_SUGGESTION_ID, discordMessage);
+        GetClientName(client, playerName, sizeof(playerName));
+        GetCurrentMap(mapName, sizeof(mapName));
+        GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+
+        Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
+        Format(mapMessage, sizeof(mapMessage), "서버 건의\n현재 맵: %s", mapName);
+
+        // gBot.SendMessageToChannelID(SERVER_SUGGESTION_ID, discordMessage);
+        MessageEmbed Embed = new MessageEmbed();
+
+    	Embed.SetColor("#FF0000");
+    	// Embed.SetTitle(SERVER_NAME);
+        Embed.SetAuthor(playerName);
+        Embed.SetAuthorLink(steamUrl);
+        Embed.SetAuthorIcon(g_strSteamUserAvatar[client]);
+
+        Embed.SetFooter(SERVER_NAME);
+        Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
+
+    	Embed.AddField(mapMessage, chat[strlen(specialtext[0])+3], true);
+
+    	gSuggestionWebhook.Embed(Embed);
+
+    	gSuggestionWebhook.Send();
 
         CPrintToChat(client, "{discord}[신고]{default} 해당 건의 {yellow}''%s''{default}가 접수되었습니다. 고맙습니다!", chat[strlen(specialtext[0])+3]);
         return Plugin_Handled;
@@ -340,39 +419,33 @@ public Action Listener_Say(int client, const char[] command, int argc)
 
     if(!handleChat)
     {
-        char discordMessage[400];
-        char serverName[100];
+        char steamAccount[32];
         char steamUrl[200];
-        char debugUrl[350];
         char discordName[100];
-        char steamAccount[60];
         char playerName[60];
         GetClientName(client, playerName, sizeof(playerName));
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-        Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", client, steamAccount);
+        Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
 
+        // gChatWebhook.SetContent("-");
 
-        Format(discordName, sizeof(discordName), "%N (%s)", client, steamAccount);
-        Format(discordMessage, sizeof(discordMessage), " - %N (%s):\n  %s", client, steamAccount, chat[1]);
+        MessageEmbed Embed = new MessageEmbed();
 
-        gBot.SendMessageToChannelID(SERVER_CHAT_ID, discordMessage);
-        // Format(debugUrl, sizeof(debugUrl), "%s\n%s", steamUrl, g_strSteamUserAvatar[client]);
+    	Embed.SetColor("#5CD1E5");
+    	// Embed.SetTitle(SERVER_NAME);
+        Embed.SetAuthor(playerName);
+        Embed.SetAuthorLink(steamUrl);
+        Embed.SetAuthorIcon(g_strSteamUserAvatar[client]);
+        Embed.SetFooter(SERVER_NAME);
+        Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
 
-        /*
-    	MessageEmbed Embed = new MessageEmbed();
+    	Embed.AddField(chat[1], "", false);
 
-    	Embed.SetColor("3978097");
-        // Embed.SetAuthorData(discordName, g_strSteamUserAvatar[client]);
-        Embed.Author = json_string(playerName);
-    	Embed.SetTitle("");
-        Embed.SetURL(steamUrl);
-        Embed.SetDescription("서버 채팅이 저장됩니다.");
-        Embed.SetData("type", "rich")
-        Embed.AddField(SERVER_NAME, chat[1], true);
+    	gChatWebhook.Embed(Embed);
 
-        gBot.SendMessageEmbed(gServerChat, Embed);
-        */
+    	gChatWebhook.Send();
+//
 
         //gBot.SendMessageToChannelID(SERVER_CHAT_ID, debugUrl);
 
@@ -386,12 +459,19 @@ void ReportToDiscord(int client, int target, char[] reason)
 {
     if(gBot == INVALID_HANDLE) return;
 
-    char discordMessage[1800];
-    char steamAccount[60];
-    char targetSteamAccount[60];
+    char steamAccount[32];
+    char targetSteamAccount[32];
+    char steamUrl[200];
+    char targetSteamUrl[200];
+    char playerName[64];
+    GetClientName(client, playerName, sizeof(playerName));
+
+    char temp[100];
+
     char mapName[80];
     char timeString[60];
     float targetPos[3];
+
     GetClientAbsOrigin(target, targetPos);
 
     bool IsPlayerStuckOnPlayer = IsPlayerStuck(target);
@@ -399,120 +479,173 @@ void ReportToDiscord(int client, int target, char[] reason)
 
     FormatTime(timeString, sizeof(timeString), "%Y%m%d-%H%M%S", GetTime());
     GetCurrentMap(mapName, sizeof(mapName));
-    GetClientAuthId(client, AuthId_Steam2, steamAccount, sizeof(steamAccount));
-    GetClientAuthId(client, AuthId_Steam2, targetSteamAccount, sizeof(targetSteamAccount));
+    GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+    GetClientAuthId(client, AuthId_SteamID64, targetSteamAccount, sizeof(targetSteamAccount));
 
-    Format(discordMessage, sizeof(discordMessage), " - 신고자: %N(%s)\n - 신고 대상: %N(%s)\n\n - 신고 사유: %s\n\n - 발생 시각: %s\n - 발생 맵 이름: %s\n - 신고 대상의 좌표: %.3f, %.3f, %.3f\n - 맵에 낌 유무: %s\n - 사람과 낌 유무: %s\n - 생존 유무: %s",
-    client, steamAccount,
-    target, steamAccount,
-    reason,
-    timeString,
-    mapName,
-    targetPos[0], targetPos[1], targetPos[2],
-    IsPlayerStuckOnWall ? "네" : "아니요",
-    IsPlayerStuckOnPlayer ? "네" : "아니요",
-    IsPlayerAlive(target) ? "네" : "아니요"
-    );
+    Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
+    Format(targetSteamUrl, sizeof(targetSteamUrl), "http://steamcommunity.com/profiles/%s", targetSteamAccount);
 
-    gBot.SendMessageToChannelID(SERVER_REPORT_ID, discordMessage);
+    MessageEmbed Embed = new MessageEmbed();
+
+    Embed.SetColor("#FF0000");
+    // Embed.SetTitle(SERVER_NAME);
+    Embed.SetAuthor(playerName);
+    Embed.SetAuthorLink(steamUrl);
+    Embed.SetAuthorIcon(g_strSteamUserAvatar[client]);
+
+    Embed.SetImage(g_strSteamUserAvatar[target]);
+    Embed.SetImageLink(targetSteamUrl);
+
+    Embed.SetFooter(SERVER_NAME);
+    Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
+
+    Format(temp, sizeof(temp), "%N", target);
+    Embed.AddField("신고 대상", temp, true);
+    Embed.AddField("신고 사유", reason, true);
+    Embed.AddField("신고 시각", timeString, false);
+    Embed.AddField("현재 맵", mapName, false);
+
+    Format(temp, sizeof(temp), "%f, %f, %f", targetPos[0], targetPos[1], targetPos[2]);
+    Embed.AddField("신고 대상의 좌표", temp, false);
+
+    Embed.AddField("벽에 낌 유무", IsPlayerStuckOnWall ? "네" : "아니요", false);
+    Embed.AddField("플레이어와 낌 유무", IsPlayerStuckOnPlayer ? "네" : "아니요", false);
+    Embed.AddField("신고 대상의 생존 유무", IsPlayerAlive(target) ? "네" : "아니요", false);
+
+    gReportWebhook.Embed(Embed);
+
+    gReportWebhook.Send();
 }
 
-stock Handle PrepareRequest(char[] url, EHTTPMethod method=k_EHTTPMethodGET, Handle hJson=null)
-{
-	static char stringJson[16384];
-	stringJson[0] = '\0';
-	if(hJson != null) {
-		json_dump(hJson, stringJson, sizeof(stringJson), 0, true);
-	}
+public void SendHTTPRequest(char steamcid[32], int client) {
+    // Request url
+    char[] url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?";
+    // Handle
+    Handle HTTPRequest = SteamWorks_CreateHTTPRequest(k_EHTTPMethodGET, url);
+    // Set timeout to 10 seconds
+    bool setnetwork = SteamWorks_SetHTTPRequestNetworkActivityTimeout(HTTPRequest, 10);
+    // Set required parameters
+    bool setkey = SteamWorks_SetHTTPRequestGetOrPostParameter(HTTPRequest, "key", STEAM_API_KEY);
+    bool setsteamid = SteamWorks_SetHTTPRequestGetOrPostParameter(HTTPRequest, "steamids", steamcid);
+    bool setparam = SteamWorks_SetHTTPRequestGetOrPostParameter(HTTPRequest, "format", "vdf");
 
-	Handle request = SteamWorks_CreateHTTPRequest(method, url);
-	if(request == null) {
-		return null;
-	}
+    // So we can get the client in the response method
+    bool setcontext = SteamWorks_SetHTTPRequestContextValue(HTTPRequest, GetClientUserId(client));
+    // Callback for response data
+    bool setcallback = SteamWorks_SetHTTPCallbacks(HTTPRequest, GetHTTPRequest);
 
-	SteamWorks_SetHTTPRequestRawPostBody(request, "application/json; charset=UTF-8", stringJson, strlen(stringJson));
-
-	SteamWorks_SetHTTPRequestNetworkActivityTimeout(request, 30);
-
-
-	SteamWorks_SetHTTPCallbacks(request, _, _, HTTPDataReceive);
-	if(hJson != null) delete hJson;
-    SteamWorks_SendHTTPRequest(request);
-
-
-	return request;
-}
-/*
-public int HTTPCompleted(Handle request, bool failure, bool requestSuccessful, EHTTPStatusCode statuscode, any data, any data2) {
-}
-*/
-
-public int HTTPDataReceive(Handle request, bool failure, int offset, int statuscode, any dp)
-{ // TODO: 최적화
-    if(!failure)
-    {
-        char playerName[80];
-        char IsplayerName[80];
-
-        JsonObjectGetString(dp, "personaname", playerName, sizeof(playerName));
-
-        for(int client=1; client<=MaxClients; client++)
-        {
-            if(IsClientInGame(client) && !IsFakeClient(client))
-            {
-                GetClientName(client, IsplayerName, sizeof(IsplayerName));
-
-                if(StrEqual(playerName, IsplayerName))
-                {
-                    JsonObjectGetString(dp, "avatarfull", g_strSteamUserAvatar[client], sizeof(g_strSteamUserAvatar[]));
-                }
-            }
-        }
+    if(!setnetwork || !setparam || !setsteamid || !setkey || !setcontext || !setcallback) {
+        LogError("Error in setting request properties, cannot send request");
+        CloseHandle(HTTPRequest);
+        return;
     }
 
-    delete view_as<Handle>(dp);
-	delete request;
+    // Initialize the request.
+    bool sentrequest = SteamWorks_SendHTTPRequest(HTTPRequest);
+    if(!sentrequest) {
+        LogError("Error in sending request, cannot send request")
+        CloseHandle(HTTPRequest);
+        return;
+    }
+
+    // Send the request to the front of the queue
+    SteamWorks_PrioritizeHTTPRequest(HTTPRequest);
 }
+
 /*
-public int HeadersReceived(Handle request, bool failure, any data, any datapack) {
-	DataPack dp = view_as<DataPack>(datapack);
-	if(failure) {
-		delete dp;
-		return;
-	}
-
-	char xRateLimit[16];
-	char xRateLeft[16];
-	char xRateReset[32];
-
-	bool exists = false;
-
-	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Limit", xRateLimit, sizeof(xRateLimit));
-	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Remaining", xRateLeft, sizeof(xRateLeft));
-	exists = SteamWorks_GetHTTPResponseHeaderValue(request, "X-RateLimit-Reset", xRateReset, sizeof(xRateReset));
-
-	//Get url
-	char route[128];
-	ResetPack(dp);
-	ReadPackString(dp, route, sizeof(route));
-	delete dp;
-
-	int reset = StringToInt(xRateReset);
-	if(reset > GetTime() + 3) {
-		reset = GetTime() + 3;
-	}
-
-	if(exists) {
-		SetTrieValue(hRateReset, route, reset);
-		SetTrieValue(hRateLeft, route, StringToInt(xRateLeft));
-		SetTrieValue(hRateLimit, route, StringToInt(xRateLimit));
-	}else {
-		SetTrieValue(hRateReset, route, -1);
-		SetTrieValue(hRateLeft, route, -1);
-		SetTrieValue(hRateLimit, route, -1);
-	}
-}
+    Callback for the HTTP request
+    https://forums.alliedmods.net/showthread.php?p=2386954
 */
+public GetHTTPRequest(Handle hRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, any data1) {
+    // Check if request was succesful
+    if(!bRequestSuccessful) {
+        LogError("There was an error in the request");
+        CloseHandle(hRequest);
+        return;
+    }
+
+    // Get the client
+    int client = GetClientOfUserId(data1);
+    // decl String:steamcid[32];
+    // SteamWorks_GetClientSteamID(client, steamcid, sizeof(steamcid));
+
+    if(eStatusCode == k_EHTTPStatusCode200OK)
+    {
+        PrintToServer("The request returned new data, http code 200");
+    }
+    else if(eStatusCode == k_EHTTPStatusCode304NotModified)
+    {
+        PrintToServer("The request did not return new data, but did not error, http code 304");
+        return;
+    }
+    else if(eStatusCode == k_EHTTPStatusCode404NotFound)
+    {
+        PrintToServer("The requested URL could not be found, http code 404");
+        return;
+    }
+    else if(eStatusCode == k_EHTTPStatusCode500InternalServerError)
+    {
+        PrintToServer("The requested URL had an internal error, http code 500");
+        return;
+    }
+    else
+    {
+        char errmessage[128];
+        Format(errmessage, 128, "The requested returned with an unexpected HTTP Code %d", eStatusCode);
+        PrintToServer(errmessage);
+        CloseHandle(hRequest);
+        return;
+    }
+
+    // Get the buffer size from the http response
+    int bodyBufferSize;
+    SteamWorks_GetHTTPResponseBodySize(hRequest, bodyBufferSize);
+    // Creating a string buffer for the response
+    decl String:bodyBuffer[bodyBufferSize];
+    bool bodyData = SteamWorks_GetHTTPResponseBodyData(hRequest, bodyBuffer, bodyBufferSize);
+
+    // Could not get body data or body data is blank
+    /*
+    if(bodyData == false) {
+        if (ruma_strict == 1) {
+            KickClient(client, ruma_kickmsg);
+            LogItem(Log_Info, "%s as %L was kicked because couldnt get the body from the request (%s) and strict mode is set to %i.", steamcid, client, eStatusCode, ruma_strict);
+        }
+        CloseHandle(hRequest);
+        return;
+    }
+    */
+
+    CloseHandle(hRequest);
+
+    GetProfileAvatar(client, bodyBuffer, bodyBufferSize);
+}
+
+public bool GetProfileAvatar(int client, char[] dataBuffer, int maxlength)
+{
+    Handle kv = CreateKeyValues("response");
+    StringToKeyValues(kv, dataBuffer, "dataBuffer");
+
+    // char selection[60];
+    // KvGetSectionName(kv, selection, sizeof(selection));
+    // PrintToServer("%s", selection);
+
+    if (!KvGotoFirstSubKey(kv)) {
+        return false;
+    }
+
+    if(!KvJumpToKey(kv, "0", false))
+    {
+        return false;
+    }
+
+    KvGetString(kv, "avatarfull", g_strSteamUserAvatar[client], sizeof(g_strSteamUserAvatar[]))
+    // PrintToServer("Yay! I got %N's avatarfull = %s", client, g_strSteamUserAvatar[client]);
+
+    CloseHandle(kv)
+    return true;
+}
+
 bool ResizeTraceFailed;
 
 stock void constrainDistance(const float[] startPoint, float[] endPoint, float distance, float maxDistance)

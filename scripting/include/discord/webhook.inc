@@ -71,7 +71,9 @@ methodmap DiscordWebHook < Handle {
 			json_object_set(data, "embeds", hArray);
 		}
 
+		json_array_clear(hArray);
 		json_array_append_new(hArray, Object);
+
 		delete hArray;
 		delete data;
 

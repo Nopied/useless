@@ -14,9 +14,17 @@ public Plugin:myinfo=
     version="1.0",
 };
 
+float g_flDoNotChange;
+
 public void OnPluginStart2()
 {
+    HookEvent("teamplay_round_start", OnRoundStart);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
+}
+
+public Action OnRoundStart(Handle event, const char[] name, bool dont)
+{
+    g_flDoNotChange = 0.0;
 }
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
@@ -48,6 +56,11 @@ public void OnGameFrame()
 
     if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_superhot"))
     {
+        if(g_flDoNotChange > GetGameTime())
+        {
+            return;
+        }
+
         UpdateClientCheatValue(1);
 
         int client = GetClientOfUserId(FF2_GetBossUserId(mainboss));
@@ -62,7 +75,7 @@ public void OnGameFrame()
 
         Handle timeScale = FindConVar("host_timescale");
         float tempTimeScale = GetConVarFloat(timeScale);
-        tempTimeScale += timeFaster ? GetTickInterval() : GetTickInterval() * -4.0;
+        tempTimeScale += timeFaster ? GetTickInterval() * 4.0 : GetTickInterval() * -4.0;
 
         if(FF2_GetAbilityDuration(mainboss, 0) > 0.0)
         {
@@ -87,7 +100,11 @@ public void OnGameFrame()
 
         int tempTempTimeScale = RoundFloat(tempTimeScale * 10.0);
 
-        SetConVarFloat(timeScale, tempTempTimeScale / 10.0);
+        if(GetConVarFloat(timeScale) != tempTempTimeScale)
+        {
+            SetConVarFloat(timeScale, tempTempTimeScale / 10.0);
+            g_flDoNotChange = (GetGameTime() + 1.5) * (tempTempTimeScale / 10.0);
+        }
 
         PrintCenterTextAll("%.1f", tempTimeScale);
     }
