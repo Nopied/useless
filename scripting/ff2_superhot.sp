@@ -14,17 +14,26 @@ public Plugin:myinfo=
     version="1.0",
 };
 
-float g_flDoNotChange;
+// float g_flDoNotChange;
 
 public void OnPluginStart2()
 {
-    HookEvent("teamplay_round_start", OnRoundStart);
+    // HookEvent("teamplay_round_start", OnRoundStart);
     HookEvent("teamplay_round_win", OnRoundEnd, EventHookMode_Pre);
 }
 
+/*
 public Action OnRoundStart(Handle event, const char[] name, bool dont)
 {
-    g_flDoNotChange = 0.0;
+    // g_flDoNotChange = 0.0;
+}
+*/
+public Action FF2_OnPlayBoss(int clientIdx, int bossIndex)
+{
+    if(FF2_GetRoundState() == 1)
+    {
+        UpdateClientCheatValue(1);
+    }
 }
 
 public Action OnRoundEnd(Handle event, const char[] name, bool dont)
@@ -56,27 +65,35 @@ public void OnGameFrame()
 
     if(FF2_HasAbility(mainboss, this_plugin_name, "ff2_superhot"))
     {
+        /*
         if(g_flDoNotChange > GetGameTime())
         {
             return;
         }
-
-        UpdateClientCheatValue(1);
+        */
 
         int client = GetClientOfUserId(FF2_GetBossUserId(mainboss));
         bool timeFaster = false;
-        float tempVelocity[3];
-        GetEntPropVector(client, Prop_Data, "m_vecVelocity", tempVelocity);
-
+        int buttons = GetClientButtons(client);
+        // float tempVelocity[3];
+        // GetEntPropVector(client, Prop_Data, "m_vecVelocity", tempVelocity);
+/*
         if(GetVectorLength(tempVelocity) > 1.0)
+        {
+            timeFaster = true;
+        }
+*/
+        if(buttons & IN_FORWARD|IN_MOVERIGHT|IN_MOVELEFT|IN_BACK)
         {
             timeFaster = true;
         }
 
         Handle timeScale = FindConVar("host_timescale");
         float tempTimeScale = GetConVarFloat(timeScale);
-        tempTimeScale += timeFaster ? GetTickInterval() * 4.0 : GetTickInterval() * -4.0;
+        // tempTimeScale += timeFaster ? GetTickInterval() * 10.0 : GetTickInterval() * -10.0;
 
+
+/*
         if(FF2_GetAbilityDuration(mainboss, 0) > 0.0)
         {
             if(tempTimeScale < FF2_GetAbilityArgumentFloat(mainboss, this_plugin_name, "ff2_superhot", 3, 0.1))
@@ -95,16 +112,28 @@ public void OnGameFrame()
                 tempTimeScale = FF2_GetAbilityArgumentFloat(mainboss, this_plugin_name, "ff2_superhot", 2, 0.1);
             }
         }
+*/
+        if(timeFaster && tempTimeScale == FF2_GetAbilityArgumentFloat(mainboss, this_plugin_name, "ff2_superhot", 1, 1.8))
+            return;
+
+        if(!timeFaster && tempTimeScale == FF2_GetAbilityArgumentFloat(mainboss, this_plugin_name, "ff2_superhot", 2, 0.1))
+            return;
+
+        tempTimeScale = timeFaster ? FF2_GetAbilityArgumentFloat(mainboss, this_plugin_name, "ff2_superhot", 1, 1.8) : FF2_GetAbilityArgumentFloat(mainboss, this_plugin_name, "ff2_superhot", 2, 0.1);
+
+        SetConVarFloat(timeScale, tempTimeScale);
+
+        // TODO; 컨버 설정 뒤에 계속 렉이 생김
 
         // if(tempTimeScale % 0.1 > 0.0) // % 연산자님?
-
+        /*
         int tempTempTimeScale = RoundFloat(tempTimeScale * 10.0);
 
-        if(GetConVarFloat(timeScale) != tempTempTimeScale)
+        if(RoundFloat(GetConVarFloat(timeScale) * 10.0) != tempTempTimeScale)
         {
-            SetConVarFloat(timeScale, tempTempTimeScale / 10.0);
-            g_flDoNotChange = (GetGameTime() + 1.5) * (tempTempTimeScale / 10.0);
+
         }
+        */
 
         PrintCenterTextAll("%.1f", tempTimeScale);
     }

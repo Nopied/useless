@@ -31,9 +31,6 @@
 #define	MAX_EDICT_BITS	12
 #define	MAX_EDICTS		(1 << MAX_EDICT_BITS)
 
-#define IN_LEFT_FIX (1 << 9)
-#define IN_RIGHT_FIX (1 << 10)
-
 #define SPRITE 	"materials/sprites/dot.vmt"
 
 public Plugin myinfo=
