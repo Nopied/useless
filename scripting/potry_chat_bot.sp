@@ -155,6 +155,17 @@ public void OnMapStart()
     }
 }
 
+
+public void OnClientConnected(int client)
+{
+    if(!IsFakeClient(client))
+    {
+        char steamAccount[32];
+        GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+        SendHTTPRequest(steamAccount, client);
+    }
+}
+
 public void OnClientPostAdminCheck(int client)
 {
     if(gChatWebhook != INVALID_HANDLE && !IsFakeClient(client))
@@ -167,7 +178,7 @@ public void OnClientPostAdminCheck(int client)
         GetClientName(client, playerName, sizeof(playerName));
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-        SendHTTPRequest(steamAccount, client);
+        // SendHTTPRequest(steamAccount, client);
 
         Format(steamProfileUrl, sizeof(steamProfileUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
 
