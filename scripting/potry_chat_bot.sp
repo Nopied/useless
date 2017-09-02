@@ -155,6 +155,7 @@ public void OnMapStart()
     }
 }
 
+/*
 
 public void OnClientConnected(int client)
 {
@@ -167,6 +168,7 @@ public void OnClientConnected(int client)
         SendHTTPRequest(steamAccount, client);
     }
 }
+*/
 
 public void OnClientPostAdminCheck(int client)
 {
@@ -180,7 +182,7 @@ public void OnClientPostAdminCheck(int client)
         GetClientName(client, playerName, sizeof(playerName));
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-        // SendHTTPRequest(steamAccount, client);
+        SendHTTPRequest(steamAccount, client);
 
         Format(steamProfileUrl, sizeof(steamProfileUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
 
@@ -653,7 +655,7 @@ public bool GetProfileAvatar(int client, char[] dataBuffer, int maxlength)
     }
 
     KvGetString(kv, "avatarfull", g_strSteamUserAvatar[client], sizeof(g_strSteamUserAvatar[]))
-    // PrintToServer("Yay! I got %N's avatarfull = %s", client, g_strSteamUserAvatar[client]);
+    PrintToServer("Yay! I got %N's avatarfull = %s", client, g_strSteamUserAvatar[client]);
 
     CloseHandle(kv)
     return true;
