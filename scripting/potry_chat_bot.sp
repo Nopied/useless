@@ -158,6 +158,8 @@ public void OnMapStart()
 
 public void OnClientConnected(int client)
 {
+    g_strSteamUserAvatar[client] = "";
+
     if(!IsFakeClient(client))
     {
         char steamAccount[32];
@@ -170,7 +172,7 @@ public void OnClientPostAdminCheck(int client)
 {
     if(gChatWebhook != INVALID_HANDLE && !IsFakeClient(client))
     {
-        g_strSteamUserAvatar[client] = "";
+        // g_strSteamUserAvatar[client] = "";
 
         char steamAccount[32];
         char steamProfileUrl[150];
