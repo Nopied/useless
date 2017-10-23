@@ -16,6 +16,15 @@ enum VIPEffect
     VIPEffect_FreeNametag
 };
 
+enum VIPInfo
+{
+    VIPInfo_None = 0,
+    VIPInfo_Donator,
+    VIPInfo_Createor,
+    VIPInfo_Admin,
+    VIPInfo_Developer
+};
+
 enum AimbotType
 {
     AimbotType_None = 0,
@@ -54,6 +63,8 @@ forward Action FF2_OnDeathMatchTimer(float &time);
 native bool TIMESTOP_IsTimeStopping();
 
 native bool POTRY_IsClientVIP(int client);
+
+native VIPInfo POTRY_GetClientVIPInfo(int client);
 
 native bool POTRY_IsClientEnableVIPEffect(int client, VIPEffect effect); //EnableClientVIPEffect
 

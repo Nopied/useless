@@ -32,7 +32,7 @@ DiscordBot gBot;
 DiscordWebHook gChatWebhook;
 DiscordWebHook gSuggestionWebhook;
 DiscordWebHook gReportWebhook;
-DiscordChannel gServerChat;
+// DiscordChannel gServerChat;
 
 Handle TokenKv = INVALID_HANDLE;
 char BOT_TOKEN[120];
@@ -151,24 +151,13 @@ public void OnMapStart()
 
     if(gBot != INVALID_HANDLE)
     {
+        gBot.StopListening();
+        delete gBot;
+
+        gBot = new DiscordBot(BOT_TOKEN);
         gBot.GetGuilds(GuildList);
     }
 }
-
-/*
-
-public void OnClientConnected(int client)
-{
-    g_strSteamUserAvatar[client] = "";
-
-    if(!IsFakeClient(client))
-    {
-        char steamAccount[32];
-        GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
-        SendHTTPRequest(steamAccount, client);
-    }
-}
-*/
 
 public void OnClientPostAdminCheck(int client)
 {
@@ -177,14 +166,18 @@ public void OnClientPostAdminCheck(int client)
         // g_strSteamUserAvatar[client] = "";
 
         char steamAccount[32];
+        char steamAccount2[32];
         char steamProfileUrl[150];
         char playerName[64];
+        char accountText[80];
         GetClientName(client, playerName, sizeof(playerName));
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+        GetClientAuthId(client, AuthId_Steam2, steamAccount2, sizeof(steamAccount2));
         SendHTTPRequest(steamAccount, client);
 
         Format(steamProfileUrl, sizeof(steamProfileUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
+        Format(accountText, sizeof(accountText), "%s | %s", steamAccount, steamAccount2);
 
         MessageEmbed Embed = new MessageEmbed();
 
@@ -198,6 +191,26 @@ public void OnClientPostAdminCheck(int client)
         Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
 
     	Embed.AddField("서버에 입장하셨습니다.", "", true);
+        Embed.AddField("Steam Id:", accountText, false);
+
+        if(POTRY_IsClientVIP(client))
+        {
+            char specialinfotext[128];
+            char rankName[32];
+            VIPInfo vipinfo = POTRY_GetClientVIPInfo(client);
+            if(vipinfo == VIPInfo_Donator)
+                Format(rankName, sizeof(rankName), "후원자");
+            else if(vipinfo == VIPInfo_Createor)
+                Format(rankName, sizeof(rankName), "크리에이터");
+            else if(vipinfo == VIPInfo_Admin)
+                Format(rankName, sizeof(rankName), "관리자");
+            else if(vipinfo == VIPInfo_Developer)
+                Format(rankName, sizeof(rankName), "개발자");
+
+            Format(specialinfotext, sizeof(specialinfotext), "이 플레이어는 본 서버의 %s입니다!", rankName);
+
+            Embed.AddField(specialinfotext, "", false);
+        }
 
     	gChatWebhook.Embed(Embed);
 
@@ -212,11 +225,15 @@ public void OnClientDisconnect(int client)
         char steamAccount[32];
         char steamProfileUrl[150];
         char playerName[64];
+        char steamAccount2[32];
+        char accountText[80];
 
         GetClientName(client, playerName, sizeof(playerName));
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+        GetClientAuthId(client, AuthId_Steam2, steamAccount2, sizeof(steamAccount2));
 
         Format(steamProfileUrl, sizeof(steamProfileUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
+        Format(accountText, sizeof(accountText), "%s | %s", steamAccount, steamAccount2);
 
         MessageEmbed Embed = new MessageEmbed();
 
@@ -229,6 +246,26 @@ public void OnClientDisconnect(int client)
         Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
 
     	Embed.AddField("서버에서 퇴장하셨습니다.", "", true);
+        Embed.AddField("Steam Id:", accountText, false);
+
+        if(POTRY_IsClientVIP(client))
+        {
+            char specialinfotext[128];
+            char rankName[32];
+            VIPInfo vipinfo = POTRY_GetClientVIPInfo(client);
+            if(vipinfo == VIPInfo_Donator)
+                Format(rankName, sizeof(rankName), "후원자");
+            else if(vipinfo == VIPInfo_Createor)
+                Format(rankName, sizeof(rankName), "크리에이터");
+            else if(vipinfo == VIPInfo_Admin)
+                Format(rankName, sizeof(rankName), "관리자");
+            else if(vipinfo == VIPInfo_Developer)
+                Format(rankName, sizeof(rankName), "개발자");
+
+            Format(specialinfotext, sizeof(specialinfotext), "이 플레이어는 본 서버의 %s입니다!", rankName);
+
+            Embed.AddField(specialinfotext, "", false);
+        }
 
     	gChatWebhook.Embed(Embed);
 
@@ -258,7 +295,7 @@ public void ChannelList(DiscordBot bot, char[] guild, DiscordChannel Channel, an
 			//gBot.SendMessageToChannelID(id, "Sending message with DiscordBot.SendMessageToChannelID");
 			//Channel.SendMessage(gBot, "Sending message with DiscordChannel.SendMessage");
 
-            gServerChat = view_as<DiscordChannel>(CloneHandle(Channel));
+            // gServerChat = view_as<DiscordChannel>(CloneHandle(Channel));
             if(!gBot.IsListeningToChannel(Channel))
 			         gBot.StartListeningToChannel(Channel, OnMessage);
 		}
@@ -435,13 +472,18 @@ public Action Listener_Say(int client, const char[] command, int argc)
     if(!handleChat)
     {
         char steamAccount[32];
+        char steamAccount2[32];
         char steamUrl[200];
-        char discordName[100];
         char playerName[60];
+        char accountText[128];
+
         GetClientName(client, playerName, sizeof(playerName));
 
         GetClientAuthId(client, AuthId_SteamID64, steamAccount, sizeof(steamAccount));
+        GetClientAuthId(client, AuthId_Steam2, steamAccount2, sizeof(steamAccount2));
         Format(steamUrl, sizeof(steamUrl), "http://steamcommunity.com/profiles/%s", steamAccount);
+        Format(accountText, sizeof(accountText), "%s | %s", steamAccount, steamAccount2);
+
 
         // gChatWebhook.SetContent("-");
 
@@ -456,6 +498,27 @@ public Action Listener_Say(int client, const char[] command, int argc)
         Embed.SetFooterIcon(TF2_GLOBAL_LOGO);
 
     	Embed.AddField(chat[1], "", false);
+        Embed.AddField("Steam Id:", accountText, false);
+
+        if(POTRY_IsClientVIP(client))
+        {
+            char specialinfotext[128];
+            char rankName[32];
+            VIPInfo vipinfo = POTRY_GetClientVIPInfo(client);
+            if(vipinfo == VIPInfo_Donator)
+                Format(rankName, sizeof(rankName), "후원자");
+            else if(vipinfo == VIPInfo_Createor)
+                Format(rankName, sizeof(rankName), "크리에이터");
+            else if(vipinfo == VIPInfo_Admin)
+                Format(rankName, sizeof(rankName), "관리자");
+            else if(vipinfo == VIPInfo_Developer)
+                Format(rankName, sizeof(rankName), "개발자");
+
+            Format(specialinfotext, sizeof(specialinfotext), "이 플레이어는 본 서버의 %s입니다!", rankName);
+
+            Embed.AddField(specialinfotext, "", false);
+        }
+
 
     	gChatWebhook.Embed(Embed);
 
@@ -620,16 +683,11 @@ public GetHTTPRequest(Handle hRequest, bool bFailure, bool bRequestSuccessful, E
     bool bodyData = SteamWorks_GetHTTPResponseBodyData(hRequest, bodyBuffer, bodyBufferSize);
 
     // Could not get body data or body data is blank
-    /*
-    if(bodyData == false) {
-        if (ruma_strict == 1) {
-            KickClient(client, ruma_kickmsg);
-            LogItem(Log_Info, "%s as %L was kicked because couldnt get the body from the request (%s) and strict mode is set to %i.", steamcid, client, eStatusCode, ruma_strict);
-        }
+    if(!bodyData) {
+        LogError("Can't get %N's profile avatar.", client);
         CloseHandle(hRequest);
         return;
     }
-    */
 
     CloseHandle(hRequest);
 

@@ -6,20 +6,21 @@
 #define PLUGIN_NAME "POTRY VIP System"
 #define PLUGIN_AUTHOR "Nopied◎"
 #define PLUGIN_DESCRIPTION "Yup. Yup."
-#define PLUGIN_VERSION "0x"
+#define PLUGIN_VERSION "0x01"
 
 public Plugin myinfo = {
   name=PLUGIN_NAME,
   author=PLUGIN_AUTHOR,
   description=PLUGIN_DESCRIPTION,
   version=PLUGIN_VERSION,
-}; // 
+}; //
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, err_max)
 {
 	CreateNative("POTRY_IsClientVIP", Native_IsClientVIP);
     CreateNative("POTRY_IsClientEnableVIPEffect", Native_IsClientEnableVIPEffect);
     CreateNative("POTRY_EnableClientVIPEffect", Native_EnableClientVIPEffect);
+    CreateNative("POTRY_GetClientVIPInfo", Native_GetClientVIPInfo);
 
 	return APLRes_Success;
 }
@@ -70,8 +71,9 @@ void ViewVIPMenu(int client)
     menu.SetTitle("");
 
     char temp[200];
-    Format(temp, sizeof(temp), "보스 스탠다드 플레이: %s", IsClientEnableVIPEffect(client, VIPEffect_BossStandard) ? "ON" : "OFF");
-    menu.AddItem("", temp);
+    // Format(temp, sizeof(temp), "보스 스탠다드 플레이: %s", IsClientEnableVIPEffect(client, VIPEffect_BossStandard) ? "ON" : "OFF");
+    Format(temp, sizeof(temp), "보스 스탠다드 플레이: FF2 서버에서만 설정 가능.", IsClientEnableVIPEffect(client, VIPEffect_BossStandard) ? "ON" : "OFF");
+    menu.AddItem("", temp, ITEMDRAW_DISABLED);
     menu.AddItem("", "네임태그 자유 설정 가능: ON", ITEMDRAW_DISABLED);
     menu.AddItem("", "리스폰 추가 파티클 효과: ON", ITEMDRAW_DISABLED);
 
@@ -144,6 +146,11 @@ public Native_EnableClientVIPEffect(Handle plugin, numParams)
     EnableClientVIPEffect(GetNativeCell(1), GetNativeCell(2), GetNativeCell(3));
 }
 
+public Native_GetClientVIPInfo(Handle plugin, numParams)
+{
+    return _:GetClientVIPInfo(GetNativeCell(1));
+}
+
 stock bool IsClientVIP(int client)
 {
     AdminId adminid = GetUserAdmin(client);
@@ -152,11 +159,38 @@ stock bool IsClientVIP(int client)
          return false;
 
     int flags = GetAdminFlags(adminid, Access_Real);
-    if((flags &  ADMFLAG_CUSTOM1)
-    || (flags & ADMFLAG_ROOT))
+    if(ADMFLAG_KICK <= flags)
         return true;
 
     return false;
+}
+
+stock VIPInfo GetClientVIPInfo(int client)
+{
+    AdminId adminid = GetUserAdmin(client);
+
+    if(adminid == INVALID_ADMIN_ID)
+         return VIPInfo_None;
+
+    int flags = GetAdminFlags(adminid, Access_Real);
+    if(flags &  ADMFLAG_CUSTOM1)
+    {
+        return VIPInfo_Donator;
+    }
+    else if(flags &  ADMFLAG_CUSTOM2)
+    {
+        return VIPInfo_Createor;
+    }
+    else if(ADMFLAG_KICK <= flags && flags <= ADMFLAG_CHANGEMAP)
+    {
+        return VIPInfo_Admin;
+    }
+    else if(ADMFLAG_CHANGEMAP < flags && flags <= ADMFLAG_ROOT)
+    {
+        return VIPInfo_Developer;
+    }
+
+    return VIPInfo_None;
 }
 
 stock bool IsValidClient(int client)

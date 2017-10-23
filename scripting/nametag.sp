@@ -97,11 +97,11 @@ public OnPluginStart()
 	LoadTranslations("common.phrases");
 
 	// Create Convars
-	CreateConVar("sm_nametag_version", PL_VERSION, "Nametag Version", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
-	cvar_admin = CreateConVar("sm_nametag_admin", "0", "Use nametag for admins only", FCVAR_PLUGIN|FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	cvar_admin_immunity = CreateConVar("sm_nametag_admin_immunity", "1", "If 1, admins are not effected by sm_settag", FCVAR_PLUGIN|FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	cvar_enabled = CreateConVar("sm_nametag_enable", "1", "Enable / Disable", FCVAR_PLUGIN|FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	cvar_chatmode = CreateConVar("sm_nametag_chatmode", "1", "If 1, any clients who have data on database can use nametag", FCVAR_PLUGIN|FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	CreateConVar("sm_nametag_version", PL_VERSION, "Nametag Version", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
+	cvar_admin = CreateConVar("sm_nametag_admin", "0", "Use nametag for admins only", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	cvar_admin_immunity = CreateConVar("sm_nametag_admin_immunity", "1", "If 1, admins are not effected by sm_settag", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	cvar_enabled = CreateConVar("sm_nametag_enable", "1", "Enable / Disable", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	cvar_chatmode = CreateConVar("sm_nametag_chatmode", "1", "If 1, any clients who have data on database can use nametag", FCVAR_NOTIFY, true, 0.0, true, 1.0);
 
 	// Add commands
 	AddCommandListener(Command_SayTeam, "say_team");
@@ -196,7 +196,7 @@ public Action:Listener_Say(int client, const char[] command, int argc)
         }
         else
         {
-            CPrintToChatAll("{lightblue}[POTRY]{default} {yellow}서버 후원자{default}가 되어야 사용가능합니다.");
+            CPrintToChat(client, "{lightblue}[POTRY]{default} {yellow}서버 후원자나 크리에이터{default}가 되어야 사용가능합니다.");
         }
 		return Plugin_Handled;
 	}
