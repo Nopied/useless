@@ -5092,12 +5092,19 @@ public Action:CheckItems(Handle:timer, any:userid)
 	}
 	#endif
 
-	new entity=-1;
-	while((entity=FindEntityByClassname2(entity, "tf_wearable_demoshield"))!=-1)  //Demoshields
+	new shieldEntity=-1, razorbackEntity=-1;
+	while((shieldEntity=FindEntityByClassname2(shieldEntity, "tf_wearable_demoshield"))!=-1)  //Demoshields
 	{
-		if(GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")==client && !GetEntProp(entity, Prop_Send, "m_bDisguiseWearable"))
+		if(GetEntPropEnt(shieldEntity, Prop_Send, "m_hOwnerEntity")==client && !GetEntProp(shieldEntity, Prop_Send, "m_bDisguiseWearable"))
 		{
-			shield[client]=entity;
+			shield[client]=shieldEntity;
+		}
+	}
+	while((razorbackEntity=FindEntityByClassname2(razorbackEntity, "tf_wearable_razorback"))!=-1)  //Razorback
+	{
+		if(GetEntPropEnt(razorbackEntity, Prop_Send, "m_hOwnerEntity")==client && !GetEntProp(razorbackEntity, Prop_Send, "m_bDisguiseWearable"))
+		{
+			shield[client]=razorbackEntity;
 		}
 	}
 
