@@ -93,6 +93,7 @@ public void OnAllPluginsLoaded()
     if(gBot == INVALID_HANDLE)
     {
         gBot = new DiscordBot(BOT_TOKEN);
+        gBot.MessageCheckInterval = 0.2;
     }
     if(gChatWebhook == INVALID_HANDLE)
     {
@@ -155,6 +156,7 @@ public void OnMapStart()
         delete gBot;
 
         gBot = new DiscordBot(BOT_TOKEN);
+        gBot.MessageCheckInterval = 0.2;
         gBot.GetGuilds(GuildList);
     }
 }
